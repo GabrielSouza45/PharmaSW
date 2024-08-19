@@ -1,7 +1,10 @@
 package br.com.pharmalink.api.helpers;
 
+import org.springframework.stereotype.Service;
+
 import java.util.Scanner;
 
+@Service
 public class Scan {
 
     private Scanner sc = new Scanner(System.in);

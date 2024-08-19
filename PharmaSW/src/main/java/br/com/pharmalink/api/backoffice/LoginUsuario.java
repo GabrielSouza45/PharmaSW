@@ -17,10 +17,13 @@ public class LoginUsuario {
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
     private EncriptaSenhaUsuario encriptaSenhaUsuario;
+    @Autowired
+    private Scan sc;
+    @Autowired
+    private TelaLogado telaLogado;
 
 
     public void iniciar() {
-        Scan sc = new Scan();
 
         try {
             sc.mensagem("Bem Vindo!");
@@ -35,11 +38,12 @@ public class LoginUsuario {
             );
 
             if (senhasValida) {
+                sc.mensagem("Login efetuado com sucesso!");
 
                 Usuario usuarioLogado =
                         usuarioRepositorio.findUsuarioByEmailAndStatus(login, Status.ATIVO);
 
-                sc.mensagem("Login efetuado com sucesso!");
+                telaLogado.menu();
 
             } else {
                 sc.mensagem("Login ou senha incorretos!\n");
