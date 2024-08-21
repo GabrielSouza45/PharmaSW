@@ -1,13 +1,12 @@
 package br.com.pharmalink.api.backoffice;
 
 import br.com.pharmalink.api.helpers.Scan;
-import br.com.pharmalink.api.modelo.Usuario;
+import br.com.pharmalink.api.modelo.Sessao;
 import br.com.pharmalink.api.modelo.enums.Status;
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;
 import br.com.pharmalink.api.service.EncriptaSenhaUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class LoginUsuario {
@@ -21,29 +20,28 @@ public class LoginUsuario {
     private Scan sc;
     @Autowired
     private TelaLogado telaLogado;
+    @Autowired
+    private Sessao sessao ;
+
 
 
     public void iniciar() {
 
         try {
+            sc.limpar();
             sc.mensagem("Bem Vindo!");
             String login = sc.getString("Login: ");
             String senha = sc.getString("Senha: ");
 
 
-
-            boolean senhasValida = encriptaSenhaUsuario.validarSenhas(
-                    login,
-                    senha
-            );
-
-            if (senhasValida) {
+            if (senhasValida(login, senha)) {
                 sc.mensagem("Login efetuado com sucesso!");
 
-                Usuario usuarioLogado =
-                        usuarioRepositorio.findUsuarioByEmailAndStatus(login, Status.ATIVO);
+                sessao.setUsuarioLogado(
+                        usuarioRepositorio.findUsuarioByEmailAndStatus(login, Status.ATIVO)
+                );
 
-                telaLogado.menu();
+                telaLogado.mostrarMenu();
 
             } else {
                 sc.mensagem("Login ou senha incorretos!\n");
@@ -52,8 +50,16 @@ public class LoginUsuario {
 
         } catch (Error e) {
             e.printStackTrace();
+            iniciar();
         }
 
+    }
+
+    private boolean senhasValida(String login, String senha){
+        return encriptaSenhaUsuario.validarSenhas(
+                login,
+                senha
+        );
     }
 
 

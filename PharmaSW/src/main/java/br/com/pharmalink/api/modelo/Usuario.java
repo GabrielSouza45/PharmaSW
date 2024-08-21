@@ -1,7 +1,7 @@
 package br.com.pharmalink.api.modelo;
 
 import br.com.pharmalink.api.modelo.enums.Status;
-import br.com.pharmalink.api.modelo.enums.Titulo;
+import br.com.pharmalink.api.modelo.enums.Grupo;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -27,7 +27,7 @@ public class Usuario {
     private String senha;
 
     @Enumerated(EnumType.STRING)
-    private Titulo titulo;
+    private Grupo grupo;
 
 
     public Usuario() {
@@ -99,11 +99,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Titulo getTitulo() {
-        return titulo;
+    public Grupo getGrupo() {
+        return grupo;
     }
 
-    public void setTitulo(Titulo titulo) {
-        this.titulo = titulo;
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 }
