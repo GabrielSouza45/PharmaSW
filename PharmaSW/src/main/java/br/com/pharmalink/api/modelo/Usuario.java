@@ -25,6 +25,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+    private Long cpf;
 
     @Enumerated(EnumType.STRING)
     private Grupo grupo;
@@ -106,4 +107,8 @@ public class Usuario {
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
     }
+
+    public Long getCpf() { return cpf;}
+
+    public void setCpf(Long cpf) { this.cpf = cpf;}
 }
