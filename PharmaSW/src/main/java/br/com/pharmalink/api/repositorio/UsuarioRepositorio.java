@@ -14,6 +14,8 @@ public interface UsuarioRepositorio extends CrudRepository<Usuario, Long> {
 
     public List<Usuario> findAllByStatus(Status status);
 
+    @Override
+    public List<Usuario> findAll();
     public Usuario findUsuarioByEmailAndSenha(String email, String senha);
 
     Usuario findUsuarioByEmailAndStatus(String emailPadrao, Status status);
