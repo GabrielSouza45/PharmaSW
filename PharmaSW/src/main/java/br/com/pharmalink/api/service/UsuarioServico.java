@@ -12,18 +12,21 @@ import org.springframework.stereotype.Service;
 import br.com.pharmalink.api.modelo.Usuario;
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;
 
+import java.util.Optional;
+import java.util.regex.Pattern;
+
 @Service
 public class UsuarioServico {
 
     @Autowired
-    private UsuarioRepositorio us;
+    private UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
     private Sessao sessao;
 
     //lista todos os usuários
     public Iterable<Usuario> listar(){
-        return us.findAll();
+        return usuarioRepositorio.findAll();
     }
 
 
@@ -44,15 +47,35 @@ public class UsuarioServico {
         //validar a senha 2x para ver se esta igual
         //colocar o setStatus automatico como ativo
 
-        Scan rm = new Scan();
         if(admin.getEmail().equals("")){
-            rm.mensagem("O email usuário é obrigatório");
             //colocar para validar se ja existe email
             // colocar para validar sem tem @ e .com
         }else if(admin.getCpf() == 0){
-            rm.mensagem("O cpf é obrigatório");
             // validar se tem 11 digitos e se sao so numero, caso nao seja, fazer conversao de String para long
         } else {
         }
 }
+
+    private ResponseEntity<?> validarEmail(String email) {
+
+        Scan scan = new Scan();
+
+        Usuario usuario = null;
+        // Verificar formato do email
+        Pattern pattern = null;
+        if (!pattern.matcher(email).matches()) {
+            return new ResponseEntity<>("Email inválido! Precisa conter '@' e '.com'", HttpStatus.BAD_REQUEST);
+        }
+        // Verificar se o email já está em uso
+        else if (usuario.getEmail().equals(email)) {
+            scan.mensagem("O email já está em uso.");
+        }
+        return null;
+    }
+    //Método de validação das condições necessárias para ter o "@" e ".com"
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        return pattern.matcher(email).matches();
+    }
 }
