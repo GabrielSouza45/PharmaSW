@@ -1,4 +1,4 @@
-package br.com.pharmalink.api.service;
+package br.com.pharmalink.api.service.helpers;
 
 
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;

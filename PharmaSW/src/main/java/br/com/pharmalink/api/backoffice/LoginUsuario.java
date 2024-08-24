@@ -1,10 +1,10 @@
 package br.com.pharmalink.api.backoffice;
 
-import br.com.pharmalink.api.helpers.Scan;
+import br.com.pharmalink.api.service.helpers.Scan;
 import br.com.pharmalink.api.modelo.Sessao;
 import br.com.pharmalink.api.modelo.enums.Status;
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;
-import br.com.pharmalink.api.service.EncriptaSenhaUsuario;
+import br.com.pharmalink.api.service.helpers.EncriptaSenhaUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
