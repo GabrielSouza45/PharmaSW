@@ -74,8 +74,8 @@ public class UsuarioServico {
     }
     //Método de validação das condições necessárias para ter o "@" e ".com"
     private boolean isValidEmail(String email) {
-        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        Pattern pattern = Pattern.compile(emailRegex);
+        String emailValidar = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        Pattern pattern = Pattern.compile(emailValidar);
         return pattern.matcher(email).matches();
     }
 }
