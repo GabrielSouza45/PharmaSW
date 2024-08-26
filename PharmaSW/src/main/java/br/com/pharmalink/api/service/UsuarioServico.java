@@ -1,9 +1,8 @@
 package br.com.pharmalink.api.service;
 
-import br.com.pharmalink.api.helpers.DataHelper;
-import br.com.pharmalink.api.helpers.Scan;
-import br.com.pharmalink.api.modelo.Sessao;
-import br.com.pharmalink.api.modelo.enums.Grupo;
+import br.com.pharmalink.api.modelo.enums.Status;
+import br.com.pharmalink.api.service.helpers.EncriptaSenhaUsuario;
+import br.com.pharmalink.api.service.helpers.Scan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,62 +19,59 @@ public class UsuarioServico {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
-
+    
     @Autowired
-    private Sessao sessao;
+    private EncriptaSenhaUsuario encriptaSenhaUsuario;
+
+
+    public ResponseEntity<?> loginUsuario(Usuario usuario) {
+
+        try {
+
+            if (senhasValida(usuario)) {
+
+                Usuario usuarioLogado =
+                        usuarioRepositorio.findUsuarioByEmailAndStatus(usuario.getEmail(), Status.ATIVO);
+
+                return new ResponseEntity<>(usuarioLogado, HttpStatus.OK);
+
+            } else {
+                return new ResponseEntity<>("Login ou senha incorretos!", HttpStatus.UNAUTHORIZED);
+
+            }
+
+        } catch (Error e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Erro interno.", HttpStatus.BAD_GATEWAY);
+        }
+
+    }
+
+    private boolean senhasValida(Usuario usuario) {
+        return encriptaSenhaUsuario.validarSenhas(
+                usuario.getEmail(),
+                usuario.getSenha()
+        );
+    }
+
+
 
     //lista todos os usuários
-    public Iterable<Usuario> listar(){
+    public Iterable<Usuario> listarTodos() {
         return usuarioRepositorio.findAll();
     }
 
 
-    public void cadastrar(Usuario admin){
-
-        if (sessao.getGrupo().equals(Grupo.ESTOQUISTA)){
-            return;
-        }
-
-        DataHelper.getDataHora();
-        //colocar o DataHelper dentro do DataIni la do usuario
-        //nao permitir cadastro de email 2x
-        //nao permitir cadastro de cpf 2x
-        //cadastrar o grupo do usuario
-        //fazer cada metodo de validacao separado
-        // criar um metodo de cadastrar e a cada cadastro ja validar.
-        //fazer em um laco de repeticao
-        //validar a senha 2x para ver se esta igual
-        //colocar o setStatus automatico como ativo
-
-        if(admin.getEmail().equals("")){
-            //colocar para validar se ja existe email
-            // colocar para validar sem tem @ e .com
-        }else if(admin.getCpf() == 0){
-            // validar se tem 11 digitos e se sao so numero, caso nao seja, fazer conversao de String para long
+    public ResponseEntity<?> cadastrar(Usuario admin) {
+        Scan rm = new Scan();
+        if (admin.getEmail().equals("")) {
+            rm.mensagem("O email usuário é obrigatório");
+            return new ResponseEntity<UsuarioRepositorio>((UsuarioRepositorio) rm, HttpStatus.BAD_REQUEST);
+        } else if (admin.getCpf() == null) {
+            rm.mensagem("O cpf é obrigatório");
+            return new ResponseEntity<>(rm, HttpStatus.BAD_REQUEST);
         } else {
+            return new ResponseEntity<>(usuarioRepositorio.save(admin), HttpStatus.CREATED);
         }
-}
-
-    private ResponseEntity<?> validarEmail(String email) {
-
-        Scan scan = new Scan();
-
-        Usuario usuario = null;
-        // Verificar formato do email
-        Pattern pattern = null;
-        if (!pattern.matcher(email).matches()) {
-            return new ResponseEntity<>("Email inválido! Precisa conter '@' e '.com'", HttpStatus.BAD_REQUEST);
-        }
-        // Verificar se o email já está em uso
-        else if (usuario.getEmail().equals(email)) {
-            scan.mensagem("O email já está em uso.");
-        }
-        return null;
-    }
-    //Método de validação das condições necessárias para ter o "@" e ".com"
-    private boolean isValidEmail(String email) {
-        String emailValidar = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        Pattern pattern = Pattern.compile(emailValidar);
-        return pattern.matcher(email).matches();
     }
 }

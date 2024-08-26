@@ -1,4 +1,4 @@
-package br.com.pharmalink.api.helpers;
+package br.com.pharmalink.api.service.helpers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

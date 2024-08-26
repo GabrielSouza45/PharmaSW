@@ -1,6 +1,6 @@
 package br.com.pharmalink.api.backoffice;
 
-import br.com.pharmalink.api.helpers.Scan;
+import br.com.pharmalink.api.service.helpers.Scan;
 import br.com.pharmalink.api.modelo.Sessao;
 import br.com.pharmalink.api.modelo.enums.Grupo;
 import br.com.pharmalink.api.service.UsuarioServico;
@@ -39,7 +39,7 @@ public class TelaLogado {
             case 2 -> {
                 // Chamar API ListarUsuarios
 
-                usuarioServico.listar();
+                usuarioServico.listarTodos();
 
             }
         }
