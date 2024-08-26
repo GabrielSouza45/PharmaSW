@@ -7,7 +7,9 @@ import br.com.pharmalink.api.modelo.enums.Status;
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VerificaAdministradorPadrao {
 
 
@@ -23,12 +25,13 @@ public class VerificaAdministradorPadrao {
     private String nomePadrao;
 
 
-    private void verificaPrimeiroUsuarioExistente(){
+    public void verificaPrimeiroUsuarioExistente(){
 
         Usuario usuario = usuarioRepositorio.findUsuarioByEmailAndStatus(emailPadrao, Status.ATIVO);
         if (usuario == null) {
             criaAdministradorPadrao();
         }
+        System.out.println("Primeiro usuário criado!");
 
     }
 
