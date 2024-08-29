@@ -32,3 +32,17 @@ Integrantes do Grupo:
 <ul>
   <li><a href="https://angular.dev/installation" target="_blank">Site do Angular</a></li>
 </ul>
+
+<h3>Instalando Módulos:</h3>
+<ul>
+  <li>No terminal utilizando Vs Code:</li>
+  <li>No windows -> Abrir guia no terminal e utilizar o Prompt de Comando</li>
+  <li>Digitar "npm install" - Para instalar os módulos do Node</li>
+</ul>
+
+<h3>Instalando Biblioteca ngx-toastr:</h3>
+<ul>
+  <li>No terminal utilizando Vs Code:</li>
+  <li>No windows -> Abrir guia no terminal e utilizar o Prompt de Comando</li>
+  <li>Digitar "npm install ngx-toastr --save"</li>
+</ul>
