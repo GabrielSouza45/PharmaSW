@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-botao',
@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class BotaoComponent {
   @Input() textoBtn:string = "";
+  @Input() desabilitarBotao: boolean = true;
 }

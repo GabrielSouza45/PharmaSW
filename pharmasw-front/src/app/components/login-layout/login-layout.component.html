@@ -1,6 +1,14 @@
 <main>
     <img src="" alt="">
     <h2>{{ titulo }}</h2>
-    <app-botao textoBtn = {{textoBtnPrimario}}></app-botao>
+    <ng-content >
+
+    </ng-content>
+    <app-botao 
+        [textoBtn]="textoBtnPrimario"
+        [desabilitarBotao]="desabilitarBotao"
+        (click)="submit()"
+        
+    />
 </main>
 

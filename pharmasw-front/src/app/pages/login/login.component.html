@@ -3,5 +3,32 @@
     textoBtnPrimario="Logar"
     textoBtnSecundario="Registrar"
     imagemFundo = "../../../assets/login-assents"
+    (submit)="submit()"
+    [desabilitarBotao]="!loginForm.valid"
 >
+
+<form [formGroup]="loginForm">
+    <app-input-primario
+        formControlName="email"
+        inputName="email"
+        type="email"
+        label="Login"
+        placeHolder="exemple@pharmasw.com"
+    >
+        <i class="bi bi-envelope"></i>
+    </app-input-primario>
+
+    <app-input-primario
+        formControlName="senha"
+        inputName="senha"
+        type="password"
+        label="Senha"
+        placeHolder="senha"
+    >
+        <i class="bi bi-lock"></i>
+    </app-input-primario>
+
+    <span>Esqueceu a senha?</span>
+</form>
+
 </app-login-layout>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BotaoComponent } from '../botao/botao.component';
 import { BotaoSecundarioComponent } from '../botao-secundario/botao-secundario.component';
 
@@ -16,5 +16,14 @@ export class LoginLayoutComponent {
   @Input() titulo:string = "";
   @Input() textoBtnPrimario:string = "";
   @Input() textoBtnSecundario:string = "";
+  @Input() desabilitarBotao: boolean = true;
+  @Output("submit") enviar = new EventEmitter;
 
+  submit(){
+    if (this.desabilitarBotao) {
+      return;
+    }
+    
+    this.enviar.emit();
+  }
 }

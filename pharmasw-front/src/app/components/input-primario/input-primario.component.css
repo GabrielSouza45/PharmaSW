@@ -1,0 +1,36 @@
+.input-wrapper {
+  color: rgb(31, 31, 31);
+  font-size: 15px;
+  text-align: start;
+
+
+    label{
+        margin-bottom: 10px;
+    }
+
+  .input-content {
+    width: 100%;
+    border-radius: 8px;
+    display: flex;
+
+    .icon {
+      padding: 5px;
+
+      background-color: #13426e;
+      border-radius: 0 8px 8px 0;
+
+    }
+
+    input {
+      border: none;
+      border-radius: 8px 0 0 8px;
+      background-color: rgb(236, 236, 236);
+      padding: 5px 0 5px 15px;
+      width: 100%;
+    }
+
+    input:focus {
+      box-shadow: -1px 0 1px var(--cor-primaria);
+    }
+  }
+}

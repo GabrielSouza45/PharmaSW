@@ -1,3 +1,11 @@
-.btn {
-    width: 150px;
+button{
+    width: 250px;
+    border: none;
+    background-color: var(--cor-primaria);
+
+    :hover {
+        background-color: var(--cor-secundaria);
+    }
+
 }
+
