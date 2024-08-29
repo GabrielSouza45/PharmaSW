@@ -17,9 +17,10 @@ public class VerificaAdministradorPadrao {
     private UsuarioRepositorio usuarioRepositorio;
     @Autowired
     private EncriptaSenhaUsuario encriptaSenhaUsuario;
+
     @Value("${USUARIO.EMAIL_PADRAO}")
     private String emailPadrao;
-    @Value("12345")
+    @Value("${USUARIO.SENHA_PADRAO}")
     private String senhaPadrao;
     @Value("${USUARIO.NOME_PADRAO}")
     private String nomePadrao;
