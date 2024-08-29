@@ -62,16 +62,24 @@ public class UsuarioServico {
     }
 
 
-    public ResponseEntity<?> cadastrar(Usuario admin) {
-        Scan rm = new Scan();
-        if (admin.getEmail().equals("")) {
-            rm.mensagem("O email usuário é obrigatório");
-            return new ResponseEntity<UsuarioRepositorio>((UsuarioRepositorio) rm, HttpStatus.BAD_REQUEST);
-        } else if (admin.getCpf() == null) {
-            rm.mensagem("O cpf é obrigatório");
-            return new ResponseEntity<>(rm, HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(usuarioRepositorio.save(admin), HttpStatus.CREATED);
+    public Usuario cadastrar(Usuario usuario) {
+        // Verificar se o email já existe
+        if (usuarioRepositorio.findByEmail(usuario.getEmail()).isPresent()) {
+            throw new RuntimeException("Email já cadastrado!");
         }
+
+        // Verificar se o CPF já existe
+        if (usuarioRepositorio.findByCPF(usuario.getCpf()) != null){
+            throw new RuntimeException("CPF já cadastrado!");
+        }
+
+        // Encriptar a senha
+        usuario.setSenha(new EncriptaSenhaUsuario(usuario.getSenha()));
+
+        // Definir o usuário como ativo
+        usuario.setStatus(Status.ATIVO);
+
+        // Salvar o usuário no banco de dados
+        return usuarioRepositorio.save(usuario);
     }
-}
+    }
