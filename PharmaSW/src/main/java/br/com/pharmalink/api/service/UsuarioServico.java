@@ -11,11 +11,15 @@ import org.springframework.stereotype.Service;
 import br.com.pharmalink.api.modelo.Usuario;
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;
 
+import java.util.Optional;
+import java.util.regex.Pattern;
+
 @Service
 public class UsuarioServico {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+    
     @Autowired
     private EncriptaSenhaUsuario encriptaSenhaUsuario;
 

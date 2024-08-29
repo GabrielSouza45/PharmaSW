@@ -8,12 +8,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepositorio extends CrudRepository<Usuario, Long> {
 
     public List<Usuario> findAllByStatus(Status status);
 
+    @Override
+    public List<Usuario> findAll();
     public Usuario findUsuarioByEmailAndSenha(String email, String senha);
 
     Usuario findUsuarioByEmailAndStatus(String emailPadrao, Status status);
@@ -21,4 +24,5 @@ public interface UsuarioRepositorio extends CrudRepository<Usuario, Long> {
     @Query(value = "SELECT senha FROM usuario WHERE email = :email AND status = 'ATIVO'", nativeQuery = true)
     String getSenhaByEmailAtivo(@Param("email") String login);
 
+    Optional<Usuario> findByEmail(String email);
 }

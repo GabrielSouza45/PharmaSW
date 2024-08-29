@@ -22,6 +22,8 @@ public class Usuario {
     private Date dataAlt;
     private Date dataFim;
 
+
+
     private String nome;
     private String email;
     private String senha;
