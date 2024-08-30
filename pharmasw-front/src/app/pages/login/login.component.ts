@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
 import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -22,11 +23,11 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
 
   loginForm!: FormGroup;
-  cadatastroFrom!: FormGroup;
 
   constructor(
     private loginService: LoginService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
+    private router: Router
   ){
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -38,8 +39,17 @@ export class LoginComponent {
   submit(){
     this.loginService.login(this.loginForm.value.email, this.loginForm.value.senha)
       .subscribe({
-        next: () => this.toastService.success("Login Realizado com sucesso!"),
-        error: () => this.toastService.error("Erro inesperado, tente novamente mais tarde.")
-      })
+        next: () => {
+          this.toastService.success("Login Realizado com sucesso!");
+          this.router.navigate(["pagina-inicial"]);
+        },
+        error: (erro) => {
+          if (erro.status === 404) {
+            this.toastService.warning("Usuário não encontrado. Verifique suas credenciais e tente novamente.");
+          } else {
+            this.toastService.error("Erro inesperado, tente novamente mais tarde.");
+          }
+        }
+      });
   }
 }

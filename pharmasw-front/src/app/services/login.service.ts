@@ -20,10 +20,10 @@ export class LoginService {
     this.usuario.senha = senha;
    
     return this.httpClient
-      .post<LoginResponse>("http://localhost:8080/usuario-controle/login", this.usuario)
+      .post<LoginResponse>("http://localhost:8080/auth/login", this.usuario)
       .pipe(
         tap((value) => {
-          sessionStorage.setItem("auth-token", value.token)
+          sessionStorage.setItem("token", value.token)
           sessionStorage.setItem("nome", value.nome)
           sessionStorage.setItem("grupo", value.grupo)
         })
