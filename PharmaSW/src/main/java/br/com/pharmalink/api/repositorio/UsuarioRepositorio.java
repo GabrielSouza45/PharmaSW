@@ -18,7 +18,7 @@ public interface UsuarioRepositorio extends CrudRepository<Usuario, Long> {
     @Override
     public List<Usuario> findAll();
     public Usuario findUsuarioByEmailAndSenha(String email, String senha);
-
+    public Usuario findByCpfAndStatus(Long cpf, Status status);
     Usuario findUsuarioByEmailAndStatus(String emailPadrao, Status status);
 
     @Query(value = "SELECT senha FROM usuario WHERE email = :email AND status = 'ATIVO'", nativeQuery = true)
