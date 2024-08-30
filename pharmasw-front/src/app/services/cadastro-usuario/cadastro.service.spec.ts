@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CadastroServiceService } from './cadastro-service.service';
+import { CadastroServiceService } from './cadastro.service';
 
 describe('CadastroServiceService', () => {
   let service: CadastroServiceService;

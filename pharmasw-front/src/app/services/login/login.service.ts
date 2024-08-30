@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Usuario } from '../modelo/Usuario';
-import { LoginResponse } from '../types/login-response.type';
+import { Usuario } from '../../modelo/Usuario';
+import { LoginResponse } from '../../types/login-response.type';
 import { tap } from 'rxjs';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { LoginLayoutComponent } from '../../components/login-layout/login-layout.component';
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CadastroServiceService } from '../../services/cadastro-usuario/cadastro-service.service';
+import { CadastroServiceService } from '../../services/cadastro-usuario/cadastro.service';
 import { ToastrService } from 'ngx-toastr';
 import { Grupo } from '../../modelo/enums/Grupo';
 import { Usuario } from '../../modelo/Usuario';

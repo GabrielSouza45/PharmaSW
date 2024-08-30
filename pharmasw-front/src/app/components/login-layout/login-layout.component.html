@@ -1,12 +1,14 @@
 <main>
-    <img src="" alt="">
-    <h2>{{ titulo }}</h2>
+    <div class="titulo">
+        <img class="logo" src="assets/logo-sem-texto.png" [alt]="alt" >
+        <h2>{{ titulo }}</h2>
+    </div>
+
     <ng-content >
 
     </ng-content>
     <app-botao 
         [textoBtn]="textoBtnPrimario"
-        [desabilitarBotao]="desabilitarBotao"
         (click)="submit()"
         
     />
