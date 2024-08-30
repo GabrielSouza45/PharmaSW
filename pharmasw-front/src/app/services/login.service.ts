@@ -20,7 +20,7 @@ export class LoginService {
     this.usuario.senha = senha;
    
     return this.httpClient
-      .post<LoginResponse>("http://localhost:8080/login", this.usuario)
+      .post<LoginResponse>("http://localhost:8080/usuario-controle/login", this.usuario)
       .pipe(
         tap((value) => {
           sessionStorage.setItem("auth-token", value.token)

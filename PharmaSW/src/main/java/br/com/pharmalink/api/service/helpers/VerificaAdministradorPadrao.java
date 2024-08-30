@@ -1,16 +1,16 @@
 package br.com.pharmalink.api.service.helpers;
 
-import br.com.pharmalink.api.backoffice.LoginUsuario;
 import br.com.pharmalink.api.modelo.Usuario;
 import br.com.pharmalink.api.modelo.enums.Grupo;
 import br.com.pharmalink.api.modelo.enums.Status;
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerificaAdministradorPadrao {
+public class VerificaAdministradorPadrao implements CommandLineRunner {
 
 
     @Autowired
@@ -26,7 +26,15 @@ public class VerificaAdministradorPadrao {
     private String nomePadrao;
 
 
-    public void verificaPrimeiroUsuarioExistente(){
+
+    @Override
+    public void run(String... args) throws Exception {
+
+        verificaPrimeiroUsuarioExistente();
+
+    }
+
+    private void verificaPrimeiroUsuarioExistente(){
 
         Usuario usuario = usuarioRepositorio.findUsuarioByEmailAndStatus(emailPadrao, Status.ATIVO);
         if (usuario == null) {

@@ -18,8 +18,10 @@ public class UsuarioControle {
 
     @PostMapping("/login")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> loginUsuario(Usuario usuario) {
+    public ResponseEntity<?> loginUsuario(@RequestBody Usuario usuario) {
 
+        System.out.println(usuario);
+        System.out.println("\n\nLogin!");
         if (usuario.getEmail().isBlank()) {
             return new ResponseEntity<>("Email é obrigatório!", HttpStatus.BAD_REQUEST);
 

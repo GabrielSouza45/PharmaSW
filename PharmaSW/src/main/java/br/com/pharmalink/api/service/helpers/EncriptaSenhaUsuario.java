@@ -1,6 +1,7 @@
 package br.com.pharmalink.api.service.helpers;
 
 
+import br.com.pharmalink.api.modelo.Usuario;
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -20,12 +21,10 @@ public class EncriptaSenhaUsuario {
 
     }
 
-    public boolean validarSenhas(String login, String senha){
-
-        String senhaUsuario = usuarioRepositorio.getSenhaByEmailAtivo(login);
+    public boolean validarSenhas(String senha, String senhaBanco){
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches(senha, senhaUsuario);
+        return encoder.matches(senha, senhaBanco);
 
     }
 

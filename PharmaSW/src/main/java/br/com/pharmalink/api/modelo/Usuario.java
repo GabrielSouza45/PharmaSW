@@ -3,12 +3,20 @@ package br.com.pharmalink.api.modelo;
 import br.com.pharmalink.api.modelo.enums.Status;
 import br.com.pharmalink.api.modelo.enums.Grupo;
 import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+@EqualsAndHashCode(of = "id")
+public class Usuario  implements UserDetails {
 
     //ATRIBUTOS PADRÃO
     @Id
@@ -17,34 +25,76 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
     private Date dataIni;
     private Date dataAlt;
     private Date dataFim;
 
-
-
+    //ATRIBUTOS DA CLASSE
     private String nome;
     private String email;
     private String senha;
     private Long cpf;
-
     @Enumerated(EnumType.STRING)
     private Grupo grupo;
 
-
     public Usuario() {
-
     }
 
-
-    public Long getId() {
-        return id;
+    public Usuario(String nome, String email, String senha, Long cpf, Grupo grupo, Status status, Date dataIni) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cpf = cpf;
+        this.grupo = grupo;
+        this.status = status;
+        this.dataIni = dataIni;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.grupo == Grupo.ADMINISTRADOR)
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return "";
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.status.equals(Status.ATIVO);
+    }
+
+//    public Long getId() {
+//        return null;
 //    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Status getStatus() {
         return status;
@@ -102,6 +152,14 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public Long getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(Long cpf) {
+        this.cpf = cpf;
+    }
+
     public Grupo getGrupo() {
         return grupo;
     }
@@ -109,8 +167,4 @@ public class Usuario {
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
     }
-
-    public Long getCpf() { return cpf;}
-
-    public void setCpf(Long cpf) { this.cpf = cpf;}
 }

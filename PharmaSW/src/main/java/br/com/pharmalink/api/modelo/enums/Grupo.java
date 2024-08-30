@@ -1,6 +1,16 @@
 package br.com.pharmalink.api.modelo.enums;
 
 public enum Grupo {
-    ADMINISTRADOR,
-    ESTOQUISTA
+    ADMINISTRADOR("admin"),
+    ESTOQUISTA("estoque");
+
+    private String grupo;
+
+    Grupo(String grupo){
+        this.grupo= grupo;
+    }
+
+    public String getGrupo() {
+        return grupo;
+    }
 }

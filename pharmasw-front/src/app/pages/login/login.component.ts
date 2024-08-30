@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
 
   loginForm!: FormGroup;
+  cadatastroFrom!: FormGroup;
 
   constructor(
     private loginService: LoginService,
@@ -31,6 +32,7 @@ export class LoginComponent {
       email: new FormControl('', [Validators.required, Validators.email]),
       senha: new FormControl('', [Validators.required])
     });
+
   }
 
   submit(){

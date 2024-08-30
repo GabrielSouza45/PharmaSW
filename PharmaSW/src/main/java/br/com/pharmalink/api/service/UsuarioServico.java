@@ -28,12 +28,19 @@ public class UsuarioServico {
 
         try {
 
-            if (senhasValida(usuario)) {
+            Usuario usuarioLogin =
+                    usuarioRepositorio.findUsuarioByEmailAndStatus(usuario.getEmail(), Status.ATIVO);
 
-                Usuario usuarioLogado =
-                        usuarioRepositorio.findUsuarioByEmailAndStatus(usuario.getEmail(), Status.ATIVO);
+            if (usuarioLogin == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
-                return new ResponseEntity<>(usuarioLogado, HttpStatus.OK);
+            boolean senhaValida = encriptaSenhaUsuario.validarSenhas(
+                    usuario.getSenha(), usuarioLogin.getSenha()
+            );
+
+            if (senhaValida) {
+                return new ResponseEntity<>(usuarioLogin, HttpStatus.OK);
 
             } else {
                 return new ResponseEntity<>("Login ou senha incorretos!", HttpStatus.UNAUTHORIZED);
@@ -47,12 +54,6 @@ public class UsuarioServico {
 
     }
 
-    private boolean senhasValida(Usuario usuario) {
-        return encriptaSenhaUsuario.validarSenhas(
-                usuario.getEmail(),
-                usuario.getSenha()
-        );
-    }
 
 
 
