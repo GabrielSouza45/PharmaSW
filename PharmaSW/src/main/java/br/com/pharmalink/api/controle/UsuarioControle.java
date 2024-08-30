@@ -50,16 +50,7 @@ public class UsuarioControle {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> cadastrarUsuario(Usuario usuario) {
 
-        // Aqui deve ser validado se o usuario logado é do grupo administrador
-        // validar se estão chegando todos os itens necessario do usuario (email, senha, ...)
-        // Validacao de email e senha devem ser feitas no front end e conferidas no UsuarioServico
-        // Chamar Usuario servico para cadastar usuario
-
-        // -> return usuarioServico.cadastrarUsuario();
-
-
-        return new ResponseEntity<>(HttpStatus.OK);
-
+        return usuarioServico.cadastrar(usuario);
     }
 
 
