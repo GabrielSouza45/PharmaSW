@@ -1,6 +1,7 @@
 package br.com.pharmalink.api.service;
 
 import br.com.pharmalink.api.modelo.enums.Status;
+import br.com.pharmalink.api.service.helpers.DataHelper;
 import br.com.pharmalink.api.service.helpers.EncriptaSenhaUsuario;
 import br.com.pharmalink.api.service.helpers.Scan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,24 +63,32 @@ public class UsuarioServico {
     }
 
 
-    public Usuario cadastrar(Usuario usuario) {
+    public ResponseEntity<?> cadastrar(Usuario usuario) {
+
         // Verificar se o email já existe
-        if (usuarioRepositorio.findByEmail(usuario.getEmail()).isPresent()) {
-            throw new RuntimeException("Email já cadastrado!");
+        if (usuarioRepositorio.findUsuarioByEmailAndStatus(usuario.getEmail(), Status.ATIVO) != null){
+            return new ResponseEntity<>("Email já existe!", HttpStatus.UNAUTHORIZED);
         }
 
         // Verificar se o CPF já existe
-        if (usuarioRepositorio.findByCPF(usuario.getCpf()) != null){
-            throw new RuntimeException("CPF já cadastrado!");
+        if (usuarioRepositorio.findByCpfAndStatus(usuario.getCpf(), Status.ATIVO) != null){
+            return new ResponseEntity<>("CPF já cadastrado!", HttpStatus.UNAUTHORIZED);
         }
 
         // Encriptar a senha
-        usuario.setSenha(new EncriptaSenhaUsuario(usuario.getSenha()));
+        usuario.setSenha(encriptaSenhaUsuario.encriptar(usuario.getSenha()));
 
         // Definir o usuário como ativo
         usuario.setStatus(Status.ATIVO);
 
+        //Data da criação do cadastro
+        usuario.setDataIni(DataHelper.getDataHora());
+
         // Salvar o usuário no banco de dados
-        return usuarioRepositorio.save(usuario);
+        Usuario usuarioSalvo = usuarioRepositorio.save(usuario);
+        usuarioSalvo.setSenha(null);
+        usuarioSalvo.setCpf(null);
+
+        return new ResponseEntity<> (usuarioSalvo, HttpStatus.OK);
     }
-    }
+}
