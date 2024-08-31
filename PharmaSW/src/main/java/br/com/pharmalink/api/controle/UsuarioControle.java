@@ -1,12 +1,7 @@
 package br.com.pharmalink.api.controle;
 
-import br.com.pharmalink.api.modelo.Produto;
 import br.com.pharmalink.api.modelo.Usuario;
-import br.com.pharmalink.api.modelo.enums.Status;
 import br.com.pharmalink.api.service.UsuarioServico;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,45 +32,17 @@ public class UsuarioControle {
 
     }
 
-//++
 
-    //Listagem de usuários
-
-    @PostMapping("/listar-usuarios-ativos")
+    @PostMapping("/listar-todos")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> listarUsuariosAtivos() {
+    public ResponseEntity<?> listarTodosUsuarios(Usuario usuario) {
 
-        //Chamando ativos
-        List<Usuario>usuariosAtivos = usuarioServico.listarUsuariosAtivos(); 
-
-        // -> return usuarioServico.listarAtivos();
-
-        return new ResponseEntity<>(usuariosAtivos, HttpStatus.OK);
-    }
-
-    @PostMapping("/listar-todos-Usuarios")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> listarTodosUsuarios() {
-
-        //Chamando ativos e inativos
-        List<Usuario>usuariosGeral = usuarioServico.listarTodosUsuarios(); 
-
+        // Chamar Usuario servico para listar todos os ATIVOS
         // -> return usuarioServico.listarTodos();
 
-        return new ResponseEntity<>(usuariosGeral, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/listar-usuarios-inativos")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> listarUsuariosInativos() {
-
-        List<Usuario>usuariosInativos = usuarioServico.listarUsuariosInativos(); 
-
-        // -> return usuarioServico.listarInativos();
-
-        return new ResponseEntity<>(usuariosInativos, HttpStatus.OK);
-    }
-//++
 
     @PostMapping("/cadastrar")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -94,18 +61,17 @@ public class UsuarioControle {
     }
 
 
-    @PostMapping("/desativar-usuario")
+    @PostMapping("/desativar")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> desativarUsuario(@RequestBody Usuario usuario) {
-        usuarioServico.desativarUsuario(usuario.getId());
+    public ResponseEntity<?> desativarUsuario(Usuario usuario) {
+
+        // Chamar Usuario servico para desativar usuario ativo
+
+        // -> return usuarioServico.desativarUsuario();
+
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/ativar-usuario")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> ativarUsuario(@RequestBody Usuario usuario){
-        usuarioServico.ativarUsuario(usuario.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
 }

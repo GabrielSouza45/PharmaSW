@@ -1,11 +1,9 @@
 package br.com.pharmalink.api.backoffice;
 
 import br.com.pharmalink.api.service.helpers.Scan;
-import br.com.pharmalink.api.modelo.Produto;
 import br.com.pharmalink.api.modelo.Sessao;
 import br.com.pharmalink.api.modelo.enums.Grupo;
 import br.com.pharmalink.api.service.UsuarioServico;
-import br.com.pharmalink.api.service.ProdutoServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +18,6 @@ public class TelaLogado {
     private LoginUsuario loginUsuario;
     @Autowired
     private UsuarioServico usuarioServico;
-    @Autowired
-    private ProdutoServico produtoServico;
 
 
 
@@ -39,13 +35,11 @@ public class TelaLogado {
             case 1 -> {
                 // Chamar API ListarProdutos
 
-                produtoServico.listarTodosProdutos();
-
             }
             case 2 -> {
                 // Chamar API ListarUsuarios
 
-                usuarioServico.listarTodosUsuarios();
+                usuarioServico.listarTodos();
 
             }
         }

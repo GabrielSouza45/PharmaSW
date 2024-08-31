@@ -9,10 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.pharmalink.api.modelo.Usuario;
-
 import br.com.pharmalink.api.repositorio.UsuarioRepositorio;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -21,7 +19,6 @@ public class UsuarioServico {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
-
     
     @Autowired
     private EncriptaSenhaUsuario encriptaSenhaUsuario;
@@ -60,39 +57,9 @@ public class UsuarioServico {
 
 
     //lista todos os usuários
-    public List<Usuario> listarTodosUsuarios() {
+    public Iterable<Usuario> listarTodos() {
         return usuarioRepositorio.findAll();
     }
-
-    public List<Usuario> listarUsuariosAtivos() {
-        return usuarioRepositorio.findAllByStatus(Status.ATIVO);
-    }
-
-    public List<Usuario> listarUsuariosInativos() {
-        return usuarioRepositorio.findAllByStatus(Status.INATIVO);
-    }
-
-    //Desativando usuário 
-    public void desativarUsuario(Long id) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(id);
-        if (usuario.isPresent()) {
-            Usuario user = usuario.get();
-            user.setStatus(Status.INATIVO);
-            usuarioRepositorio.save(user);
-        }
-    }
-
-    //Ativando usuário
-    public void ativarUsuario(Long id) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(id);
-        if (usuario.isPresent()) {
-            Usuario user = usuario.get();
-            user.setStatus(Status.ATIVO);
-            usuarioRepositorio.save(user);
-        }
-    }
-
-
 
 
     public ResponseEntity<?> cadastrar(Usuario admin) {
