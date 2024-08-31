@@ -10,17 +10,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
+
 @Service
 public class UsuarioServico {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
-
-    //lista todos os usuários
-    public Iterable<Usuario> listarTodos() {
+    public List<Usuario> listarTodosUsuarios() {
         return usuarioRepositorio.findAll();
     }
+    
+    public List<Usuario> listarUsuariosAtivos() {
+        return usuarioRepositorio.findAllByStatus(Status.ATIVO);
+    }
+
+    public List<Usuario> listarUsuariosInativos() {
+        return usuarioRepositorio.findAllByStatus(Status.INATIVO);
+    }
+
 
 
     public ResponseEntity<?> cadastrar(Usuario usuario) {
@@ -51,4 +62,27 @@ public class UsuarioServico {
 
         return new ResponseEntity<> (usuarioSalvo, HttpStatus.OK);
     }
+
+
+
+    //Desativando usuário 
+    public void desativarUsuario(Long id) {
+        Optional<Usuario> usuario = usuarioRepositorio.findById(id);
+        if (usuario.isPresent()) {
+            Usuario user = usuario.get();
+            user.setStatus(Status.INATIVO);
+            usuarioRepositorio.save(user);
+        }
+    }
+
+    //Ativando usuário
+    public void ativarUsuario(Long id) {
+        Optional<Usuario> usuario = usuarioRepositorio.findById(id);
+        if (usuario.isPresent()) {
+            Usuario user = usuario.get();
+            user.setStatus(Status.ATIVO);
+            usuarioRepositorio.save(user);
+        }
+    }
+
 }

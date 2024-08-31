@@ -22,6 +22,7 @@ public class Usuario  implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Enumerated(EnumType.STRING)
     private Status status;
     private Date dataIni;
@@ -90,6 +91,10 @@ public class Usuario  implements UserDetails {
 //    public Long getId() {
 //        return null;
 //    }
+
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
