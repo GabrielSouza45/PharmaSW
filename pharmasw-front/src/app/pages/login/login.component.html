@@ -1,10 +1,7 @@
 <app-login-layout
     titulo="Login"
-    textoBtnPrimario="Logar"
-    textoBtnSecundario="Registrar"
-    imagemFundo = "../../../assets/login-assents"
+    textoBtnPrimario="Login"
     (submit)="submit()"
-    [desabilitarBotao]="!loginForm.valid"
 >
 
 <form [formGroup]="loginForm">
