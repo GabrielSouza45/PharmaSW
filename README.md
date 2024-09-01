@@ -52,4 +52,5 @@ Integrantes do Grupo:
   <li>No terminal utilizando Vs Code:</li>
   <li>No windows -> Abrir guia no terminal e utilizar o Prompt de Comando</li>
   <li>Digitar "npm install bootstrap @popperjs/core"</li>
+  <li>Digitar "npm install bootstrap-icons"</li>
 </ul>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BotaoSecundarioComponent } from './botao-secundario.component';
+import { NaoAutorizadoComponent } from './nao-autorizado.component';
 
-describe('BotaoSecundarioComponent', () => {
-  let component: BotaoSecundarioComponent;
-  let fixture: ComponentFixture<BotaoSecundarioComponent>;
+describe('NaoAutorizadoComponent', () => {
+  let component: NaoAutorizadoComponent;
+  let fixture: ComponentFixture<NaoAutorizadoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BotaoSecundarioComponent]
+      imports: [NaoAutorizadoComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(BotaoSecundarioComponent);
+    fixture = TestBed.createComponent(NaoAutorizadoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

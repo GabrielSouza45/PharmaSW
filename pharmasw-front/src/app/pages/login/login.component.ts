@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { LoginLayoutComponent } from "../../components/login-layout/login-layout.component";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
-import { LoginService } from '../../services/login/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
   ],
   providers: [
-    LoginService
+    AuthService
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -27,7 +27,7 @@ export class LoginComponent {
   loginForm!: FormGroup;
 
   constructor(
-    private loginService: LoginService,
+    private authService: AuthService,
     private router: Router,
     private toastService: ToastrService
   ){
@@ -43,10 +43,10 @@ export class LoginComponent {
       return;
     }
 
-    this.loginService.login(this.loginForm.value.email, this.loginForm.value.senha)
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.senha)
       .subscribe({
         next: () => {
-          this.toastService.success("Login Realizado com sucesso!");
+          this.toastService.success("Login Realizado com sucesso!");          
           this.router.navigate(["pagina-inicial"]);
         },
         error: (erro) => {
