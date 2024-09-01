@@ -46,3 +46,10 @@ Integrantes do Grupo:
   <li>No windows -> Abrir guia no terminal e utilizar o Prompt de Comando</li>
   <li>Digitar "npm install ngx-toastr --save"</li>
 </ul>
+
+<h3>Instalando Bootstrap:</h3>
+<ul>
+  <li>No terminal utilizando Vs Code:</li>
+  <li>No windows -> Abrir guia no terminal e utilizar o Prompt de Comando</li>
+  <li>Digitar "npm install bootstrap @popperjs/core"</li>
+</ul>
