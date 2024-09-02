@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -14,22 +15,16 @@ import java.nio.charset.StandardCharsets;
 
 
 @Component
-public class RequestObserver implements Filter {
+public class RequestObserver extends OncePerRequestFilter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        // Inicialização do filtro, se necessário
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper((HttpServletRequest) request);
         ContentCachingResponseWrapper wrappedResponse = new ContentCachingResponseWrapper((HttpServletResponse) response);
 
         // Continua a cadeia de filtros
-        chain.doFilter(wrappedRequest, wrappedResponse);
+        filterChain.doFilter(wrappedRequest, wrappedResponse);
 
         // Log do endpoint acessado
         String endpoint= wrappedRequest.getRequestURI();
@@ -54,11 +49,6 @@ public class RequestObserver implements Filter {
 
         // Passa a resposta para o cliente
         wrappedResponse.copyBodyToResponse();
-    }
-
-    @Override
-    public void destroy() {
-        // Destruição do filtro, se necessário
     }
 
 }

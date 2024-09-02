@@ -21,7 +21,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
     public List<Usuario> findAll();
     public Usuario findUsuarioByEmailAndSenha(String email, String senha);
     public Usuario findByCpfAndStatus(Long cpf, Status status);
-    public Usuario findById(Long id, Status status);
     Usuario findUsuarioByEmailAndStatus(String emailPadrao, Status status);
 
     @Query(value = "SELECT senha FROM usuario WHERE email = :email AND status = 'ATIVO'", nativeQuery = true)

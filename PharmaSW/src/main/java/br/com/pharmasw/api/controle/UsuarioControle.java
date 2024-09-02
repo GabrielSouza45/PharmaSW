@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuario-controle")
-@PreAuthorize("hasRole('ADMIN')")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@PreAuthorize("hasRole('ADMIN')")
 public class UsuarioControle {
 
     @Autowired
@@ -35,7 +35,7 @@ public class UsuarioControle {
          return new ResponseEntity<>(usuariosAtivos, HttpStatus.OK);
      }
  
-     @PostMapping("/listar-todos-Usuarios")
+     @PostMapping("/listar-todos-usuarios")
      @CrossOrigin(origins = "*", allowedHeaders = "*")
      public ResponseEntity<?> listarTodosUsuarios() {
  
