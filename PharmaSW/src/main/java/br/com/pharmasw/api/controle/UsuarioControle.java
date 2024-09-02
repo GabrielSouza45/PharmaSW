@@ -79,7 +79,6 @@ public class UsuarioControle {
         return usuarioServico.alterar(usuario);
     }
 
-
     @PostMapping("/desativar-usuario")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> desativarUsuario(@RequestBody Usuario usuario) {
@@ -94,13 +93,15 @@ public class UsuarioControle {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{usuarioId}/status")
-    public ResponseEntity<?> alterarStatusUsuario(
-            @PathVariable Long usuarioId,
-            @RequestParam boolean ativo) {
+    @PutMapping("/mudar-status")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> alterarStatusUsuario(@RequestBody Usuario usuario){
 
-        return usuarioServico.alterarStatusUsuario(usuarioId, ativo);
+         if (usuario.getId() == null){
+             return ResponseEntity.badRequest().body("Id não pode ser null!");
+         }
+
+        return usuarioServico.alterarStatusUsuario(usuario);
     }
-
 
 }

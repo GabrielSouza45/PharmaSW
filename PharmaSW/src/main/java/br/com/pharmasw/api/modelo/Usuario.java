@@ -88,10 +88,6 @@ public class Usuario  implements UserDetails {
         return this.status.equals(Status.ATIVO);
     }
 
-//    public Long getId() {
-//        return null;
-//    }
-
     public Long getId() {
         return id;
     }

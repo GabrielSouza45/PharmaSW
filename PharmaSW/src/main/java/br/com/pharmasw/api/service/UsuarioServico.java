@@ -23,7 +23,7 @@ public class UsuarioServico {
     public List<Usuario> listarTodosUsuarios() {
         return usuarioRepositorio.findAll();
     }
-    
+
     public List<Usuario> listarUsuariosAtivos() {
         return usuarioRepositorio.findAllByStatus(Status.ATIVO);
     }
@@ -34,7 +34,7 @@ public class UsuarioServico {
 
 
 
-//  CADASTRAR USUÁRIO
+    //  CADASTRAR USUÁRIO
     public ResponseEntity<?> cadastrar(Usuario usuario) {
 
         // Verificar se o email já existe
@@ -66,7 +66,7 @@ public class UsuarioServico {
 
 
 
-    //Desativando usuário 
+    //Desativando usuário
     public void desativarUsuario(Long id) {
         Optional<Usuario> usuario = usuarioRepositorio.findById(id);
         if (usuario.isPresent()) {
@@ -86,7 +86,7 @@ public class UsuarioServico {
         }
     }
 
-//  ALTERAR USUÁRIO
+    //  ALTERAR USUÁRIO
     public ResponseEntity<?> alterar(Usuario usuarioRequest) {
 
         Usuario usuario =
@@ -111,15 +111,20 @@ public class UsuarioServico {
     }
 
     // Habilitar/Desabilitar usuário (Só para administradores)
-    public ResponseEntity<?> alterarStatusUsuario(Long id, boolean ativo) {
-        Usuario usuario = usuarioRepositorio.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public ResponseEntity<?> alterarStatusUsuario(Usuario usuarioRequest) {
 
-        usuario.setStatus(ativo ? Status.ATIVO : Status.INATIVO);
+        Usuario usuario = usuarioRepositorio.findById(usuarioRequest.getId()).orElse(null);
+
+        if (usuario == null) {
+            return new ResponseEntity<>("Usuario não encontrado!", HttpStatus.NOT_FOUND);
+        }
+
+        Status status = usuario.getStatus();
+        usuario.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
         usuario.setDataAlt(DataHelper.getDataHora());
-
         Usuario usuarioAtualizado = usuarioRepositorio.save(usuario);
 
         return new ResponseEntity<>(usuarioAtualizado, HttpStatus.OK);
+        }
+
     }
-}
