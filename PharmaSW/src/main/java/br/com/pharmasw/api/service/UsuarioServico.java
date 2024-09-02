@@ -77,4 +77,17 @@ public class UsuarioServico {
         return ResponseEntity.ok(retorno);
 
     }
+
+    // Habilitar/Desabilitar usuário (Só para administradores)
+    public ResponseEntity<?> alterarStatusUsuario(Long id, boolean ativo) {
+        Usuario usuario = usuarioRepositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        usuario.setStatus(ativo ? Status.ATIVO : Status.INATIVO);
+        usuario.setDataAlt(DataHelper.getDataHora());
+
+        Usuario usuarioAtualizado = usuarioRepositorio.save(usuario);
+
+        return new ResponseEntity<>(usuarioAtualizado, HttpStatus.OK);
+    }
 }

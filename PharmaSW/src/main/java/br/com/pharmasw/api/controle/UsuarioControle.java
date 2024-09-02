@@ -66,5 +66,13 @@ public class UsuarioControle {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/{usuarioId}/status")
+    public ResponseEntity<?> alterarStatusUsuario(
+            @PathVariable Long usuarioId,
+            @RequestParam boolean ativo) {
+
+        return usuarioServico.alterarStatusUsuario(usuarioId, ativo);
+    }
+
 
 }
