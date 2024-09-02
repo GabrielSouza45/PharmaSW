@@ -34,6 +34,7 @@ public class UsuarioServico {
 
 
 
+//  CADASTRAR USUÁRIO
     public ResponseEntity<?> cadastrar(Usuario usuario) {
 
         // Verificar se o email já existe
@@ -85,4 +86,27 @@ public class UsuarioServico {
         }
     }
 
+//  ALTERAR USUÁRIO
+    public ResponseEntity<?> alterar(Usuario usuarioRequest) {
+
+        Usuario usuario =
+                usuarioRepositorio.findUsuarioByEmailAndStatus(
+                        usuarioRequest.getEmail(),
+                        Status.ATIVO);
+
+        String senhaEncriptada = "";
+        if (usuarioRequest.getSenha() != null) {
+            senhaEncriptada = new BCryptPasswordEncoder().encode(usuarioRequest.getSenha());
+        }
+
+        usuario.setNome(   usuarioRequest.getNome()  != null ? usuarioRequest.getNome()  : usuario.getNome());
+        usuario.setCpf(    usuarioRequest.getCpf()   != null ? usuarioRequest.getCpf()   : usuario.getCpf());
+        usuario.setSenha(  senhaEncriptada.isEmpty() ? usuario.getSenha() : senhaEncriptada);
+        usuario.setDataAlt(DataHelper.getDataHora());
+
+        Usuario retorno = usuarioRepositorio.save(usuario);
+
+        return ResponseEntity.ok(retorno);
+
+    }
 }

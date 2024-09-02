@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BotaoComponent } from '../botao/botao.component';
-import { BotaoSecundarioComponent } from '../botao-secundario/botao-secundario.component';
 import { PaginaLayoutComponent } from '../pagina-layout/pagina-layout.component';
 
 @Component({
@@ -8,7 +7,6 @@ import { PaginaLayoutComponent } from '../pagina-layout/pagina-layout.component'
   standalone: true,
   imports: [
     BotaoComponent,
-    BotaoSecundarioComponent,
     PaginaLayoutComponent
   ],
   templateUrl: './login-layout.component.html',

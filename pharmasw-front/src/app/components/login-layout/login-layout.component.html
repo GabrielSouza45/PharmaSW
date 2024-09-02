@@ -1,7 +1,13 @@
-<app-pagina-layout [titulo]="titulo">
+<main>
+  <div class="titulo">
+    <img class="logo" src="assets/logo-sem-texto.png">
+    <h2>{{ titulo }}</h2>
+  </div>
+
   <ng-content> 
     
   </ng-content>
 
   <app-botao [textoBtn]="textoBtnPrimario" (click)="submit()" />
-</app-pagina-layout>
+
+</main>

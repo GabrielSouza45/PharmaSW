@@ -14,6 +14,10 @@
   }
 }
 
+.dropdown ul li:hover {
+  cursor: pointer
+}
+
 .bi {
   vertical-align: -.125em;
   pointer-events: none;
@@ -24,6 +28,10 @@
 
 .nav-flush .nav-link {
   border-radius: 0;
+}
+
+.nav-link i{
+  margin-right: 8px;
 }
 
 .btn-toggle {

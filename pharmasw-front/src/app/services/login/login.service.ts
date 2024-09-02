@@ -23,9 +23,17 @@ export class LoginService {
       .post<LoginResponse>("http://localhost:8080/auth/login", this.usuario)
       .pipe(
         tap((value) => {
+
+          console.log('Login login');
+
           sessionStorage.setItem("token", value.token)
           sessionStorage.setItem("nome", value.nome)
           sessionStorage.setItem("grupo", value.grupo)
+
+          console.log("token", value.token);
+          console.log("nome", value.nome);
+          console.log("grupo", value.grupo);
+
         })
       )
   }
