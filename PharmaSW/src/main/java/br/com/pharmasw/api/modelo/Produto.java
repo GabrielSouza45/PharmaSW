@@ -18,7 +18,7 @@ public class Produto {
 
 
 
-    private String descricao;
+    private String nome;
     private String categoria;
     private Double valor;
     private Double peso;
@@ -49,13 +49,13 @@ public class Produto {
     }
 
 
-    public String getDescricao() {
-        return descricao;
+    public String getNome() {
+        return nome;
     }
 
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
 

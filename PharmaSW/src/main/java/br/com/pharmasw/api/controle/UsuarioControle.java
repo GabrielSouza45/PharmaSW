@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuario-controle")
-@PreAuthorize("hasRole('Admin')")
+@PreAuthorize("hasRole('ADMIN')")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsuarioControle {
 
@@ -31,9 +31,7 @@ public class UsuarioControle {
  
          //Chamando ativos
          List<Usuario>usuariosAtivos = usuarioServico.listarUsuariosAtivos(); 
- 
-         // -> return usuarioServico.listarAtivos();
- 
+  
          return new ResponseEntity<>(usuariosAtivos, HttpStatus.OK);
      }
  
