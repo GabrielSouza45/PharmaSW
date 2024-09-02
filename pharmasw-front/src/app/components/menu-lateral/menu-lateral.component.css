@@ -14,6 +14,10 @@
   }
 }
 
+.dropdown ul li:hover {
+  cursor: pointer
+}
+
 .bi {
   vertical-align: -.125em;
   pointer-events: none;

@@ -1,5 +1,5 @@
 import { TreeError } from '@angular/compiler';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { LoginService } from '../services/login/login.service';
 import { Router } from '@angular/router';
@@ -17,8 +17,8 @@ export class AuthService {
 
     constructor(
         private loginService: LoginService,
-        private router: Router
-    
+        private router: Router,
+        private ngZone: NgZone
     ) {
         this.checkAutenticacao();
     }
@@ -35,13 +35,13 @@ export class AuthService {
     }
 
     logout() {
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('nome');
-        sessionStorage.removeItem('grupo');
+        sessionStorage.clear();
         this.isUsuarioAutenticado.next(false);
         this.permissaoUsuario.next(null);
-
-        this.router.navigate(['/login']);
+        this.ngZone.run(() => {
+            this.router.navigate(['/login']);
+        });
+    
     }
 
     checkAutenticacao() {

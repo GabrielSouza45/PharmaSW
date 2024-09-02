@@ -5,6 +5,7 @@ import { PaginaInicialComponent } from './pages/pagina-inicial/pagina-inicial.co
 import { authGuard } from './auth/auth.guard';
 import { roleGuard } from './auth/role.guard';
 import { NaoAutorizadoComponent } from './pages/nao-autorizado/nao-autorizado.component';
+import { PaginaProdutosComponent } from './pages/pagina-produtos/pagina-produtos.component';
 
 export const routes: Routes = [
     {
@@ -20,6 +21,11 @@ export const routes: Routes = [
       path: "pagina-usuario",
       component: CadastrarUsuarioComponent,
       canActivate: [authGuard, roleGuard], data: {expectedRole: ['ADMINISTRADOR']}
+    },
+    {
+      path: "pagina-produtos",
+      component: PaginaProdutosComponent,
+      canActivate: [authGuard, roleGuard], data: {expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA']}
     },
     {
       path: "nao-autorizado",

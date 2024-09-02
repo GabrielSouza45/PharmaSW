@@ -15,22 +15,26 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class MenuLateralComponent {
 
+  grupo: string = '';
+  administrador: boolean = false;
+  userLogado: string = this.capitalizarPrimeiraLetra(sessionStorage.getItem('nome'));
+
   constructor(
     public router: Router,
     public authService: AuthService
   ){
-    sessionStorage.setItem('nomeUsuarioLogado', 'John Doe');
+    this.grupo = sessionStorage.getItem("grupo");
+    if (this.grupo = "ADMINISTRADOR") {
+      this.administrador = true;
+    }
+  }
+
+  capitalizarPrimeiraLetra(input: string): string {
+    if (!input) return input;
+  
+    return input.charAt(0).toUpperCase() + input.slice(1);
   }
   
-
-  administrador: boolean = false;
-  userLogado: string = sessionStorage.getItem('nomeUsuarioLogado');
-
-  grupo: string = sessionStorage.getItem("grupo");
-  if (grupo = "ADMINISTRADOR") {
-    this.administrador = true;
-  }
-
   isActive(route: string): boolean{
     return this.router.url === route;
   }
