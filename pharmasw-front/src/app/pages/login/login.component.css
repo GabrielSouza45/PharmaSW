@@ -1,12 +1,12 @@
 form{
-    width: 350px;
+    width: 450px;
     display: flex;
     flex-direction: column;
     gap: 24px;
     margin-bottom: 34px;
 
     span{
-        font-size: 12px;
+        font-size: 15px;
         text-decoration: underline;
         color: var(--cor-secundaria);
         text-align: end;
@@ -14,6 +14,6 @@ form{
 }
 
 i{
-    font-size: 20px;
+    font-size: 30px;
     color: var(--background);
 }

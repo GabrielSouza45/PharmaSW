@@ -1,12 +1,13 @@
 <div class="input-wrapper">
-    <label [for]="inputName">{{ label }}</label>
+    <label *ngIf="addLabel" [for]="inputName">{{ label }}</label>
     <div class="input-content">
-        <input 
-            [type]="type" 
+        <input
+            [type]="type"
             [placeholder]="placeHolder"
             class="form-control"
             [value]="value"
             (input)="onInput($event)"
+
         />
         <div class="icon">
             <ng-content>
@@ -14,6 +15,6 @@
             </ng-content>
         </div>
     </div>
-    
+
 
 </div>

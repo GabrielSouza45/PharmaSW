@@ -17,7 +17,7 @@ export class MenuLateralComponent {
 
   grupo: string = '';
   administrador: boolean = false;
-  userLogado: string = this.capitalizarPrimeiraLetra(sessionStorage.getItem('nome'));
+  userLogado: string = this.capitalizarPrimeiraLetra(sessionStorage.getItem('nome') || "Nao Logado");
 
   constructor(
     public router: Router,

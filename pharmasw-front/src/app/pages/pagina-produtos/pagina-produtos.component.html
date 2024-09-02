@@ -1,12 +1,50 @@
-<app-pagina-layout>
-  <main>
-    <section class="superior">
+<app-pagina-inicial-layout (submit)="onSubmit()">
+  <form [formGroup]="produtosForm">
+    <div class="cabecalho">
+      <div class="divisor"></div>
+      <!-- Input -->
+      <div class="input">
+        <app-input-primario
+          formControlName="nomeProduto"
+          inputName="nomeProduto"
+          type="text"
+          placeHolder="Nome do Produto"
+        >
+          <i class="bi bi-search" (click)="onSubmit()"></i>
+        </app-input-primario>
+      </div>
+      <div class="botao-cadastrar">
+        <i class="bi bi-plus-circle-fill button" (click)="cadastrar()"></i>
+      </div>
+    </div>
 
-    </section>
-    <section class="inferior">
-      
-    </section>
-  </main>
+    <hr />
 
-  </app-pagina-layout>
-  
+    <!-- Filtros -->
+    <h4>Filtros</h4>
+    <div class="filtros">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="ativo"
+          id="statusAtivo"
+          formControlName="statusAtivo"
+        />
+        <label class="form-check-label" for="statusAtivo"> Ativo </label>
+      </div>
+
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="Inativo"
+          id="statusInativo"
+          formControlName="statusInativo"
+        />
+        <label class="form-check-label" for="statusInativo"> Inativo </label>
+      </div>
+    </div>
+  </form>
+
+</app-pagina-inicial-layout>

@@ -12,13 +12,17 @@ main {
         flex-direction: row;
         margin-right: 30px;
 
-        h2{
+        h1{
             padding: 0 5px 0 5px;
         }
 
         img{
-            height: 30px;
+            height: 40px;
         }
+    }
+
+    .botao{
+      width: 270px;
     }
 }
 

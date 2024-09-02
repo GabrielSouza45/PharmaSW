@@ -1,13 +1,15 @@
 <main>
   <div class="titulo">
     <img class="logo" src="assets/logo-sem-texto.png">
-    <h2>{{ titulo }}</h2>
+    <h1>{{ titulo }}</h1>
   </div>
 
-  <ng-content> 
-    
+  <ng-content>
+
   </ng-content>
 
-  <app-botao [textoBtn]="textoBtnPrimario" (click)="submit()" />
+  <div class="botao">
+    <app-botao [textoBtn]="textoBtnPrimario" (click)="submit()" />
+  </div>
 
 </main>

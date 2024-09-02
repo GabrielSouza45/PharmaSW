@@ -15,17 +15,20 @@ export const routes: Routes = [
     {
       path: "pagina-inicial",
       component: PaginaInicialComponent,
-      canActivate: [authGuard, roleGuard], data: {expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA']}
+      // canActivate: [authGuard, roleGuard], 
+      // data: {expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA']}
     },
     {
       path: "pagina-usuario",
       component: CadastrarUsuarioComponent,
-      canActivate: [authGuard, roleGuard], data: {expectedRole: ['ADMINISTRADOR']}
+      // canActivate: [authGuard, roleGuard], 
+      // data: {expectedRole: ['ADMINISTRADOR']}
     },
     {
       path: "pagina-produtos",
       component: PaginaProdutosComponent,
-      canActivate: [authGuard, roleGuard], data: {expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA']}
+      // canActivate: [authGuard, roleGuard], 
+      // data: {expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA']}
     },
     {
       path: "nao-autorizado",

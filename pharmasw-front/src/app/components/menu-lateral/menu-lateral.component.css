@@ -1,8 +1,7 @@
 /* SIDEBAR BOOTSTRAP */
 .main {
   height: 100vh;
-  width: 200px;
-  position: fixed;
+  width: 100%;
 
   a {
     justify-content: center;

@@ -1,0 +1,10 @@
+<button type="button" class="btn btn-primary" (click)="openModal(template)">Open modal</button>
+<br><br>
+<pre class="card card-block card-header">{{message}}</pre>
+<ng-template #template>
+  <div class="modal-body text-center custom-modal">
+    <p>Cadastar Produto</p>
+    <button type="button" class="btn btn-default" (click)="cancelar()" >Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="cadastrar()" >Cadastrar</button>
+  </div>
+</ng-template>

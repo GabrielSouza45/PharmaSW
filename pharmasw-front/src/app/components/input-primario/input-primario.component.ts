@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -7,7 +8,8 @@ type InputTypes = "text" | "email" | "password"
   selector: 'app-input-primario',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [
     {
@@ -25,6 +27,7 @@ export class InputPrimarioComponent implements ControlValueAccessor{
   @Input() placeHolder: string = "";
   @Input() label: string = "";
   @Input() inputName: string = "";
+  @Input() addLabel: boolean = false;
 
   value: string=''
   onChange: any = () => {}
