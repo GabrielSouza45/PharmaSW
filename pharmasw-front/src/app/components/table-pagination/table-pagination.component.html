@@ -1,0 +1,12 @@
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let coluna of colunas">{{ coluna != 'id' ? coluna : "#" }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of dados">
+      <td *ngFor="let coluna of colunas">{{ item[coluna] == null ? 'null' : item[coluna] }}</td>
+    </tr>
+  </tbody>
+</table>

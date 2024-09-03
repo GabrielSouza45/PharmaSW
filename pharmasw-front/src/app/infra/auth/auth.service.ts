@@ -1,7 +1,7 @@
 import { TreeError } from '@angular/compiler';
 import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
-import { LoginService } from '../services/login/login.service';
+import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -27,7 +27,7 @@ export class AuthService {
         return this.loginService.login(email, senha).pipe(
             tap(response => {
                 console.log('auth login');
-                
+
                 this.isUsuarioAutenticado.next(true);
                 this.permissaoUsuario.next(response.grupo);
             })
@@ -41,7 +41,7 @@ export class AuthService {
         this.ngZone.run(() => {
             this.router.navigate(['/login']);
         });
-    
+
     }
 
     checkAutenticacao() {
@@ -60,5 +60,9 @@ export class AuthService {
 
     getUserRole(): string | null {
         return this.permissaoUsuario.value;
+    }
+
+    getToken(): string{
+      return sessionStorage.getItem('token');
     }
 }

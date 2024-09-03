@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../infra/auth/auth.service';
 
 @Component({
   selector: 'app-menu-lateral',
@@ -31,10 +31,10 @@ export class MenuLateralComponent {
 
   capitalizarPrimeiraLetra(input: string): string {
     if (!input) return input;
-  
+
     return input.charAt(0).toUpperCase() + input.slice(1);
   }
-  
+
   isActive(route: string): boolean{
     return this.router.url === route;
   }

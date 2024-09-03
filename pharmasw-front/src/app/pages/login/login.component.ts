@@ -4,14 +4,14 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../infra/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    LoginLayoutComponent, 
+    LoginLayoutComponent,
     ReactiveFormsModule,
     InputPrimarioComponent,
     CommonModule
@@ -46,7 +46,7 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value.email, this.loginForm.value.senha)
       .subscribe({
         next: () => {
-          this.toastService.success("Login Realizado com sucesso!");   
+          this.toastService.success("Login Realizado com sucesso!");
           this.router.navigate(['/pagina-inicial'])
         },
         error: (erro) => {

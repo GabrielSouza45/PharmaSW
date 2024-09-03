@@ -1,9 +1,11 @@
 package br.com.pharmasw.api.controle;
 
+import br.com.pharmasw.api.modelo.RetornoUsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.service.UsuarioServico;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +42,9 @@ public class UsuarioControle {
      public ResponseEntity<?> listarTodosUsuarios() {
  
          //Chamando ativos e inativos
-         List<Usuario>usuariosGeral = usuarioServico.listarTodosUsuarios(); 
- 
-         return new ResponseEntity<>(usuariosGeral, HttpStatus.OK);
+         List<Usuario>usuariosGeral = usuarioServico.listarTodosUsuarios();
+
+         return new ResponseEntity<>(constroiRetornoUsuarioDTO(usuariosGeral), HttpStatus.OK);
      }
  
      @PostMapping("/listar-usuarios-inativos")
@@ -55,6 +57,15 @@ public class UsuarioControle {
          return new ResponseEntity<>(usuariosInativos, HttpStatus.OK);
      }
 
+     private List<RetornoUsuarioDTO> constroiRetornoUsuarioDTO(List<Usuario> usuarios){
+
+             List<RetornoUsuarioDTO> retorno = new ArrayList<>();
+             for (Usuario usuario : usuarios) {
+                 retorno.add(new RetornoUsuarioDTO(usuario));
+             }
+
+             return retorno;
+     }
 
     @PostMapping("/cadastrar")
     @CrossOrigin(origins = "*", allowedHeaders = "*")

@@ -1,11 +1,16 @@
 <app-pagina-layout>
   <main>
     <section class="superior">
-      <ng-content #superior>
+      <ng-content select="[superior]">
 
       </ng-content>
 
     </section>
-    <section class="inferior"></section>
+    <section class="inferior">
+      <ng-content select="[inferior]">
+
+      </ng-content>
+
+    </section>
   </main>
 </app-pagina-layout>
