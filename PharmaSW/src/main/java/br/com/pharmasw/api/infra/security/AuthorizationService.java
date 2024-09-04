@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.service;
+package br.com.pharmasw.api.infra.security;
 
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;

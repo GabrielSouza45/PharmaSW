@@ -1,11 +1,9 @@
-package br.com.pharmasw.api.modelo;
+package br.com.pharmasw.api.modelo.Retorno;
 
+import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Grupo;
 import br.com.pharmasw.api.modelo.enums.Status;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public record RetornoUsuarioDTO(
         Long id,
@@ -14,9 +12,9 @@ public record RetornoUsuarioDTO(
         Long cpf,
         Grupo grupo,
         Status status,
-        Date dataIni,
-        Date dataAlt,
-        Date dataFim
+        String dataIni,
+        String dataAlt,
+        String dataFim
 ) {
     public RetornoUsuarioDTO(Usuario usuario) {
         this(usuario.getId(),
@@ -25,9 +23,9 @@ public record RetornoUsuarioDTO(
                 usuario.getCpf(),
                 usuario.getGrupo(),
                 usuario.getStatus(),
-                usuario.getDataIni(),
-                usuario.getDataAlt(),
-                usuario.getDataFim()
+                usuario.getDataIniString(),
+                usuario.getDataAltString(),
+                usuario.getDataFimString()
         );
     }
 

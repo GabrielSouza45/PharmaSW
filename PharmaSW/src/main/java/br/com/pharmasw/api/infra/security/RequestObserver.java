@@ -3,6 +3,7 @@ package br.com.pharmasw.api.infra.security;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -10,6 +11,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
@@ -18,37 +20,45 @@ import java.nio.charset.StandardCharsets;
 public class RequestObserver extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper(request);
+        ContentCachingResponseWrapper wrappedResponse = new ContentCachingResponseWrapper(response);
 
-        ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper((HttpServletRequest) request);
-        ContentCachingResponseWrapper wrappedResponse = new ContentCachingResponseWrapper((HttpServletResponse) response);
-
-        // Continua a cadeia de filtros
+        // Continue com a cadeia de filtros
         filterChain.doFilter(wrappedRequest, wrappedResponse);
 
         // Log do endpoint acessado
-        String endpoint= wrappedRequest.getRequestURI();
+        String endpoint = wrappedRequest.getRequestURI();
+        System.out.println("\n" + endpoint);
 
-        // Captura e log do corpo da requisição
-        byte[] requestBody = wrappedRequest.getContentAsByteArray();
-        if (requestBody.length > 0) {
-            String requestBodyString = new String(requestBody, wrappedRequest.getCharacterEncoding());
-            requestBodyString = requestBodyString.trim(); // Remove espaços no início e no fim
-            requestBodyString = requestBodyString.replaceAll("\\s+", " "); // Remove quebras de linha e múltiplos espaços
-            System.out.println(endpoint + " ==> " + requestBodyString);
+        // Log do corpo da requisição
+        String requestBody = getRequestBody(wrappedRequest);
+        String body = requestBody;
+
+        try {
+            JSONObject json = new JSONObject(requestBody);
+            body =  json.toString();
+        } catch (Exception e) {
+            System.out.println("Não foi possível converter o JSON.\n" + e.getLocalizedMessage());
         }
+        System.out.println("request -> " + body);
 
-        // Log da resposta
-        byte[] responseBody = wrappedResponse.getContentAsByteArray();
-        if (responseBody.length > 0) {
-            String responseBodyString = new String(responseBody, wrappedResponse.getCharacterEncoding());
-            responseBodyString = responseBodyString.trim(); // Remove espaços no início e no fim
-            responseBodyString = responseBodyString.replaceAll("\\s+", " "); // Remove quebras de linha e múltiplos espaços
-            System.out.println("Response Body: " + responseBodyString);
-        }
+        // Log do corpo da resposta (opcional)
+        String responseBody = getResponseBody(wrappedResponse);
+        System.out.println("response -> " + responseBody);
 
-        // Passa a resposta para o cliente
+        // Copia o conteúdo da resposta de volta para o original
         wrappedResponse.copyBodyToResponse();
     }
 
+    private String getRequestBody(ContentCachingRequestWrapper request) {
+        byte[] buf = request.getContentAsByteArray();
+        return new String(buf, 0, buf.length, StandardCharsets.UTF_8);
+    }
+
+    private String getResponseBody(ContentCachingResponseWrapper response) {
+        byte[] buf = response.getContentAsByteArray();
+        return new String(buf, 0, buf.length, StandardCharsets.UTF_8);
+    }
 }

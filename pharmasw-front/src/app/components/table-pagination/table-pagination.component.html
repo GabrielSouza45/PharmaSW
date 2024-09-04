@@ -1,12 +1,40 @@
-<table class="table table-striped table-hover">
-  <thead>
-    <tr>
-      <th scope="col" *ngFor="let coluna of colunas">{{ coluna != 'id' ? coluna : "#" }}</th>
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let coluna of colunas">
+          {{ coluna != "id" ? coluna : "#" }}
+        </th>
+        <th *ngIf="dados">
+          Editar
+        </th>
+        <th *ngIf="dados">
+          Ativar / Inativar
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of dados">
+        <td *ngFor="let coluna of colunas">
+          {{ item[coluna] == null ? "" : item[coluna] }}
+        </td>
+        <td *ngIf="dados">
+          <i class="bi bi-pencil-square"></i>
+        </td>
+        <td *ngIf="dados">
+          <i *ngIf="item.status == 'ATIVO'" class="bi bi-x-circle-fill" ></i>
+          <i *ngIf="item.status == 'INATIVO'" class="bi bi-person-plus-fill"></i>
+        </td>
+      </tr>
+    <!-- Adicione linhas vazias para preencher a tabela -->
+    <tr *ngFor="let i of [].constructor(10 - dados.length)">
+      <td *ngFor="let coluna of colunas">
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
     </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of dados">
-      <td *ngFor="let coluna of colunas">{{ item[coluna] == null ? 'null' : item[coluna] }}</td>
-    </tr>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>

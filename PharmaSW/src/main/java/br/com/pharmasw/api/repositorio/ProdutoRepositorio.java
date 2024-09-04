@@ -21,8 +21,10 @@ public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
     
     Produto findProdutoByNomeAndStatus(String nome, Status status);
 
-    @Query(value = "SELECT preco FROM produto WHERE nome = :nome AND status = 'DISPONIVEL'", nativeQuery = true)
+    @Query(value = "SELECT preco FROM produto WHERE nome = :nome AND status = 'ATIVO'", nativeQuery = true)
     String getPrecoByNomeDisponivel(@Param("nome") String nome);
 
     Optional<Produto> findByNome(String nome);
+
+    List<Produto> findByNomeOrStatus(String nome, Status status);
 }
