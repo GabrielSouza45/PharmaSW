@@ -24,16 +24,6 @@ public class UsuarioServico {
         return usuarioRepositorio.findAll();
     }
 
-    public List<Usuario> listarUsuariosAtivos() {
-        return usuarioRepositorio.findAllByStatus(Status.ATIVO);
-    }
-
-    public List<Usuario> listarUsuariosInativos() {
-        return usuarioRepositorio.findAllByStatus(Status.INATIVO);
-    }
-
-
-
     //  CADASTRAR USUÁRIO
     public ResponseEntity<?> cadastrar(Usuario usuario) {
 
@@ -62,28 +52,6 @@ public class UsuarioServico {
         usuarioSalvo.setCpf(null);
 
         return new ResponseEntity<> (usuarioSalvo, HttpStatus.OK);
-    }
-
-
-
-    //Desativando usuário
-    public void desativarUsuario(Long id) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(id);
-        if (usuario.isPresent()) {
-            Usuario user = usuario.get();
-            user.setStatus(Status.INATIVO);
-            usuarioRepositorio.save(user);
-        }
-    }
-
-    //Ativando usuário
-    public void ativarUsuario(Long id) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(id);
-        if (usuario.isPresent()) {
-            Usuario user = usuario.get();
-            user.setStatus(Status.ATIVO);
-            usuarioRepositorio.save(user);
-        }
     }
 
     //  ALTERAR USUÁRIO

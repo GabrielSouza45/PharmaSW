@@ -23,38 +23,15 @@ public class UsuarioControle {
 
     @Autowired
     private UsuarioServico usuarioServico;
-
-
-     //Listagem de usuários
-
-     @PostMapping("/listar-usuarios-ativos")
-     @CrossOrigin(origins = "*", allowedHeaders = "*")
-     public ResponseEntity<?> listarUsuariosAtivos() {
- 
-         //Chamando ativos
-         List<Usuario>usuariosAtivos = usuarioServico.listarUsuariosAtivos(); 
-  
-         return new ResponseEntity<>(usuariosAtivos, HttpStatus.OK);
-     }
  
      @PostMapping("/listar-todos-usuarios")
      @CrossOrigin(origins = "*", allowedHeaders = "*")
      public ResponseEntity<?> listarTodosUsuarios() {
- 
+
          //Chamando ativos e inativos
          List<Usuario>usuariosGeral = usuarioServico.listarTodosUsuarios();
 
          return new ResponseEntity<>(constroiRetornoUsuarioDTO(usuariosGeral), HttpStatus.OK);
-     }
- 
-     @PostMapping("/listar-usuarios-inativos")
-     @CrossOrigin(origins = "*", allowedHeaders = "*")
-     public ResponseEntity<?> listarUsuariosInativos() {
-        
-        //Chamando inativos
-         List<Usuario>usuariosInativos = usuarioServico.listarUsuariosInativos(); 
-  
-         return new ResponseEntity<>(usuariosInativos, HttpStatus.OK);
      }
 
      private List<RetornoUsuarioDTO> constroiRetornoUsuarioDTO(List<Usuario> usuarios){
@@ -88,20 +65,6 @@ public class UsuarioControle {
             return new ResponseEntity<>("Email é obrigatório!", HttpStatus.BAD_REQUEST);
 
         return usuarioServico.alterar(usuario);
-    }
-
-    @PostMapping("/desativar-usuario")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> desativarUsuario(@RequestBody Usuario usuario) {
-        usuarioServico.desativarUsuario(usuario.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/ativar-usuario")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> ativarUsuario(@RequestBody Usuario usuario){
-        usuarioServico.ativarUsuario(usuario.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/mudar-status")

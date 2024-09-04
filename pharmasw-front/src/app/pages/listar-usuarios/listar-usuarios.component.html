@@ -1,0 +1,77 @@
+<app-pagina-inicial-layout (submit)="onSubmit()">
+  <form [formGroup]="listarUsuarioForm" (ngSubmit)="onSubmit()">
+    <div class="cabecalho">
+      <div class="divisor"></div>
+      <div class="input">
+        <app-input-primario
+          formControlName="nomeUsuario"
+          inputName="nomeUsuario"
+          type="text"
+          placeHolder="Nome do Usuário"
+        >
+        </app-input-primario>
+        <button type="submit" class="botao-buscar">
+          <i class="bi bi-search"></i> Buscar
+        </button>
+      </div>
+    </div>
+
+    <hr />
+
+    <h4>Filtros</h4>
+    <div class="filtros">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="ativo"
+          id="statusAtivo"
+          formControlName="statusAtivo"
+        />
+        <label class="form-check-label" for="statusAtivo"> Ativo </label>
+      </div>
+
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value="inativo"
+          id="statusInativo"
+          formControlName="statusInativo"
+        />
+        <label class="form-check-label" for="statusInativo"> Inativo </label>
+      </div>
+    </div>
+  </form>
+
+  <hr />
+
+  <div *ngIf="usuarios.length > 0; else noUsuarios">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.nome }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.status }}</td>
+          <td>
+            <button (click)="toggleStatus(usuario)">
+              {{ usuario.status === 'ATIVO' ? 'Desativar' : 'Ativar' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noUsuarios>
+    <p>Nenhum usuário encontrado.</p>
+  </ng-template>
+</app-pagina-inicial-layout>
