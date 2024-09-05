@@ -1,0 +1,17 @@
+.image{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  img{
+    height: 80vh;
+    border-radius: 360%;
+    box-shadow: 0 0 50px var(--cor-secundaria);
+  }
+}
+
+
+
+
