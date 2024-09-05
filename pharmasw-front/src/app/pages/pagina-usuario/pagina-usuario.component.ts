@@ -90,7 +90,7 @@ export class PaginaUsuarioComponent {
   cadastrar() {
     console.log(this.formCadastroUsuario.value);
 
-    if (!this.senhaValida() || this.checkFormErrors()) {
+    if (!this.senhaValida() || !this.checkFormErrors()) {
       return;
     }
 
@@ -106,6 +106,7 @@ export class PaginaUsuarioComponent {
         } else {
           this.toastrService.warning("Resposta inesperada do servidor.");
         }
+        this.pesquisar();
       },
       error: (error) => {
         console.error("Erro ao cadastrar o usuário", error);
@@ -153,7 +154,6 @@ export class PaginaUsuarioComponent {
 
   // EDITAR USUARIO
   mudaEstadoClick(): void {
-    console.log(this.clickCadastro);
 
     if (this.clickCadastro) {
       this.cadastrar();
@@ -169,7 +169,8 @@ export class PaginaUsuarioComponent {
     this.formCadastroUsuario.patchValue({
       nome: item.nome,
       email: item.email,
-      senha: '', // ou mantenha vazio
+      senha: null,
+      confimarSenha: null,
       cpf: item.cpf.toString(),
       grupo: item.grupo
     });
@@ -182,9 +183,12 @@ export class PaginaUsuarioComponent {
     if(!this.checkFormErrors()){
       return;
     }
+    console.log(this.formCadastroUsuario.value);
 
-    console.log('bbbbbbbbbbbb');
-    console.log(this.getUsuario());
+    if(this.formCadastroUsuario.value.senha != null){
+      if(!this.senhaValida())
+        return;
+    }
 
     this.usuarioService.editar(this.getUsuario()).subscribe({
       next: (response: HttpResponse<any>) => {
@@ -200,6 +204,7 @@ export class PaginaUsuarioComponent {
           this.toastrService.warning("Resposta inesperada do servidor.");
         }
         this.pesquisar();
+        this.modalAberto = false;
 
       },
       error: (error) => {
@@ -264,10 +269,12 @@ export class PaginaUsuarioComponent {
     // Verifica se há erros no campo 'senha'
     if (controls['senha']?.errors?.['required']) {
       this.toastrService.warning("O campo de senha é obrigatório.");
+      return false;
     }
     // Verifica se há erros no campo 'confirmarSenha'
     if (controls['confirmarSenha']?.errors?.['required']) {
       this.toastrService.warning("O campo de confirmação de senha é obrigatório.");
+      return false;
     }
 
     if (!controls['senha']?.errors && !controls['confirmarSenha']?.errors) {
