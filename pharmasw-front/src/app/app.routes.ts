@@ -1,12 +1,10 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { CadastrarUsuarioComponent } from './pages/cadastrar-usuario/cadastrar-usuario.component';
 import { PaginaInicialComponent } from './pages/pagina-inicial/pagina-inicial.component';
-import { authGuard } from './infra/auth/auth.guard';
-import { roleGuard } from './infra/auth/role.guard';
 import { NaoAutorizadoComponent } from './pages/nao-autorizado/nao-autorizado.component';
 import { PaginaProdutosComponent } from './pages/pagina-produtos/pagina-produtos.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { PaginaUsuarioComponent } from './pages/pagina-usuario/pagina-usuario.component';
 
 export const routes: Routes = [
     {
@@ -20,11 +18,12 @@ export const routes: Routes = [
       // data: {expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA']}
     },
     {
-      path: "pagina-usuario",
-      component: CadastrarUsuarioComponent,
+      path: 'pagina-usuarios',
+      component: PaginaUsuarioComponent,
       // canActivate: [authGuard, roleGuard],
       // data: {expectedRole: ['ADMINISTRADOR']}
-    },
+    }
+    ,
     {
       path: "pagina-produtos",
       component: PaginaProdutosComponent,

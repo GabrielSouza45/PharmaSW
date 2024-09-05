@@ -1,0 +1,69 @@
+form {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+  .cabecalho {
+    width: 100%;
+    height: 80px;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    margin-top: 15px;
+
+    .divisor{
+      width: 100%;
+    }
+
+    .input {
+      width: 100%;
+      max-width: 800px;
+      margin: auto;
+      align-items: center;
+      justify-content: center;
+
+    }
+
+    .botao-cadastrar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      .button{
+        color: var(--cor-primaria);
+        font-size: 40px;
+      }
+    }
+  }
+
+  hr {
+    color: var(--cor-primaria);
+    width: 65%;
+    max-width: 750px;
+  }
+
+  h4{
+    border-bottom: 1px solid var(--cor-secundaria);
+  }
+
+  .filtros {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 20px;
+    gap: 20px;
+  }
+
+  i {
+    color: #fff;
+  }
+  i:hover {
+    cursor: pointer;
+  }
+}

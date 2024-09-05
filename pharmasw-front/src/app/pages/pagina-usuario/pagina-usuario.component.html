@@ -1,23 +1,27 @@
 <app-pagina-inicial-layout (submit)="onSubmit()">
-  <form [formGroup]="listarUsuarioForm" (ngSubmit)="onSubmit()">
+
+  <form superior [formGroup]="usuariosForm">
     <div class="cabecalho">
       <div class="divisor"></div>
+      <!-- Input -->
       <div class="input">
         <app-input-primario
           formControlName="nomeUsuario"
           inputName="nomeUsuario"
           type="text"
-          placeHolder="Nome do Usuário"
+          placeHolder="Nome do Usuario"
         >
+          <i class="bi bi-search" (click)="onSubmit()"></i>
         </app-input-primario>
-        <button type="submit" class="botao-buscar">
-          <i class="bi bi-search"></i> Buscar
-        </button>
+      </div>
+      <div class="botao-cadastrar">
+        <i class="bi bi-plus-circle-fill button" (click)="cadastrar()"></i>
       </div>
     </div>
 
     <hr />
 
+    <!-- Filtros -->
     <h4>Filtros</h4>
     <div class="filtros">
       <div class="form-check">
@@ -35,7 +39,7 @@
         <input
           class="form-check-input"
           type="checkbox"
-          value="inativo"
+          value="Inativo"
           id="statusInativo"
           formControlName="statusInativo"
         />
@@ -44,34 +48,10 @@
     </div>
   </form>
 
-  <hr />
+  <div inferior>
+    <app-table-pagination
+      [dados]="usuarios"
+    ></app-table-pagination>
 
-  <div *ngIf="usuarios.length > 0; else noUsuarios">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let usuario of usuarios">
-          <td>{{ usuario.nome }}</td>
-          <td>{{ usuario.email }}</td>
-          <td>{{ usuario.status }}</td>
-          <td>
-            <button (click)="toggleStatus(usuario)">
-              {{ usuario.status === 'ATIVO' ? 'Desativar' : 'Ativar' }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-
-  <ng-template #noUsuarios>
-    <p>Nenhum usuário encontrado.</p>
-  </ng-template>
 </app-pagina-inicial-layout>
