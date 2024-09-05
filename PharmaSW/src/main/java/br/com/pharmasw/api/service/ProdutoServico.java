@@ -1,7 +1,12 @@
 package br.com.pharmasw.api.service;
 
+import br.com.pharmasw.api.modelo.Filtros;
+import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
+import br.com.pharmasw.api.service.helpers.DataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import br.com.pharmasw.api.modelo.Produto;
 
@@ -21,16 +26,16 @@ public class ProdutoServico {
 
 
     //lista todos os produtos
-    public List<Produto> listarTodosProdutos() {
-        return produtoRepositorio.findAll();
-    }
+    public List<Produto> listarProdutosProdutos(Filtros filtros) {
 
-    public List<Produto> listarProdutosAtivos() {
-        return produtoRepositorio.findAllByStatus(Status.ATIVO);
-    }
+        List<Produto> produtos =
+                produtoRepositorio.findByNomeOrStatus(filtros.getNome(), filtros.getStatus());
 
-    public List<Produto> listarProdutosInativos() {
-        return produtoRepositorio.findAllByStatus(Status.INATIVO);
+        if (produtos.isEmpty()) {
+            produtos.add(new Produto());
+        }
+
+        return produtos;
     }
 
 
@@ -39,23 +44,22 @@ public class ProdutoServico {
     //Método cadastrar os produtos
     
 
-    //Desativando usuário 
-    public void desativarProduto(Long id) {
-        Optional<Produto> produto = produtoRepositorio.findById(id);
-        if (produto.isPresent()) {
-            Produto produ = produto.get();
-            produ.setStatus(Status.INATIVO);
-            produtoRepositorio.save(produ);
+
+
+    public ResponseEntity<?> alterarStatusProduto(Produto produtorequest) {
+
+        Produto produto = produtoRepositorio.findById(produtorequest.getId()).orElse(null);
+
+        if (produto == null) {
+            return new ResponseEntity<>("Produto não encontrado!", HttpStatus.NOT_FOUND);
         }
+
+        Status status = produto.getStatus();
+        produto.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
+        produto.setDataAlt(DataHelper.getDataHora());
+        Produto produtoAtualizado = produtoRepositorio.save(produto);
+
+        return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
     }
 
-    //Desativando usuário 
-    public void ativarProduto(Long id) {
-        Optional<Produto> produto = produtoRepositorio.findById(id);
-        if (produto.isPresent()) {
-            Produto produ = produto.get();
-            produ.setStatus(Status.ATIVO);
-            produtoRepositorio.save(produ);
-        }
-    }
 }

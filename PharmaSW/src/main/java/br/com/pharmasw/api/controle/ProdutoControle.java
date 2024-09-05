@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.controle;
 
+import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.service.ProdutoServico;
@@ -19,41 +20,25 @@ public class ProdutoControle {
     private ProdutoServico produtoServico;
 
     // Listagem de todos os produtos (ativos e inativos)
-    @PostMapping("/listar-todos-produtos")
+    @PostMapping("/listar-produtos")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<List<Produto>> listarTodosProdutos() {
-        List<Produto> produtosGeral = produtoServico.listarTodosProdutos();
+    public ResponseEntity<List<Produto>> listarTodosProdutos(Filtros filtros) {
+
+        List<Produto> produtosGeral = produtoServico.listarProdutosProdutos(filtros);
+
         return new ResponseEntity<>(produtosGeral, HttpStatus.OK);
+
     }
 
-    // Listagem de produtos ativos
-    @PostMapping("/listar-produtos-ativos")
+    @PutMapping("/mudar-status")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<List<Produto>> listarProdutosAtivos() {
-        List<Produto> produtosAtivos = produtoServico.listarProdutosAtivos();
-        return new ResponseEntity<>(produtosAtivos, HttpStatus.OK);
-    }
+    public ResponseEntity<?> alterarStatusUsuario(@RequestBody Produto produto) {
 
-    // Listagem de produtos inativos
-    @PostMapping("/listar-produtos-inativos")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<List<Produto>> listarProdutosInativos() {
-        List<Produto> produtosInativos = produtoServico.listarProdutosInativos();
-        return new ResponseEntity<>(produtosInativos, HttpStatus.OK);
-    }
+        if (produto.getId() == null) {
+            return ResponseEntity.badRequest().body("Id não pode ser null!");
+        }
 
-    @PostMapping("/desativar-produto")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> desativarUsuario(@RequestBody Produto produto) {
-        produtoServico.desativarProduto(produto.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/ativar-usuario")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> ativarUsuario(@RequestBody Produto produto){
-        produtoServico.ativarProduto(produto.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return produtoServico.alterarStatusProduto(produto);
     }
 
 }

@@ -24,8 +24,9 @@ export class MenuLateralComponent {
     public authService: AuthService
   ){
     this.grupo = sessionStorage.getItem("grupo");
-    if (this.grupo = "ADMINISTRADOR") {
-      this.administrador = true;
+
+    if (this.grupo == "ADMINISTRADOR") {
+    this.administrador = true;
     }
   }
 

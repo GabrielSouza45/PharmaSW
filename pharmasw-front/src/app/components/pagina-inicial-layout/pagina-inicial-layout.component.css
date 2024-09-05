@@ -10,9 +10,11 @@ main {
 .superior {
   width: 100%;
   height: max-content;
+  margin-bottom: 15px;
 }
 
 .inferior {
   height: 100%;
   width: 100%;
+  padding: 15px;
 }

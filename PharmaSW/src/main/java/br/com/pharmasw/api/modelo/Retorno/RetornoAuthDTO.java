@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.modelo;
+package br.com.pharmasw.api.modelo.Retorno;
 
 import br.com.pharmasw.api.modelo.enums.Grupo;
 

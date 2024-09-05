@@ -1,7 +1,7 @@
 package br.com.pharmasw.api.controle;
 
 import br.com.pharmasw.api.infra.security.TokenService;
-import br.com.pharmasw.api.modelo.RetornoAuthDTO;
+import br.com.pharmasw.api.modelo.Retorno.RetornoAuthDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Grupo;
 import org.springframework.beans.factory.annotation.Autowired;

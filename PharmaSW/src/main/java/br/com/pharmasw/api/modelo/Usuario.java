@@ -1,13 +1,14 @@
 package br.com.pharmasw.api.modelo;
 
-import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.modelo.enums.Grupo;
+import br.com.pharmasw.api.modelo.enums.Status;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity(name = "usuario")
 @Table(name = "usuario")
 @EqualsAndHashCode(of = "id")
-public class Usuario  implements UserDetails {
+public class Usuario implements UserDetails {
 
     //ATRIBUTOS PADRÃO
     @Id
@@ -25,8 +26,11 @@ public class Usuario  implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+    @Column(name = "data_ini")
     private Date dataIni;
+    @Column(name = "data_alt")
     private Date dataAlt;
+    @Column(name = "data_fim")
     private Date dataFim;
 
     //ATRIBUTOS DA CLASSE
@@ -104,6 +108,14 @@ public class Usuario  implements UserDetails {
         this.status = status;
     }
 
+    public String getDataIniString() {
+        if (dataIni == null)
+            return "null";
+
+        SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return pattern.format(dataIni);
+    }
+
     public Date getDataIni() {
         return dataIni;
     }
@@ -112,12 +124,28 @@ public class Usuario  implements UserDetails {
         this.dataIni = dataIni;
     }
 
+    public String getDataAltString() {
+        if (dataAlt == null)
+            return "null";
+
+        SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return pattern.format(dataAlt);
+    }
+
     public Date getDataAlt() {
         return dataAlt;
     }
 
     public void setDataAlt(Date dataAlt) {
         this.dataAlt = dataAlt;
+    }
+
+    public String getDataFimString() {
+        if (dataFim == null)
+            return "null";
+
+        SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return pattern.format(dataFim);
     }
 
     public Date getDataFim() {

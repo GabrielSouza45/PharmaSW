@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.service;
 
+import br.com.pharmasw.api.modelo.Retorno.RetornoUsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
@@ -48,10 +49,9 @@ public class UsuarioServico {
 
         // Salvar o usuário no banco de dados
         Usuario usuarioSalvo = usuarioRepositorio.save(usuario);
-        usuarioSalvo.setSenha(null);
-        usuarioSalvo.setCpf(null);
+        RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO(usuarioSalvo);
 
-        return new ResponseEntity<> (usuarioSalvo, HttpStatus.OK);
+        return new ResponseEntity<> (usuarioDTO, HttpStatus.OK);
     }
 
     //  ALTERAR USUÁRIO

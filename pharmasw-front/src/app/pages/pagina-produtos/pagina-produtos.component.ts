@@ -32,7 +32,7 @@ export class PaginaProdutosComponent implements OnInit{
     });
 
 
-    httpClient.post<any[]>("http://localhost:8080/usuario-controle/listar-todos-usuarios", null)
+    httpClient.post<any[]>("http://localhost:8080/produto-controle/listar-produtos", null)
     .subscribe(data => {
       this.produtos = data;
       console.log(data);
@@ -41,8 +41,6 @@ export class PaginaProdutosComponent implements OnInit{
 
 
   ngOnInit(): void {
-
-
 
   }
 

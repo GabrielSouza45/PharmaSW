@@ -1,0 +1,29 @@
+.table-responsive {
+  max-width: 100%;
+  height: fit-content;
+  overflow: scroll;
+}
+
+table {
+  border-collapse: collapse;
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+th, td {
+  text-align: left;
+  height: 50px;
+  min-width: 150px;
+  border: 1px solid #ddd;
+}
+
+i{
+  font-size: 20px;
+  color: var(--cor-primaria);
+}
+
+i:hover{
+  cursor: pointer;
+  color: var(--cor-secundaria);
+}
+
