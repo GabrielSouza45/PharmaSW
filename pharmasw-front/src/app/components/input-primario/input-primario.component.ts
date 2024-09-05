@@ -29,6 +29,7 @@ export class InputPrimarioComponent implements ControlValueAccessor{
   @Input() inputName: string = "";
   @Input() maxLength: string = "9999";
   @Input() addLabel: boolean = false;
+  @Input() disabled: boolean = false;
 
   value: string=''
   onChange: any = () => {}

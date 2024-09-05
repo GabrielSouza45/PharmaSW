@@ -36,6 +36,7 @@ export class PaginaUsuarioComponent {
   private filtros: Filtros;
   private usuario: Usuario;
   clickCadastro: boolean = true;
+  usuarioLogado: boolean = false;
 
   constructor(private usuarioService: UsuarioService,
     private toastrService: ToastrService
@@ -174,6 +175,7 @@ export class PaginaUsuarioComponent {
     });
     this.modalAberto = true;
     this.clickCadastro = false;
+    this.usuarioLogado = (sessionStorage.getItem("id") == item.id.toString())
   }
 
   alterarCadastro() {

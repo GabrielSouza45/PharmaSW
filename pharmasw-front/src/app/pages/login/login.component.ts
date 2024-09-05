@@ -47,7 +47,7 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           this.toastService.success("Login Realizado com sucesso!");
-          this.router.navigate(['/pagina-inicial'])
+          document.location.href = '/pagina-inicial';
         },
         error: (erro) => {
           if (erro.status === 403) {
