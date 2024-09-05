@@ -15,10 +15,5 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './pagina-inicial-layout.component.css'
 })
 export class PaginaInicialLayoutComponent{
-  @Output("submit") enviar = new EventEmitter;
 
-
-  onSubmit() {
-    this.enviar.emit();
-  }
 }

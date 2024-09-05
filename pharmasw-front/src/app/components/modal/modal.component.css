@@ -1,3 +1,52 @@
-.custom-modal{
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
   border: solid;
 }
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  height: 90%;
+}
+
+h2{
+  text-align: center;
+}
+
+.conteudo{
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.modal-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  height: 55px;
+}
+
+.botao{
+  width: 150px;
+}
+
+.confirmar{
+  width: 200px;
+}
+

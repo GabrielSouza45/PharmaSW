@@ -32,7 +32,7 @@ export class PaginaProdutosComponent implements OnInit{
     });
 
 
-    httpClient.post<any[]>("http://localhost:8080/produto-controle/listar-produtos", null)
+    httpClient.post<any[]>("http://localhost:8080/usuario-controle/listar-todos-usuarios", null)
     .subscribe(data => {
       this.produtos = data;
       console.log(data);

@@ -44,6 +44,7 @@ public class VerificaAdministradorPadrao implements CommandLineRunner {
         usuario.setNome(nomePadrao);
         usuario.setEmail(emailPadrao);
         usuario.setSenha(senhaEncriptada);
+        usuario.setCpf(80999626051L);
 
         usuario.setStatus(Status.ATIVO);
         usuario.setGrupo(Grupo.ADMINISTRADOR);

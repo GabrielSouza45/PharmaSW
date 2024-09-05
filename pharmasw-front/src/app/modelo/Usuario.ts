@@ -16,4 +16,18 @@ export class Usuario {
   dataAlt: Date;
   dataFim: Date;
 
+  constructor(
+    nome: string,
+    email: string,
+    senha: string,
+    cpf: number,
+    grupo: Grupo
+  ) {
+    this.nome = nome;
+    this.email = email;
+    this.senha = senha;
+    this.cpf = cpf;
+    this.grupo = grupo
+  }
 }
+

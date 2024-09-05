@@ -4,11 +4,9 @@
   text-align: start;
 
 
-    label{
-        margin-bottom: 10px;
-    }
-
-
+  label {
+    margin-bottom: 10px;
+  }
 
   .input-content {
     width: 100%;
@@ -22,7 +20,6 @@
       justify-content: center;
       background-color: #13426e;
       border-radius: 0 8px 8px 0;
-
     }
 
     input {
@@ -32,6 +29,7 @@
       background-color: rgb(236, 236, 236);
       padding: 5px 0 5px 15px;
       width: 100%;
+
     }
 
     input:focus {

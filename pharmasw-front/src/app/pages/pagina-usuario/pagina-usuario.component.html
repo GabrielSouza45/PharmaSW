@@ -1,21 +1,20 @@
-<app-pagina-inicial-layout (submit)="onSubmit()">
-
-  <form superior [formGroup]="usuariosForm">
+<app-pagina-inicial-layout>
+  <form superior [formGroup]="buscarForm">
     <div class="cabecalho">
       <div class="divisor"></div>
       <!-- Input -->
       <div class="input">
         <app-input-primario
-          formControlName="nomeUsuario"
-          inputName="nomeUsuario"
+          formControlName="nome"
+          inputName="nome"
           type="text"
           placeHolder="Nome do Usuario"
         >
-          <i class="bi bi-search" (click)="onSubmit()"></i>
+          <i class="bi bi-search" (click)="pesquisar()"></i>
         </app-input-primario>
       </div>
       <div class="botao-cadastrar">
-        <i class="bi bi-plus-circle-fill button" (click)="cadastrar()"></i>
+        <i class="bi bi-plus-circle-fill button" (click)="abrirModal()"></i>
       </div>
     </div>
 
@@ -27,10 +26,11 @@
       <div class="form-check">
         <input
           class="form-check-input"
-          type="checkbox"
-          value="ativo"
+          type="radio"
+          value="ATIVO"
           id="statusAtivo"
-          formControlName="statusAtivo"
+          name="status"
+          formControlName="status"
         />
         <label class="form-check-label" for="statusAtivo"> Ativo </label>
       </div>
@@ -38,10 +38,11 @@
       <div class="form-check">
         <input
           class="form-check-input"
-          type="checkbox"
-          value="Inativo"
+          type="radio"
+          value="INATIVO"
           id="statusInativo"
-          formControlName="statusInativo"
+          name="status"
+          formControlName="status"
         />
         <label class="form-check-label" for="statusInativo"> Inativo </label>
       </div>
@@ -51,7 +52,86 @@
   <div inferior>
     <app-table-pagination
       [dados]="usuarios"
-    ></app-table-pagination>
-
+      (alterarEstadoStatus)="mudarStatus($event)"
+      (alterarEstadoCadastro)="abrirModalEdicao($event)"
+    >
+    </app-table-pagination>
   </div>
 </app-pagina-inicial-layout>
+
+<app-modal
+  class="modal-cadastro"
+  *ngIf="modalAberto"
+  (fecharModal)="fecharModal()"
+  (submit)="mudaEstadoClick()"
+  tituloModal="Cadastro - Usuário"
+  textoBotao="Cadastrar"
+>
+  <form class="form-cadastro" [formGroup]="formCadastroUsuario">
+
+    <!-- nome -->
+    <app-input-primario
+      class="input-cadastro nome"
+      [addLabel]="true"
+      label="Nome:"
+      inputName="nome"
+      placeHolder="Gabriel Marco Antônio"
+      formControlName="nome"
+    ></app-input-primario>
+
+    <!-- email -->
+    <app-input-primario
+      class="input-cadastro email"
+      [addLabel]="true"
+      label="Email:"
+      inputName="nome"
+      type="email"
+      placeHolder="usuario@pharmasw.com"
+      formControlName="email"
+    ></app-input-primario>
+
+    <!-- cpf -->
+    <app-input-primario
+      class="input-cadastro cpf"
+      [addLabel]="true"
+      label="Cpf:"
+      inputName="cpf"
+      placeHolder="xxx.xxx.xxx-xx"
+      formControlName="cpf"
+      maxLength="11"
+    ></app-input-primario>
+
+    <!-- grupo -->
+    <app-input-primario
+      class="input-cadastro grupo"
+      [addLabel]="true"
+      label="Grupo:"
+      inputName="grupo"
+      placeHolder="ADMINISTRADOR - ESTOQUISTA"
+      formControlName="grupo"
+    ></app-input-primario>
+
+    <!-- senha -->
+    <app-input-primario
+      type="password"
+      class="input-cadastro"
+      [addLabel]="true"
+      label="Senha:"
+      inputName="senha"
+      placeHolder="******"
+      formControlName="senha"
+    ></app-input-primario>
+
+    <!-- confirmar - senha -->
+    <app-input-primario
+      type="password"
+      class="input-cadastro"
+      [addLabel]="true"
+      label="Confirmar Senha:"
+      inputName="confirmarSenha"
+      placeHolder="******"
+      formControlName="confirmarSenha"
+    ></app-input-primario>
+
+  </form>
+</app-modal>

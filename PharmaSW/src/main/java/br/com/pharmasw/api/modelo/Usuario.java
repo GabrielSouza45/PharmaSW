@@ -110,7 +110,7 @@ public class Usuario implements UserDetails {
 
     public String getDataIniString() {
         if (dataIni == null)
-            return "null";
+            return null;
 
         SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return pattern.format(dataIni);
@@ -126,7 +126,8 @@ public class Usuario implements UserDetails {
 
     public String getDataAltString() {
         if (dataAlt == null)
-            return "null";
+            return null;
+
 
         SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return pattern.format(dataAlt);
@@ -142,7 +143,8 @@ public class Usuario implements UserDetails {
 
     public String getDataFimString() {
         if (dataFim == null)
-            return "null";
+            return null;
+
 
         SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return pattern.format(dataFim);

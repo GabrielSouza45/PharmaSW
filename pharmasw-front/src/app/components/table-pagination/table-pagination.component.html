@@ -5,12 +5,8 @@
         <th scope="col" *ngFor="let coluna of colunas">
           {{ coluna != "id" ? coluna : "#" }}
         </th>
-        <th *ngIf="dados">
-          Editar
-        </th>
-        <th *ngIf="dados">
-          Ativar / Inativar
-        </th>
+        <th *ngIf="dados">Editar</th>
+        <th *ngIf="dados">Ativar / Inativar</th>
       </tr>
     </thead>
     <tbody>
@@ -18,23 +14,29 @@
         <td *ngFor="let coluna of colunas">
           {{ item[coluna] == null ? "" : item[coluna] }}
         </td>
-        <td *ngIf="dados">
-          <i class="bi bi-pencil-square"></i>
+        <td>
+          <i
+            (click)="alterarCadastro(item)"
+            *ngIf="item.email != null"
+            class="bi bi-pencil-square"
+          ></i>
         </td>
-        <td *ngIf="dados">
-          <i *ngIf="item.status == 'ATIVO'" class="bi bi-x-circle-fill" ></i>
-          <i *ngIf="item.status == 'INATIVO'" class="bi bi-person-plus-fill"></i>
+        <td>
+          <i
+            (click)="alterarStatus(item.id)"
+            [ngClass]="{
+              'bi bi-x-circle-fill': item.status == 'ATIVO',
+              'bi bi-person-plus-fill': item.status == 'INATIVO'
+            }"
+          ></i>
         </td>
       </tr>
-    <!-- Adicione linhas vazias para preencher a tabela -->
-    <tr *ngFor="let i of [].constructor(10 - dados.length)">
-      <td *ngFor="let coluna of colunas">
-      </td>
-      <td>
-      </td>
-      <td>
-      </td>
-    </tr>
+      <!-- Adicione linhas vazias para preencher a tabela -->
+      <tr *ngFor="let i of [].constructor(10 - dados.length)">
+        <td *ngFor="let coluna of colunas"></td>
+        <td></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
 </div>

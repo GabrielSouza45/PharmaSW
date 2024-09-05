@@ -1,4 +1,5 @@
-<app-pagina-inicial-layout (submit)="onSubmit()">
+<main>
+  <app-pagina-inicial-layout (submit)="onSubmit()">
 
     <form superior [formGroup]="produtosForm">
       <div class="cabecalho">
@@ -48,10 +49,13 @@
       </div>
     </form>
 
-    <div inferior>
+    <div class="inferior" inferior>
       <app-table-pagination
         [dados]="produtos"
       ></app-table-pagination>
 
     </div>
 </app-pagina-inicial-layout>
+
+</main>
+

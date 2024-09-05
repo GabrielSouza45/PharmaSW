@@ -32,8 +32,9 @@ public class AutenticacaoControle {
 
         String nome = ((Usuario) auth.getPrincipal()).getNome();
         Grupo grupo = ((Usuario) auth.getPrincipal()).getGrupo();
+        Long id = ((Usuario) auth.getPrincipal()).getId();
 
-        return ResponseEntity.ok(new RetornoAuthDTO(token, nome, grupo));
+        return ResponseEntity.ok(new RetornoAuthDTO(token, nome, grupo, id));
 
     }
 }

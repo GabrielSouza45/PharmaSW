@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.service;
 
+import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Retorno.RetornoUsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,20 +23,23 @@ public class UsuarioServico {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
-    public List<Usuario> listarTodosUsuarios() {
-        return usuarioRepositorio.findAll();
+    public List<Usuario> listarUsuarios(Filtros filtros) {
+        return usuarioRepositorio.getByNomeOrStatus(
+                filtros.getNome(),
+                filtros.getStatus() == null ? null : filtros.getStatus().toString()
+        );
     }
 
     //  CADASTRAR USUÁRIO
     public ResponseEntity<?> cadastrar(Usuario usuario) {
 
         // Verificar se o email já existe
-        if (usuarioRepositorio.findUsuarioByEmailAndStatus(usuario.getEmail(), Status.ATIVO) != null){
+        if (usuarioRepositorio.findUsuarioByEmailAndStatus(usuario.getEmail(), Status.ATIVO) != null) {
             return new ResponseEntity<>("Email já existe!", HttpStatus.UNAUTHORIZED);
         }
 
         // Verificar se o CPF já existe
-        if (usuarioRepositorio.findByCpfAndStatus(usuario.getCpf(), Status.ATIVO) != null){
+        if (usuarioRepositorio.findByCpfAndStatus(usuario.getCpf(), Status.ATIVO) != null) {
             return new ResponseEntity<>("CPF já cadastrado!", HttpStatus.UNAUTHORIZED);
         }
 
@@ -51,7 +56,7 @@ public class UsuarioServico {
         Usuario usuarioSalvo = usuarioRepositorio.save(usuario);
         RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO(usuarioSalvo);
 
-        return new ResponseEntity<> (usuarioDTO, HttpStatus.OK);
+        return new ResponseEntity<>(usuarioDTO, HttpStatus.CREATED);
     }
 
     //  ALTERAR USUÁRIO
@@ -67,9 +72,9 @@ public class UsuarioServico {
             senhaEncriptada = new BCryptPasswordEncoder().encode(usuarioRequest.getSenha());
         }
 
-        usuario.setNome(   usuarioRequest.getNome()  != null ? usuarioRequest.getNome()  : usuario.getNome());
-        usuario.setCpf(    usuarioRequest.getCpf()   != null ? usuarioRequest.getCpf()   : usuario.getCpf());
-        usuario.setSenha(  senhaEncriptada.isEmpty() ? usuario.getSenha() : senhaEncriptada);
+        usuario.setNome(usuarioRequest.getNome() != null ? usuarioRequest.getNome() : usuario.getNome());
+        usuario.setCpf(usuarioRequest.getCpf() != null ? usuarioRequest.getCpf() : usuario.getCpf());
+        usuario.setSenha(senhaEncriptada.isEmpty() ? usuario.getSenha() : senhaEncriptada);
         usuario.setDataAlt(DataHelper.getDataHora());
 
         Usuario retorno = usuarioRepositorio.save(usuario);
@@ -88,11 +93,34 @@ public class UsuarioServico {
         }
 
         Status status = usuario.getStatus();
+        if (status == Status.ATIVO)
+            usuario.setDataFim(DataHelper.getDataHora());
+        else
+            usuario.setDataAlt(DataHelper.getDataHora());
+
         usuario.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
-        usuario.setDataAlt(DataHelper.getDataHora());
         Usuario usuarioAtualizado = usuarioRepositorio.save(usuario);
 
-        return new ResponseEntity<>(usuarioAtualizado, HttpStatus.OK);
+        return new ResponseEntity<>(new RetornoUsuarioDTO(usuarioAtualizado), HttpStatus.OK);
+    }
+
+
+    private List<RetornoUsuarioDTO> constroiRetornoUsuarioDTO(List<Usuario> usuarios) {
+
+        List<RetornoUsuarioDTO> retorno = new ArrayList<>();
+
+        if (usuarios.isEmpty()) {
+            usuarios.add(new Usuario());
+            retorno.add(new RetornoUsuarioDTO(usuarios.getFirst()));
+            return retorno;
         }
 
+        for (Usuario usuario : usuarios) {
+            retorno.add(new RetornoUsuarioDTO(usuario));
+        }
+
+        return retorno;
     }
+}
+
+

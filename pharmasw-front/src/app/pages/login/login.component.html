@@ -1,33 +1,27 @@
-<app-login-layout
-    titulo="Login"
-    textoBtnPrimario="Login"
-    (submit)="submit()"
->
-
-<form [formGroup]="loginForm">
+<app-login-layout titulo="Login" textoBtnPrimario="Login" (submit)="submit()">
+  <form [formGroup]="loginForm">
     <app-input-primario
-        formControlName="email"
-        inputName="email"
-        type="email"
-        [addLabel]="true"
-        label="Login"
-        placeHolder="exemple@pharmasw.com"
+      formControlName="email"
+      inputName="email"
+      type="email"
+      [addLabel]="true"
+      label="Login"
+      placeHolder="exemple@pharmasw.com"
     >
-        <i class="bi bi-envelope"></i>
+      <i class="bi bi-envelope"></i>
     </app-input-primario>
 
     <app-input-primario
-        formControlName="senha"
-        inputName="senha"
-        type="password"
-        [addLabel]="true"
-        label="Senha"
-        placeHolder="senha"
+      formControlName="senha"
+      inputName="senha"
+      type="password"
+      [addLabel]="true"
+      label="Senha"
+      placeHolder="senha"
     >
-        <i class="bi bi-lock"></i>
+      <i class="bi bi-lock"></i>
     </app-input-primario>
 
     <span>Esqueceu a senha?</span>
-</form>
-
+  </form>
 </app-login-layout>

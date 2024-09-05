@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.controle;
 
+import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Retorno.RetornoUsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.service.UsuarioServico;
@@ -22,12 +23,12 @@ public class UsuarioControle {
     @Autowired
     private UsuarioServico usuarioServico;
  
-     @PostMapping("/listar-todos-usuarios")
+     @PostMapping("/listar")
      @CrossOrigin(origins = "*", allowedHeaders = "*")
-     public ResponseEntity<?> listarTodosUsuarios() {
+     public ResponseEntity<?> listarUsuarios(@RequestBody Filtros filtros) {
 
          //Chamando ativos e inativos
-         List<Usuario>usuariosGeral = usuarioServico.listarTodosUsuarios();
+         List<Usuario>usuariosGeral = usuarioServico.listarUsuarios(filtros);
 
          return new ResponseEntity<>(constroiRetornoUsuarioDTO(usuariosGeral), HttpStatus.OK);
      }
@@ -65,9 +66,9 @@ public class UsuarioControle {
         return usuarioServico.cadastrar(usuario);
     }
 
-
+    @PutMapping("/editar")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> alterarUsuario(Usuario usuario) {
+    public ResponseEntity<?> alterarUsuario(@RequestBody  Usuario usuario) {
         if (usuario.getEmail() == null)
             return new ResponseEntity<>("Email é obrigatório!", HttpStatus.BAD_REQUEST);
 
@@ -77,7 +78,7 @@ public class UsuarioControle {
     @PutMapping("/mudar-status")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> alterarStatusUsuario(@RequestBody Usuario usuario) {
-
+        System.out.println(usuario.getId());
         if (usuario.getId() == null) {
             return ResponseEntity.badRequest().body("Id não pode ser null!");
         }
