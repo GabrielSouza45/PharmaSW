@@ -7,7 +7,9 @@ import br.com.pharmasw.api.service.ProdutoServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -41,4 +43,19 @@ public class ProdutoControle {
         return produtoServico.alterarStatusProduto(produto);
     }
 
+    @PostMapping("/cadastrarProduto")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> cadastrarProduto(@RequestBody Produto produto, MultipartFile file){
+        if (
+                produto.getNome() == null
+                || produto.getNome().isBlank()
+                || produto.getAvaliacao() == 0
+                || produto.getDescricao() == null || produto.getDescricao().isBlank()
+                || produto.getValor() == null
+                || produto.getQtd() == 0)
+            return ResponseEntity.badRequest().body("Todos os campos obrigatórios devem ser preenchidos.");
+
+        return  produtoServico.cadastrarProduto(produto, file);
+    }
 }

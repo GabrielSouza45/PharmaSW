@@ -26,9 +26,11 @@ public class Produto {
 
 
     private String nome;
+    private double avaliacao;
     private String categoria;
+    private String descricao;
     private Double valor;
-    private Double peso;
+    private int qtd;
 
 
     public Produto() {
@@ -85,15 +87,28 @@ public class Produto {
         this.valor = valor;
     }
 
-
-    public Double getPeso() {
-        return peso;
+    public int getQtd() {
+        return qtd;
     }
 
+    public void setQtd(int qtd) {
+        this.qtd = qtd;
+    }
 
-    public void setPeso(Double peso) {
-        this.peso = peso;
-    
+    public double getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(double avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Date getDataIni() {
