@@ -11,10 +11,7 @@ public record RetornoUsuarioDTO(
         String email,
         Long cpf,
         Grupo grupo,
-        Status status,
-        String dataIni,
-        String dataAlt,
-        String dataFim
+        Status status
 ) {
     public RetornoUsuarioDTO(Usuario usuario) {
         this(usuario.getId(),
@@ -22,10 +19,7 @@ public record RetornoUsuarioDTO(
                 usuario.getEmail(),
                 usuario.getCpf(),
                 usuario.getGrupo(),
-                usuario.getStatus(),
-                usuario.getDataIniString(),
-                usuario.getDataAltString(),
-                usuario.getDataFimString()
+                usuario.getStatus()
         );
     }
 

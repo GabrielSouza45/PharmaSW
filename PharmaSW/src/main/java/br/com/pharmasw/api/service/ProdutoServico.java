@@ -56,7 +56,6 @@ public class ProdutoServico {
 
         Status status = produto.getStatus();
         produto.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
-        produto.setDataAlt(DataHelper.getDataHora());
         Produto produtoAtualizado = produtoRepositorio.save(produto);
 
         return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
