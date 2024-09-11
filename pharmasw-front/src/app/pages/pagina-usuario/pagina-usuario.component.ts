@@ -34,7 +34,6 @@ export class PaginaUsuarioComponent {
   modalAberto: boolean = false;
   formCadastroUsuario: FormGroup;
   private filtros: Filtros;
-  private usuario: Usuario;
   clickCadastro: boolean = true;
   usuarioLogado: boolean = false;
 
@@ -88,6 +87,7 @@ export class PaginaUsuarioComponent {
 
   // CADASTRAR
   cadastrar() {
+
     console.log(this.formCadastroUsuario.value);
 
     if (!this.senhaValida() || !this.checkFormErrors()) {
@@ -216,14 +216,26 @@ export class PaginaUsuarioComponent {
   }
 
 
-
   abrirModal() {
+    this.formCadastroUsuario.patchValue({
+      nome: null,
+      email: null,
+      senha: null,
+      confimarSenha: null,
+      cpf: null,
+      grupo: null
+    });
+    this.clickCadastro = true;
+    this.usuarioLogado = false;
     this.modalAberto = true;
   }
+
 
   fecharModal() {
     this.modalAberto = false;
   }
+
+
 
   checkFormErrors(): boolean {
     let valido: boolean = true;
