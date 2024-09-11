@@ -22,11 +22,9 @@ public class ProdutoControle {
     // Listagem de todos os produtos (ativos e inativos)
     @PostMapping("/listar-produtos")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<List<Produto>> listarTodosProdutos(Filtros filtros) {
+    public ResponseEntity<?> listarTodosProdutos(@RequestBody Filtros filtros) {
 
-        List<Produto> produtosGeral = produtoServico.listarProdutos(filtros);
-
-        return new ResponseEntity<>(produtosGeral, HttpStatus.OK);
+        return produtoServico.listarProdutos(filtros);
 
     }
 

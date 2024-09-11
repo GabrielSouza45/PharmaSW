@@ -1,12 +1,8 @@
 package br.com.pharmasw.api.controle;
 
 import br.com.pharmasw.api.modelo.Filtros;
-import br.com.pharmasw.api.modelo.Retorno.RetornoUsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.service.UsuarioServico;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

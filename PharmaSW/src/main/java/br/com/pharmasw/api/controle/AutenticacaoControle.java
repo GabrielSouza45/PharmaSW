@@ -1,7 +1,7 @@
 package br.com.pharmasw.api.controle;
 
 import br.com.pharmasw.api.infra.security.TokenService;
-import br.com.pharmasw.api.modelo.Retorno.RetornoAuthDTO;
+import br.com.pharmasw.api.modelo.Retorno.AuthDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Grupo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class AutenticacaoControle {
         Grupo grupo = ((Usuario) auth.getPrincipal()).getGrupo();
         Long id = ((Usuario) auth.getPrincipal()).getId();
 
-        return ResponseEntity.ok(new RetornoAuthDTO(token, nome, grupo, id));
+        return ResponseEntity.ok(new AuthDTO(token, nome, grupo, id));
 
     }
 }

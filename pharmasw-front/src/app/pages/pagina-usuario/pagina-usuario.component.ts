@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -7,11 +8,9 @@ import { ModalComponent } from '../../components/modal/modal.component';
 import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
 import { TablePaginationComponent } from '../../components/table-pagination/table-pagination.component';
 import { cpfValidator } from '../../infra/validators/cpf-validator';
-import { passwordMatchValidator } from '../../infra/validators/senha-validator';
 import { Filtros } from '../../modelo/Filtros';
-import { UsuarioService } from '../../services/usuario/usuario.service';
+import { CrudService } from '../../services/crud-service.service';
 import { Usuario } from './../../modelo/Usuario';
-import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-pagina-usuario',
@@ -28,7 +27,7 @@ import { HttpResponse } from '@angular/common/http';
   styleUrl: './pagina-usuario.component.css'
 })
 
-export class PaginaUsuarioComponent {
+export class PaginaUsuarioComponent extends CrudService<Usuario>{
   buscarForm!: FormGroup;
   usuarios: any[] = [];
   modalAberto: boolean = false;
@@ -37,9 +36,11 @@ export class PaginaUsuarioComponent {
   clickCadastro: boolean = true;
   usuarioLogado: boolean = false;
 
-  constructor(private usuarioService: UsuarioService,
-    private toastrService: ToastrService
+  constructor(
+    private toastrService: ToastrService,
+    private http: HttpClient
   ) {
+    super(http, "/usuario-controle");
 
     this.buscarForm = new FormGroup({
       nome: new FormControl(''),
@@ -76,11 +77,9 @@ export class PaginaUsuarioComponent {
     this.filtros.nome = this.buscarForm.value.nome || null,
       this.filtros.status = this.buscarForm.value.status || null,
 
-      this.usuarioService.listar(this.filtros)
+      this.listar(this.filtros, "/listar")
         .subscribe((response: any) => {
           this.usuarios = response.body;
-          console.log(response.body);
-
         });
 
     const radios = document.querySelectorAll('input[name="status"]');
@@ -98,7 +97,7 @@ export class PaginaUsuarioComponent {
       return;
     }
 
-    this.usuarioService.cadastrar(this.getUsuario()).subscribe({
+    this.adicionar(this.getUsuario(), "/cadastrar").subscribe({
       next: (response: HttpResponse<any>) => {
         const statusCode = response.status;
 
@@ -131,7 +130,7 @@ export class PaginaUsuarioComponent {
     this.filtros = new Filtros();
     this.filtros.id = id;
 
-    this.usuarioService.mudarStatus(this.filtros).subscribe({
+    this.editarStatus(this.filtros, "/mudar-status").subscribe({
       next: (response: HttpResponse<any>) => {
         const statusCode = response.status;
 
@@ -194,7 +193,7 @@ export class PaginaUsuarioComponent {
         return;
     }
 
-    this.usuarioService.editar(this.getUsuario()).subscribe({
+    this.editar(this.getUsuario(), "/editar").subscribe({
       next: (response: HttpResponse<any>) => {
         const statusCode = response.status;
 
