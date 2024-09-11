@@ -48,7 +48,6 @@ public class VerificaAdministradorPadrao implements CommandLineRunner {
 
         usuario.setStatus(Status.ATIVO);
         usuario.setGrupo(Grupo.ADMINISTRADOR);
-        usuario.setDataIni(DataHelper.getDataHora());
 
         usuarioRepositorio.save(usuario);
     }

@@ -26,12 +26,6 @@ public class Usuario implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-    @Column(name = "data_ini")
-    private Date dataIni;
-    @Column(name = "data_alt")
-    private Date dataAlt;
-    @Column(name = "data_fim")
-    private Date dataFim;
 
     //ATRIBUTOS DA CLASSE
     private String nome;
@@ -44,14 +38,13 @@ public class Usuario implements UserDetails {
     public Usuario() {
     }
 
-    public Usuario(String nome, String email, String senha, Long cpf, Grupo grupo, Status status, Date dataIni) {
+    public Usuario(String nome, String email, String senha, Long cpf, Grupo grupo, Status status) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.cpf = cpf;
         this.grupo = grupo;
         this.status = status;
-        this.dataIni = dataIni;
     }
 
     @Override
@@ -106,56 +99,6 @@ public class Usuario implements UserDetails {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getDataIniString() {
-        if (dataIni == null)
-            return null;
-
-        SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return pattern.format(dataIni);
-    }
-
-    public Date getDataIni() {
-        return dataIni;
-    }
-
-    public void setDataIni(Date dataIni) {
-        this.dataIni = dataIni;
-    }
-
-    public String getDataAltString() {
-        if (dataAlt == null)
-            return null;
-
-
-        SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return pattern.format(dataAlt);
-    }
-
-    public Date getDataAlt() {
-        return dataAlt;
-    }
-
-    public void setDataAlt(Date dataAlt) {
-        this.dataAlt = dataAlt;
-    }
-
-    public String getDataFimString() {
-        if (dataFim == null)
-            return null;
-
-
-        SimpleDateFormat pattern = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return pattern.format(dataFim);
-    }
-
-    public Date getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
     }
 
     public String getNome() {

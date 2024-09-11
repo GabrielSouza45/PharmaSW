@@ -5,7 +5,6 @@ import br.com.pharmasw.api.modelo.Retorno.RetornoUsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
-import br.com.pharmasw.api.service.helpers.DataHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -49,9 +47,6 @@ public class UsuarioServico {
         // Definir o usuário como ativo
         usuario.setStatus(Status.ATIVO);
 
-        //Data da criação do cadastro
-        usuario.setDataIni(DataHelper.getDataHora());
-
         // Salvar o usuário no banco de dados
         Usuario usuarioSalvo = usuarioRepositorio.save(usuario);
         RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO(usuarioSalvo);
@@ -75,7 +70,6 @@ public class UsuarioServico {
         usuario.setNome(usuarioRequest.getNome() != null ? usuarioRequest.getNome() : usuario.getNome());
         usuario.setCpf(usuarioRequest.getCpf() != null ? usuarioRequest.getCpf() : usuario.getCpf());
         usuario.setSenha(senhaEncriptada.isEmpty() ? usuario.getSenha() : senhaEncriptada);
-        usuario.setDataAlt(DataHelper.getDataHora());
 
         Usuario retorno = usuarioRepositorio.save(usuario);
 
@@ -93,10 +87,6 @@ public class UsuarioServico {
         }
 
         Status status = usuario.getStatus();
-        if (status == Status.ATIVO)
-            usuario.setDataFim(DataHelper.getDataHora());
-        else
-            usuario.setDataAlt(DataHelper.getDataHora());
 
         usuario.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
         Usuario usuarioAtualizado = usuarioRepositorio.save(usuario);

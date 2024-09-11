@@ -1,6 +1,11 @@
 .table-responsive {
+  height: 100%;
   max-width: 100%;
-  overflow-y: scroll;
+}
+
+.tabela{
+  width: 100%;
+  overflow: scroll;
 }
 
 table {
@@ -26,3 +31,22 @@ i:hover{
   color: var(--cor-secundaria);
 }
 
+.paginacao{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+
+@media (min-width: 1366px) {
+  .tabela{
+    height: 55vh;
+  }
+}
+
+@media (min-width: 1920px) {
+  .tabela{
+    height: fit-content;
+  }
+}

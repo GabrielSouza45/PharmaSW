@@ -17,13 +17,6 @@ public class Produto {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-    @Column(name = "data_ini")
-    private Date dataIni;
-    @Column(name = "data_alt")
-    private Date dataAlt;
-    @Column(name = "data_fim")
-    private Date dataFim;
-
 
     private String nome;
     private double avaliacao;
@@ -111,27 +104,4 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public Date getDataIni() {
-        return dataIni;
-    }
-
-    public void setDataIni(Date dataIni) {
-        this.dataIni = dataIni;
-    }
-
-    public Date getDataAlt() {
-        return dataAlt;
-    }
-
-    public void setDataAlt(Date dataAlt) {
-        this.dataAlt = dataAlt;
-    }
-
-    public Date getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
-    }
 }
