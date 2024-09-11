@@ -1,6 +1,7 @@
 package br.com.pharmasw.api.service;
 
 import br.com.pharmasw.api.modelo.Filtros;
+import br.com.pharmasw.api.modelo.Retorno.RetornoUsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.service.helpers.DataHelper;
@@ -13,6 +14,7 @@ import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +27,8 @@ public class ProdutoServico {
     private ProdutoRepositorio produtoRepositorio;
 
 
-    //lista todos os produtos
-    public List<Produto> listarProdutosProdutos(Filtros filtros) {
+    //lista os produtos com filtros
+    public List<Produto> listarProdutos(Filtros filtros) {
 
         List<Produto> produtos =
                 produtoRepositorio.findByNomeOrStatus(filtros.getNome(), filtros.getStatus());
@@ -37,8 +39,6 @@ public class ProdutoServico {
 
         return produtos;
     }
-
-
 
 
     //Método cadastrar os produtos
@@ -60,5 +60,6 @@ public class ProdutoServico {
 
         return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
     }
+
 
 }

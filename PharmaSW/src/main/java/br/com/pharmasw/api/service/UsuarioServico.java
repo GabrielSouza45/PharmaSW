@@ -21,12 +21,15 @@ public class UsuarioServico {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
-    public List<Usuario> listarUsuarios(Filtros filtros) {
-        return usuarioRepositorio.getByNomeOrStatus(
+    public ResponseEntity<?> listarUsuarios(Filtros filtros) {
+        List<Usuario> usuarios = usuarioRepositorio.getByNomeOrStatus(
                 filtros.getNome(),
                 filtros.getStatus() == null ? null : filtros.getStatus().toString()
         );
+
+        return new ResponseEntity<>(constroiRetornoUsuarioDTO(usuarios), HttpStatus.OK);
     }
+
 
     //  CADASTRAR USUÁRIO
     public ResponseEntity<?> cadastrar(Usuario usuario) {

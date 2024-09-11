@@ -24,7 +24,7 @@ public class ProdutoControle {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<List<Produto>> listarTodosProdutos(Filtros filtros) {
 
-        List<Produto> produtosGeral = produtoServico.listarProdutosProdutos(filtros);
+        List<Produto> produtosGeral = produtoServico.listarProdutos(filtros);
 
         return new ResponseEntity<>(produtosGeral, HttpStatus.OK);
 

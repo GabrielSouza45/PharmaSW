@@ -77,7 +77,11 @@ export class PaginaUsuarioComponent {
       this.filtros.status = this.buscarForm.value.status || null,
 
       this.usuarioService.listar(this.filtros)
-        .subscribe(dados => { this.usuarios = dados });
+        .subscribe((response: any) => {
+          this.usuarios = response.body;
+          console.log(response.body);
+
+        });
 
     const radios = document.querySelectorAll('input[name="status"]');
     radios.forEach(radio => (radio as HTMLInputElement).checked = false);

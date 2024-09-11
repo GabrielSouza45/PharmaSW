@@ -16,9 +16,6 @@ public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
 
     public List<Produto> findAllByStatus(Status status);
 
-    @Override
-    List<Produto> findAll();
-    
     Produto findProdutoByNomeAndStatus(String nome, Status status);
 
     @Query(value = "SELECT preco FROM produto WHERE nome = :nome AND status = 'ATIVO'", nativeQuery = true)
@@ -26,5 +23,12 @@ public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
 
     Optional<Produto> findByNome(String nome);
 
+    @Query(value = "SELECT * " +
+            " FROM produto " +
+            " WHERE (:nome IS NULL OR nome LIKE %:nome%) " +
+            " AND (:status IS NULL OR status = :status) " +
+            " ORDER BY id DESC ", nativeQuery = true)
     List<Produto> findByNomeOrStatus(String nome, Status status);
+
+    Produto findByNomeAndStatus(String nomeProduto, Status status);
 }
