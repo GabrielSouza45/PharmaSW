@@ -1,10 +1,8 @@
 package br.com.pharmasw.api.service;
 
 import br.com.pharmasw.api.modelo.Filtros;
-import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.service.helpers.DataHelper;
-import br.com.pharmasw.api.service.helpers.Upload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +13,10 @@ import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -41,38 +41,61 @@ public class ProdutoServico {
     }
 
     //Método cadastrar os produtos
-    public ResponseEntity<?> cadastrarProduto(Produto produto, MultipartFile imagem){
-        boolean uploadSucesso = Upload.uploadImagem(imagem);
-        if (uploadSucesso){
-            if (produto.getNome() == null || produto.getNome().length() > 200) {
-                return ResponseEntity.badRequest().body("O nome do produto deve ter no máximo 200 caracteres.");
+    public ResponseEntity<?> cadastrarProduto(Produto produto, MultipartFile imagem) {
+        // Validações
+        if (produto.getNome() == null || produto.getNome().length() > 200) {
+            return ResponseEntity.badRequest().body("O nome do produto deve ter no máximo 200 caracteres.");
+        }
+
+        if (produto.getAvaliacao() < 0 || produto.getAvaliacao() > 5) {
+            return ResponseEntity.badRequest().body("A avaliação deve ser entre 0 e 5.");
+        }
+
+        if (produto.getDescricao() != null && produto.getDescricao().length() > 2000) {
+            return ResponseEntity.badRequest().body("A descrição detalhada deve ter no máximo 2000 caracteres.");
+        }
+
+        if (produto.getValor() == null || produto.getValor().doubleValue() < 0) {
+            return ResponseEntity.badRequest().body("O preço do produto não pode ser zero.");
+        }
+
+        if (produto.getQtd() < 0) {
+            return ResponseEntity.badRequest().body("A quantidade de estoque não pode ser menor que zero.");
+        }
+
+        try {
+            // Salva o produto no banco para obter o ID
+            Produto produtoSalvo = produtoRepositorio.save(produto);
+
+            // Diretório onde a imagem será armazenada: ./assets/idDoProduto/
+            String pastaProduto = "./assets/" + produtoSalvo.getId() + "/";
+            File dir = new File(pastaProduto);
+            if (!dir.exists()) {
+                dir.mkdirs();
             }
 
-            if (produto.getAvaliacao() < 0 || produto.getAvaliacao() > 5) {
-                return ResponseEntity.badRequest().body("A avaliação deve ser entre 0 e 5.");
-            }
+            String nomeImagem = System.currentTimeMillis() + "_" + imagem.getOriginalFilename();
+            String caminhoImagem = pastaProduto + nomeImagem;
 
-            if (produto.getDescricao() != null && produto.getDescricao().length() > 2000) {
-                return ResponseEntity.badRequest().body("A descrição detalhada deve ter no máximo 2000 caracteres.");
-            }
+            // Cria o arquivo e armazena a imagem
+            File serverFile = new File(caminhoImagem);
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+            stream.write(imagem.getBytes());
+            stream.close();
 
-            if (produto.getValor() == null || produto.getValor().doubleValue() < 0) {
-                return ResponseEntity.badRequest().body("O preço do produto não pode ser zero!");
-            }
+            produtoSalvo.setCaminhoImagem(caminhoImagem);
 
-            if (produto.getQtd() < 0) {
-                return ResponseEntity.badRequest().body("A quantidade de estoque não pode ser menor que zero");
-            }
+            produtoSalvo.setStatus(Status.ATIVO);
 
-            produto.setStatus(Status.ATIVO);
-            Produto produtoRTO = produtoRepositorio.save(produto);
+            produtoRepositorio.save(produtoSalvo);
 
-            return new ResponseEntity<>(produtoRTO, HttpStatus.CREATED);
-        }else{
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro");
+            return new ResponseEntity<>(produtoSalvo, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar o produto e a imagem.");
         }
     }
-
 
 
     public ResponseEntity<?> alterarStatusProduto(Produto produtorequest) {
