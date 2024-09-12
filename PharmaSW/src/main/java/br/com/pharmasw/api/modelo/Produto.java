@@ -3,8 +3,6 @@ package br.com.pharmasw.api.modelo;
 import br.com.pharmasw.api.modelo.enums.Status;
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 
 @Entity
 @Table(name = "produto")
@@ -23,6 +21,9 @@ public class Produto {
     private Double valor;
     private Double peso;
 
+    @Transient
+    private String imagemPrincipal;
+
 
     public Produto() {
 
@@ -32,11 +33,6 @@ public class Produto {
     public Long getId() {
         return id;
     }
-
-
-   // public void setId(Long id) {
-  //      this.id = id;
- //   }
 
 
     public Status getStatus() {
@@ -86,7 +82,13 @@ public class Produto {
 
     public void setPeso(Double peso) {
         this.peso = peso;
-
     }
 
+    public String getImagemPrincipal() {
+        return imagemPrincipal;
+    }
+
+    public void setImagemPrincipal(String imagemPricipal) {
+        this.imagemPrincipal = imagemPricipal;
+    }
 }

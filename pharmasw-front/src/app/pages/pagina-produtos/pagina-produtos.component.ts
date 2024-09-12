@@ -94,7 +94,7 @@ console.log(sessionStorage.getItem("grupo"));
   // MUDAR STATUS
   mudarStatus(event: { id: number }): void {}
 
-  // EDITAR USUARIO
+  // EDITAR PRODUTO
   alterarCadastro() { }
 
   // CONTROLE DO MODAL DE CADASTRO/EDIÇÃO {

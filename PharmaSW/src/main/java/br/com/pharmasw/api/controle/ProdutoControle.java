@@ -4,16 +4,24 @@ import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.service.ProdutoServico;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/produto-controle")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@PreAuthorize("hasRole('ADMIN')")
 public class ProdutoControle {
 
     @Autowired
@@ -28,6 +36,29 @@ public class ProdutoControle {
 
     }
 
+
+    // CADASTRAR
+    @PostMapping(value = "/cadastrar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> CadastrarProdutos(
+            @RequestPart("produto") String jsonProduto,
+            @RequestPart("imagens") List<MultipartFile> imagens) {
+        if (jsonProduto.isBlank())
+            return new ResponseEntity<>("Produto não pode ser null.", HttpStatus.BAD_REQUEST);
+        if (imagens.isEmpty())
+            return new ResponseEntity<>("Imagens são obrigatórias.", HttpStatus.BAD_REQUEST);
+
+        Produto produto = null;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            produto = objectMapper.readValue(jsonProduto, Produto.class);
+        } catch (JsonProcessingException e){
+            return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return produtoServico.cadastrarProduto(produto, imagens);
+    }
+
+
     @PutMapping("/mudar-status")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> alterarStatusUsuario(@RequestBody Produto produto) {
@@ -38,5 +69,6 @@ public class ProdutoControle {
 
         return produtoServico.alterarStatusProduto(produto);
     }
+
 
 }
