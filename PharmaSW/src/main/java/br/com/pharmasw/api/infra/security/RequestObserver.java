@@ -34,15 +34,8 @@ public class RequestObserver extends OncePerRequestFilter {
 
         // Log do corpo da requisição
         String requestBody = getRequestBody(wrappedRequest);
-        String body = requestBody;
 
-        try {
-            JSONObject json = new JSONObject(requestBody);
-            body =  json.toString();
-        } catch (Exception e) {
-            System.out.println("Não foi possível converter o JSON.\n" + e.getLocalizedMessage());
-        }
-        System.out.println("request -> " + body);
+        System.out.println("request -> " + requestBody);
 
         // Log do corpo da resposta (opcional)
         String responseBody = getResponseBody(wrappedResponse);

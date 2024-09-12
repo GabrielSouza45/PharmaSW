@@ -29,7 +29,8 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
     @Query(value = "SELECT * " +
             " FROM usuario " +
             " WHERE (:nome IS NULL OR nome LIKE %:nome%) " +
-            " AND (:status IS NULL OR status = :status)", nativeQuery = true)
+            " AND (:status IS NULL OR status = :status) " +
+            " ORDER BY id DESC ", nativeQuery = true)
     List<Usuario> getByNomeOrStatus(@Param("nome") String nome,
                                      @Param("status") String status);
 }

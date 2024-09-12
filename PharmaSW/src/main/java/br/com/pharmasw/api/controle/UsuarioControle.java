@@ -1,12 +1,8 @@
 package br.com.pharmasw.api.controle;
 
 import br.com.pharmasw.api.modelo.Filtros;
-import br.com.pharmasw.api.modelo.Retorno.RetornoUsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.service.UsuarioServico;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,29 +23,10 @@ public class UsuarioControle {
      @CrossOrigin(origins = "*", allowedHeaders = "*")
      public ResponseEntity<?> listarUsuarios(@RequestBody Filtros filtros) {
 
-         //Chamando ativos e inativos
-         List<Usuario>usuariosGeral = usuarioServico.listarUsuarios(filtros);
+         return new ResponseEntity<>(usuarioServico.listarUsuarios(filtros), HttpStatus.OK);
 
-         return new ResponseEntity<>(constroiRetornoUsuarioDTO(usuariosGeral), HttpStatus.OK);
      }
-
-
-    private List<RetornoUsuarioDTO> constroiRetornoUsuarioDTO(List<Usuario> usuarios) {
-
-        List<RetornoUsuarioDTO> retorno = new ArrayList<>();
-
-        if (usuarios.isEmpty()) {
-            usuarios.add(new Usuario());
-            retorno.add(new RetornoUsuarioDTO(usuarios.getFirst()));
-            return retorno;
-        }
-
-        for (Usuario usuario : usuarios) {
-            retorno.add(new RetornoUsuarioDTO(usuario));
-        }
-
-        return retorno;
-    }
+     
 
     @PostMapping("/cadastrar")
     @CrossOrigin(origins = "*", allowedHeaders = "*")

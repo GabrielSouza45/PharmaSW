@@ -1,6 +1,4 @@
-<main>
 <app-pagina-inicial-layout>
-  
   <form superior [formGroup]="buscarForm">
     <div class="cabecalho">
       <div class="divisor"></div>
@@ -16,7 +14,11 @@
         </app-input-primario>
       </div>
       <div class="botao-cadastrar">
-        <i class="bi bi-plus-circle-fill button" (click)="abrirModal()"></i>
+        <i
+          class="bi bi-plus-circle-fill button"
+          (click)="abrirModal()"
+          *ngIf="administrador"
+        ></i>
       </div>
     </div>
 
@@ -61,51 +63,16 @@
   </div>
 </app-pagina-inicial-layout>
 
-<app-modal class="modal-cadastro" *ngIf="modalAberto" (fecharModal)="fecharModal()" (submit)="mudaEstadoClick()" tituloModal="Cadastro - Produto" textoBotao="Cadastrar">
-  <form class="form-cadastro" [formGroup]="formCadastroProduto">
+<app-modal
+  class="modal-cadastro"
+  *ngIf="modalAberto"
+  (fecharModal)="fecharModal()"
+  (submit)="mudaEstadoClick()"
+  tituloModal="Cadastro - Produto"
+  textoBotao="Cadastrar"
+>
 
-    <!-- preço -->
-    <app-input-primario
-      class="input-cadastro preco"
-      [addLabel]="true"
-      label="Preço:"
-      inputName="preco"
-      type="number"
-      placeHolder="0.00"
-      formControlName="preco"
-    ></app-input-primario>
-
-    <!-- descrição -->
-    <app-input-primario
-      class="input-cadastro descricao"
-      [addLabel]="true"
-      label="Descrição:"
-      inputName="descricao"
-      placeHolder="Descrição do Produto"
-      formControlName="descricao"
-    ></app-input-primario>
-
-    <!-- quantidade -->
-    <app-input-primario
-      class="input-cadastro quantidade"
-      [addLabel]="true"
-      label="Quantidade:"
-      inputName="quantidade"
-      type="number"
-      placeHolder="0"
-      formControlName="quantidade"
-    ></app-input-primario>
-
-    <!-- categoria -->
-    <app-input-primario
-      class="input-cadastro categoria"
-      [addLabel]="true"
-      label="Categoria:"
-      inputName="categoria"
-      placeHolder="Categoria do Produto"
-      formControlName="categoria"
-    ></app-input-primario>
-
+  <form class="form-cadastro" [formGroup]="formProduto">
+    <!-- ADICIONAR INPUTS DO FORMULARIO -->
   </form>
 </app-modal>
-</main>

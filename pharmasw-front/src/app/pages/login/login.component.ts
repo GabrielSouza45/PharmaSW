@@ -43,6 +43,8 @@ export class LoginComponent {
       return;
     }
 
+    sessionStorage.clear();
+
     this.authService.login(this.loginForm.value.email, this.loginForm.value.senha)
       .subscribe({
         next: () => {

@@ -1,8 +1,10 @@
 package br.com.pharmasw.api.service.helpers;
 
+import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Grupo;
 import br.com.pharmasw.api.modelo.enums.Status;
+import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,11 +13,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerificaAdministradorPadrao implements CommandLineRunner {
+public class VerificaBancoDadosPadrao implements CommandLineRunner {
 
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+    @Autowired
+    private ProdutoRepositorio produtoRepositorio;
 
     @Value("${USUARIO.EMAIL_PADRAO}")
     private String emailPadrao;
@@ -24,6 +28,8 @@ public class VerificaAdministradorPadrao implements CommandLineRunner {
     @Value("${USUARIO.NOME_PADRAO}")
     private String nomePadrao;
 
+    private final String NOME_PRODUTO = "Ibuprofeno";
+    private final String CATEGORIA_PRODUTO = "Febre e Dor";
 
 
     @Override
@@ -32,6 +38,13 @@ public class VerificaAdministradorPadrao implements CommandLineRunner {
         if (usuario == null) {
             criaAdministradorPadrao();
             System.out.println("Primeiro usuário criado!");
+
+        }
+
+        Produto produto = produtoRepositorio.findByNomeAndStatus(NOME_PRODUTO, Status.ATIVO);
+        if (produto == null) {
+            criaProdutoPadrao();
+            System.out.println("Primeiro produto criado!");
 
         }
     }
@@ -52,4 +65,16 @@ public class VerificaAdministradorPadrao implements CommandLineRunner {
         usuarioRepositorio.save(usuario);
     }
 
+
+    private void criaProdutoPadrao(){
+        Produto produto = new Produto();
+
+        produto.setNome(NOME_PRODUTO);
+        produto.setCategoria(CATEGORIA_PRODUTO);
+        produto.setPeso(150.0);
+        produto.setValor(25.0);
+        produto.setStatus(Status.ATIVO);
+
+        produtoRepositorio.save(produto);
+    }
 }

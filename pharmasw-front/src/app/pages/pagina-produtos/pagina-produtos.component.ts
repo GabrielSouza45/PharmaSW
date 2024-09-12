@@ -1,3 +1,4 @@
+import { CrudService } from './../../services/crud-service.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,9 +8,8 @@ import { ModalComponent } from '../../components/modal/modal.component';
 import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
 import { TablePaginationComponent } from '../../components/table-pagination/table-pagination.component';
 import { Filtros } from '../../modelo/Filtros';
-import { ProdutoService } from '../../services/produto/produto.service'; // Serviçinho pra produto feito
-import { Produto } from '../../modelo/Produto'; // Modelo Produto, quero checar se serão esses atributos mesmo
-import { HttpResponse } from '@angular/common/http';
+import { Produto } from '../../modelo/Produto';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-pagina-produtos',
@@ -25,26 +25,30 @@ import { HttpResponse } from '@angular/common/http';
   templateUrl: './pagina-produtos.component.html',
   styleUrl: './pagina-produtos.component.css'
 })
-
-export class PaginaProdutosComponent {
+export class PaginaProdutosComponent extends CrudService<Produto>{
   buscarForm!: FormGroup;
   produtos: any[] = [];
   modalAberto: boolean = false;
-  formCadastroProduto: FormGroup;
+  formProduto: FormGroup;
   private filtros: Filtros;
-  private produto: Produto;
   clickCadastro: boolean = true;
+  usuarioLogado: boolean = false;
+  administrador: boolean = sessionStorage.getItem("grupo") == "ADMINISTRADOR";
 
-  constructor(private produtoService: ProdutoService,
-    private toastrService: ToastrService
+  constructor(
+    private toastrService: ToastrService,
+    private http: HttpClient
   ) {
+console.log(sessionStorage.getItem("grupo"));
+
+    super(http, "/produto-controle");
 
     this.buscarForm = new FormGroup({
       nome: new FormControl(''),
       status: new FormControl('')
     });
 
-    this.formCadastroProduto = new FormGroup({
+    this.formProduto = new FormGroup({
       nome: new FormControl('', [Validators.required]),
       preco: new FormControl('', [Validators.required]),
       descricao: new FormControl('', [Validators.required]),
@@ -57,51 +61,35 @@ export class PaginaProdutosComponent {
 
   getProduto() {
     return new Produto(
-      this.formCadastroProduto.value.preco,
-      this.formCadastroProduto.value.descricao,
-      this.formCadastroProduto.value.quantidade,
-      this.formCadastroProduto.value.categoria
+      this.formProduto.value.preco,
+      this.formProduto.value.descricao,
+      this.formProduto.value.quantidade,
+      this.formProduto.value.categoria
     );
   }
+
 
   // PESQUISAR
   pesquisar() {
     this.filtros = new Filtros();
-    this.filtros.nome = this.buscarForm.value.nome || null;
-    this.filtros.status = this.buscarForm.value.status || null;
+    this.filtros.nome = this.buscarForm.value.nome || null,
+      this.filtros.status = this.buscarForm.value.status || null,
 
-    this.produtoService.listar(this.filtros)
-      .subscribe(dados => { this.produtos = dados });
+      this.listar(this.filtros, "/listar-produtos")
+        .subscribe((response: any) => {
+          this.produtos = response;
+          console.log(response);
+
+        });
 
     const radios = document.querySelectorAll('input[name="status"]');
     radios.forEach(radio => (radio as HTMLInputElement).checked = false);
     this.buscarForm.value.status = null;
   }
 
+
   // CADASTRAR
-  cadastrar() {
-    if (!this.checkFormErrors()) {
-      return;
-    }
-
-    this.produtoService.cadastrar(this.getProduto()).subscribe({
-      next: (response: HttpResponse<any>) => {
-        const statusCode = response.status;
-
-        if (statusCode === 201) {
-          this.toastrService.success("Produto cadastrado com sucesso!");
-          this.modalAberto = false;
-        } else {
-          this.toastrService.warning("Erro inesperado ao cadastrar o produto.");
-        }
-        this.pesquisar();
-      },
-      error: (error) => {
-        console.error("Erro ao cadastrar o produto", error);
-        this.toastrService.error("Erro ao criar o produto. Tente novamente mais tarde.");
-      }
-    });
-  }
+  cadastrar() { }
 
   // MUDAR STATUS
   mudarStatus(event: { id: number }): void {
@@ -110,7 +98,7 @@ export class PaginaProdutosComponent {
     this.filtros = new Filtros();
     this.filtros.id = id;
 
-    this.produtoService.mudarStatus(this.filtros).subscribe({
+    this.editarStatus(this.filtros, "/mudar-status").subscribe({
       next: (response: HttpResponse<any>) => {
         const statusCode = response.status;
 
@@ -131,34 +119,12 @@ export class PaginaProdutosComponent {
   }
 
   // EDITAR PRODUTO
-  mudaEstadoClick(): void {
-    if (this.clickCadastro) {
-      this.cadastrar();
-    } else {
-      this.alterarProduto();
-    }
-  }
-
-  abrirModalEdicao(event: { item: any }): void {
-    const { item } = event;
-
-    this.formCadastroProduto.patchValue({
-      nome: item.nome,
-      preco: item.preco,
-      descricao: item.descricao,
-      quantidade: item.quantidade,
-      categoria: item.categoria
-    });
-    this.modalAberto = true;
-    this.clickCadastro = false;
-  }
-
   alterarProduto() {
     if (!this.checkFormErrors()) {
       return;
     }
 
-    this.produtoService.editar(this.getProduto()).subscribe({
+    this.editar(this.getProduto(), "/editar-produto").subscribe({
       next: (response: HttpResponse<any>) => {
         const statusCode = response.status;
 
@@ -180,8 +146,39 @@ export class PaginaProdutosComponent {
     this.clickCadastro = true;
   }
 
+  // CONTROLE DO MODAL DE CADASTRO/EDIÇÃO {
+  resetaModal(){
+    this.formProduto.patchValue({
+      nome: null,
+      categoria: null,
+      valor: null,
+      peso: null
+    });
+  }
+
+  mudaEstadoClick(): void {
+    if (this.clickCadastro) {
+      this.cadastrar();
+    } else {
+      this.alterarProduto();
+    }
+  }
+
   abrirModal() {
+    this.resetaModal();
+    this.clickCadastro = true;
+    this.usuarioLogado = false;
     this.modalAberto = true;
+  }
+
+  abrirModalEdicao(event: { item: any }): void {
+    const { item } = event;
+    console.log(item);
+
+    this.resetaModal();
+    this.modalAberto = true;
+    this.clickCadastro = false;
+    this.usuarioLogado = (sessionStorage.getItem("id") == item.id.toString())
   }
 
   fecharModal() {
@@ -190,7 +187,7 @@ export class PaginaProdutosComponent {
 
   checkFormErrors(): boolean {
     let valido = true;
-    const controls = this.formCadastroProduto.controls;
+    const controls = this.formProduto.controls;
 
 
 

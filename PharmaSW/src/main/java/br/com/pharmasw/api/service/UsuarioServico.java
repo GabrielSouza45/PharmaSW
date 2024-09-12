@@ -1,7 +1,7 @@
 package br.com.pharmasw.api.service;
 
 import br.com.pharmasw.api.modelo.Filtros;
-import br.com.pharmasw.api.modelo.Retorno.RetornoUsuarioDTO;
+import br.com.pharmasw.api.modelo.Retorno.UsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
@@ -21,12 +21,15 @@ public class UsuarioServico {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
-    public List<Usuario> listarUsuarios(Filtros filtros) {
-        return usuarioRepositorio.getByNomeOrStatus(
+    public ResponseEntity<?> listarUsuarios(Filtros filtros) {
+        List<Usuario> usuarios = usuarioRepositorio.getByNomeOrStatus(
                 filtros.getNome(),
                 filtros.getStatus() == null ? null : filtros.getStatus().toString()
         );
+
+        return new ResponseEntity<>(constroiRetornoUsuarioDTO(usuarios), HttpStatus.OK);
     }
+
 
     //  CADASTRAR USUÁRIO
     public ResponseEntity<?> cadastrar(Usuario usuario) {
@@ -49,7 +52,7 @@ public class UsuarioServico {
 
         // Salvar o usuário no banco de dados
         Usuario usuarioSalvo = usuarioRepositorio.save(usuario);
-        RetornoUsuarioDTO usuarioDTO = new RetornoUsuarioDTO(usuarioSalvo);
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioSalvo);
 
         return new ResponseEntity<>(usuarioDTO, HttpStatus.CREATED);
     }
@@ -91,22 +94,21 @@ public class UsuarioServico {
         usuario.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
         Usuario usuarioAtualizado = usuarioRepositorio.save(usuario);
 
-        return new ResponseEntity<>(new RetornoUsuarioDTO(usuarioAtualizado), HttpStatus.OK);
+        return new ResponseEntity<>(new UsuarioDTO(usuarioAtualizado), HttpStatus.OK);
     }
 
 
-    private List<RetornoUsuarioDTO> constroiRetornoUsuarioDTO(List<Usuario> usuarios) {
+    private List<UsuarioDTO> constroiRetornoUsuarioDTO(List<Usuario> usuarios) {
 
-        List<RetornoUsuarioDTO> retorno = new ArrayList<>();
+        List<UsuarioDTO> retorno = new ArrayList<>();
 
         if (usuarios.isEmpty()) {
-            usuarios.add(new Usuario());
-            retorno.add(new RetornoUsuarioDTO(usuarios.getFirst()));
+            retorno.add(new UsuarioDTO(new Usuario()));
             return retorno;
         }
 
         for (Usuario usuario : usuarios) {
-            retorno.add(new RetornoUsuarioDTO(usuario));
+            retorno.add(new UsuarioDTO(usuario));
         }
 
         return retorno;
