@@ -5,7 +5,7 @@ import br.com.pharmasw.api.modelo.enums.Grupo;
 import br.com.pharmasw.api.modelo.enums.Status;
 
 
-public record RetornoUsuarioDTO(
+public record UsuarioDTO(
         Long id,
         String nome,
         String email,
@@ -13,7 +13,7 @@ public record RetornoUsuarioDTO(
         Grupo grupo,
         Status status
 ) {
-    public RetornoUsuarioDTO(Usuario usuario) {
+    public UsuarioDTO(Usuario usuario) {
         this(usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),

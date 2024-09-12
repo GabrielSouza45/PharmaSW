@@ -9,20 +9,19 @@ export class Produto {
   valor: number; // Valor monetário com 2 casas decimais
   qtd: number; // Quantidade em estoque
   caminhoImagem: string; // Caminho da imagem armazenado
-
-  status: Status; // Status do produto (ativo ou inativo)
+  status: Status;
+  categoria: string;
+  peso: number;
 
   constructor(
     nome: string,
-    avaliacao: number,
-    descricao: string,
+    categoria: string,
     valor: number,
-    qtd: number,
+    peso: number
   ) {
     this.nome = nome;
-    this.avaliacao = avaliacao;
-    this.descricao = descricao;
+    this.categoria = categoria;
     this.valor = valor;
-    this.qtd = qtd;
+    this.peso = peso;
   }
 }
