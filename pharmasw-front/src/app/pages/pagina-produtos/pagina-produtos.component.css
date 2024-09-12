@@ -71,3 +71,41 @@ form {
 }
 
 
+.form-cadastro{
+  padding: 5px;
+  height: 500px;
+  display: grid;
+  grid-template-columns: 45% 45%;
+  gap: 15px;
+  overflow: scroll;
+  border: 1px solid #ddd;
+}
+.input-cadastro{
+  width: 100%;
+}
+
+.preco, .categoria, .descricao, .status{
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+
+
+@media (min-width: 1920px) {
+  .form-cadastro{
+    height: 100%;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 15px;
+    overflow: scroll;
+  }
+}
+
+@media (max-width: 1366px) {
+  .form-cadastro{
+    height: 400px;
+
+  }
+}
+
+

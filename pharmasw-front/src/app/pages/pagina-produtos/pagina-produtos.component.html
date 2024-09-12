@@ -1,61 +1,111 @@
 <main>
-  <app-pagina-inicial-layout (submit)="onSubmit()">
-
-    <form superior [formGroup]="produtosForm">
-      <div class="cabecalho">
-        <div class="divisor"></div>
-        <!-- Input -->
-        <div class="input">
-          <app-input-primario
-            formControlName="nomeProduto"
-            inputName="nomeProduto"
-            type="text"
-            placeHolder="Nome do Produto"
-          >
-            <i class="bi bi-search" (click)="onSubmit()"></i>
-          </app-input-primario>
-        </div>
-        <div class="botao-cadastrar">
-          <i class="bi bi-plus-circle-fill button" (click)="cadastrar()"></i>
-        </div>
+<app-pagina-inicial-layout>
+  
+  <form superior [formGroup]="buscarForm">
+    <div class="cabecalho">
+      <div class="divisor"></div>
+      <!-- Input -->
+      <div class="input">
+        <app-input-primario
+          formControlName="nome"
+          inputName="nome"
+          type="text"
+          placeHolder="Nome do Produto"
+        >
+          <i class="bi bi-search" (click)="pesquisar()"></i>
+        </app-input-primario>
       </div>
-
-      <hr />
-
-      <!-- Filtros -->
-      <h4>Filtros</h4>
-      <div class="filtros">
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value="ativo"
-            id="statusAtivo"
-            formControlName="statusAtivo"
-          />
-          <label class="form-check-label" for="statusAtivo"> Ativo </label>
-        </div>
-
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value="Inativo"
-            id="statusInativo"
-            formControlName="statusInativo"
-          />
-          <label class="form-check-label" for="statusInativo"> Inativo </label>
-        </div>
+      <div class="botao-cadastrar">
+        <i class="bi bi-plus-circle-fill button" (click)="abrirModal()"></i>
       </div>
-    </form>
-
-    <div class="inferior" inferior>
-      <app-table-pagination
-        [dados]="produtos"
-      ></app-table-pagination>
-
     </div>
+
+    <hr />
+
+    <!-- Filtros -->
+    <h4>Filtros</h4>
+    <div class="filtros">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          value="ATIVO"
+          id="statusAtivo"
+          name="status"
+          formControlName="status"
+        />
+        <label class="form-check-label" for="statusAtivo"> Ativo </label>
+      </div>
+
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          value="INATIVO"
+          id="statusInativo"
+          name="status"
+          formControlName="status"
+        />
+        <label class="form-check-label" for="statusInativo"> Inativo </label>
+      </div>
+    </div>
+  </form>
+
+  <div class="inferior" inferior>
+    <app-table-pagination
+      [dados]="produtos"
+      (alterarEstadoStatus)="mudarStatus($event)"
+      (alterarEstadoCadastro)="abrirModalEdicao($event)"
+    >
+    </app-table-pagination>
+  </div>
 </app-pagina-inicial-layout>
 
-</main>
+<app-modal class="modal-cadastro" *ngIf="modalAberto" (fecharModal)="fecharModal()" (submit)="mudaEstadoClick()" tituloModal="Cadastro - Produto" textoBotao="Cadastrar">
+  <form class="form-cadastro" [formGroup]="formCadastroProduto">
 
+    <!-- preço -->
+    <app-input-primario
+      class="input-cadastro preco"
+      [addLabel]="true"
+      label="Preço:"
+      inputName="preco"
+      type="number"
+      placeHolder="0.00"
+      formControlName="preco"
+    ></app-input-primario>
+
+    <!-- descrição -->
+    <app-input-primario
+      class="input-cadastro descricao"
+      [addLabel]="true"
+      label="Descrição:"
+      inputName="descricao"
+      placeHolder="Descrição do Produto"
+      formControlName="descricao"
+    ></app-input-primario>
+
+    <!-- quantidade -->
+    <app-input-primario
+      class="input-cadastro quantidade"
+      [addLabel]="true"
+      label="Quantidade:"
+      inputName="quantidade"
+      type="number"
+      placeHolder="0"
+      formControlName="quantidade"
+    ></app-input-primario>
+
+    <!-- categoria -->
+    <app-input-primario
+      class="input-cadastro categoria"
+      [addLabel]="true"
+      label="Categoria:"
+      inputName="categoria"
+      placeHolder="Categoria do Produto"
+      formControlName="categoria"
+    ></app-input-primario>
+
+  </form>
+</app-modal>
+</main>

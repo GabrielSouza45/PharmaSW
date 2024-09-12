@@ -84,7 +84,7 @@ form {
   width: 100%;
 }
 
-.nome, .email, .cpf, .grupo{
+.preco, .categoria, .descricao, .status{
   grid-column-start: 1;
   grid-column-end: 3;
 }
