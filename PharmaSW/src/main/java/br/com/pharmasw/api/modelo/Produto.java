@@ -19,11 +19,9 @@ public class Produto {
     private Status status;
 
     private String nome;
-    private double avaliacao;
     private String categoria;
-    private String descricao;
     private Double valor;
-    private int qtd;
+    private Double peso;
 
 
     public Produto() {
@@ -36,9 +34,9 @@ public class Produto {
     }
 
 
-   // public void setId(Long id) {
-  //      this.id = id;
- //   }
+    // public void setId(Long id) {
+    //      this.id = id;
+    //   }
 
 
     public Status getStatus() {
@@ -80,28 +78,15 @@ public class Produto {
         this.valor = valor;
     }
 
-    public int getQtd() {
-        return qtd;
+
+    public Double getPeso() {
+        return peso;
     }
 
-    public void setQtd(int qtd) {
-        this.qtd = qtd;
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
+
     }
 
-    public double getAvaliacao() {
-        return avaliacao;
-    }
-
-    public void setAvaliacao(double avaliacao) {
-        this.avaliacao = avaliacao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-    
 }

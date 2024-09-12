@@ -1,17 +1,18 @@
-<app-pagina-inicial-layout>
+<main>
+  <app-pagina-inicial-layout (submit)="onSubmit()">
 
-    <form superior [formGroup]="buscarForm">
+    <form superior [formGroup]="produtosForm">
       <div class="cabecalho">
         <div class="divisor"></div>
         <!-- Input -->
         <div class="input">
           <app-input-primario
-            formControlName="nome"
-            inputName="nome"
+            formControlName="nomeProduto"
+            inputName="nomeProduto"
             type="text"
             placeHolder="Nome do Produto"
           >
-            <i class="bi bi-search" (click)="pesquisar()"></i>
+            <i class="bi bi-search" (click)="onSubmit()"></i>
           </app-input-primario>
         </div>
         <div class="botao-cadastrar">
@@ -35,47 +36,25 @@
           <label class="form-check-label" for="statusAtivo"> Ativo </label>
         </div>
 
-        <!-- Checkbox para Status Inativo -->
         <div class="form-check">
           <input
             class="form-check-input"
             type="checkbox"
+            value="Inativo"
             id="statusInativo"
             formControlName="statusInativo"
           />
-          <label class="form-check-label" for="statusInativo">Inativo</label>
+          <label class="form-check-label" for="statusInativo"> Inativo </label>
         </div>
       </div>
     </form>
 
-    <div inferior>
+    <div class="inferior" inferior>
       <app-table-pagination
         [dados]="produtos"
-        (alterarEstadoStatus)="mudarStatus($event)"
-        (alterarEstadoCadastro)="abrirModalEdicao($event)"
       ></app-table-pagination>
 
     </div>
 </app-pagina-inicial-layout>
 
-<app-modal
-  class="modal-cadastro"
-  *ngIf="modalAberto"
-  (fecharModal)="fecharModal()"
-  (submit)="mudarEstadoClick()"
-  tituloModal="Cadastro - Usuário"
-  textoBotao="Cadastrar"
->
-  <form class="form-cadastro" [formGroup]="produtosForm">
-
-    <!-- nome -->
-    <app-input-primario
-      class="input-cadastro nome"
-      [addLabel]="true"
-      label="Nome:"
-      inputName="nome"
-      placeHolder="Gabriel Marco Antônio"
-      formControlName="nome"
-    ></app-input-primario>
-  </form>
-</app-modal>
+</main>
