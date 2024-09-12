@@ -43,33 +43,4 @@ public class ProdutoControle {
         return produtoServico.alterarStatusProduto(produto);
     }
 
-    @PostMapping("/cadastrarProduto")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> cadastrarProduto(
-            @RequestPart("produto") Produto produto,
-            @RequestPart("file") MultipartFile file) {
-
-        // Verificação de campos obrigatórios do produto
-        if (produto.getNome() == null || produto.getNome().isBlank()
-                || produto.getAvaliacao() == 0
-                || produto.getDescricao() == null || produto.getDescricao().isBlank()
-                || produto.getValor() == null
-                || produto.getQtd() == 0) {
-            return ResponseEntity.badRequest().body("Todos os campos obrigatórios devem ser preenchidos.");
-        }
-
-        if (file == null || file.isEmpty()) {
-            return ResponseEntity.badRequest().body("O arquivo da imagem é obrigatório.");
-        }
-
-        // Chama o upload da imagem
-        try {
-            return produtoServico.cadastrarProduto(produto, file);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao cadastrar produto.");
-        }
-    }
-
-
 }

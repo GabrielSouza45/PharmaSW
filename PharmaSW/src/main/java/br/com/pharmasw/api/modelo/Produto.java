@@ -24,7 +24,6 @@ public class Produto {
     private String descricao;
     private Double valor;
     private int qtd;
-    private String caminhoImagem;
 
 
     public Produto() {
@@ -105,11 +104,4 @@ public class Produto {
         this.descricao = descricao;
     }
     
-    public String getCaminhoImagem() {
-        return caminhoImagem;
-    }
-
-    public void setCaminhoImagem(String caminhoImagem) {
-        this.caminhoImagem = caminhoImagem;
-    }
 }
