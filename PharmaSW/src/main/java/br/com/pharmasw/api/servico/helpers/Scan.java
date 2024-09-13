@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.service.helpers;
+package br.com.pharmasw.api.servico.helpers;
 
 import org.springframework.stereotype.Service;
 

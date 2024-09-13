@@ -1,6 +1,7 @@
 import { Grupo } from "./enums/Grupo";
 import { Status } from "./enums/Status";
 
+
 export class Usuario {
 
   id: number;
@@ -11,7 +12,6 @@ export class Usuario {
 
   grupo: Grupo;
   status: Status;
-
   dataIni: Date;
   dataAlt: Date;
   dataFim: Date;

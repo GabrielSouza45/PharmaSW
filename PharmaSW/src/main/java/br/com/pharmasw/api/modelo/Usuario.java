@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "usuario")
-@Table(name = "usuario")
+@Entity(name = "usuarios")
+@Table(name = "usuarios")
 @EqualsAndHashCode(of = "id")
 public class Usuario implements UserDetails {
 

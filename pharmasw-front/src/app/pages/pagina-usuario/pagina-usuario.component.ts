@@ -11,6 +11,7 @@ import { cpfValidator } from '../../infra/validators/cpf-validator';
 import { Filtros } from '../../modelo/Filtros';
 import { CrudService } from '../../services/crud-service.service';
 import { Usuario } from './../../modelo/Usuario';
+import { Status } from '../../modelo/enums/Status';
 
 @Component({
   selector: 'app-pagina-usuario',
@@ -35,6 +36,22 @@ export class PaginaUsuarioComponent extends CrudService<Usuario>{
   private filtros: Filtros;
   clickCadastro: boolean = true;
   usuarioLogado: boolean = false;
+
+  acoes = [
+    {
+      nome: (item: Usuario) => 'Alterar',
+      icone: (item: Usuario) => 'bi bi-pencil-square',
+      funcao: (item: Usuario) => this.abrirModalEdicao(item),
+    },
+    {
+      nome: (item: Usuario) =>
+        item.status === Status.ATIVO ? "Inativar" : "Ativar",
+      icone: (item: Usuario) =>
+        item.status === Status.ATIVO ? 'bi bi-x-circle-fill' : 'bi bi-person-plus-fill',
+      funcao: (item: Usuario) =>
+        this.mudarStatus(item)
+    },
+  ];
 
   constructor(
     private toastrService: ToastrService,
@@ -120,8 +137,10 @@ export class PaginaUsuarioComponent extends CrudService<Usuario>{
 
 
   // MUDAR STATUS
-  mudarStatus(event: { id: number }): void {
-    const { id } = event;
+  mudarStatus(usuario: Usuario): void {
+
+    let id = usuario.id;
+
     if (sessionStorage.getItem("id") == id.toString()) {
       this.toastrService.warning("Você não pode inativar a si mesmo.");
       return;
@@ -165,21 +184,18 @@ export class PaginaUsuarioComponent extends CrudService<Usuario>{
     }
   }
 
-  abrirModalEdicao(event: { item: any }): void {
-    const { item } = event;
-    console.log(item);
-
+  abrirModalEdicao(usuario: Usuario): void {
     this.formCadastroUsuario.patchValue({
-      nome: item.nome,
-      email: item.email,
+      nome: usuario.nome,
+      email: usuario.email,
       senha: null,
       confimarSenha: null,
-      cpf: item.cpf.toString(),
-      grupo: item.grupo
+      cpf: usuario.cpf.toString(),
+      grupo: usuario.grupo
     });
     this.modalAberto = true;
     this.clickCadastro = false;
-    this.usuarioLogado = (sessionStorage.getItem("id") == item.id.toString())
+    this.usuarioLogado = (sessionStorage.getItem("id") == usuario.id.toString())
   }
 
   alterarCadastro() {

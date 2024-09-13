@@ -2,23 +2,24 @@ package br.com.pharmasw.api.modelo.Retorno;
 
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.enums.Status;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record ProdutoDTO(
         Long id,
         String nome,
-        String categoria,
-        Status status,
+        @JsonProperty("Quantidade Estoque")
+        Integer quantidadeEstoque,
         Double valor,
-        Double peso
+        Status status
 ) {
 
     public ProdutoDTO(Produto produto) {
         this(produto.getId(),
                 produto.getNome(),
-                produto.getCategoria(),
-                produto.getStatus(),
+                produto.getQuantidadeEstoque(),
                 produto.getValor(),
-                produto.getPeso());
+                produto.getStatus()
+        );
     }
 
 }

@@ -5,64 +5,63 @@ import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  private isUsuarioAutenticado = new BehaviorSubject<boolean>(false);
+  private permissaoUsuario = new BehaviorSubject<string | null>(null);
 
-    private isUsuarioAutenticado = new BehaviorSubject<boolean>(false);
-    private permissaoUsuario = new BehaviorSubject<string | null>(null);
+  isAutenticado$ = this.isUsuarioAutenticado.asObservable();
+  permissao = this.permissaoUsuario.asObservable();
 
-    isAutenticado$ = this.isUsuarioAutenticado.asObservable();
-    permissao = this.permissaoUsuario.asObservable();
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private ngZone: NgZone
+  ) {
+    this.checkAutenticacao();
+  }
 
-    constructor(
-        private loginService: LoginService,
-        private router: Router,
-        private ngZone: NgZone
-    ) {
-        this.checkAutenticacao();
+  login(email: string, senha: string) {
+    sessionStorage.clear();
+    return this.loginService.login(email, senha).pipe(
+      tap((response) => {
+        console.log('auth login');
+
+        this.isUsuarioAutenticado.next(true);
+        this.permissaoUsuario.next(response.grupo);
+      })
+    );
+  }
+
+  logout() {
+    sessionStorage.clear();
+    this.isUsuarioAutenticado.next(false);
+    this.permissaoUsuario.next(null);
+    this.ngZone.run(() => {
+      this.router.navigate(['/login']);
+    });
+  }
+
+  checkAutenticacao() {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      this.isUsuarioAutenticado.next(true);
+      this.permissaoUsuario.next(sessionStorage.getItem('grupo') || null);
+    } else {
+      this.isUsuarioAutenticado.next(false);
     }
+  }
 
-    login(email: string, senha: string) {
-        return this.loginService.login(email, senha).pipe(
-            tap(response => {
-                console.log('auth login');
+  isAuthenticated(): boolean {
+    return this.isUsuarioAutenticado.value;
+  }
 
-                this.isUsuarioAutenticado.next(true);
-                this.permissaoUsuario.next(response.grupo);
-            })
-        )
-    }
+  getUserRole(): string | null {
+    return this.permissaoUsuario.value;
+  }
 
-    logout() {
-        sessionStorage.clear();
-        this.isUsuarioAutenticado.next(false);
-        this.permissaoUsuario.next(null);
-        this.ngZone.run(() => {
-            this.router.navigate(['/login']);
-        });
-
-    }
-
-    checkAutenticacao() {
-        const token = sessionStorage.getItem('token');
-        if (token) {
-            this.isUsuarioAutenticado.next(true);
-            this.permissaoUsuario.next(sessionStorage.getItem('grupo') || null);
-        } else {
-            this.isUsuarioAutenticado.next(false);
-        }
-    }
-
-    isAuthenticated(): boolean {
-        return this.isUsuarioAutenticado.value;
-    }
-
-    getUserRole(): string | null {
-        return this.permissaoUsuario.value;
-    }
-
-    getToken(): string{
-      return sessionStorage.getItem('token');
-    }
+  getToken(): string {
+    return sessionStorage.getItem('token');
+  }
 }

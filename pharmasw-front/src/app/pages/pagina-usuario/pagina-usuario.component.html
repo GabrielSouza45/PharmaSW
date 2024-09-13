@@ -52,8 +52,7 @@
   <div class="inferior" inferior>
     <app-table-pagination
       [dados]="usuarios"
-      (alterarEstadoStatus)="mudarStatus($event)"
-      (alterarEstadoCadastro)="abrirModalEdicao($event)"
+      [acoes]="acoes"
     >
     </app-table-pagination>
   </div>

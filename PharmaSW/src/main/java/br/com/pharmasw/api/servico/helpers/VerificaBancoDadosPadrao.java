@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.service.helpers;
+package br.com.pharmasw.api.servico.helpers;
 
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Usuario;
@@ -29,6 +29,7 @@ public class VerificaBancoDadosPadrao implements CommandLineRunner {
     private String nomePadrao;
 
     private final String NOME_PRODUTO = "Ibuprofeno";
+    private final String FABRICANTE_PRODUTO = "Fabricante Ficticio";
     private final String CATEGORIA_PRODUTO = "Febre e Dor";
 
 
@@ -41,7 +42,7 @@ public class VerificaBancoDadosPadrao implements CommandLineRunner {
 
         }
 
-        Produto produto = produtoRepositorio.findByNomeAndStatus(NOME_PRODUTO, Status.ATIVO);
+        Produto produto = produtoRepositorio.findByNomeAndFabricanteAndStatus(NOME_PRODUTO, FABRICANTE_PRODUTO, Status.ATIVO);
         if (produto == null) {
             criaProdutoPadrao();
             System.out.println("Primeiro produto criado!");
@@ -73,6 +74,8 @@ public class VerificaBancoDadosPadrao implements CommandLineRunner {
         produto.setCategoria(CATEGORIA_PRODUTO);
         produto.setPeso(150.0);
         produto.setValor(25.0);
+        produto.setFabricante(FABRICANTE_PRODUTO);
+        produto.setQuantidadeEstoque(10);
         produto.setStatus(Status.ATIVO);
 
         produtoRepositorio.save(produto);

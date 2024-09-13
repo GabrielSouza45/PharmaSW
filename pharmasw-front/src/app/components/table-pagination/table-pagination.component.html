@@ -3,7 +3,7 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th scope="col" *ngFor="let coluna of colunas">
+          <th scope="col" *ngFor="let coluna of colunas" style="text-transform: capitalize;">
             {{ coluna != "id" ? coluna : "#" }}
           </th>
           <th *ngIf="dados">Ações</th>
@@ -16,21 +16,14 @@
           </td>
           <td class="acoes">
             <div class="items" *ngIf="item.id != null">
-              <i
-                (click)="alterarCadastro(item)"
-                class="bi bi-pencil-square"
-              >
-                Alterar</i
-              >
-              <i
-                (click)="alterarStatus(item.id)"
-                [ngClass]="{
-                  'bi bi-x-circle-fill': item.status == 'ATIVO',
-                  'bi bi-person-plus-fill': item.status == 'INATIVO'
-                }"
-              >
-                {{ item.status == "ATIVO" ? "Inativar" : "Ativar" }}
-              </i>
+              <ng-container *ngFor="let acao of acoes">
+                <i
+                  (click)="acao.funcao(item)"
+                  [ngClass]="acao.icone(item)"
+                >
+                  {{ acao.nome(item) }}
+                </i>
+              </ng-container>
             </div>
           </td>
         </tr>

@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.service;
+package br.com.pharmasw.api.servico;
 
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Retorno.UsuarioDTO;
