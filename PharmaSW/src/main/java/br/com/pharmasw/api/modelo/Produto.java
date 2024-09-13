@@ -22,6 +22,7 @@ public class Produto {
     private Double valor;
     private Double peso;
     private Integer quantidadeEstoque;
+    private int avaliacao;
 
     @Transient
     private String imagemPrincipal;
@@ -30,7 +31,6 @@ public class Produto {
     public Produto() {
 
     }
-
 
     public Long getId() {
         return id;
@@ -108,5 +108,13 @@ public class Produto {
 
     public void setQuantidadeEstoque(Integer quantidadeEstoque) {
         this.quantidadeEstoque = quantidadeEstoque;
+    }
+
+      public int getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
     }
 }

@@ -1,6 +1,7 @@
 import { Status } from "./enums/Status";
 
 export class Produto {
+
   id: number;
   status: Status;
   nome: string;

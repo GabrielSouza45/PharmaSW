@@ -58,7 +58,7 @@ public class ProdutoControle {
 
     @PutMapping("/mudar-status")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> alterarStatusUsuario(@RequestBody Produto produto) {
+    public ResponseEntity<?> alterarStatusProduto(@RequestBody Produto produto) {
 
         if (produto.getId() == null) {
             return ResponseEntity.badRequest().body("Id não pode ser null!");
