@@ -79,6 +79,7 @@ public class ProdutoServico {
         }
 
         Status status = produto.getStatus();
+
         produto.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
         Produto produtoAtualizado = produtoRepositorio.save(produto);
 

@@ -20,6 +20,8 @@ public class Produto {
     private String categoria;
     private Double valor;
     private Double peso;
+    private int avaliacao;
+    private int qtd;
 
     @Transient
     private String imagemPrincipal;
@@ -29,6 +31,13 @@ public class Produto {
 
     }
 
+    public int getQtd() {
+        return qtd;
+    }
+
+    public void setQtd(int qtd) {
+        this.qtd = qtd;
+    }
 
     public Long getId() {
         return id;
@@ -90,5 +99,13 @@ public class Produto {
 
     public void setImagemPrincipal(String imagemPricipal) {
         this.imagemPrincipal = imagemPricipal;
+    }
+
+    public int getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
     }
 }

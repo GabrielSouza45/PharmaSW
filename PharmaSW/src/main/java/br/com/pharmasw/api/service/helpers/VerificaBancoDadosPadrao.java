@@ -77,4 +77,5 @@ public class VerificaBancoDadosPadrao implements CommandLineRunner {
 
         produtoRepositorio.save(produto);
     }
+    
 }

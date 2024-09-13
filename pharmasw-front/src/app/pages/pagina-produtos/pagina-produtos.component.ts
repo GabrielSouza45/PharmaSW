@@ -9,7 +9,7 @@ import { TablePaginationComponent } from '../../components/table-pagination/tabl
 import { Filtros } from '../../modelo/Filtros';
 import { Produto } from '../../modelo/Produto';
 import { CrudService } from '../../services/crud-service.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-pagina-produtos',
@@ -92,7 +92,34 @@ console.log(sessionStorage.getItem("grupo"));
   cadastrar() { }
 
   // MUDAR STATUS
-  mudarStatus(event: { id: number }): void {}
+  mudarStatus(event: { id: number }): void {
+    const { id } = event;
+
+    this.filtros = new Filtros();
+    this.filtros.id = id;
+
+    this.editarStatus(this.filtros, "/mudar-status").subscribe({
+      next: (response: HttpResponse<any>) => {
+        const statusCode = response.status;
+
+        if (statusCode === 200) {
+          this.toastrService.success("Status alterado com sucesso!");
+        } else if (statusCode === 400) {
+          this.toastrService.error("Erro na solicitação. Id null.");
+        } else if (statusCode === 404) {
+          this.toastrService.error("Produto não encontrado.");
+        } else {
+          this.toastrService.warning("Resposta inesperada do servidor.");
+        }
+        this.pesquisar();
+
+      },
+      error: (error) => {
+        console.error("Erro ao alterar o Produto", error);
+        this.toastrService.error("Erro ao alterar o Produto. Tente novamente mais tarde.");
+      }
+    });
+  }
 
   // EDITAR PRODUTO
   alterarCadastro() { }
