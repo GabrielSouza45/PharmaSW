@@ -1,23 +1,19 @@
-import { PageChangedEvent } from 'ngx-bootstrap/pagination';
-import { Produto } from './../../modelo/Produto';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
 import { TablePaginationComponent } from '../../components/table-pagination/table-pagination.component';
-import { Filtros } from '../../modelo/Filtros';
-import { CrudService } from '../../services/crud-service.service';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Status } from '../../modelo/enums/Status';
 import { Grupo } from '../../modelo/enums/Grupo';
+import { Status } from '../../modelo/enums/Status';
+import { Filtros } from '../../modelo/Filtros';
+import { CrudService } from '../../services/crud-service/crud-service.service';
+import { Produto } from './../../modelo/Produto';
+import { FormCheckerService } from '../../services/form-checker/form-checker.service';
 
 @Component({
   selector: 'app-pagina-produtos',
@@ -45,8 +41,12 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   totalItens: number = 10; // Usado para o pageable
   acoesPermitidas: any[]; // Ações permitidas para o usuario sobre o produto
 
-  constructor(private toastrService: ToastrService, private http: HttpClient) {
-    super(http, '/produto-controle');
+  constructor(
+    private http: HttpClient,
+    private toastrService: ToastrService,
+    private formChecker: FormCheckerService
+  ) {
+    super(http, '/produto-controle', toastrService);
 
     this.buscarForm = new FormGroup({
       nome: new FormControl(''),
@@ -71,7 +71,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
       {
         nome: (item: Produto) => 'Alterar',
         icone: (item: Produto) => 'bi bi-pencil-square',
-        funcao: (item: Produto) => this.alterarCadastro(item)
+        funcao: (item: Produto) => this.alterarCadastro(item),
       },
     ];
 
@@ -83,7 +83,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
           item.status === Status.ATIVO
             ? 'bi bi-x-circle-fill'
             : 'bi bi-person-plus-fill',
-        funcao: (item: Produto) => this.mudarStatus(item)
+        funcao: (item: Produto) => this.mudarStatus(item),
       },
     ];
 
@@ -91,8 +91,8 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
       {
         nome: (item: Produto) => 'Visualizar',
         icone: (item: Produto) => 'bi bi-eye-fill',
-        funcao: (item: Produto) => this.visualizar(item)
-      }
+        funcao: (item: Produto) => this.visualizar(item),
+      },
     ];
 
     if (this.isAdministrador) {
@@ -100,17 +100,6 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     } else {
       this.acoesPermitidas = alterar;
     }
-  }
-
-  getProduto() {
-    return new Produto(
-      this.formProduto.value.nome,
-      this.formProduto.value.categoria,
-      this.formProduto.value.valor,
-      this.formProduto.value.peso,
-      this.formProduto.value.fabricante,
-      this.formProduto.value.quantidadeEstoque
-    );
   }
 
   // PESQUISAR
@@ -151,18 +140,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     filtros.id = id;
 
     this.editarStatus(filtros, '/mudar-status').subscribe({
-      next: (response: HttpResponse<any>) => {
-        const statusCode = response.status;
-
-        if (statusCode === 200) {
-          this.toastrService.success('Status alterado com sucesso!');
-        } else if (statusCode === 400) {
-          this.toastrService.error('Erro na solicitação. Id null.');
-        } else if (statusCode === 404) {
-          this.toastrService.error('Produto não encontrado.');
-        } else {
-          this.toastrService.warning('Resposta inesperada do servidor.');
-        }
+      next: () => {
         this.pesquisar();
       },
       error: (error) => {
@@ -215,37 +193,14 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   }
   // }
 
-  checkFormErrors(): boolean {
-    let valido: boolean = true;
-    const controls = this.formProduto.controls;
-
-    // Verifica se há erros no campo 'nome'
-    if (controls['nome']?.errors?.['required']) {
-      this.toastrService.warning('O campo nome é obrigatório.');
-      valido = false;
-    }
-
-    // Verifica se há erros no campo 'categoria'
-    if (controls['categoria']?.errors) {
-      if (controls['categoria'].errors['required']) {
-        this.toastrService.warning('O campo de email é obrigatório.');
-      }
-      valido = false;
-    }
-
-    // Verifica se há erros no campo 'valor'
-    if (controls['valor']?.errors) {
-      if (controls['valor'].errors['required']) {
-        this.toastrService.warning('O campo de valor é obrigatório.');
-      }
-      valido = false;
-    }
-
-    // Verifica se há erros no campo 'peso'
-    if (controls['peso']?.errors?.['required']) {
-      this.toastrService.warning('O campo de peso é obrigatório.');
-      valido = false;
-    }
-    return valido;
+  private getProduto() {
+    return new Produto(
+      this.formProduto.value.nome,
+      this.formProduto.value.categoria,
+      this.formProduto.value.valor,
+      this.formProduto.value.peso,
+      this.formProduto.value.fabricante,
+      this.formProduto.value.quantidadeEstoque
+    );
   }
 }

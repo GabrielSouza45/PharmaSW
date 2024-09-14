@@ -8,15 +8,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
 import { TablePaginationComponent } from '../../components/table-pagination/table-pagination.component';
 import { cpfValidator } from '../../infra/validators/cpf-validator';
-import { Filtros } from '../../modelo/Filtros';
-import { CrudService } from '../../services/crud-service.service';
-import { Usuario } from './../../modelo/Usuario';
 import { Status } from '../../modelo/enums/Status';
+import { Filtros } from '../../modelo/Filtros';
+import { CrudService } from '../../services/crud-service/crud-service.service';
+import { Usuario } from './../../modelo/Usuario';
+import { FormCheckerService } from './../../services/form-checker/form-checker.service';
 
 @Component({
   selector: 'app-pagina-usuario',
@@ -34,10 +36,9 @@ import { Status } from '../../modelo/enums/Status';
 })
 export class PaginaUsuarioComponent extends CrudService<Usuario> {
   buscarForm!: FormGroup;
+  formCadastroUsuario!: FormGroup;
   usuarios: Usuario[] = [];
   modalAberto: boolean = false;
-  formCadastroUsuario: FormGroup;
-  private filtros: Filtros;
   clickCadastro: boolean = true;
   usuarioLogado: boolean = false;
   totalItens: number = 10;
@@ -60,8 +61,12 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
     },
   ];
 
-  constructor(private toastrService: ToastrService, private http: HttpClient) {
-    super(http, '/usuario-controle');
+  constructor(
+    private http: HttpClient,
+    private toastrService: ToastrService,
+    private formChecker: FormCheckerService
+  ) {
+    super(http, '/usuario-controle', toastrService);
 
     this.buscarForm = new FormGroup({
       nome: new FormControl(''),
@@ -80,27 +85,15 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
     this.pesquisar();
   }
 
-  getUsuario() {
-    return new Usuario(
-      this.formCadastroUsuario.value.nome,
-      this.formCadastroUsuario.value.email,
-      this.formCadastroUsuario.value.senha,
-      this.formCadastroUsuario.value.cpf,
-      this.formCadastroUsuario.value.grupo
-    );
-  }
-
   // PESQUISAR
   pesquisar() {
-    this.filtros = new Filtros();
-    this.filtros.nome = this.buscarForm.value.nome || null;
-    this.filtros.status = this.buscarForm.value.status || null;
-    this.filtros.pagina = this.pagina;
+    const filtros = new Filtros();
+    filtros.nome = this.buscarForm.value.nome || null;
+    filtros.status = this.buscarForm.value.status || null;
+    filtros.pagina = this.pagina;
 
-    this.listar(this.filtros, '/listar').subscribe((response: any) => {
+    this.listar(filtros, '/listar').subscribe((response: any) => {
       this.usuarios = response.body.content;
-      console.log(response);
-
       this.totalItens = response.body.totalElements;
     });
 
@@ -119,31 +112,22 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
   cadastrar() {
     console.log(this.formCadastroUsuario.value);
 
-    if (!this.senhaValida() || !this.checkFormErrors()) {
+    if (
+      !this.formChecker.senhaValida(this.formCadastroUsuario) ||
+      !this.formChecker.checkFormErrorsUsuario(this.formCadastroUsuario)
+    ) {
       return;
     }
 
     this.adicionar(this.getUsuario(), '/cadastrar').subscribe({
       next: (response: HttpResponse<any>) => {
-        const statusCode = response.status;
-
-        if (statusCode === 201) {
-          this.toastrService.success('Usuário criado com sucesso!');
-          this.modalAberto = false;
-        } else if (statusCode === 401) {
-          // Código de status HTTP para erro de solicitação
-          this.toastrService.error(
-            'Erro na solicitação. Verifique os dados e tente novamente.'
-          );
-        } else {
-          this.toastrService.warning('Resposta inesperada do servidor.');
-        }
+        this.modalAberto = false;
         this.pesquisar();
       },
       error: (error) => {
-        console.error('Erro ao cadastrar o usuário', error);
+        console.error('Erro ao adicionar Usuário.', error);
         this.toastrService.error(
-          'Erro ao criar o usuário. Tente novamente mais tarde.'
+          'Erro ao adicionar Usuário. Tente novamente mais tarde.'
         );
       },
     });
@@ -158,28 +142,17 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
       return;
     }
 
-    this.filtros = new Filtros();
-    this.filtros.id = id;
+    const filtros = new Filtros();
+    filtros.id = id;
 
-    this.editarStatus(this.filtros, '/mudar-status').subscribe({
-      next: (response: HttpResponse<any>) => {
-        const statusCode = response.status;
-
-        if (statusCode === 200) {
-          this.toastrService.success('Status alterado com sucesso!');
-        } else if (statusCode === 400) {
-          this.toastrService.error('Erro na solicitação. Id null.');
-        } else if (statusCode === 404) {
-          this.toastrService.error('Usuário não encontrado.');
-        } else {
-          this.toastrService.warning('Resposta inesperada do servidor.');
-        }
+    this.editarStatus(filtros, '/mudar-status').subscribe({
+      next: () => {
         this.pesquisar();
       },
       error: (error) => {
-        console.error('Erro ao alterar o usuário', error);
+        console.error('Erro ao alterar o status.', error);
         this.toastrService.error(
-          'Erro ao alterar o usuário. Tente novamente mais tarde.'
+          'Erro ao alterar o status. Tente novamente mais tarde.'
         );
       },
     });
@@ -209,28 +182,16 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
   }
 
   alterarCadastro() {
-    if (!this.checkFormErrors()) {
+    if (!this.formChecker.checkFormErrorsUsuario(this.formCadastroUsuario)) {
       return;
     }
-    console.log(this.formCadastroUsuario.value);
 
     if (this.formCadastroUsuario.value.senha != null) {
-      if (!this.senhaValida()) return;
+      if (!this.formChecker.senhaValida(this.formCadastroUsuario)) return;
     }
 
     this.editar(this.getUsuario(), '/editar').subscribe({
       next: (response: HttpResponse<any>) => {
-        const statusCode = response.status;
-
-        if (statusCode === 200) {
-          this.toastrService.success('Usuário alterado com sucesso!');
-        } else if (statusCode === 400) {
-          this.toastrService.error('Erro na solicitação.');
-        } else if (statusCode === 404) {
-          this.toastrService.error('Usuário não encontrado.');
-        } else {
-          this.toastrService.warning('Resposta inesperada do servidor.');
-        }
         this.pesquisar();
         this.modalAberto = false;
       },
@@ -244,15 +205,9 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
     this.clickCadastro = true;
   }
 
+  // CONTROLE DO MODAL
   abrirModal() {
-    this.formCadastroUsuario.patchValue({
-      nome: null,
-      email: null,
-      senha: null,
-      confimarSenha: null,
-      cpf: null,
-      grupo: null,
-    });
+    this.formCadastroUsuario.reset();
     this.clickCadastro = true;
     this.usuarioLogado = false;
     this.modalAberto = true;
@@ -262,70 +217,13 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
     this.modalAberto = false;
   }
 
-  checkFormErrors(): boolean {
-    let valido: boolean = true;
-    const controls = this.formCadastroUsuario.controls;
-
-    // Verifica se há erros no campo 'nome'
-    if (controls['nome']?.errors?.['required']) {
-      this.toastrService.warning('O campo nome é obrigatório.');
-      valido = false;
-    }
-
-    // Verifica se há erros no campo 'email'
-    if (controls['email']?.errors) {
-      if (controls['email'].errors['required']) {
-        this.toastrService.warning('O campo de email é obrigatório.');
-      } else if (controls['email'].errors['email']) {
-        this.toastrService.warning('O email inserido não é válido.');
-      }
-      valido = false;
-    }
-
-    // Verifica se há erros no campo 'cpf'
-    if (controls['cpf']?.errors) {
-      if (controls['cpf'].errors['invalidCpf']) {
-        this.toastrService.warning('CPF Inválido.');
-      } else if (controls['cpf'].errors['required']) {
-        this.toastrService.warning('CPF é obrigatório.');
-      }
-      valido = false;
-    }
-
-    // Verifica se há erros no campo 'grupo'
-    if (controls['grupo']?.errors?.['required']) {
-      this.toastrService.warning('O campo de grupo é obrigatório.');
-      valido = false;
-    }
-    return valido;
-  }
-
-  senhaValida(): boolean {
-    const controls = this.formCadastroUsuario.controls;
-
-    // Verifica se há erros no campo 'senha'
-    if (controls['senha']?.errors?.['required']) {
-      this.toastrService.warning('O campo de senha é obrigatório.');
-      return false;
-    }
-    // Verifica se há erros no campo 'confirmarSenha'
-    if (controls['confirmarSenha']?.errors?.['required']) {
-      this.toastrService.warning(
-        'O campo de confirmação de senha é obrigatório.'
-      );
-      return false;
-    }
-
-    if (!controls['senha']?.errors && !controls['confirmarSenha']?.errors) {
-      const senha = this.formCadastroUsuario.get('senha').value;
-      const confirmarSenha =
-        this.formCadastroUsuario.get('confirmarSenha').value;
-
-      if (senha != confirmarSenha) {
-        this.toastrService.warning('Senhas não coincidem.');
-        return false;
-      }
-    }
-    return true;
+  private getUsuario() {
+    return new Usuario(
+      this.formCadastroUsuario.value.nome,
+      this.formCadastroUsuario.value.email,
+      this.formCadastroUsuario.value.senha,
+      this.formCadastroUsuario.value.cpf,
+      this.formCadastroUsuario.value.grupo
+    );
   }
 }

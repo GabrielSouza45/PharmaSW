@@ -65,8 +65,8 @@
   *ngIf="modalAberto"
   (fecharModal)="fecharModal()"
   (submit)="mudaEstadoClick()"
-  tituloModal="Cadastro - Usuário"
-  textoBotao="Cadastrar"
+  [tituloModal]="(clickCadastro ? 'Cadastro' : 'Alterar').concat(' - Usuário')"
+  [textoBotao]="(clickCadastro ? 'Cadastrar' : 'Alterar')"
 >
   <form class="form-cadastro" [formGroup]="formCadastroUsuario">
 
