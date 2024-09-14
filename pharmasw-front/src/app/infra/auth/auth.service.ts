@@ -1,8 +1,8 @@
-import { TreeError } from '@angular/compiler';
 import { Injectable, NgZone } from '@angular/core';
-import { BehaviorSubject, tap } from 'rxjs';
-import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
+import { BehaviorSubject, tap } from 'rxjs';
+
+import { LoginService } from '../../services/login/login.service';
 
 @Injectable({
   providedIn: 'root',
