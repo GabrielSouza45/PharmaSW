@@ -18,6 +18,7 @@ import { Filtros } from './modelo/Filtros';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  
   // title = 'pharmasw-front';
   // imagem: string = "";
   // filtro: Filtros;

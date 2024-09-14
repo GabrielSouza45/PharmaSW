@@ -1,11 +1,15 @@
 package br.com.pharmasw.api.servico;
 
 import br.com.pharmasw.api.modelo.Filtros;
+import br.com.pharmasw.api.modelo.Produto;
+import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.Retorno.UsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
+import br.com.pharmasw.api.servico.helpers.PaginationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,14 +24,32 @@ public class UsuarioServico {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+    @Autowired
+    private PaginationHelper<UsuarioDTO> paginationHelper;
 
     public ResponseEntity<?> listarUsuarios(Filtros filtros) {
-        List<Usuario> usuarios = usuarioRepositorio.getByNomeOrStatus(
+        int paginaAtual = filtros.getPagina() -1;
+
+        List<Usuario> usuarios = usuarioRepositorio.findByNomeOrStatus(
                 filtros.getNome(),
-                filtros.getStatus() == null ? null : filtros.getStatus().toString()
+                filtros.getStatus() != null ? filtros.getStatus().toString() : null,
+                paginationHelper.TAMANHO,
+                paginationHelper.getOffet(paginaAtual)
         );
 
-        return new ResponseEntity<>(constroiRetornoUsuarioDTO(usuarios), HttpStatus.OK);
+        Integer totalUsuarios = usuarioRepositorio.totalUsuarios(
+                filtros.getNome(),
+                filtros.getStatus() != null ? filtros.getStatus().toString() : null
+        );
+
+        List<UsuarioDTO> dtos = new ArrayList<>();
+        usuarios.forEach(usuario -> {
+            dtos.add(new UsuarioDTO(usuario));
+        });
+
+        Page<UsuarioDTO> page = paginationHelper.transformarEmPage(dtos, paginaAtual, totalUsuarios);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
 

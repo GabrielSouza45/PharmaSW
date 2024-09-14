@@ -2,6 +2,7 @@ package br.com.pharmasw.api.controle;
 
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Produto;
+import br.com.pharmasw.api.modelo.enums.Grupo;
 import br.com.pharmasw.api.servico.ProdutoServico;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +28,7 @@ public class ProdutoControle {
     // Listagem de todos os produtos (ativos e inativos)
     @PostMapping("/listar-produtos")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')") // -> Permite que usuarios ADMIN e ESTOQUISTA acessem o endpoint
     public ResponseEntity<?> listarTodosProdutos(@RequestBody Filtros filtros) {
 
         return produtoServico.listarProdutos(filtros);
@@ -37,6 +39,7 @@ public class ProdutoControle {
     // CADASTRAR
     @PostMapping(value = "/cadastrar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PreAuthorize("hasRole('ADMIN')") // -> Permite que apenas usuarios ADMIN acessem o endpoint
     public ResponseEntity<?> CadastrarProdutos(
             @RequestPart("produto") String jsonProduto,
             @RequestPart("imagens") List<MultipartFile> imagens) {
@@ -58,6 +61,7 @@ public class ProdutoControle {
 
     @PutMapping("/mudar-status")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PreAuthorize("hasRole('ADMIN')") // -> Permite que apenas usuarios ADMIN acessem o endpoint
     public ResponseEntity<?> alterarStatusProduto(@RequestBody Produto produto) {
 
         if (produto.getId() == null) {

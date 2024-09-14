@@ -5,7 +5,11 @@ import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
+import br.com.pharmasw.api.servico.helpers.PaginationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,22 +28,38 @@ public class ProdutoServico {
     private ProdutoRepositorio produtoRepositorio;
     @Autowired
     private ImagemProdutoServico imagemProdutoServico;
+    @Autowired
+    private PaginationHelper<ProdutoDTO> paginationHelper;
 
 
     //lista os produtos com filtros
     public ResponseEntity<?> listarProdutos(Filtros filtros) {
 
-        System.out.println(filtros.getStatus());
+        int paginaAtual = filtros.getPagina() -1;
+
         List<Produto> produtos = produtoRepositorio.findByNomeOrStatus(
+                filtros.getNome(),
+                filtros.getStatus() != null ? filtros.getStatus().toString() : null,
+                paginationHelper.TAMANHO,
+                paginationHelper.getOffet(paginaAtual)
+        );
+
+        Integer totalProdutos = produtoRepositorio.totalProdutos(
                 filtros.getNome(),
                 filtros.getStatus() != null ? filtros.getStatus().toString() : null
         );
 
-        return new ResponseEntity<>(constroiRetornoProdutoDTO(produtos), HttpStatus.OK);
+        List<ProdutoDTO> dtos = new ArrayList<>();
+        produtos.forEach(produto -> {
+            dtos.add(new ProdutoDTO(produto));
+        });
+
+        Page<ProdutoDTO> page = paginationHelper.transformarEmPage(dtos, paginaAtual, totalProdutos);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    //Listar Imagens
-//    public ResponseEntity<?>
+
 
 
     //Metodo cadastrar os produtos
@@ -82,22 +102,5 @@ public class ProdutoServico {
 
         return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
     }
-
-    private List<ProdutoDTO> constroiRetornoProdutoDTO(List<Produto> produtos) {
-
-        List<ProdutoDTO> retorno = new ArrayList<>();
-
-        if (produtos.isEmpty()) {
-            retorno.add(new ProdutoDTO(new Produto()));
-            return retorno;
-        }
-
-        for (Produto produto : produtos) {
-            retorno.add(new ProdutoDTO(produto));
-        }
-
-        return retorno;
-    }
-
 
 }

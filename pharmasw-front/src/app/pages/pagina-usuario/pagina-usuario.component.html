@@ -53,6 +53,8 @@
     <app-table-pagination
       [dados]="usuarios"
       [acoes]="acoes"
+      [totalItens]="totalItens"
+      (pageChangeEvent)="pageChanged($event)">
     >
     </app-table-pagination>
   </div>

@@ -30,12 +30,16 @@ export class TablePaginationComponent {
 
 
   // PAGINATION
-  totalItems: number = 0;
-  currentPage: number = 4;
-  page?: number;
+  @Input() totalItens: number = 50;
+  @Output() pageChangeEvent = new EventEmitter<number>();
+  page?: number = 1;
+  currentPage: number = this.page;
 
   pageChanged(event: PageChangedEvent): void {
+    console.log("Exibirrrrrrrr");
+
     this.page = event.page;
+    this.pageChangeEvent.emit(this.page);
     console.log(this.page);
   }
 }

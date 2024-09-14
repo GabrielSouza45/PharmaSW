@@ -15,32 +15,5 @@ public class Filtros {
     private String nome;
     private Status status;
     private Grupo grupo;
-
-    public Long getId() {
-        return id;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    private int pagina;
 }
