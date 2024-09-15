@@ -1,0 +1,26 @@
+<div class="carrossel">
+  <div *ngIf="images.length > 0" class="carousel carrossel">
+    <div
+      *ngFor="let image of images; let i = index"
+      class="carousel-item"
+      [class.active]="i === currentSlide"
+    >
+      <img [src]="image" alt="Uploaded image {{ i + 1 }}" />
+
+    </div>
+    <div class="acoes">
+      <div class="itens">
+        <ng-content class="acoes"> </ng-content>
+      </div>
+    </div>
+    <!-- Controles para navegação no carousel -->
+    <a class="carousel-control-prev" (click)="previousSlide()" role="button">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" (click)="nextSlide()" role="button">
+      <span class="sr-only">Próxima</span>
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </a>
+  </div>
+</div>

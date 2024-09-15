@@ -10,3 +10,6 @@ button{
 
 }
 
+.botao-arredondado{
+  border-radius: 20px;
+}

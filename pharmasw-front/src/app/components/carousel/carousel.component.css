@@ -1,0 +1,58 @@
+.carrossel {
+  width: 700px;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+}
+
+a {
+  background-color: #00000038;
+  border-radius: 15px;
+}
+
+img {
+  border-radius: 15px;
+  width: 100%;
+  max-width: 700px;
+  height: 100%;
+  max-height: 600px;
+}
+
+.acoes {
+  border: solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.itens {
+  border: solid red;
+  width: 70%;
+  display: flex;
+  font-size: 40px;
+  justify-content: space-between;
+}
+
+@media (max-width: 1366px) {
+  .carrossel {
+    width: 500px;
+    height: 400px;
+  }
+
+  img {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    max-height: 400px;
+  }
+
+  .itens {
+    font-size: 30px;
+  }
+}

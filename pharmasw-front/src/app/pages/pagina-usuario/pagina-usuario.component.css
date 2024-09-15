@@ -86,7 +86,7 @@ form {
   width: 100%;
 }
 
-.nome, .email, .cpf, .grupo{
+.input-padrao{
   grid-column-start: 1;
   grid-column-end: 3;
 }
