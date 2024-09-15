@@ -22,7 +22,6 @@ img {
 }
 
 .acoes {
-  border: solid;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,11 +31,14 @@ img {
 }
 
 .itens {
-  border: solid red;
   width: 70%;
   display: flex;
   font-size: 40px;
   justify-content: space-between;
+}
+
+.gold-star {
+  color: gold;
 }
 
 @media (max-width: 1366px) {
