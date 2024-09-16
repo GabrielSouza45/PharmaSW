@@ -1,6 +1,7 @@
 package br.com.pharmasw.api.servico;
 
 import br.com.pharmasw.api.modelo.Filtros;
+import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
@@ -8,8 +9,6 @@ import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
 import br.com.pharmasw.api.servico.helpers.PaginationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

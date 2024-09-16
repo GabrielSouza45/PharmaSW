@@ -19,10 +19,11 @@ public class Produto {
     private String nome;
     private String fabricante;
     private String categoria;
+    private String descricao;
     private Double valor;
     private Double peso;
     private Integer quantidadeEstoque;
-    private int avaliacao;
+    private Integer avaliacao;
 
     @Transient
     private String imagemPrincipal;
@@ -36,62 +37,20 @@ public class Produto {
         return id;
     }
 
-
     public Status getStatus() {
         return status;
     }
-
 
     public void setStatus(Status status) {
         this.status = status;
     }
 
-
     public String getNome() {
         return nome;
     }
 
-
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-
-    public Double getValor() {
-        return valor;
-    }
-
-
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
-
-
-    public Double getPeso() {
-        return peso;
-    }
-
-
-    public void setPeso(Double peso) {
-        this.peso = peso;
-    }
-
-    public String getImagemPrincipal() {
-        return imagemPrincipal;
-    }
-
-    public void setImagemPrincipal(String imagemPricipal) {
-        this.imagemPrincipal = imagemPricipal;
     }
 
     public String getFabricante() {
@@ -102,6 +61,38 @@ public class Produto {
         this.fabricante = fabricante;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
+    }
+
     public Integer getQuantidadeEstoque() {
         return quantidadeEstoque;
     }
@@ -110,11 +101,19 @@ public class Produto {
         this.quantidadeEstoque = quantidadeEstoque;
     }
 
-      public int getAvaliacao() {
+    public Integer getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(int avaliacao) {
+    public void setAvaliacao(Integer avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public String getImagemPrincipal() {
+        return imagemPrincipal;
+    }
+
+    public void setImagemPrincipal(String imagemPrincipal) {
+        this.imagemPrincipal = imagemPrincipal;
     }
 }

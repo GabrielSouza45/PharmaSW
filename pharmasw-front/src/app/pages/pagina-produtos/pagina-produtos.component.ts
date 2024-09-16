@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
@@ -14,6 +14,7 @@ import { Filtros } from '../../modelo/Filtros';
 import { CrudService } from '../../services/crud-service/crud-service.service';
 import { Produto } from './../../modelo/Produto';
 import { FormCheckerService } from '../../services/form-checker/form-checker.service';
+import { CadastroProdutosComponent } from '../cadastro-produtos/cadastro-produtos.component';
 
 @Component({
   selector: 'app-pagina-produtos',
@@ -25,6 +26,7 @@ import { FormCheckerService } from '../../services/form-checker/form-checker.ser
     TablePaginationComponent,
     CommonModule,
     ModalComponent,
+    CadastroProdutosComponent
   ],
   templateUrl: './pagina-produtos.component.html',
   styleUrl: './pagina-produtos.component.css',
@@ -111,7 +113,6 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
 
     this.listar(filtros, '/listar-produtos').subscribe((response: any) => {
       this.produtos = response.content;
-      console.log(response);
 
       this.totalItens = response.totalElements;
     });
@@ -153,10 +154,20 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   }
 
   // EDITAR PRODUTO
-  alterarCadastro(produto: Produto) {}
+  abrirModalEdicao(event: { item: any }): void {
+    const { item } = event;
+
+    this.resetaFormulario();
+    this.modalAberto = true;
+    this.clickCadastro = false;
+  }
+
+  alterarCadastro(produto: Produto) {
+
+  }
 
   // CONTROLE DO MODAL DE CADASTRO/EDIÇÃO {
-  resetaModal() {
+  resetaFormulario() {
     this.formProduto.patchValue({
       nome: null,
       categoria: null,
@@ -173,34 +184,27 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     }
   }
 
-  abrirModal() {
-    this.resetaModal();
+  abrirCadastro() {
+    this.resetaFormulario();
     this.clickCadastro = true;
     this.modalAberto = true;
   }
 
-  abrirModalEdicao(event: { item: any }): void {
-    const { item } = event;
-    console.log(item);
 
-    this.resetaModal();
-    this.modalAberto = true;
-    this.clickCadastro = false;
-  }
 
   fecharModal() {
     this.modalAberto = false;
   }
   // }
 
-  private getProduto() {
-    return new Produto(
-      this.formProduto.value.nome,
-      this.formProduto.value.categoria,
-      this.formProduto.value.valor,
-      this.formProduto.value.peso,
-      this.formProduto.value.fabricante,
-      this.formProduto.value.quantidadeEstoque
-    );
-  }
+  // private getProduto() {
+  //   return new Produto(
+  //     this.formProduto.value.nome,
+  //     this.formProduto.value.categoria,
+  //     this.formProduto.value.valor,
+  //     this.formProduto.value.peso,
+  //     this.formProduto.value.fabricante,
+  //     this.formProduto.value.quantidadeEstoque
+  //   );
+  // }
 }

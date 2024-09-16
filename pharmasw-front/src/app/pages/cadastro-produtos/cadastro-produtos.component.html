@@ -1,1 +1,97 @@
-<p>cadastro-produtos works!</p>
+<app-modal
+  class="modal-cadastro"
+  *ngIf="openCadastro"
+  (fecharModal)="fechaModal.emit()"
+  (submit)="mudarEstadoClick()"
+  tituloModal="Cadastrar - Produtos"
+  textoBotao="Cadastrar"
+>
+  <section class="conteiner">
+    <div class="esquerda">
+      <!-- NOME DO PRODUTO -->
+      <form [formGroup]="formProduto">
+        <app-input-primario
+          class="input-cadastro"
+          [addLabel]="true"
+          label="Nome:"
+          inputName="nome"
+          placeHolder="Nome do produto"
+          formControlName="nome"
+          maxLength="200"
+        ></app-input-primario>
+
+        <!-- PREÇO DO PRODUTO -->
+        <app-input-primario
+          class="input-cadastro"
+          type="number"
+          [addLabel]="true"
+          label="Preço:"
+          inputName="preco"
+          placeHolder="0,00"
+          formControlName="valor"
+          step="0.50"
+        ></app-input-primario>
+
+        <!-- QTD ESTOQUE -->
+        <app-input-primario
+          class="input-cadastro"
+          type="number"
+          [addLabel]="true"
+          label="Em estoque:"
+          inputName="qtdEstoque"
+          placeHolder="0"
+          formControlName="quantidadeEstoque"
+        ></app-input-primario>
+
+        <!-- DESCRIÇÃO DO PRODUTO -->
+        <app-text-area
+          class="input-cadastro"
+          [addLabel]="true"
+          label="Descrição:"
+          name="descricao"
+          placeHolder="Descrição detalhada."
+          formControlName="descricao"
+        >
+        </app-text-area>
+
+        <!-- AVALIAÇÃO DO PRODUTO -->
+        <app-input-primario
+          class="input-cadastro"
+          type="number"
+          [addLabel]="true"
+          label="Avaliação:"
+          inputName="avaliacao"
+          placeHolder="0 - 5"
+          formControlName="avaliacao"
+          max="5"
+          step="0.5"
+        ></app-input-primario>
+      </form>
+    </div>
+
+    <div class="direita">
+      <!-- IMAGENS DO PRODUTO -->
+      <div class="carousel">
+        <app-carousel [images]="imagens" [acoes]="acoes"> </app-carousel>
+      </div>
+    </div>
+
+    <div class="baixo">
+      <!-- ADICIONAR IMAGENS -->
+      <div class="botao-add-imagens">
+        <input
+          type="file"
+          id="fileInput"
+          multiple
+          (change)="onFileChange($event)"
+          style="display: none"
+        />
+        <app-botao
+          textoBtn="Adicionar Imagens do Produto"
+          classes="botao-arredondado"
+          (click)="triggerFileInput()"
+        />
+      </div>
+    </div>
+  </section>
+</app-modal>

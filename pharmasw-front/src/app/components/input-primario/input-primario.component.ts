@@ -29,8 +29,8 @@ export class InputPrimarioComponent implements ControlValueAccessor{
   @Input() inputName: string = "";
   @Input() style: string = "";
   @Input() styleLabel: string = "";
-  @Input() maxLength: string = "";
-  @Input() max: string = "";
+  @Input() maxLength: string = "9999";
+  @Input() max: string = "9999";
   @Input() min: string = "0";
   @Input() step: string = "";
   @Input() addLabel: boolean = false;
@@ -46,7 +46,7 @@ export class InputPrimarioComponent implements ControlValueAccessor{
   }
 
   writeValue(value: any): void {
-      this.value = value;
+    this.value = value;
   }
 
   registerOnChange(fn: any): void {

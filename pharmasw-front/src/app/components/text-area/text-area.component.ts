@@ -1,12 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-text-area',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TextAreaComponent),
+      multi: true
+    }
   ],
   templateUrl: './text-area.component.html',
   styleUrl: './text-area.component.css'
@@ -26,7 +35,7 @@ export class TextAreaComponent implements ControlValueAccessor{
   onTouched: any = () => {}
 
   onInput(event: Event) {
-    const value = (event.target as HTMLInputElement).value
+    const value = (event.target as HTMLTextAreaElement).value
     this.onChange(value)
   }
 
