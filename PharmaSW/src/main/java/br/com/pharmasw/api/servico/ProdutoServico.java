@@ -34,7 +34,7 @@ public class ProdutoServico {
     //lista os produtos com filtros
     public ResponseEntity<?> listarProdutos(Filtros filtros) {
 
-        int paginaAtual = filtros.getPagina() -1;
+        int paginaAtual = filtros.getPagina() - 1;
 
         List<Produto> produtos = produtoRepositorio.findByNomeOrStatus(
                 filtros.getNome(),
@@ -57,8 +57,6 @@ public class ProdutoServico {
 
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
-
-
 
 
     //Metodo cadastrar os produtos
@@ -97,6 +95,22 @@ public class ProdutoServico {
         Status status = produto.getStatus();
 
         produto.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
+        Produto produtoAtualizado = produtoRepositorio.save(produto);
+
+        return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
+    }
+
+    //Alterar a quantidade do produto
+    public ResponseEntity<?> alterarQuantidade(Produto produtoRequest) {
+        // Busca o produto pelo ID
+        Produto produto = produtoRepositorio.findById(produtoRequest.getId()).orElse(null);
+
+        if (produto == null) {
+            return new ResponseEntity<>("Produto não encontrado!", HttpStatus.NOT_FOUND);
+        }
+
+        produto.setQuantidadeEstoque(produtoRequest.getQuantidadeEstoque());
+
         Produto produtoAtualizado = produtoRepositorio.save(produto);
 
         return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);

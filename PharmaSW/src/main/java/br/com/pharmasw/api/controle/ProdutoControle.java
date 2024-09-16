@@ -70,5 +70,17 @@ public class ProdutoControle {
         return produtoServico.alterarStatusProduto(produto);
     }
 
+    // Alterar quantidade do produto
+    @PutMapping("/alterar-quantidade")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PreAuthorize("hasRole('ESTOQUISTA')") // Permite que apenas usuarios ESTOQUISTA acessem o endpoint
+    public ResponseEntity<?> alterarQuantidadeProduto(@RequestBody Produto produtoRequest) {
+        if (produtoRequest.getId() == null) {
+            return ResponseEntity.badRequest().body("Id do produto não pode ser null!");
+        }
+
+        // Chama o método de serviço para alterar a quantidade
+        return produtoServico.alterarQuantidade(produtoRequest);
+    }
 
 }
