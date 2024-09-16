@@ -11,6 +11,7 @@ import { TextAreaComponent } from './../../components/text-area/text-area.compon
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Produto } from '../../modelo/Produto';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Grupo } from '../../modelo/enums/Grupo';
 
 @Component({
   selector: 'app-cadastro-produtos',
@@ -36,6 +37,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
 
   imagens: ImagemProduto[] = [];
   formProduto!: FormGroup;
+  usuarioEstoque: boolean = "false";
 
   constructor(private http: HttpClient, private toastrService: ToastrService) {
 
@@ -54,6 +56,8 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
       ]),
       imagemPrincipal: new FormControl('')
     });
+
+    this.usuarioEstoque = sessionStorage.getItem("grupo") == Grupo.ESTOQUISTA;
   }
 
   criarImagemPadrao(): void {
@@ -117,6 +121,8 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
     })
 
   }
+
+
 
   // CARROSSEL DE IMAGENS {
   //  MUDAR IMAGEM PRINCIPAL
