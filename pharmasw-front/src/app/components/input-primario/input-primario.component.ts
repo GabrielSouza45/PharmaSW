@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
-type InputTypes = "text" | "email" | "password" | "number"
+type InputTypes = "text" | "email" | "password" | "number" | "text-box" | "file"
 
 @Component({
   selector: 'app-input-primario',
@@ -27,7 +27,12 @@ export class InputPrimarioComponent implements ControlValueAccessor{
   @Input() placeHolder: string = "";
   @Input() label: string = "";
   @Input() inputName: string = "";
-  @Input() maxLength: string = "9999";
+  @Input() style: string = "";
+  @Input() styleLabel: string = "";
+  @Input() maxLength: string = "";
+  @Input() max: string = "";
+  @Input() min: string = "0";
+  @Input() step: string = "";
   @Input() addLabel: boolean = false;
   @Input() disabled: boolean = false;
 

@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name = "usuario")
-@Table(name = "usuario")
+@Entity(name = "usuarios")
+@Table(name = "usuarios")
 @EqualsAndHashCode(of = "id")
 public class Usuario implements UserDetails {
 
@@ -50,9 +50,9 @@ public class Usuario implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.grupo == Grupo.ADMINISTRADOR)
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_ESTOQUISTA"));
         else
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+            return List.of(new SimpleGrantedAuthority("ROLE_ESTOQUISTA"));
     }
 
     @Override

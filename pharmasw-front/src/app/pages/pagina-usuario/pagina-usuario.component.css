@@ -77,14 +77,16 @@ form {
   display: grid;
   grid-template-columns: 45% 45%;
   gap: 15px;
-  overflow: scroll;
   border: 1px solid #ddd;
+  border-radius: 15px;
+  overflow-y: scroll;
+  padding: 15px;
 }
 .input-cadastro{
   width: 100%;
 }
 
-.preco, .categoria, .descricao, .status{
+.input-padrao{
   grid-column-start: 1;
   grid-column-end: 3;
 }
@@ -97,7 +99,6 @@ form {
     display: grid;
     grid-template-columns: 45% 45%;
     gap: 15px;
-    overflow: scroll;
   }
 }
 

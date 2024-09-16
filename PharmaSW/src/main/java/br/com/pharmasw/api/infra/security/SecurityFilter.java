@@ -4,6 +4,7 @@ import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,10 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        Gson gson = new Gson();
+        String tokenExpirado = gson.toJson(new MensagemErro("Token Expirado."));
+        String tokenInvalido = gson.toJson(new MensagemErro("Token inválido."));
+
         try {
             var token = this.recoverToken(request);
             if (token != null) {
@@ -41,15 +46,15 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (TokenExpiredException e) {
-            System.out.println("Token Expirado.");
+            System.out.println(gson.toJson(tokenExpirado));
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token expirado.");
+            response.getWriter().write(tokenExpirado);
             response.getWriter().flush();
             return;
         } catch (JWTDecodeException ex) {
-            System.out.println("Token Inválido.");
+            System.out.println(tokenInvalido);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Token inválido.");
+            response.getWriter().write(tokenInvalido);
             response.getWriter().flush();
             return;
         }
@@ -59,5 +64,22 @@ public class SecurityFilter extends OncePerRequestFilter {
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null) return null;
         return authHeader.replace("Bearer ", "");
+    }
+
+    // Cria uma classe interna
+    private static class MensagemErro{
+        private String menssagem;
+
+        public MensagemErro(String message) {
+            this.menssagem = message;
+        }
+
+        public String getMessage() {
+            return menssagem;
+        }
+
+        public void setMessage(String message) {
+            this.menssagem = message;
+        }
     }
 }

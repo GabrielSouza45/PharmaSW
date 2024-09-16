@@ -15,6 +15,5 @@ public class Filtros {
     private String nome;
     private Status status;
     private Grupo grupo;
-
-
+    private int pagina;
 }

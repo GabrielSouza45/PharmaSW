@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "produto")
+@Table(name = "produtos")
 public class Produto {
 
     //ATRIBUTOS PADRÃO
@@ -17,9 +17,12 @@ public class Produto {
     private Status status;
 
     private String nome;
+    private String fabricante;
     private String categoria;
     private Double valor;
     private Double peso;
+    private Integer quantidadeEstoque;
+    private int avaliacao;
 
     @Transient
     private String imagemPrincipal;
@@ -28,7 +31,6 @@ public class Produto {
     public Produto() {
 
     }
-
 
     public Long getId() {
         return id;
@@ -90,5 +92,29 @@ public class Produto {
 
     public void setImagemPrincipal(String imagemPricipal) {
         this.imagemPrincipal = imagemPricipal;
+    }
+
+    public String getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(String fabricante) {
+        this.fabricante = fabricante;
+    }
+
+    public Integer getQuantidadeEstoque() {
+        return quantidadeEstoque;
+    }
+
+    public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
+
+      public int getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(int avaliacao) {
+        this.avaliacao = avaliacao;
     }
 }

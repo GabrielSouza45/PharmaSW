@@ -1,5 +1,5 @@
 <div class="input-wrapper">
-    <label *ngIf="addLabel" [for]="inputName">{{ label }}</label>
+    <label *ngIf="addLabel" [style]="styleLabel" [for]="inputName">{{ label }}</label>
     <div class="input-content">
         <input
             [type]="type"
@@ -8,7 +8,11 @@
             [value]="value"
             (input)="onInput($event)"
             [maxLength]="maxLength"
+            [max]="max"
+            [min]="min"
             [disabled]="disabled"
+            [style]="style"
+            [step]="step"
         />
         <div class="icon">
             <ng-content>

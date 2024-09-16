@@ -23,14 +23,18 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
     public Usuario findByCpfAndStatus(Long cpf, Status status);
     Usuario findUsuarioByEmailAndStatus(String emailPadrao, Status status);
 
-    @Query(value = "SELECT senha FROM usuario WHERE email = :email AND status = 'ATIVO'", nativeQuery = true)
+    @Query(value = "SELECT senha FROM usuarios WHERE email = :email AND status = 'ATIVO'", nativeQuery = true)
     String getSenhaByEmailAtivo(@Param("email") String login);
 
-    @Query(value = "SELECT * " +
-            " FROM usuario " +
-            " WHERE (:nome IS NULL OR nome LIKE %:nome%) " +
-            " AND (:status IS NULL OR status = :status) " +
-            " ORDER BY id DESC ", nativeQuery = true)
-    List<Usuario> getByNomeOrStatus(@Param("nome") String nome,
-                                     @Param("status") String status);
+    @Query(value = "SELECT * FROM usuarios WHERE (:nome IS NULL OR nome LIKE %:nome%) AND (:status IS NULL OR status = :status) ORDER BY id DESC LIMIT :limit OFFSET :offset ",
+            nativeQuery = true)
+    List<Usuario> findByNomeOrStatus(@Param("nome") String nome,
+                                    @Param("status") String status,
+                                    @Param("limit") int limit,
+                                    @Param("offset") int offset
+    );
+
+    @Query(value = "SELECT COUNT(*) FROM usuarios WHERE (:nome IS NULL OR nome LIKE %:nome%) AND (:status IS NULL OR status = :status)",
+            nativeQuery = true)
+    Integer totalUsuarios(@Param("nome") String nome, @Param("status") String status);
 }

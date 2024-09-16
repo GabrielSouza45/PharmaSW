@@ -1,30 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Usuario } from '../../modelo/Usuario';
-import { LoginResponse } from '../../types/login-response.type';
 import { Observable, tap } from 'rxjs';
+
+import { Login } from '../../modelo/Login';
+import { LoginResponse } from '../../types/login-response.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  private usuario: Usuario;
+  private loginObj: Login;
 
   constructor(private httpClient: HttpClient) {  }
 
   login(email: string, senha: string): Observable<LoginResponse> {
 
-    this.usuario = new Usuario(
-      null,
+    this.loginObj = new Login(
       email,
-      senha,
-      null,
-      null
+      senha
     );
 
     return this.httpClient
-      .post<LoginResponse>("http://localhost:8080/auth/login", this.usuario)
+      .post<LoginResponse>("http://localhost:8080/auth/login", this.loginObj)
       .pipe(
         tap((value) => {
           sessionStorage.setItem("token", value.token);

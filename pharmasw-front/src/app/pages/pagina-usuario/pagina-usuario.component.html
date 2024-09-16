@@ -52,8 +52,9 @@
   <div class="inferior" inferior>
     <app-table-pagination
       [dados]="usuarios"
-      (alterarEstadoStatus)="mudarStatus($event)"
-      (alterarEstadoCadastro)="abrirModalEdicao($event)"
+      [acoes]="acoes"
+      [totalItens]="totalItens"
+      (pageChangeEvent)="pageChanged($event)">
     >
     </app-table-pagination>
   </div>
@@ -64,14 +65,14 @@
   *ngIf="modalAberto"
   (fecharModal)="fecharModal()"
   (submit)="mudaEstadoClick()"
-  tituloModal="Cadastro - Usuário"
-  textoBotao="Cadastrar"
+  [tituloModal]="(clickCadastro ? 'Cadastro' : 'Alterar').concat(' - Usuário')"
+  [textoBotao]="(clickCadastro ? 'Cadastrar' : 'Alterar')"
 >
   <form class="form-cadastro" [formGroup]="formCadastroUsuario">
 
     <!-- nome -->
     <app-input-primario
-      class="input-cadastro nome"
+      class="input-cadastro input-padrao"
       [addLabel]="true"
       label="Nome:"
       inputName="nome"
@@ -81,7 +82,7 @@
 
     <!-- email -->
     <app-input-primario
-      class="input-cadastro email"
+      class="input-cadastro input-padrao"
       [addLabel]="true"
       label="Email:"
       inputName="nome"
@@ -93,7 +94,7 @@
 
     <!-- cpf -->
     <app-input-primario
-      class="input-cadastro cpf"
+      class="input-cadastro input-padrao"
       [addLabel]="true"
       label="Cpf:"
       inputName="cpf"
@@ -104,7 +105,7 @@
 
     <!-- grupo -->
     <app-input-primario
-      class="input-cadastro grupo"
+      class="input-cadastro input-padrao"
       [addLabel]="true"
       label="Grupo:"
       inputName="grupo"

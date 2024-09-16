@@ -1,15 +1,22 @@
 import { CrudService } from './../../services/crud-service.service';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
 import { TablePaginationComponent } from '../../components/table-pagination/table-pagination.component';
+import { Grupo } from '../../modelo/enums/Grupo';
+import { Status } from '../../modelo/enums/Status';
 import { Filtros } from '../../modelo/Filtros';
 import { Produto } from '../../modelo/Produto';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { CrudService } from '../../services/crud-service/crud-service.service';
+import { Produto } from './../../modelo/Produto';
+import { FormCheckerService } from '../../services/form-checker/form-checker.service';
 
 @Component({
   selector: 'app-pagina-produtos',
@@ -20,139 +27,144 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
     InputPrimarioComponent,
     TablePaginationComponent,
     CommonModule,
-    ModalComponent
+    ModalComponent,
   ],
   templateUrl: './pagina-produtos.component.html',
-  styleUrl: './pagina-produtos.component.css'
+  styleUrl: './pagina-produtos.component.css',
 })
-export class PaginaProdutosComponent extends CrudService<Produto>{
-  buscarForm!: FormGroup;
-  produtos: any[] = [];
-  modalAberto: boolean = false;
-  formProduto: FormGroup;
-  private filtros: Filtros;
-  clickCadastro: boolean = true;
-  usuarioLogado: boolean = false;
-  administrador: boolean = sessionStorage.getItem("grupo") == "ADMINISTRADOR";
+export class PaginaProdutosComponent extends CrudService<Produto> {
+  buscarForm!: FormGroup; // Formulário com filtro para pesquisa
+  formProduto!: FormGroup; // Formulario para cadastro e alteração
+  produtos: Produto[] = []; // Aqui serão recebidos os produtos do back
+  modalAberto: boolean = false; // Controla a abertura e fechamento do modal de cadastro
+  clickCadastro: boolean = true; // Define se o botão do modal será para cadastrar ou alterar
+  isAdministrador: boolean =
+    sessionStorage.getItem('grupo') === Grupo.ADMINISTRADOR;
+  pagina: number = 1; // Usado para o pageable
+  totalItens: number = 10; // Usado para o pageable
+  acoesPermitidas: any[]; // Ações permitidas para o usuario sobre o produto
 
   constructor(
+    private http: HttpClient,
     private toastrService: ToastrService,
-    private http: HttpClient
+    private formChecker: FormCheckerService
   ) {
-console.log(sessionStorage.getItem("grupo"));
-
-    super(http, "/produto-controle");
+    super(http, '/produto-controle', toastrService);
 
     this.buscarForm = new FormGroup({
       nome: new FormControl(''),
-      status: new FormControl('')
+      status: new FormControl(''),
     });
 
     this.formProduto = new FormGroup({
       nome: new FormControl('', [Validators.required]),
-      preco: new FormControl('', [Validators.required]),
-      descricao: new FormControl('', [Validators.required]),
-      quantidade: new FormControl('', [Validators.required]),
-      categoria: new FormControl('', [Validators.required])
+      categoria: new FormControl('', [Validators.required]),
+      valor: new FormControl(0.0, [Validators.required]),
+      peso: new FormControl(0.0, [Validators.required]),
+      fabricante: new FormControl('', [Validators.required]),
+      quantidadeEstoque: new FormControl(0, [Validators.required]),
     });
 
+    this.carregaAcoesPermitidas();
     this.pesquisar();
   }
 
-  getProduto() {
-    return new Produto(
-      this.formProduto.value.preco,
-      this.formProduto.value.descricao,
-      this.formProduto.value.quantidade,
-      this.formProduto.value.categoria
-    );
-  }
+  carregaAcoesPermitidas() {
+    const alterar = [
+      {
+        nome: (item: Produto) => 'Alterar',
+        icone: (item: Produto) => 'bi bi-pencil-square',
+        funcao: (item: Produto) => this.alterarCadastro(item),
+      },
+    ];
 
+    const alterarStatus = [
+      {
+        nome: (item: Produto) =>
+          item.status === Status.ATIVO ? 'Inativar' : 'Ativar',
+        icone: (item: Produto) =>
+          item.status === Status.ATIVO
+            ? 'bi bi-x-circle-fill'
+            : 'bi bi-person-plus-fill',
+        funcao: (item: Produto) => this.mudarStatus(item),
+      },
+    ];
+
+    const visualizar = [
+      {
+        nome: (item: Produto) => 'Visualizar',
+        icone: (item: Produto) => 'bi bi-eye-fill',
+        funcao: (item: Produto) => this.visualizar(item),
+      },
+    ];
+
+    if (this.isAdministrador) {
+      this.acoesPermitidas = alterar.concat(alterarStatus).concat(visualizar);
+    } else {
+      this.acoesPermitidas = alterar;
+    }
+  }
 
   // PESQUISAR
   pesquisar() {
-    this.filtros = new Filtros();
-    this.filtros.nome = this.buscarForm.value.nome || null,
-      this.filtros.status = this.buscarForm.value.status || null,
+    const filtros = new Filtros();
+    filtros.nome = this.buscarForm.value.nome || null;
+    filtros.status = this.buscarForm.value.status || null;
+    filtros.pagina = this.pagina;
 
-      this.listar(this.filtros, "/listar-produtos")
-        .subscribe((response: any) => {
-          this.produtos = response;
-          console.log(response);
+    this.listar(filtros, '/listar-produtos').subscribe((response: any) => {
+      this.produtos = response.content;
+      console.log(response);
 
-        });
+      this.totalItens = response.totalElements;
+    });
 
     const radios = document.querySelectorAll('input[name="status"]');
-    radios.forEach(radio => (radio as HTMLInputElement).checked = false);
+    radios.forEach((radio) => ((radio as HTMLInputElement).checked = false));
     this.buscarForm.value.status = null;
   }
 
+  // PAGEABLE
+  pageChanged(page: number) {
+    this.pagina = page;
+    this.pesquisar();
+  }
+
+  // VISUALIZAR
+  visualizar(produto: Produto) {}
 
   // CADASTRAR
-  cadastrar() { }
+  cadastrar() {}
 
   // MUDAR STATUS
-  mudarStatus(event: { id: number }): void {
-    const { id } = event;
+  mudarStatus(produto: Produto): void {
+    let id = produto.id;
+    const filtros = new Filtros();
+    filtros.id = id;
 
-    this.filtros = new Filtros();
-    this.filtros.id = id;
-
-    this.editarStatus(this.filtros, "/mudar-status").subscribe({
-      next: (response: HttpResponse<any>) => {
-        const statusCode = response.status;
-
-        if (statusCode === 200) {
-          this.toastrService.success("Status alterado com sucesso!");
-        } else if (statusCode === 404) {
-          this.toastrService.error("Produto não encontrado.");
-        } else {
-          this.toastrService.warning("Erro inesperado.");
-        }
+    this.editarStatus(filtros, '/mudar-status').subscribe({
+      next: () => {
         this.pesquisar();
       },
       error: (error) => {
-        console.error("Erro ao alterar o status do produto", error);
-        this.toastrService.error("Erro ao alterar o status do produto. Tente novamente mais tarde.");
-      }
+        console.error('Erro ao alterar o Produto', error);
+        this.toastrService.error(
+          'Erro ao alterar o Produto. Tente novamente mais tarde.'
+        );
+      },
     });
   }
 
   // EDITAR PRODUTO
-  alterarProduto() {
-    if (!this.checkFormErrors()) {
-      return;
-    }
-
-    this.editar(this.getProduto(), "/editar-produto").subscribe({
-      next: (response: HttpResponse<any>) => {
-        const statusCode = response.status;
-
-        if (statusCode === 200) {
-          this.toastrService.success("Produto alterado com sucesso!");
-        } else if (statusCode === 404) {
-          this.toastrService.error("Produto não encontrado.");
-        } else {
-          this.toastrService.warning("Erro inesperado.");
-        }
-        this.pesquisar();
-        this.modalAberto = false;
-      },
-      error: (error) => {
-        console.error("Erro ao alterar o produto", error);
-        this.toastrService.error("Erro ao alterar o produto. Tente novamente mais tarde.");
-      }
-    });
-    this.clickCadastro = true;
-  }
+  alterarCadastro(produto: Produto) {}
 
   // CONTROLE DO MODAL DE CADASTRO/EDIÇÃO {
-  resetaModal(){
+  resetaModal() {
     this.formProduto.patchValue({
       nome: null,
       categoria: null,
       valor: null,
-      peso: null
+      peso: null,
     });
   }
 
@@ -160,14 +172,13 @@ console.log(sessionStorage.getItem("grupo"));
     if (this.clickCadastro) {
       this.cadastrar();
     } else {
-      this.alterarProduto();
+      // this.alterarCadastro();
     }
   }
 
   abrirModal() {
     this.resetaModal();
     this.clickCadastro = true;
-    this.usuarioLogado = false;
     this.modalAberto = true;
   }
 
@@ -178,39 +189,21 @@ console.log(sessionStorage.getItem("grupo"));
     this.resetaModal();
     this.modalAberto = true;
     this.clickCadastro = false;
-    this.usuarioLogado = (sessionStorage.getItem("id") == item.id.toString())
   }
 
   fecharModal() {
     this.modalAberto = false;
   }
+  // }
 
-  checkFormErrors(): boolean {
-    let valido = true;
-    const controls = this.formProduto.controls;
-
-
-
-    if (controls['preco']?.errors?.['required']) {
-      this.toastrService.warning("O campo preço é obrigatório.");
-      valido = false;
-    }
-
-    if (controls['descricao']?.errors?.['required']) {
-      this.toastrService.warning("O campo descrição é obrigatório.");
-      valido = false;
-    }
-
-    if (controls['quantidade']?.errors?.['required']) {
-      this.toastrService.warning("O campo quantidade é obrigatório.");
-      valido = false;
-    }
-
-    if (controls['categoria']?.errors?.['required']) {
-      this.toastrService.warning("O campo categoria é obrigatório.");
-      valido = false;
-    }
-
-    return valido;
+  private getProduto() {
+    return new Produto(
+      this.formProduto.value.nome,
+      this.formProduto.value.categoria,
+      this.formProduto.value.valor,
+      this.formProduto.value.peso,
+      this.formProduto.value.fabricante,
+      this.formProduto.value.quantidadeEstoque
+    );
   }
 }

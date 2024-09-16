@@ -1,0 +1,21 @@
+<div class="input-wrapper">
+  <label *ngIf="addLabel" [style]="styleLabel" [for]="name">{{ label }}</label>
+  <div class="input-content">
+    <textarea
+        [name]="name"
+        [placeholder]="placeHolder"
+        class="form-control"
+        [value]="value"
+        [maxLength]="maxLength"
+        [disabled]="disabled"
+        [style]="style"
+    ></textarea>
+    <div class="icon">
+        <ng-content>
+
+        </ng-content>
+    </div>
+</div>
+
+
+</div>

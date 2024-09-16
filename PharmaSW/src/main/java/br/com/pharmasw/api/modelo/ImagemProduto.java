@@ -1,12 +1,14 @@
 package br.com.pharmasw.api.modelo;
 
 import br.com.pharmasw.api.modelo.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
-@Entity(name = "imagem_produto")
-@Table(name = "imagem_produto")
+@Entity(name = "imagens_produtos")
+@Table(name = "imagens_produtos")
 @EqualsAndHashCode(of = "id")
 public class ImagemProduto {
 
@@ -18,12 +20,15 @@ public class ImagemProduto {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-
+    @JsonIgnore
     private String caminho;
     private boolean principal;
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @Transient
+    private byte[] imagem;
+
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
     private Produto produto;
 
 
@@ -42,6 +47,7 @@ public class ImagemProduto {
         this.status = status;
     }
 
+    @JsonIgnore
     public String getCaminho() {
         return caminho;
     }
@@ -64,5 +70,13 @@ public class ImagemProduto {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 }

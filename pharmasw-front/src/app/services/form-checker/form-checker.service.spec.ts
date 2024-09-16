@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CrudServiceService } from './crud-service.service';
+import { FormCheckerService } from './form-checker.service';
 
-describe('CrudServiceService', () => {
-  let service: CrudServiceService;
+describe('FormCheckerService', () => {
+  let service: FormCheckerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CrudServiceService);
+    service = TestBed.inject(FormCheckerService);
   });
 
   it('should be created', () => {

@@ -3,5 +3,6 @@ export class Filtros{
   nome: string;
   status: string;
   grupo: string;
+  pagina: number;
 
 }

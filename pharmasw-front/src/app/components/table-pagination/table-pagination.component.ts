@@ -16,11 +16,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './table-pagination.component.css'
 })
 export class TablePaginationComponent {
-  @Output("alterarEstadoCadastro") alterar = new EventEmitter<{item: Usuario}>;
-  @Output("alterarEstadoStatus") mudarStatus = new EventEmitter<{id: number}>;
   @Input() dados: any[] = [];
+  @Input() acoes: any[] = [];
   colunas: string[] = [];
-  idLogado: string = sessionStorage.getItem("id");
 
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -30,22 +28,18 @@ export class TablePaginationComponent {
     }
   }
 
-  alterarCadastro(item: any){
-    this.alterar.emit({item});
-  }
-
-  alterarStatus(id: number){
-    this.mudarStatus.emit({id});
-  }
-
 
   // PAGINATION
-  totalItems: number = 0;
-  currentPage: number = 4;
-  page?: number;
+  @Input() totalItens: number = 50;
+  @Output() pageChangeEvent = new EventEmitter<number>();
+  page?: number = 1;
+  currentPage: number = this.page;
 
   pageChanged(event: PageChangedEvent): void {
+    console.log("Exibirrrrrrrr");
+
     this.page = event.page;
+    this.pageChangeEvent.emit(this.page);
     console.log(this.page);
   }
 }

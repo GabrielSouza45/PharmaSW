@@ -17,7 +17,7 @@
         <i
           class="bi bi-plus-circle-fill button"
           (click)="abrirModal()"
-          *ngIf="administrador"
+          *ngIf="isAdministrador"
         ></i>
       </div>
     </div>
@@ -56,8 +56,10 @@
   <div class="inferior" inferior>
     <app-table-pagination
       [dados]="produtos"
-      (alterarEstadoStatus)="mudarStatus($event)"
-      (alterarEstadoCadastro)="abrirModalEdicao($event)"
+      [acoes]="acoesPermitidas"
+      [totalItens]="totalItens"
+      (pageChangeEvent)="pageChanged($event)">
+
     >
     </app-table-pagination>
   </div>

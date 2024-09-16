@@ -9,5 +9,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class BotaoComponent {
   @Input() textoBtn:string = "";
+  @Input() classes:string = "";
   @Input() desabilitarBotao: boolean = true;
 }
