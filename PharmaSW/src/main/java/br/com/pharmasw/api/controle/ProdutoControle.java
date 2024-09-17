@@ -53,8 +53,6 @@ public class ProdutoControle {
             @RequestPart("imagens") List<MultipartFile> imagens) {
         if (jsonProduto.isBlank())
             return new ResponseEntity<>("Produto não pode ser null.", HttpStatus.BAD_REQUEST);
-        if (imagens.isEmpty())
-            return new ResponseEntity<>("Imagens são obrigatórias.", HttpStatus.BAD_REQUEST);
 
         Produto produto = null;
         try {
@@ -63,6 +61,7 @@ public class ProdutoControle {
         } catch (JsonProcessingException e){
             return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         return produtoServico.cadastrarProduto(produto, imagens);
     }
 

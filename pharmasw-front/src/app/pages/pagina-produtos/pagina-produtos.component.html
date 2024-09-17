@@ -64,21 +64,3 @@
     </app-table-pagination>
   </div>
 </app-pagina-inicial-layout>
-
-<app-modal
-  *ngIf="modalConfirmacao"
-  tituloModal="Confirmar a alteração do status?"
-  textoBotao="Confirmar"
-  (fecharModal)="fecharModalConfirmacao()"
->
-
-</app-modal>
-
-<app-cadastro-produtos
-  [openCadastro]="modalAberto"
-  [clickCadastro]="clickCadastro"
-  (fecharModal)="fecharModal()"
-  (atualizarTabela)="pesquisar()"
-  [produtoEdicao]="produtoEdicao"
->
-</app-cadastro-produtos>

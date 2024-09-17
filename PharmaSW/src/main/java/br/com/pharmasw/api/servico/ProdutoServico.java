@@ -81,9 +81,9 @@ public class ProdutoServico {
         Produto produtoSalvo = produtoRepositorio.save(produto);
 
         try {
-
-            this.imagemProdutoServico.cadastrar(produtoSalvo, imagens);
-
+            if (!imagens.isEmpty()) {
+                this.imagemProdutoServico.cadastrar(produtoSalvo, imagens);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>("Erro ao cadastrar imagens.", HttpStatus.BAD_GATEWAY);

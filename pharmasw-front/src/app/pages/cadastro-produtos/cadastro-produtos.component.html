@@ -1,10 +1,9 @@
 <app-modal
   class="modal-cadastro"
-  *ngIf="openCadastro"
-  (fecharModal)="fechaModal.emit()"
+  (fecharModal)="fecharModal()"
   (submit)="mudarEstadoClick()"
-  tituloModal="Cadastrar - Produtos"
-  textoBotao="Cadastrar"
+  [tituloModal]="tituloModal"
+  [textoBotao]="textoBotaoModal"
 >
   <section class="conteiner">
     <div class="esquerda">
