@@ -8,10 +8,16 @@ import { CarouselComponent } from './../../components/carousel/carousel.componen
 import { InputPrimarioComponent } from './../../components/input-primario/input-primario.component';
 import { ModalComponent } from './../../components/modal/modal.component';
 import { TextAreaComponent } from './../../components/text-area/text-area.component';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Produto } from '../../modelo/Produto';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Grupo } from '../../modelo/enums/Grupo';
+import { Filtros } from '../../modelo/Filtros';
 
 @Component({
   selector: 'app-cadastro-produtos',
@@ -23,7 +29,7 @@ import { Grupo } from '../../modelo/enums/Grupo';
     BotaoComponent,
     TextAreaComponent,
     CarouselComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './cadastro-produtos.component.html',
   styleUrl: './cadastro-produtos.component.css',
@@ -33,31 +39,49 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
   @Output('atualizarTabela') atualizarTabela = new EventEmitter();
   @Input() openCadastro: boolean = false;
   @Input() clickCadastro: boolean = true;
-  @Input() carregaFormulario: number; // Recebe o id do Produto
+  @Input() produtoEdicao: Produto;
 
   imagens: ImagemProduto[] = [];
   formProduto!: FormGroup;
-  usuarioEstoque: boolean = "false";
+  usuarioEstoque: boolean = false;
 
   constructor(private http: HttpClient, private toastrService: ToastrService) {
-
-    super(http, "/produto-controle", toastrService);
+    super(http, '/produto-controle', toastrService);
     this.criarImagemPadrao();
 
     this.formProduto = new FormGroup({
       nome: new FormControl('', [Validators.required]),
       valor: new FormControl(0.0, [Validators.required, Validators.min(0)]),
-      quantidadeEstoque: new FormControl(0, [Validators.required, Validators.min(0)]),
-      descricao: new FormControl("", [Validators.required]),
+      quantidadeEstoque: new FormControl(0, [
+        Validators.required,
+        Validators.min(0),
+      ]),
+      descricao: new FormControl('', [Validators.required]),
       avaliacao: new FormControl(0, [
         Validators.required,
         Validators.min(0),
         Validators.max(5),
       ]),
-      imagemPrincipal: new FormControl('')
+      imagemPrincipal: new FormControl(''),
     });
 
-    this.usuarioEstoque = sessionStorage.getItem("grupo") == Grupo.ESTOQUISTA;
+    this.usuarioEstoque = sessionStorage.getItem('grupo') == Grupo.ESTOQUISTA;
+      }
+
+  ngOnChanges(){
+    this.limparFormulario();
+    if (!this.clickCadastro) {
+      if (this.produtoEdicao) {
+        const filtro = new Filtros();
+        filtro.id = this.produtoEdicao.id;
+        this.listarUnico(filtro, '/listar-produtos-edicao').subscribe((response: any) => {
+          this.produtoEdicao = response;
+          this.carregaFormulario();
+        });
+      } else {
+        this.toastrService.error('Erro ao carregar formulário!');
+      }
+    }
   }
 
   criarImagemPadrao(): void {
@@ -94,7 +118,9 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
     const formData = new FormData();
 
     this.formProduto.value.valor = Number(this.formProduto.value.valor);
-    this.formProduto.value.quantidadeEstoque = Number(this.formProduto.value.quantidadeEstoque);
+    this.formProduto.value.quantidadeEstoque = Number(
+      this.formProduto.value.quantidadeEstoque
+    );
     this.formProduto.value.avaliacao = Number(this.formProduto.value.avaliacao);
 
     // Adiciona o JSON do produto
@@ -102,12 +128,11 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
     formData.append('produto', produtoJson);
 
     // Adiciona as imagens
-    this.imagens.forEach(imagem => {
+    this.imagens.forEach((imagem) => {
       formData.append('imagens', imagem.arquivo);
     });
 
-
-    this.adicionar(formData, "/cadastrar").subscribe({
+    this.adicionar(formData, '/cadastrar').subscribe({
       next: (response: HttpResponse<any>) => {
         this.fechaModal.emit();
         this.atualizarTabela.emit();
@@ -118,11 +143,37 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
           'Erro ao adicionar Usuário. Tente novamente mais tarde.'
         );
       },
-    })
-
+    });
   }
 
+  mudarEstadoClick(): void {
+    if (this.clickCadastro) {
+      this.cadastrar();
+    } else {
+      this.alterarProduto();
+    }
+  }
 
+  //EDIÇÃO DE QUANTIDADES ESTOQUE
+  alterarProduto() {
+    if (this.usuarioEstoque) {
+      const produtoEditado = this.getProduto();
+      produtoEditado.id = this.produtoEdicao.id;
+      this.editar(produtoEditado, '/alterar-quantidade').subscribe({
+        next: (response: HttpResponse<any>) => {
+          this.limparFormulario();
+          this.fechaModal.emit();
+          this.atualizarTabela.emit();
+        },
+        error: (error) => {
+          console.error('Erro ao alterar produto', error);
+          this.toastrService.error(
+            'Erro ao alterar o produto. Tente novamente mais tarde.'
+          );
+        },
+      });
+    }
+  }
 
   // CARROSSEL DE IMAGENS {
   //  MUDAR IMAGEM PRINCIPAL
@@ -157,11 +208,10 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
       }
     }
     if (files && files.length > 0) {
-
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
 
-        this.imagens.forEach(img => {
+        this.imagens.forEach((img) => {
           if (img.arquivo == file) {
             return;
           }
@@ -186,12 +236,33 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
   }
   // } CARROSSEL DE IMAGENS
 
-  mudarEstadoClick(): void {
-    if (this.clickCadastro) {
-      this.cadastrar();
-    } else {
-      // this.alterarCadastro();
-    }
+  private getProduto(): Produto {
+    return new Produto(
+      this.formProduto.value.nome,
+      this.formProduto.value.valor,
+      this.formProduto.value.descricao,
+      this.formProduto.value.avaliacao,
+      this.formProduto.value.quantidadeEstoque
+    );
   }
 
+  private limparFormulario(): void {
+    this.formProduto.patchValue({
+      nome: null,
+      valor: null,
+      quantidadeEstoque: null,
+      descricao: null,
+      avaliacao: null,
+    });
+  }
+
+  private carregaFormulario(): void {
+    this.formProduto.patchValue({
+      nome: this.produtoEdicao.nome,
+      valor: this.produtoEdicao.valor,
+      quantidadeEstoque: this.produtoEdicao.quantidadeEstoque,
+      descricao: this.produtoEdicao.descricao,
+      avaliacao: this.produtoEdicao.avaliacao,
+    });
+  }
 }

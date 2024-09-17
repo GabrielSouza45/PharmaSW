@@ -42,6 +42,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   pagina: number = 1; // Usado para o pageable
   totalItens: number = 10; // Usado para o pageable
   acoesPermitidas: any[]; // Ações permitidas para o usuario sobre o produto
+  produtoEdicao : Produto;
 
   constructor(
     private http: HttpClient,
@@ -73,7 +74,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
       {
         nome: (item: Produto) => 'Alterar',
         icone: (item: Produto) => 'bi bi-pencil-square',
-        funcao: (item: Produto) => this.alterarCadastro(item),
+        funcao: (item: Produto) => this.abrirModalEdicao(item),
       },
     ];
 
@@ -154,16 +155,10 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   }
 
   // EDITAR PRODUTO
-  abrirModalEdicao(event: { item: any }): void {
-    const { item } = event;
-
-    this.resetaFormulario();
+  abrirModalEdicao(produto : Produto): void {
+    this.produtoEdicao = produto;
     this.modalAberto = true;
     this.clickCadastro = false;
-  }
-
-  alterarCadastro(produto: Produto) {
-
   }
 
   // CONTROLE DO MODAL DE CADASTRO/EDIÇÃO {
@@ -197,14 +192,4 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   }
   // }
 
-  // private getProduto() {
-  //   return new Produto(
-  //     this.formProduto.value.nome,
-  //     this.formProduto.value.categoria,
-  //     this.formProduto.value.valor,
-  //     this.formProduto.value.peso,
-  //     this.formProduto.value.fabricante,
-  //     this.formProduto.value.quantidadeEstoque
-  //   );
-  // }
 }

@@ -34,6 +34,15 @@ public class ProdutoControle {
 
     }
 
+    @PostMapping("/listar-produtos-edicao")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')") // -> Permite que usuarios ADMIN e ESTOQUISTA acessem o endpoint
+    public ResponseEntity<?> listarProdutosEdicao(@RequestBody Filtros filtros) {
+
+        return produtoServico.listarProdutosEdicao(filtros);
+
+    }
+
 
     // CADASTRAR
     @PostMapping(value = "/cadastrar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

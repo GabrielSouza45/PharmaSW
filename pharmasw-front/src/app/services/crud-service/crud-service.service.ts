@@ -24,6 +24,10 @@ export class CrudService<T> {
     return this.httpClient.post<any[]>(this.url + acao, filtros);
   }
 
+  listarUnico(filtros: Filtros, acao: string): Observable<T> {
+    return this.httpClient.post<any>(this.url + acao, filtros);
+  }
+
   adicionar(dados: T | FormData, acao: string): Observable<HttpResponse<any>> {
     return this.httpClient
       .post<any>(this.url + acao, dados, { observe: 'response' })

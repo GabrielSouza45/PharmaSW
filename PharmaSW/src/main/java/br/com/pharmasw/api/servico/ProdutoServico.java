@@ -58,8 +58,17 @@ public class ProdutoServico {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
+    //listar produtos para edição. Retorna todos os dados
+    public ResponseEntity<?> listarProdutosEdicao(Filtros filtros) {
 
-    //Metodo cadastrar os produtos
+        Produto produto = produtoRepositorio.findById(filtros.getId()).orElse(null);
+
+        return new ResponseEntity<>(produto, HttpStatus.OK);
+    }
+
+
+
+        //Metodo cadastrar os produtos
     public ResponseEntity<?> cadastrarProduto(Produto produto, List<MultipartFile> imagens) {
 
         Produto produtoExiste =
