@@ -18,24 +18,18 @@ import { BotaoComponent } from '../botao/botao.component';
 export class ModalComponent {
   isModalOpen = false;
   @Input()tituloModal: string = '';
-  @Input()botaoTexto: string = 'Cadastrar';
   @Input()formGroup: FormGroup;
   @Input()textoBotao: string = '';
   @Output("fecharModal") fechar = new EventEmitter;
   @Output("submit") submit = new EventEmitter;
-
-  abrirModal(tipo: string): void {
-    this.isModalOpen = true;
-    this.tituloModal = tipo === 'Cadastrar' ? 'Cadastrar Usuário' : 'Alterar Usuário';
-    this.botaoTexto = tipo === 'Cadastrar' ? 'Cadastrar' : 'Alterar';
-  }
+  @Input() objeto : any;
 
   fecharModal(): void {
     this.fechar.emit();
   }
 
   onSubmit(){
-    this.submit.emit();
+    this.submit.emit(this.objeto);
   }
 
 }

@@ -43,6 +43,8 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   totalItens: number = 10; // Usado para o pageable
   acoesPermitidas: any[]; // Ações permitidas para o usuario sobre o produto
   produtoEdicao : Produto;
+  confirmarEdicaoStatus : boolean = false;
+  modalConfirmacao: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -135,8 +137,17 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   // CADASTRAR
   cadastrar() {}
 
+  abrirModalConfirmacao(){
+    this.modalConfirmacao = true;
+  }
+
   // MUDAR STATUS
   mudarStatus(produto: Produto): void {
+
+    if(!this.confirmarEdicaoStatus){
+      return;
+    }
+
     let id = produto.id;
     const filtros = new Filtros();
     filtros.id = id;
@@ -185,10 +196,12 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     this.modalAberto = true;
   }
 
-
-
   fecharModal() {
     this.modalAberto = false;
+  }
+
+  fecharModalConfirmacao() {
+    this.modalConfirmacao = false;
   }
   // }
 
