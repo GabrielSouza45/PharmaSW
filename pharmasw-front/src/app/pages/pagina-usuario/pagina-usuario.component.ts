@@ -159,14 +159,7 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
   }
 
   // EDITAR USUARIO
-  mudaEstadoClick(): void {
-    if (this.clickCadastro) {
-      this.cadastrar();
-    } else {
-      this.alterarCadastro();
-    }
-  }
-
+  // aqui é aberto o modal para edicao
   abrirModalEdicao(usuario: Usuario): void {
     this.formCadastroUsuario.patchValue({
       nome: usuario.nome,
@@ -181,6 +174,17 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
     this.usuarioLogado = sessionStorage.getItem('id') == usuario.id.toString();
   }
 
+  // Esse é o botao submit que vem do modal, como o modal é generico,
+  // aqui é definido se o submit do modal será tratado como cadastro ou edicao
+  mudaEstadoClick(): void {
+    if (this.clickCadastro) {
+      this.cadastrar();
+    } else {
+      this.alterarCadastro();
+    }
+  }
+
+  // Aqui é a logica cara alterar o usuario
   alterarCadastro() {
     if (!this.formChecker.checkFormErrorsUsuario(this.formCadastroUsuario)) {
       return;

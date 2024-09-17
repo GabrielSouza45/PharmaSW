@@ -2,7 +2,6 @@ package br.com.pharmasw.api.controle;
 
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Produto;
-import br.com.pharmasw.api.modelo.enums.Grupo;
 import br.com.pharmasw.api.servico.ProdutoServico;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

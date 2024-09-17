@@ -5,12 +5,17 @@
       class="carousel-item"
       [class.active]="i === currentSlide"
     >
-      <img [src]="image" alt="Uploaded image {{ i + 1 }}" />
-
+      <img [src]="image.caminho" alt="Uploaded image {{ i + 1 }}" />
     </div>
     <div class="acoes">
       <div class="itens">
-        <ng-content class="acoes"> </ng-content>
+        <ng-container class="acoes" *ngFor="let acao of acoes">
+          <i
+            (click)="[acao.funcao(images[currentSlide]), atualizaSlide()]"
+            [ngClass]="acao.icone(images[currentSlide])"
+          >
+          </i>
+        </ng-container>
       </div>
     </div>
     <!-- Controles para navegação no carousel -->

@@ -16,7 +16,7 @@
       <div class="botao-cadastrar">
         <i
           class="bi bi-plus-circle-fill button"
-          (click)="abrirModal()"
+          (click)="abrirCadastro()"
           *ngIf="isAdministrador"
         ></i>
       </div>
@@ -65,16 +65,10 @@
   </div>
 </app-pagina-inicial-layout>
 
-<app-modal
-  class="modal-cadastro"
-  *ngIf="modalAberto"
+<app-cadastro-produtos
+  [openCadastro]="modalAberto"
+  [clickCadastro]="clickCadastro"
   (fecharModal)="fecharModal()"
-  (submit)="mudaEstadoClick()"
-  tituloModal="Cadastro - Produto"
-  textoBotao="Cadastrar"
+  (atualizarTabela)="pesquisar()"
 >
-
-  <form class="form-cadastro" [formGroup]="formProduto">
-    <!-- ADICIONAR INPUTS DO FORMULARIO -->
-  </form>
-</app-modal>
+</app-cadastro-produtos>

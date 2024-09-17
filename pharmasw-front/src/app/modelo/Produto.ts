@@ -1,29 +1,36 @@
 import { Status } from "./enums/Status";
+import { ImagemProduto } from "./ImagemProduto";
 
 export class Produto {
 
   id: number;
   status: Status;
   nome: string;
-  categoria: string;
-  fabricante: string;
+  // categoria: string;
+  // fabricante: string;
   quantidadeEstoque: number;
   valor: number;
-  peso: number;
+  // peso: number;
+  avaliacao: number;
+  descricao: string;
 
   constructor(
     nome: string,
-    categoria: string,
+    // categoria: string,
     valor: number,
-    peso: number,
-    fabricante: string,
+    // peso: number,
+    // fabricante: string,
+    descricao: string,
+    avaliacao: number,
     quantidadeEstoque: number
   ) {
     this.nome = nome;
-    this.categoria = categoria;
+    // this.categoria = categoria;
     this.valor = valor;
-    this.peso = peso;
-    this.fabricante = fabricante;
+    // this.peso = peso;
+    // this.fabricante = fabricante;
+    this.descricao = descricao;
+    this.avaliacao = avaliacao;
     this.quantidadeEstoque = quantidadeEstoque;
   }
 }

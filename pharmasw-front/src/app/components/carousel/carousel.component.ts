@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ImagemProduto } from '../../modelo/ImagemProduto';
 
 @Component({
   selector: 'app-carousel',
@@ -9,8 +10,18 @@ import { Component, Input } from '@angular/core';
   styleUrl: './carousel.component.css'
 })
 export class CarouselComponent {
-  @Input() images: string[] = [];  // Receberá as imagens de outro componente
-  currentSlide: number = 0;
+  @Input() images: ImagemProduto[] = [];  // Receberá as imagens de outro componente
+  @Input() acoes: any[] = [];
+  currentSlide: number = this.images.length;
+
+  atualizaSlide() {
+    // Garantir que o currentSlide não esteja fora dos limites válidos
+    if (this.images.length === 0) {
+      this.currentSlide = 0;
+    } else if (this.currentSlide >= this.images.length) {
+      this.currentSlide = this.images.length - 1;
+    }
+  }
 
   previousSlide() {
     console.log(this.images);

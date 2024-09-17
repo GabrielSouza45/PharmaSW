@@ -5,10 +5,11 @@
         [name]="name"
         [placeholder]="placeHolder"
         class="form-control"
-        [value]="value"
+        [(ngModel)]="value"
         [maxLength]="maxLength"
         [disabled]="disabled"
         [style]="style"
+        (input)="onInput($event)"
     ></textarea>
     <div class="icon">
         <ng-content>
