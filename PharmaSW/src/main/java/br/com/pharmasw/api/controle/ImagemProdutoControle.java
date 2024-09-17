@@ -18,7 +18,7 @@ public class ImagemProdutoControle {
 
     @PostMapping("/listar")
     @CrossOrigin(origins = "*")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')")
     public ResponseEntity<?> listarImagensProdutos(@RequestBody Produto produto){
         if (produto.getId() == null)
             return new ResponseEntity<>("Id é obrigatório.", HttpStatus.BAD_REQUEST);

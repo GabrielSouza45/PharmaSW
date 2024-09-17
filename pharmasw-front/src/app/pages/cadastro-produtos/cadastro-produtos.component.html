@@ -81,19 +81,20 @@
 
     <div class="baixo">
       <!-- ADICIONAR IMAGENS -->
-      <div class="botao-add-imagens">
+      <div class="botao-add-imagens" *ngIf="!usuarioEstoque">
         <input
           type="file"
           id="fileInput"
           multiple
           (change)="onFileChange($event)"
           style="display: none"
-          [disabled] ="usuarioEstoque"
+          [disabled]="usuarioEstoque"
         />
         <app-botao
           textoBtn="Adicionar Imagens do Produto"
           classes="botao-arredondado"
           (click)="triggerFileInput()"
+          [desabilitarBotao]="usuarioEstoque"
         />
       </div>
     </div>

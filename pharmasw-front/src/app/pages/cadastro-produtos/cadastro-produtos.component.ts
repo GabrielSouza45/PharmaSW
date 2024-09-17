@@ -1,3 +1,4 @@
+import { FormCheckerService } from './../../services/form-checker/form-checker.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { CrudService } from './../../services/crud-service/crud-service.service';
@@ -19,6 +20,7 @@ import { Produto } from '../../modelo/Produto';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Grupo } from '../../modelo/enums/Grupo';
 import { Filtros } from '../../modelo/Filtros';
+import { ImagemService } from '../../services/imagem/imagem.service';
 
 @Component({
   selector: 'app-cadastro-produtos',
@@ -38,8 +40,9 @@ import { Filtros } from '../../modelo/Filtros';
 export class CadastroProdutosComponent extends CrudService<Produto> {
   funcaoCadastro: boolean = this.data.funcaoCadastro;
   produtoEdicao: Produto | null = this.data.produto;
-  tituloModal: string = (this.data.funcaoCadastro ? "Cadastrar" : "Editar") + " - Produto"
-  textoBotaoModal: string = (this.data.funcaoCadastro ? "Cadastrar" : "Editar");
+  tituloModal: string =
+    (this.data.funcaoCadastro ? 'Cadastr0' : 'Editar') + ' - Produto';
+  textoBotaoModal: string = this.data.funcaoCadastro ? 'Cadastrar' : 'Editar';
 
   imagens: ImagemProduto[] = [];
   formProduto!: FormGroup;
@@ -49,14 +52,16 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
     public dialogRef: MatDialogRef<CadastroProdutosComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private http: HttpClient,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private imagemService: ImagemService<ImagemProduto>,
+    private checker: FormCheckerService
   ) {
     super(http, '/produto-controle', toastrService);
     this.usuarioEstoque = sessionStorage.getItem('grupo') == Grupo.ESTOQUISTA;
     this.criarImagemPadrao();
     this.formProduto = this.iniciarForm();
     this.limparFormulario();
-    if(!data.funcaoCadastro){
+    if (!data.funcaoCadastro) {
       this.iniciaFormularioEdicao();
     }
   }
@@ -70,7 +75,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
         Validators.required,
         Validators.min(0),
       ]),
-      descricao: new FormControl('', [Validators.required]),
+      descricao: new FormControl('', [Validators.required, Validators.maxLength(2000)]),
       avaliacao: new FormControl(0, [
         Validators.required,
         Validators.min(0),
@@ -90,6 +95,12 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
           this.carregaFormulario();
         }
       );
+      this.imagemService
+        .listar(filtro)
+        .subscribe((response: ImagemProduto[]) => {
+          this.imagens = [];
+          this.imagens = response;
+        });
     } else {
       this.toastrService.error('Erro ao carregar formulário!');
     }
@@ -105,17 +116,23 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
 
   acoes = [
     {
-      icone: (image: ImagemProduto) => 'bi bi-trash3',
-      funcao: (image: ImagemProduto) => this.removerImagem(image),
+      icone: (image: ImagemProduto) =>
+        this.usuarioEstoque ? '' : 'bi bi-trash3',
+      funcao: (image: ImagemProduto) =>
+        this.usuarioEstoque ? null : this.removerImagem(image),
     },
     {
       icone: (image: ImagemProduto) =>
-        image.principal ? 'bi bi-star-fill gold-star' : 'bi bi-star',
-      funcao: (image: ImagemProduto) => this.setPrincipal(image),
+        this.usuarioEstoque
+          ? ''
+          : image.principal
+          ? 'bi bi-star-fill gold-star'
+          : 'bi bi-star',
+      funcao: (image: ImagemProduto) =>
+        this.usuarioEstoque ? null : this.setPrincipal(image),
     },
   ];
   // } FIM INICIALIZACAO DO COMPONENT
-
 
   //  REMOVER IMAGEM
   removerImagem(image: ImagemProduto) {
@@ -129,6 +146,8 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
 
   // CADASTRAR
   cadastrar() {
+    if (!this.checker.checkFormErrorsProdutos(this.formProduto)) return
+
     const formData = new FormData();
 
     this.formProduto.value.valor = Number(this.formProduto.value.valor);
@@ -163,10 +182,13 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
 
   // CONTROLE DO MODAL {
   mudarEstadoClick(): void {
+    console.log(123);
+
     if (this.funcaoCadastro) {
       this.cadastrar();
     } else {
-      this.alterarProduto();
+    console.log(1234444);
+    this.alterarProduto();
     }
   }
 
@@ -177,7 +199,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
 
   //EDIÇÃO DE QUANTIDADES ESTOQUE
   alterarProduto() {
-    if (!this.usuarioEstoque) {
+    if (this.usuarioEstoque) {
       const produtoEditado = this.getProduto();
       produtoEditado.id = this.produtoEdicao.id;
       this.editar(produtoEditado, '/alterar-quantidade').subscribe({
@@ -192,6 +214,8 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
           );
         },
       });
+    } else {
+      // COLOCAR LOGICA DE ALTERACAO DO USUARIO ADMIN AQUI!!!
     }
   }
 

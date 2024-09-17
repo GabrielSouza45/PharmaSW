@@ -3,13 +3,12 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FormCheckerService {
+  constructor(private toastrService: ToastrService) {}
 
-  constructor(private toastrService: ToastrService) { }
-
-  checkFormErrorsUsuario(formGroup : FormGroup): boolean {
+  checkFormErrorsUsuario(formGroup: FormGroup): boolean {
     let valido: boolean = true;
     const controls = formGroup.controls;
 
@@ -47,7 +46,7 @@ export class FormCheckerService {
     return valido;
   }
 
-  senhaValida(formGroup : FormGroup): boolean {
+  senhaValida(formGroup: FormGroup): boolean {
     const controls = formGroup.controls;
 
     // Verifica se há erros no campo 'senha'
@@ -65,8 +64,7 @@ export class FormCheckerService {
 
     if (!controls['senha']?.errors && !controls['confirmarSenha']?.errors) {
       const senha = formGroup.get('senha').value;
-      const confirmarSenha =
-      formGroup.get('confirmarSenha').value;
+      const confirmarSenha = formGroup.get('confirmarSenha').value;
 
       if (senha != confirmarSenha) {
         this.toastrService.warning('Senhas não coincidem.');
@@ -82,31 +80,60 @@ export class FormCheckerService {
 
     // Verifica se há erros no campo 'nome'
     if (controls['nome']?.errors?.['required']) {
-      this.toastrService.warning('O campo nome é obrigatório.');
-      valido = false;
-    }
-
-    // Verifica se há erros no campo 'categoria'
-    if (controls['categoria']?.errors) {
-      if (controls['categoria'].errors['required']) {
-        this.toastrService.warning('O campo de email é obrigatório.');
-      }
+      this.toastrService.warning('O campo Nome é obrigatório.');
       valido = false;
     }
 
     // Verifica se há erros no campo 'valor'
     if (controls['valor']?.errors) {
       if (controls['valor'].errors['required']) {
-        this.toastrService.warning('O campo de valor é obrigatório.');
+        this.toastrService.warning('O campo de Valor é obrigatório.');
+      }
+      if (controls['valor'].errors['min']) {
+        this.toastrService.warning('Valor mínimo permitido: 0.');
       }
       valido = false;
     }
 
-    // Verifica se há erros no campo 'peso'
-    if (controls['peso']?.errors?.['required']) {
-      this.toastrService.warning('O campo de peso é obrigatório.');
+    // Verifica se há erros no campo 'quantidadeEstoque'
+    if (controls['quantidadeEstoque']?.errors) {
+      if (controls['quantidadeEstoque'].errors['required']) {
+        this.toastrService.warning(
+          'O campo de Quantidade Estoque é obrigatório.'
+        );
+      }
+      if (controls['quantidadeEstoque'].errors['min']) {
+        this.toastrService.warning(
+          'Quantidade em Estoque mínima permitida: 0.'
+        );
+      }
       valido = false;
     }
+
+    // Verifica se há erros no campo 'descricao'
+    if (controls['descricao']?.errors) {
+      if (controls['descricao']?.errors?.['required']) {
+        this.toastrService.warning('O campo de Descrição é obrigatório.');
+      }
+      if (controls['descricao']?.errors?.['maxLength']) {
+        this.toastrService.warning('Descrição máxima de 2 mil letras.');
+      }
+      valido = false;
+    }
+
+      // Verifica se há erros no campo 'avaliacao'
+      if (controls['avaliacao']?.errors) {
+        if (controls['avaliacao']?.errors?.['required']) {
+          this.toastrService.warning('O campo de Avaliação é obrigatório.');
+        }
+        if (controls['avaliacao']?.errors?.['min']) {
+          this.toastrService.warning('Avaliação mínima: 0.');
+        }
+        if (controls['avaliacao']?.errors?.['max']) {
+          this.toastrService.warning('Avaliação máxima: 5.');
+        }
+        valido = false;
+      }
     return valido;
   }
 }
