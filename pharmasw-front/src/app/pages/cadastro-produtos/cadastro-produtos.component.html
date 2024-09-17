@@ -1,10 +1,9 @@
 <app-modal
   class="modal-cadastro"
-  *ngIf="openCadastro"
-  (fecharModal)="fechaModal.emit()"
+  (fecharModal)="fecharModal()"
   (submit)="mudarEstadoClick()"
-  tituloModal="Cadastrar - Produtos"
-  textoBotao="Cadastrar"
+  [tituloModal]="tituloModal"
+  [textoBotao]="textoBotaoModal"
 >
   <section class="conteiner">
     <div class="esquerda">
@@ -17,6 +16,7 @@
           inputName="nome"
           placeHolder="Nome do produto"
           formControlName="nome"
+          [disabled] ="usuarioEstoque"
           maxLength="200"
         ></app-input-primario>
 
@@ -29,6 +29,7 @@
           inputName="preco"
           placeHolder="0,00"
           formControlName="valor"
+          [disabled] ="usuarioEstoque"
           step="0.50"
         ></app-input-primario>
 
@@ -50,6 +51,7 @@
           label="Descrição:"
           name="descricao"
           placeHolder="Descrição detalhada."
+          [disabled] ="usuarioEstoque"
           formControlName="descricao"
         >
         </app-text-area>
@@ -63,6 +65,7 @@
           inputName="avaliacao"
           placeHolder="0 - 5"
           formControlName="avaliacao"
+          [disabled] ="usuarioEstoque"
           max="5"
           step="0.5"
         ></app-input-primario>
@@ -78,18 +81,20 @@
 
     <div class="baixo">
       <!-- ADICIONAR IMAGENS -->
-      <div class="botao-add-imagens">
+      <div class="botao-add-imagens" *ngIf="!usuarioEstoque">
         <input
           type="file"
           id="fileInput"
           multiple
           (change)="onFileChange($event)"
           style="display: none"
+          [disabled]="usuarioEstoque"
         />
         <app-botao
           textoBtn="Adicionar Imagens do Produto"
           classes="botao-arredondado"
           (click)="triggerFileInput()"
+          [desabilitarBotao]="usuarioEstoque"
         />
       </div>
     </div>

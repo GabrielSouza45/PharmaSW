@@ -1,13 +1,19 @@
 import { CrudService } from './../../services/crud-service.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule
+} from '@angular/forms';
+import { ComponentType, ToastrService } from 'ngx-toastr';
 
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
-import { ModalComponent } from '../../components/modal/modal.component';
 import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
+import { PopupComponent } from '../../components/popup/popup.component';
 import { TablePaginationComponent } from '../../components/table-pagination/table-pagination.component';
 import { Grupo } from '../../modelo/enums/Grupo';
 import { Status } from '../../modelo/enums/Status';
@@ -15,9 +21,9 @@ import { Filtros } from '../../modelo/Filtros';
 import { Produto } from '../../modelo/Produto';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CrudService } from '../../services/crud-service/crud-service.service';
-import { Produto } from './../../modelo/Produto';
 import { FormCheckerService } from '../../services/form-checker/form-checker.service';
 import { CadastroProdutosComponent } from '../cadastro-produtos/cadastro-produtos.component';
+import { Produto } from './../../modelo/Produto';
 
 @Component({
   selector: 'app-pagina-produtos',
@@ -27,9 +33,7 @@ import { CadastroProdutosComponent } from '../cadastro-produtos/cadastro-produto
     ReactiveFormsModule,
     InputPrimarioComponent,
     TablePaginationComponent,
-    CommonModule,
-    ModalComponent,
-    CadastroProdutosComponent
+    CommonModule
   ],
   templateUrl: './pagina-produtos.component.html',
   styleUrl: './pagina-produtos.component.css',
@@ -38,8 +42,6 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   buscarForm!: FormGroup; // Formulário com filtro para pesquisa
   formProduto!: FormGroup; // Formulario para cadastro e alteração
   produtos: Produto[] = []; // Aqui serão recebidos os produtos do back
-  modalAberto: boolean = false; // Controla a abertura e fechamento do modal de cadastro
-  clickCadastro: boolean = true; // Define se o botão do modal será para cadastrar ou alterar
   isAdministrador: boolean =
     sessionStorage.getItem('grupo') === Grupo.ADMINISTRADOR;
   pagina: number = 1; // Usado para o pageable
@@ -49,7 +51,8 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   constructor(
     private http: HttpClient,
     private toastrService: ToastrService,
-    private formChecker: FormCheckerService
+    private formChecker: FormCheckerService,
+    private dialog: MatDialog
   ) {
     super(http, '/produto-controle', toastrService);
 
@@ -57,16 +60,6 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
       nome: new FormControl(''),
       status: new FormControl(''),
     });
-
-    this.formProduto = new FormGroup({
-      nome: new FormControl('', [Validators.required]),
-      categoria: new FormControl('', [Validators.required]),
-      valor: new FormControl(0.0, [Validators.required]),
-      peso: new FormControl(0.0, [Validators.required]),
-      fabricante: new FormControl('', [Validators.required]),
-      quantidadeEstoque: new FormControl(0, [Validators.required]),
-    });
-
     this.carregaAcoesPermitidas();
     this.pesquisar();
   }
@@ -76,7 +69,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
       {
         nome: (item: Produto) => 'Alterar',
         icone: (item: Produto) => 'bi bi-pencil-square',
-        funcao: (item: Produto) => this.alterarCadastro(item),
+        funcao: (item: Produto) => this.abrirModalEdicao(item),
       },
     ];
 
@@ -107,6 +100,12 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     }
   }
 
+  // PAGEABLE
+  pageChanged(page: number) {
+    this.pagina = page;
+    this.pesquisar();
+  }
+
   // PESQUISAR
   pesquisar() {
     const filtros = new Filtros();
@@ -125,89 +124,66 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     this.buscarForm.value.status = null;
   }
 
-  // PAGEABLE
-  pageChanged(page: number) {
-    this.pagina = page;
-    this.pesquisar();
-  }
-
   // VISUALIZAR
   visualizar(produto: Produto) {}
 
-  // CADASTRAR
-  cadastrar() {}
-
   // MUDAR STATUS
   mudarStatus(produto: Produto): void {
-    let id = produto.id;
-    const filtros = new Filtros();
-    filtros.id = id;
+    const dados = { tituloPopup: 'Deseja prosseguir?' };
 
-    this.editarStatus(filtros, '/mudar-status').subscribe({
-      next: () => {
-        this.pesquisar();
-      },
-      error: (error) => {
-        console.error('Erro ao alterar o Produto', error);
-        this.toastrService.error(
-          'Erro ao alterar o Produto. Tente novamente mais tarde.'
-        );
-      },
+    this.abrirComponent(dados, PopupComponent).subscribe((response) => {
+      if (response === 'confirmar') {
+        let id = produto.id;
+        const filtros = new Filtros();
+        filtros.id = id;
+
+        this.editarStatus(filtros, '/mudar-status').subscribe({
+          next: () => {
+            this.pesquisar();
+          },
+          error: (error) => {
+            console.error('Erro ao alterar o Produto', error);
+            this.toastrService.error(
+              'Erro ao alterar o Produto. Tente novamente mais tarde.'
+            );
+          },
+        });
+      }
+    });
+  }
+
+  // CONTROLE DO MODAL DE CADASTRO/EDIÇÃO {
+  // CADASTAR PRODUTO
+  abrirCadastro() {
+    const dados = {
+      funcaoCadastro: true,
+    };
+    this.abrirComponent(dados, CadastroProdutosComponent).subscribe(() => {
+      this.pesquisar();
     });
   }
 
   // EDITAR PRODUTO
-  abrirModalEdicao(event: { item: any }): void {
-    const { item } = event;
-
-    this.resetaFormulario();
-    this.modalAberto = true;
-    this.clickCadastro = false;
-  }
-
-  alterarCadastro(produto: Produto) {
-
-  }
-
-  // CONTROLE DO MODAL DE CADASTRO/EDIÇÃO {
-  resetaFormulario() {
-    this.formProduto.patchValue({
-      nome: null,
-      categoria: null,
-      valor: null,
-      peso: null,
+  abrirModalEdicao(produto: Produto): void {
+    const dados = {
+      funcaoCadastro: false,
+      produto: produto,
+    };
+    this.abrirComponent(dados, CadastroProdutosComponent).subscribe(() => {
+      this.pesquisar();
     });
   }
 
-  mudaEstadoClick(): void {
-    if (this.clickCadastro) {
-      this.cadastrar();
-    } else {
-      // this.alterarCadastro();
-    }
-  }
-
-  abrirCadastro() {
-    this.resetaFormulario();
-    this.clickCadastro = true;
-    this.modalAberto = true;
-  }
-
-
-
-  fecharModal() {
-    this.modalAberto = false;
-  }
   // }
 
-  // private getProduto() {
-  //   return new Produto(
-  //     this.formProduto.value.nome,
-  //     this.formProduto.value.categoria,
-  //     this.formProduto.value.valor,
-  //     this.formProduto.value.peso,
-  //     this.formProduto.value.fabricante,
-  //     this.formProduto.value.quantidadeEstoque
-  //   );
-  // }
+  private abrirComponent(
+    dados: any,
+    component: ComponentType<any>
+  ): Observable<any> {
+    const dialogRef = this.dialog.open(component, {
+      data: dados,
+    });
+    // Escutando o resultado após fechar o modal
+    return dialogRef.afterClosed();
+  }
 }

@@ -1,0 +1,17 @@
+<div class="popup-backdrop">
+  <div class="popup-content">
+    <h2>{{ tituloPopup }}</h2>
+    <div class="popup-actions">
+      <app-botao
+        class="botao cancelar"
+        textoBtn="Cancelar"
+        (click)="onCancelar()"
+      ></app-botao>
+      <app-botao
+        class="botao confirmar"
+        textoBtn="Confirmar"
+        (click)="onSubmit()"
+      ></app-botao>
+    </div>
+  </div>
+</div>

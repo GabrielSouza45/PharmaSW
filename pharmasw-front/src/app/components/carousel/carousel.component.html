@@ -5,7 +5,7 @@
       class="carousel-item"
       [class.active]="i === currentSlide"
     >
-      <img [src]="image.caminho" alt="Uploaded image {{ i + 1 }}" />
+      <img [src]="image.caminho || 'data:image/jpeg;base64,'+image.imagem" alt="Uploaded image {{ i + 1 }}" />
     </div>
     <div class="acoes">
       <div class="itens">
