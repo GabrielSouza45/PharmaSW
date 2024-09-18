@@ -125,4 +125,24 @@ public class ProdutoServico {
         return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
     }
 
+    // Alterar Produto
+    public ResponseEntity<?> alterarProduto(Produto produtoRequest) {
+        Produto produto = produtoRepositorio.findById(produtoRequest.getId()).orElse(null);
+
+        if (produto == null) {
+            return new ResponseEntity<>("Produto não encontrado!", HttpStatus.NOT_FOUND);
+        }
+
+        // Atualizar os campos que foram passados no request
+        produto.setNome(produtoRequest.getNome() != null ? produtoRequest.getNome() : produto.getNome());
+        produto.setValor(produtoRequest.getValor() != null ? produtoRequest.getValor() : produto.getValor());
+        produto.setQuantidadeEstoque(produtoRequest.getQuantidadeEstoque() != null ? produtoRequest.getQuantidadeEstoque() : produto.getQuantidadeEstoque());
+        produto.setDescricao(produtoRequest.getDescricao() != null ? produtoRequest.getDescricao() : produto.getDescricao());
+        produto.setAvaliacao(produtoRequest.getAvaliacao() != null ? produtoRequest.getAvaliacao() : produto.getAvaliacao());
+
+        // Salvar alterações
+        Produto produtoAtualizado = produtoRepositorio.save(produto);
+
+        return ResponseEntity.ok(produtoAtualizado);
+    }
 }

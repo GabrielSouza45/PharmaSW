@@ -215,7 +215,22 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
         },
       });
     } else {
-      // COLOCAR LOGICA DE ALTERACAO DO USUARIO ADMIN AQUI!!!
+        // COLOCAR LOGICA DE ALTERACAO DO USUARIO ADMIN AQUI!!!
+      const produtoEditado = this.getProduto();
+      produtoEditado.id = this.produtoEdicao.id;
+
+      this.editar(produtoEditado, '/alterar-produto').subscribe({
+        next: (response: HttpResponse<any>) => {
+          this.limparFormulario();
+          this.dialogRef.close('editado');
+        },
+        error: (error) => {
+          console.error('Erro ao alterar produto', error);
+          this.toastrService.error(
+            'Erro ao alterar o produto. Tente novamente mais tarde.'
+          );
+        },
+      });
     }
   }
 

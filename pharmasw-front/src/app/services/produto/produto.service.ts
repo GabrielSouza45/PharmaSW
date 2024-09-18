@@ -26,10 +26,12 @@ export class ProdutoService {
   editar(produto: Produto): Observable<HttpResponse<any>> {
     console.log('CORPOOOO ', produto);
 
-    return this.httpClient.put<any>(this.url + "editar", produto, { observe: 'response' });
+    return this.httpClient.put<any>(this.url + "alterar-produto", produto, { observe: 'response' });
   }
 
   mudarStatus(filtros: Filtros): Observable<HttpResponse<any>> {
     return this.httpClient.put<any>(this.url + "mudar-status", filtros, { observe: 'response' });
   }
+
+  
 }

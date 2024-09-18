@@ -73,6 +73,63 @@ public class ImagemProdutoServico {
 
     }
 
+    //método para excluir imagem na pasta e no banco de dados
+    public ResponseEntity<?> excluirImagem(Long imagemId) {
+
+        // Busca a imagem no banco de dados pelo ID
+        ImagemProduto imagem = imagemProdutoRepositorio.findById(imagemId).orElse(null);
+
+        if (imagem == null) {
+            return new ResponseEntity<>("Imagem não encontrada!", HttpStatus.NOT_FOUND);
+        }
+
+        // Caminho da imagem no sistema de arquivos
+        String caminhoImagem = imagem.getCaminho();
+        Path caminho = Paths.get(caminhoImagem);
+
+        try {
+            // Exclui a imagem da pasta se o arquivo existir
+            if (Files.exists(caminho)) {
+                Files.delete(caminho);
+            } else {
+                return new ResponseEntity<>("Arquivo de imagem não encontrado no sistema de arquivos!", HttpStatus.NOT_FOUND);
+            }
+
+            // Exclui a imagem do banco de dados
+            imagemProdutoRepositorio.delete(imagem);
+
+            return new ResponseEntity<>("Imagem excluída com sucesso!", HttpStatus.OK);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Erro ao excluir a imagem no sistema de arquivos!", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Método para alterar o status da imagem entre ATIVO e INATIVO
+    public ResponseEntity<?> alterarStatusImagem(Long imagemId) {
+
+        // Busca a imagem no banco de dados pelo ID
+        ImagemProduto imagem = imagemProdutoRepositorio.findById(imagemId).orElse(null);
+
+        if (imagem == null) {
+            return new ResponseEntity<>("Imagem não encontrada!", HttpStatus.NOT_FOUND);
+        }
+
+        // Verifica o status atual e alterna
+        if (imagem.getStatus() == Status.ATIVO) {
+            imagem.setStatus(Status.INATIVO); // Desativa se estiver ativo
+        } else {
+            imagem.setStatus(Status.ATIVO); // Ativa se estiver inativo
+        }
+
+        // Atualiza o status no banco de dados
+        imagemProdutoRepositorio.save(imagem);
+
+        return new ResponseEntity<>("Status da imagem alterado com sucesso!", HttpStatus.OK);
+    }
+
+
 
     private byte[] getConteudoImagem(String caminhoImagem) throws IOException {
         Path caminho = Paths.get(caminhoImagem);

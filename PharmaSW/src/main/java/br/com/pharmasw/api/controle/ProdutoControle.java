@@ -2,6 +2,7 @@ package br.com.pharmasw.api.controle;
 
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Produto;
+import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
 import br.com.pharmasw.api.servico.ProdutoServico;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,9 @@ public class ProdutoControle {
 
     @Autowired
     private ProdutoServico produtoServico;
+
+    @Autowired
+    private ProdutoRepositorio produtoRepositorio;
 
     // Listagem de todos os produtos (ativos e inativos)
     @PostMapping("/listar-produtos")
@@ -65,6 +69,18 @@ public class ProdutoControle {
         return produtoServico.cadastrarProduto(produto, imagens);
     }
 
+    @PutMapping("/alterar-produto")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PreAuthorize("hasRole('ADMIN')") // Permite que apenas usuários ADMIN acessem o endpoint
+    public ResponseEntity<?> alterarProduto(@RequestBody Produto produtoRequest) {
+        if (produtoRequest.getId() == null) {
+            return ResponseEntity.badRequest().body("Id do produto não pode ser null!");
+        }
+
+        // Chama o método de serviço para alterar o produto
+        return produtoServico.alterarProduto(produtoRequest);
+    }
+
 
     @PutMapping("/mudar-status")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -93,5 +109,7 @@ public class ProdutoControle {
         // Chama o método de serviço para alterar a quantidade
         return produtoServico.alterarQuantidade(produtoRequest);
     }
+
+
 
 }
