@@ -1,0 +1,35 @@
+<div class="preview-backdrop">
+  <div class="preview-content">
+    <div class="retornar">
+      <i class="bi bi-arrow-left-circle-fill" (click)="voltar()"></i>
+      <h3>Produto preview</h3>
+    </div>
+    <div class="conteudo">
+      <div class="titulo">
+        <h1>{{ produto.nome }}</h1>
+      </div>
+      <div class="carousel">
+        <div class="app-carousel">
+          <app-carousel [images]="imagens"></app-carousel>
+        </div>
+      </div>
+      <div class="informacoes">
+        <!-- <h4>Fabricante: {{produto.fabricante}}</h4> -->
+        <h4>
+          Preço: {{ produto.valor | currency : "BRL" : "symbol" : "1.2-2" }}
+        </h4>
+        <h4>Disponível: {{ produto.quantidadeEstoque }}</h4>
+
+        <h4>Descrição:</h4>
+        <h4 class="descricao">{{ produto.descricao }}</h4>
+        <h4>Avaliação:</h4>
+        <div class="rating">
+          <i *ngFor="let star of estrelas" class="bi" [ngClass]="star"></i>
+        </div>
+        <div class="botao-comprar">
+          <app-botao textoBtn="Comprar" [desabilitarBotao]="true"></app-botao>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

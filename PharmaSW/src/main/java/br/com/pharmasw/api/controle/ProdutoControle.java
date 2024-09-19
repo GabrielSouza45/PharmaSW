@@ -31,21 +31,21 @@ public class ProdutoControle {
     private ProdutoRepositorio produtoRepositorio;
 
     // Listagem de todos os produtos (ativos e inativos)
-    @PostMapping("/listar-produtos")
+    @PostMapping("/listar-produtos-pagination")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')") // -> Permite que usuarios ADMIN e ESTOQUISTA acessem o endpoint
     public ResponseEntity<?> listarTodosProdutos(@RequestBody Filtros filtros) {
 
-        return produtoServico.listarProdutos(filtros);
+        return produtoServico.listarProdutosPagination(filtros);
 
     }
 
-    @PostMapping("/listar-produtos-edicao")
+    @PostMapping("/listar-produtos")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')") // -> Permite que usuarios ADMIN e ESTOQUISTA acessem o endpoint
-    public ResponseEntity<?> listarProdutosEdicao(@RequestBody Filtros filtros) {
+    public ResponseEntity<?> listarProdutos(@RequestBody Filtros filtros) {
 
-        return produtoServico.listarProdutosEdicao(filtros);
+        return produtoServico.listarProdutos(filtros);
 
     }
 
@@ -82,22 +82,19 @@ public class ProdutoControle {
         if (jsonProduto.isBlank())
             return new ResponseEntity<>("Produto não pode ser null.", HttpStatus.BAD_REQUEST);
 
-        Produto produto = null;
         ObjectMapper objectMapper = new ObjectMapper();
+        Produto produto = null;
         ImagemProduto[] imagensProdutoEdicao = null;
         if(imagens == null){
             imagens = new ArrayList<>();
         }
         try {
-            System.out.println(jsonProduto);
             produto = objectMapper.readValue(jsonProduto, Produto.class);
-            System.out.println(produto.toString());
         } catch (JsonProcessingException e){
             return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         try{
             if(!jsonImagensEdicao.isBlank()){
-                System.out.println(jsonImagensEdicao);
                 imagensProdutoEdicao = objectMapper.readValue(jsonImagensEdicao, ImagemProduto[].class);
             }
         }catch (JsonProcessingException e){
@@ -136,7 +133,4 @@ public class ProdutoControle {
         // Chama o método de serviço para alterar a quantidade
         return produtoServico.alterarQuantidade(produtoRequest);
     }
-
-
-
 }

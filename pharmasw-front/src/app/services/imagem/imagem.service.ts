@@ -12,8 +12,7 @@ export class ImagemService<ImagemProduto> {
   private url: string = 'http://localhost:8080/imagem-produto';
 
   constructor(
-    private httpClient: HttpClient,
-    private toastrServico: ToastrService
+    private httpClient: HttpClient
   ) {}
 
   listar(filtros: Filtros): Observable<ImagemProduto[]> {

@@ -28,9 +28,7 @@ public class ImagemProdutoServico {
 
     // LISTAR IMAGENS
     public ResponseEntity<?> listarImagensProduto(Produto produto) {
-        System.out.println("Entrou acola");
-
-        List<ImagemProduto> imagens = imagemProdutoRepositorio.findByProdutoId(produto.getId());
+       List<ImagemProduto> imagens = imagemProdutoRepositorio.findByProdutoIdOrderByPrincipalDesc(produto.getId());
 
         for (ImagemProduto imagem : imagens) {
             String caminhoImagem = imagem.getCaminho();

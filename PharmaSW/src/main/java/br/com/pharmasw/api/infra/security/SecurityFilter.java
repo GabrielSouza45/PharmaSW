@@ -46,13 +46,11 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (TokenExpiredException e) {
-            System.out.println(gson.toJson(tokenExpirado));
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write(tokenExpirado);
             response.getWriter().flush();
             return;
         } catch (JWTDecodeException ex) {
-            System.out.println(tokenInvalido);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write(tokenInvalido);
             response.getWriter().flush();

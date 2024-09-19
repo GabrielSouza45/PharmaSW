@@ -11,4 +11,7 @@ public interface ImagemProdutoRepositorio extends JpaRepository<ImagemProduto, L
 
 
     List<ImagemProduto> findByProdutoId(Long id);
+
+    List<ImagemProduto> findByProdutoIdOrderByPrincipalDesc(Long id);
+
 }

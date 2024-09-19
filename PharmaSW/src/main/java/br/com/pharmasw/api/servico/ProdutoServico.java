@@ -32,7 +32,7 @@ public class ProdutoServico {
 
 
     //lista os produtos com filtros
-    public ResponseEntity<?> listarProdutos(Filtros filtros) {
+    public ResponseEntity<?> listarProdutosPagination(Filtros filtros) {
 
         int paginaAtual = filtros.getPagina() - 1;
 
@@ -49,9 +49,13 @@ public class ProdutoServico {
         );
 
         List<ProdutoDTO> dtos = new ArrayList<>();
-        produtos.forEach(produto -> {
-            dtos.add(new ProdutoDTO(produto));
-        });
+        if (produtos.isEmpty()){
+            dtos.add(new ProdutoDTO(new Produto()));
+        } else {
+            produtos.forEach(produto -> {
+                dtos.add(new ProdutoDTO(produto));
+            });
+        }
 
         Page<ProdutoDTO> page = paginationHelper.transformarEmPage(dtos, paginaAtual, totalProdutos);
 
@@ -61,7 +65,7 @@ public class ProdutoServico {
 
 
     //listar produtos para edição. Retorna todos os dados
-    public ResponseEntity<?> listarProdutosEdicao(Filtros filtros) {
+    public ResponseEntity<?> listarProdutos(Filtros filtros) {
 
         Produto produto = produtoRepositorio.findById(filtros.getId()).orElse(null);
 

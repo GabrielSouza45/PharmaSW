@@ -32,7 +32,6 @@ public class UsuarioControle {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> cadastrarUsuario(@RequestBody Usuario usuario) {
-        System.out.println("Cad User");
         if (usuario.getEmail().isBlank()
                 || usuario.getSenha().isBlank()
                 || usuario.getCpf() == null
@@ -55,7 +54,6 @@ public class UsuarioControle {
     @PutMapping("/mudar-status")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> alterarStatusUsuario(@RequestBody Usuario usuario) {
-        System.out.println(usuario.getId());
         if (usuario.getId() == null) {
             return ResponseEntity.badRequest().body("Id não pode ser null!");
         }

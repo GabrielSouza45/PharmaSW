@@ -42,12 +42,12 @@ public class VerificaBancoDadosPadrao implements CommandLineRunner {
 
         }
 
-        Produto produto = produtoRepositorio.findByNomeAndFabricanteAndStatus(NOME_PRODUTO, FABRICANTE_PRODUTO, Status.ATIVO);
-        if (produto == null) {
-            criaProdutoPadrao();
-            System.out.println("Primeiro produto criado!");
-
-        }
+//        Produto produto = produtoRepositorio.findByNomeAndFabricanteAndStatus(NOME_PRODUTO, FABRICANTE_PRODUTO, Status.ATIVO);
+//        if (produto == null) {
+//            criaProdutoPadrao();
+//            System.out.println("Primeiro produto criado!");
+//
+//        }
     }
 
     private void criaAdministradorPadrao(){

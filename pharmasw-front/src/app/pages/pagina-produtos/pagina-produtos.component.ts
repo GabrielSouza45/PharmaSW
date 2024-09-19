@@ -1,24 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ComponentType, ToastrService } from 'ngx-toastr';
 
+import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
 import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
 import { PopupComponent } from '../../components/popup/popup.component';
+import { PreviewProdutoComponent } from '../../components/preview-produto/preview-produto.component';
 import { TablePaginationComponent } from '../../components/table-pagination/table-pagination.component';
 import { Grupo } from '../../modelo/enums/Grupo';
 import { Status } from '../../modelo/enums/Status';
 import { Filtros } from '../../modelo/Filtros';
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CrudService } from '../../services/crud-service/crud-service.service';
-import { FormCheckerService } from '../../services/form-checker/form-checker.service';
 import { CadastroProdutosComponent } from '../cadastro-produtos/cadastro-produtos.component';
 import { Produto } from './../../modelo/Produto';
 
@@ -30,7 +26,7 @@ import { Produto } from './../../modelo/Produto';
     ReactiveFormsModule,
     InputPrimarioComponent,
     TablePaginationComponent,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './pagina-produtos.component.html',
   styleUrl: './pagina-produtos.component.css',
@@ -48,7 +44,6 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   constructor(
     private http: HttpClient,
     private toastrService: ToastrService,
-    private formChecker: FormCheckerService,
     private dialog: MatDialog
   ) {
     super(http, '/produto-controle', toastrService);
@@ -110,11 +105,13 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     filtros.status = this.buscarForm.value.status || null;
     filtros.pagina = this.pagina;
 
-    this.listar(filtros, '/listar-produtos').subscribe((response: any) => {
-      this.produtos = response.content;
+    this.listar(filtros, '/listar-produtos-pagination').subscribe(
+      (response: any) => {
+        this.produtos = response.content;
 
-      this.totalItens = response.totalElements;
-    });
+        this.totalItens = response.totalElements;
+      }
+    );
 
     const radios = document.querySelectorAll('input[name="status"]');
     radios.forEach((radio) => ((radio as HTMLInputElement).checked = false));
@@ -122,7 +119,15 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   }
 
   // VISUALIZAR
-  visualizar(produto: Produto) {}
+  visualizar(produto: Produto) {
+    const filtro = new Filtros();
+    filtro.id = produto.id;
+    this.listar(filtro, '/listar-produtos').subscribe({
+      next: (resp: any) => {
+        this.dialog.open(PreviewProdutoComponent, { data: { produto: resp } });
+      },
+    });
+  }
 
   // MUDAR STATUS
   mudarStatus(produto: Produto): void {

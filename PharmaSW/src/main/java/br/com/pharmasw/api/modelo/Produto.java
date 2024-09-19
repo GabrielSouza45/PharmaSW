@@ -23,7 +23,7 @@ public class Produto {
     private Double valor;
     private Double peso;
     private Integer quantidadeEstoque;
-    private Integer avaliacao;
+    private Double avaliacao;
 
     @Transient
     private String imagemPrincipal;
@@ -101,11 +101,11 @@ public class Produto {
         this.quantidadeEstoque = quantidadeEstoque;
     }
 
-    public Integer getAvaliacao() {
+    public Double getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(Integer avaliacao) {
+    public void setAvaliacao(Double avaliacao) {
         this.avaliacao = avaliacao;
     }
 

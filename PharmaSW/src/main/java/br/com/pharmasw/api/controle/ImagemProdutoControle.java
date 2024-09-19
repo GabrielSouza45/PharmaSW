@@ -32,7 +32,6 @@ public class ImagemProdutoControle {
     @PutMapping("/excluir-imagem")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> excluirImagem(@RequestBody ImagemProduto imagemProduto) {
-        System.out.println("olá mundo!" + imagemProduto.getId());
         if(imagemProduto.getId() == null){
             return new ResponseEntity<>("Id é obrigatório.", HttpStatus.BAD_REQUEST);
         }
