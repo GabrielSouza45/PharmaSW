@@ -95,7 +95,7 @@ public class UsuarioServico {
         usuario.setNome(usuarioRequest.getNome() != null ? usuarioRequest.getNome() : usuario.getNome());
         usuario.setCpf(usuarioRequest.getCpf() != null ? usuarioRequest.getCpf() : usuario.getCpf());
         usuario.setSenha(senhaEncriptada.isEmpty() ? usuario.getSenha() : senhaEncriptada);
-
+        usuario.setGrupo(usuarioRequest.getGrupo());
         Usuario retorno = usuarioRepositorio.save(usuario);
 
         return ResponseEntity.ok(retorno);
