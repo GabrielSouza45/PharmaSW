@@ -58,6 +58,8 @@ public class ProdutoServico {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
+
+
     //listar produtos para edição. Retorna todos os dados
     public ResponseEntity<?> listarProdutosEdicao(Filtros filtros) {
 
@@ -126,7 +128,7 @@ public class ProdutoServico {
     }
 
     // Alterar Produto
-    public ResponseEntity<?> alterarProduto(Produto produtoRequest) {
+    public ResponseEntity<?> alterarProduto(Produto produtoRequest, ImagemProduto[] imagemProduto, List<MultipartFile> imagens ) {
         Produto produto = produtoRepositorio.findById(produtoRequest.getId()).orElse(null);
 
         if (produto == null) {
@@ -142,6 +144,24 @@ public class ProdutoServico {
 
         // Salvar alterações
         Produto produtoAtualizado = produtoRepositorio.save(produto);
+        produtoAtualizado.setImagemPrincipal(produtoRequest.getImagemPrincipal());
+        try{
+            if(imagemProduto.length > 0 ){
+                this.imagemProdutoServico.alterar(produtoAtualizado, imagemProduto);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Erro ao alterar imagens.", HttpStatus.BAD_GATEWAY);
+        }
+
+        try {
+            if (!imagens.isEmpty()) {
+                this.imagemProdutoServico.cadastrar(produtoAtualizado, imagens);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Erro ao cadastrar imagens.", HttpStatus.BAD_GATEWAY);
+        }
 
         return ResponseEntity.ok(produtoAtualizado);
     }

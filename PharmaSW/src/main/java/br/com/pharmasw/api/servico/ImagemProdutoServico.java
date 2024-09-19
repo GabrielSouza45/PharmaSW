@@ -64,6 +64,7 @@ public class ImagemProdutoServico {
 
             ImagemProduto imagemProduto = new ImagemProduto();
             imagemProduto.setCaminho(caminhoImagem.toString());
+            imagemProduto.setNomeOriginal(imagem.getOriginalFilename());
             imagemProduto.setPrincipal(produtoSalvo.getImagemPrincipal().equals(imagem.getOriginalFilename()));
             imagemProduto.setProduto(produtoSalvo);
             imagemProduto.setStatus(Status.ATIVO);
@@ -73,9 +74,24 @@ public class ImagemProdutoServico {
 
     }
 
-    //método para excluir imagem na pasta e no banco de dados
-    public ResponseEntity<?> excluirImagem(Long imagemId) {
+    //alterar imagem produto
+    public void alterar(Produto produto, ImagemProduto[] imagemProdutos) {
 
+
+        for (ImagemProduto imagem : imagemProdutos) {
+            ImagemProduto imagemProduto = imagemProdutoRepositorio.findById(imagem.getId()).orElse(null);
+            if(imagemProduto == null){
+                continue;
+            }
+            imagemProduto.setPrincipal(produto.getImagemPrincipal().equals(imagem.getNomeOriginal()));
+            imagemProdutoRepositorio.save(imagemProduto);
+
+        }
+
+    }
+
+    //excluir imeagem ndo carrossel
+    public ResponseEntity<?> excluirImagem(Long imagemId) {
         // Busca a imagem no banco de dados pelo ID
         ImagemProduto imagem = imagemProdutoRepositorio.findById(imagemId).orElse(null);
 
@@ -84,7 +100,7 @@ public class ImagemProdutoServico {
         }
 
         // Caminho da imagem no sistema de arquivos
-        String caminhoImagem = imagem.getCaminho();
+        String caminhoImagem = imagem.getCaminho(); // atributo que guarda o caminho do arquivo
         Path caminho = Paths.get(caminhoImagem);
 
         try {
@@ -105,30 +121,6 @@ public class ImagemProdutoServico {
             return new ResponseEntity<>("Erro ao excluir a imagem no sistema de arquivos!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    // Método para alterar o status da imagem entre ATIVO e INATIVO
-    public ResponseEntity<?> alterarStatusImagem(Long imagemId) {
-
-        // Busca a imagem no banco de dados pelo ID
-        ImagemProduto imagem = imagemProdutoRepositorio.findById(imagemId).orElse(null);
-
-        if (imagem == null) {
-            return new ResponseEntity<>("Imagem não encontrada!", HttpStatus.NOT_FOUND);
-        }
-
-        // Verifica o status atual e alterna
-        if (imagem.getStatus() == Status.ATIVO) {
-            imagem.setStatus(Status.INATIVO); // Desativa se estiver ativo
-        } else {
-            imagem.setStatus(Status.ATIVO); // Ativa se estiver inativo
-        }
-
-        // Atualiza o status no banco de dados
-        imagemProdutoRepositorio.save(imagem);
-
-        return new ResponseEntity<>("Status da imagem alterado com sucesso!", HttpStatus.OK);
-    }
-
 
 
     private byte[] getConteudoImagem(String caminhoImagem) throws IOException {

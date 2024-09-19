@@ -1,6 +1,4 @@
-import { CrudService } from './../../services/crud-service.service';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {
   FormControl,
@@ -18,7 +16,6 @@ import { TablePaginationComponent } from '../../components/table-pagination/tabl
 import { Grupo } from '../../modelo/enums/Grupo';
 import { Status } from '../../modelo/enums/Status';
 import { Filtros } from '../../modelo/Filtros';
-import { Produto } from '../../modelo/Produto';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CrudService } from '../../services/crud-service/crud-service.service';
 import { FormCheckerService } from '../../services/form-checker/form-checker.service';

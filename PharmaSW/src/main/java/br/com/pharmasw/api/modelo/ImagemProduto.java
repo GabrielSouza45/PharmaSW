@@ -23,12 +23,14 @@ public class ImagemProduto {
     @JsonIgnore
     private String caminho;
     private boolean principal;
+    private String nomeOriginal;
 
     @Transient
     private byte[] imagem;
 
     @ManyToOne
     @JoinColumn(name = "produto_id")
+    @JsonIgnore
     private Produto produto;
 
 
@@ -64,6 +66,7 @@ public class ImagemProduto {
         this.principal = principal;
     }
 
+    @JsonIgnore
     public Produto getProduto() {
         return produto;
     }
@@ -78,5 +81,13 @@ public class ImagemProduto {
 
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
+    }
+
+    public String getNomeOriginal() {
+        return nomeOriginal;
+    }
+
+    public void setNomeOriginal(String nomeOriginal) {
+        this.nomeOriginal = nomeOriginal;
     }
 }

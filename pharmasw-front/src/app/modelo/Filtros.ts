@@ -1,3 +1,5 @@
+import { Produto } from "./Produto";
+
 export class Filtros{
   id: number;
   nome: string;

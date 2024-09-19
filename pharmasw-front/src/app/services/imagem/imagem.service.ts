@@ -19,4 +19,7 @@ export class ImagemService<ImagemProduto> {
   listar(filtros: Filtros): Observable<ImagemProduto[]> {
     return this.httpClient.post<any[]>(this.url + '/listar', filtros);
   }
+  excluir(imagemProduto: ImagemProduto): Observable<any>{
+    return this.httpClient.put<any>(this.url + '/excluir-imagem', imagemProduto);
+  }
 }

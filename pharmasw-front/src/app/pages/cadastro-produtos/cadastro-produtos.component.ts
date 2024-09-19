@@ -41,7 +41,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
   funcaoCadastro: boolean = this.data.funcaoCadastro;
   produtoEdicao: Produto | null = this.data.produto;
   tituloModal: string =
-    (this.data.funcaoCadastro ? 'Cadastr0' : 'Editar') + ' - Produto';
+    (this.data.funcaoCadastro ? 'Cadastro' : 'Editar') + ' - Produto';
   textoBotaoModal: string = this.data.funcaoCadastro ? 'Cadastrar' : 'Editar';
 
   imagens: ImagemProduto[] = [];
@@ -126,16 +126,30 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
         this.usuarioEstoque
           ? ''
           : image.principal
-          ? 'bi bi-star-fill gold-star'
-          : 'bi bi-star',
+            ? 'bi bi-star-fill gold-star'
+            : 'bi bi-star',
       funcao: (image: ImagemProduto) =>
         this.usuarioEstoque ? null : this.setPrincipal(image),
     },
   ];
   // } FIM INICIALIZACAO DO COMPONENT
 
+
+
   //  REMOVER IMAGEM
   removerImagem(image: ImagemProduto) {
+    if (!this.funcaoCadastro) {
+      //código exclusão
+      this.imagemService.excluir(image).subscribe({
+        next: (response: any) => {
+          this.toastrService.success('Imagem foi removida com sucesso!');
+        }
+      })
+    }
+    this.apagarImagemLista(image);
+  }
+
+  apagarImagemLista(image: ImagemProduto) {
     let index = this.imagens.indexOf(image);
     this.imagens.splice(index, 1);
 
@@ -143,6 +157,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
       this.criarImagemPadrao();
     }
   }
+
 
   // CADASTRAR
   cadastrar() {
@@ -159,6 +174,8 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
     // Adiciona o JSON do produto
     const produtoJson = JSON.stringify(this.formProduto.value);
     formData.append('produto', produtoJson);
+
+
 
     // Adiciona as imagens
     if (this.imagens[0].caminho != '../assets/logo-com-fundo.png') {
@@ -182,13 +199,11 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
 
   // CONTROLE DO MODAL {
   mudarEstadoClick(): void {
-    console.log(123);
 
     if (this.funcaoCadastro) {
       this.cadastrar();
     } else {
-    console.log(1234444);
-    this.alterarProduto();
+      this.alterarProduto();
     }
   }
 
@@ -215,11 +230,36 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
         },
       });
     } else {
-        // COLOCAR LOGICA DE ALTERACAO DO USUARIO ADMIN AQUI!!!
+      // COLOCAR LOGICA DE ALTERACAO DO USUARIO ADMIN AQUI!!!
       const produtoEditado = this.getProduto();
       produtoEditado.id = this.produtoEdicao.id;
+      produtoEditado.imagemPrincipal = this.formProduto.value.imagemPrincipal;
 
-      this.editar(produtoEditado, '/alterar-produto').subscribe({
+      produtoEditado.valor = Number(produtoEditado.valor);
+      produtoEditado.quantidadeEstoque = Number(produtoEditado.quantidadeEstoque);
+      produtoEditado.avaliacao = Number(produtoEditado.avaliacao);
+
+      const formData = new FormData();
+      let imagensEditar:ImagemProduto[]=[];
+
+      // Adiciona o JSON do produto
+      const produtoJson = JSON.stringify(produtoEditado);
+      formData.append('produto', produtoJson);
+
+      // Adiciona as imagens
+      if (this.imagens[0].caminho != '../assets/logo-com-fundo.png') {
+        this.imagens.forEach((imagem) => {
+          if(imagem.id){
+           imagensEditar.push(imagem);
+          }
+          else{
+            formData.append('imagens', imagem.arquivo);
+          }
+        });
+        formData.append('imagensEdicao', JSON.stringify(imagensEditar));
+      }
+      console.log(formData.get("imagensEdicao"))
+      this.editar(formData, '/alterar-produto').subscribe({
         next: (response: HttpResponse<any>) => {
           this.limparFormulario();
           this.dialogRef.close('editado');
@@ -234,6 +274,8 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
     }
   }
 
+
+
   // CARROSSEL DE IMAGENS {
   //  MUDAR IMAGEM PRINCIPAL
   setPrincipal(image: ImagemProduto) {
@@ -241,7 +283,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
       if (imagem == image) {
         if (!imagem.principal) {
           imagem.principal = true;
-          this.formProduto.value.imagemPrincipal = imagem.arquivo.name;
+          this.formProduto.value.imagemPrincipal = image.nomeOriginal;
           return;
         }
         this.formProduto.value.imagemPrincipal = '';
@@ -279,6 +321,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
         let imagem = new ImagemProduto();
         imagem.principal = false;
         imagem.id = i;
+        imagem.nomeOriginal = file.name;
 
         const reader = new FileReader();
         imagem.arquivo = file;

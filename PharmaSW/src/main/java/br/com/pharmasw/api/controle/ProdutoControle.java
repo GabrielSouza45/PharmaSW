@@ -1,6 +1,7 @@
 package br.com.pharmasw.api.controle;
 
 import br.com.pharmasw.api.modelo.Filtros;
+import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
 import br.com.pharmasw.api.servico.ProdutoServico;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -72,13 +74,38 @@ public class ProdutoControle {
     @PutMapping("/alterar-produto")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PreAuthorize("hasRole('ADMIN')") // Permite que apenas usuários ADMIN acessem o endpoint
-    public ResponseEntity<?> alterarProduto(@RequestBody Produto produtoRequest) {
-        if (produtoRequest.getId() == null) {
-            return ResponseEntity.badRequest().body("Id do produto não pode ser null!");
+    public ResponseEntity<?> alterarProduto(
+            @RequestPart("produto") String jsonProduto,
+            @RequestPart(value = "imagensEdicao", required = false) String jsonImagensEdicao,
+            @RequestPart(value = "imagens", required = false) List<MultipartFile> imagens) {
+
+        if (jsonProduto.isBlank())
+            return new ResponseEntity<>("Produto não pode ser null.", HttpStatus.BAD_REQUEST);
+
+        Produto produto = null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        ImagemProduto[] imagensProdutoEdicao = null;
+        if(imagens == null){
+            imagens = new ArrayList<>();
+        }
+        try {
+            System.out.println(jsonProduto);
+            produto = objectMapper.readValue(jsonProduto, Produto.class);
+            System.out.println(produto.toString());
+        } catch (JsonProcessingException e){
+            return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        try{
+            if(!jsonImagensEdicao.isBlank()){
+                System.out.println(jsonImagensEdicao);
+                imagensProdutoEdicao = objectMapper.readValue(jsonImagensEdicao, ImagemProduto[].class);
+            }
+        }catch (JsonProcessingException e){
+            return new ResponseEntity<>("Erro ao processar Json da imagem.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         // Chama o método de serviço para alterar o produto
-        return produtoServico.alterarProduto(produtoRequest);
+        return produtoServico.alterarProduto(produto,imagensProdutoEdicao, imagens);
     }
 
 

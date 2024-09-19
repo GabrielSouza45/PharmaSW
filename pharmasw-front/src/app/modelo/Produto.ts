@@ -13,6 +13,8 @@ export class Produto {
   // peso: number;
   avaliacao: number;
   descricao: string;
+  imagemPrincipal: string;
+  
 
   constructor(
     nome: string,

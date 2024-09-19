@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.controle;
 
+import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.servico.ImagemProdutoServico;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +27,15 @@ public class ImagemProdutoControle {
         return this.imagemProdutoServico.listarImagensProduto(produto);
     }
 
-    @PutMapping("/alterar-status")
+
+
+    @PutMapping("/excluir-imagem")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> alterarStatusImagem(@RequestParam Long imagemId) {
-        if (imagemId == null)
-            return new ResponseEntity<>("Id da imagem é obrigatório.", HttpStatus.BAD_REQUEST);
-
-        // Chamando o método no serviço para alterar o status da imagem
-        return imagemProdutoServico.alterarStatusImagem(imagemId);
-    }
-
-    @DeleteMapping("/excluir-imagem")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> excluirImagem(@RequestParam Long imagemId) {
-        if (imagemId == null)
-            return new ResponseEntity<>("Id da imagem é obrigatório.", HttpStatus.BAD_REQUEST);
-
-        // Chamando o método no serviço para excluir a imagem
-        return imagemProdutoServico.excluirImagem(imagemId);
+    public ResponseEntity<?> excluirImagem(@RequestBody ImagemProduto imagemProduto) {
+        System.out.println("olá mundo!" + imagemProduto.getId());
+        if(imagemProduto.getId() == null){
+            return new ResponseEntity<>("Id é obrigatório.", HttpStatus.BAD_REQUEST);
+        }
+        return imagemProdutoServico.excluirImagem(imagemProduto.getId());
     }
 }

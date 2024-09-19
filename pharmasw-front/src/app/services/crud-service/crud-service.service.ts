@@ -28,6 +28,18 @@ export class CrudService<T> {
     return this.httpClient.post<any>(this.url + acao, filtros);
   }
 
+
+  excluir(acao: string): Observable<any> {
+    return this.httpClient.delete<any>(this.url + acao)
+      .pipe(
+        tap({
+          next: () => this.toastrServico.success('Excluído com sucesso!'),
+          error: () => this.toastrServico.error('Erro ao excluir o registro.')
+        })
+      );
+  }
+
+
   adicionar(dados: T | FormData, acao: string): Observable<HttpResponse<any>> {
     return this.httpClient
       .post<any>(this.url + acao, dados, { observe: 'response' })
@@ -48,7 +60,7 @@ export class CrudService<T> {
       );
   }
 
-  editar(dados: T, acao: string): Observable<HttpResponse<any>> {
+  editar(dados: T|FormData, acao: string): Observable<HttpResponse<any>> {
     return this.httpClient
       .put<any>(this.url + acao, dados, { observe: 'response' })
       .pipe(
@@ -87,4 +99,7 @@ export class CrudService<T> {
         })
       );
   }
+  
+
+  
 }
