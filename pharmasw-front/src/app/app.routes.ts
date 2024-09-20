@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './infra/auth/auth.guard';
 import { roleGuard } from './infra/auth/role.guard';
-import { LoginComponent } from './pages/login/login.component';
-import { NaoAutorizadoComponent } from './pages/nao-autorizado/nao-autorizado.component';
-import { PaginaInicialComponent } from './pages/pagina-inicial/pagina-inicial.component';
-import { PaginaProdutosComponent } from './pages/pagina-produtos/pagina-produtos.component';
-import { PaginaUsuarioComponent } from './pages/pagina-usuario/pagina-usuario.component';
+import { LoginComponent } from './pages/back-office/login/login.component';
+import { NaoAutorizadoComponent } from './pages/back-office/nao-autorizado/nao-autorizado.component';
+import { PaginaInicialComponent } from './pages/back-office/pagina-inicial/pagina-inicial.component';
+import { PaginaProdutosComponent } from './pages/back-office/pagina-produtos/pagina-produtos.component';
+import { PaginaUsuarioComponent } from './pages/back-office/pagina-usuario/pagina-usuario.component';
 
 export const routes: Routes = [
     {

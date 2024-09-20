@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
-import { PaginaLayoutComponent } from '../../components/pagina-layout/pagina-layout.component';
+import { PaginaInicialLayoutComponent } from '../../../components/pagina-inicial-layout/pagina-inicial-layout.component';
+import { PaginaLayoutComponent } from '../../../components/pagina-layout/pagina-layout.component';
 
 @Component({
   selector: 'app-pagina-inicial',

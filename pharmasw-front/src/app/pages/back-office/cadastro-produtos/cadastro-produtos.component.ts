@@ -9,18 +9,18 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { Grupo } from '../../modelo/enums/Grupo';
-import { Filtros } from '../../modelo/Filtros';
-import { ImagemProduto } from '../../modelo/ImagemProduto';
-import { Produto } from '../../modelo/Produto';
-import { ImagemService } from '../../services/imagem/imagem.service';
-import { BotaoComponent } from './../../components/botao/botao.component';
-import { CarouselComponent } from './../../components/carousel/carousel.component';
-import { InputPrimarioComponent } from './../../components/input-primario/input-primario.component';
-import { ModalComponent } from './../../components/modal/modal.component';
-import { TextAreaComponent } from './../../components/text-area/text-area.component';
-import { CrudService } from './../../services/crud-service/crud-service.service';
-import { FormCheckerService } from './../../services/form-checker/form-checker.service';
+import { Grupo } from '../../../modelo/enums/Grupo';
+import { Filtros } from '../../../modelo/Filtros';
+import { ImagemProduto } from '../../../modelo/ImagemProduto';
+import { Produto } from '../../../modelo/Produto';
+import { ImagemService } from '../../../services/imagem/imagem.service';
+import { BotaoComponent } from '../../../components/botao/botao.component';
+import { CarouselComponent } from '../../../components/carousel/carousel.component';
+import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
+import { ModalComponent } from '../../../components/modal/modal.component';
+import { TextAreaComponent } from '../../../components/text-area/text-area.component';
+import { CrudService } from '../../../services/crud-service/crud-service.service';
+import { FormCheckerService } from '../../../services/form-checker/form-checker.service';
 
 @Component({
   selector: 'app-cadastro-produtos',

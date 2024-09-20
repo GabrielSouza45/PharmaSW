@@ -6,17 +6,17 @@ import { ComponentType, ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { InputPrimarioComponent } from '../../components/input-primario/input-primario.component';
-import { PaginaInicialLayoutComponent } from '../../components/pagina-inicial-layout/pagina-inicial-layout.component';
-import { PopupComponent } from '../../components/popup/popup.component';
-import { PreviewProdutoComponent } from '../../components/preview-produto/preview-produto.component';
-import { TablePaginationComponent } from '../../components/table-pagination/table-pagination.component';
-import { Grupo } from '../../modelo/enums/Grupo';
-import { Status } from '../../modelo/enums/Status';
-import { Filtros } from '../../modelo/Filtros';
-import { CrudService } from '../../services/crud-service/crud-service.service';
+import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
+import { PaginaInicialLayoutComponent } from '../../../components/pagina-inicial-layout/pagina-inicial-layout.component';
+import { PopupComponent } from '../../../components/popup/popup.component';
+import { PreviewProdutoComponent } from '../../../components/preview-produto/preview-produto.component';
+import { TablePaginationComponent } from '../../../components/table-pagination/table-pagination.component';
+import { Grupo } from '../../../modelo/enums/Grupo';
+import { Status } from '../../../modelo/enums/Status';
+import { Filtros } from '../../../modelo/Filtros';
+import { CrudService } from '../../../services/crud-service/crud-service.service';
 import { CadastroProdutosComponent } from '../cadastro-produtos/cadastro-produtos.component';
-import { Produto } from './../../modelo/Produto';
+import { Produto } from '../../../modelo/Produto';
 
 @Component({
   selector: 'app-pagina-produtos',
