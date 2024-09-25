@@ -1,0 +1,19 @@
+<app-carrinho>
+  <div class="carrinho-container">
+  <h1>Carrinho de Compras</h1>
+
+  <div *ngFor="let produto of carrinho" class="produto-item">
+      <h3>{{ produto.nome }}</h3>
+      <p>Preço: {{ produto.preco | currency : 'BRL' : 'symbol' : '1.2-2' }}</p>
+      <p>Quantidade: {{ produto.quantidade }}</p>
+      <p>Frete: {{ produto.frete | currency : 'BRL' : 'symbol' : '1.2-2' }}</p>
+
+      <button (click)="diminuirQuantidade(produto)">Diminuir</button>
+    </div>
+
+    <div class="subtotal">
+      <h3>Subtotal: {{ subtotal | currency : 'BRL' : 'symbol' : '1.2-2' }}</h3>
+    </div>
+  </div>
+
+</app-carrinho>
