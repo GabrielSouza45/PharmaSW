@@ -33,12 +33,13 @@ export const routes: Routes = [
       data: {expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA']}
     },
     {
-      path: "carrinho",
-      component: CarrinhoComponent
-    },
-    {
       path: "nao-autorizado",
       component: NaoAutorizadoComponent
+    },
+    {
+      path: 'carrinho',
+      component: CarrinhoComponentComponent
     }
+    
 
 ];
