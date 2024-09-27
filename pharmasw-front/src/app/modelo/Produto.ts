@@ -4,16 +4,17 @@ import { ImagemProduto } from "./ImagemProduto";
 export class Produto {
 
   id: number;
-  status: Status;
-  nome: string;
+  status?: Status;
+  nome?: string;
   // categoria: string;
   // fabricante: string;
-  quantidadeEstoque: number;
+  quantidadeEstoque?: number;
   valor: number;
   // peso: number;
-  avaliacao: number;
-  descricao: string;
-  imagemPrincipal: string;
+  avaliacao?: number;
+  descricao?: string;
+  imagemPrincipal?: string;
+  
   
 
   constructor(

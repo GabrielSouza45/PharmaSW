@@ -6,6 +6,7 @@ import { NaoAutorizadoComponent } from './pages/back-office/nao-autorizado/nao-a
 import { PaginaInicialComponent } from './pages/back-office/pagina-inicial/pagina-inicial.component';
 import { PaginaProdutosComponent } from './pages/back-office/pagina-produtos/pagina-produtos.component';
 import { PaginaUsuarioComponent } from './pages/back-office/pagina-usuario/pagina-usuario.component';
+import { CarrinhoComponentComponent } from './pages/back-office/carrinho/carrinho-component.component';
 
 export const routes: Routes = [
     {
@@ -34,6 +35,11 @@ export const routes: Routes = [
     {
       path: "nao-autorizado",
       component: NaoAutorizadoComponent
+    },
+    {
+      path: 'carrinho',
+      component: CarrinhoComponentComponent
     }
+    
 
 ];
