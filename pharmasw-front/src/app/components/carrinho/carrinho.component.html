@@ -4,7 +4,7 @@
 
   <div *ngFor="let produto of carrinho" class="produto-item">
       <h3>{{ produto.nome }}</h3>
-      <p>Preço: {{ produto.preco | currency : 'BRL' : 'symbol' : '1.2-2' }}</p>
+      <p>Preço: {{ produto.valor | currency : 'BRL' : 'symbol' : '1.2-2' }}</p>
       <p>Quantidade: {{ produto.quantidade }}</p>
       <p>Frete: {{ produto.frete | currency : 'BRL' : 'symbol' : '1.2-2' }}</p>
 

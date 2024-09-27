@@ -6,6 +6,7 @@ import { NaoAutorizadoComponent } from './pages/back-office/nao-autorizado/nao-a
 import { PaginaInicialComponent } from './pages/back-office/pagina-inicial/pagina-inicial.component';
 import { PaginaProdutosComponent } from './pages/back-office/pagina-produtos/pagina-produtos.component';
 import { PaginaUsuarioComponent } from './pages/back-office/pagina-usuario/pagina-usuario.component';
+import { CarrinhoComponent } from './components/carrinho/carrinho.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +31,10 @@ export const routes: Routes = [
       component: PaginaProdutosComponent,
       canActivate: [authGuard, roleGuard],
       data: {expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA']}
+    },
+    {
+      path: "carrinho",
+      component: CarrinhoComponent
     },
     {
       path: "nao-autorizado",
