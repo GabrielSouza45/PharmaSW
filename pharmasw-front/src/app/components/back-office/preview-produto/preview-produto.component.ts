@@ -1,15 +1,15 @@
-import { Produto } from './../../modelo/Produto';
+import { Produto } from '../../../modelo/Produto';
 import { Component, Inject } from '@angular/core';
-import { CarouselComponent } from '../carousel/carousel.component';
-import { ImagemProduto } from '../../modelo/ImagemProduto';
+import { CarouselComponent } from '../../carousel/carousel.component';
+import { ImagemProduto } from '../../../modelo/ImagemProduto';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CrudService } from '../../services/crud-service/crud-service.service';
+import { CrudService } from '../../../services/crud-service/crud-service.service';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { ImagemService } from '../../services/imagem/imagem.service';
-import { Filtros } from '../../modelo/Filtros';
+import { ImagemService } from '../../../services/imagem/imagem.service';
+import { Filtros } from '../../../modelo/Filtros';
 import { CommonModule } from '@angular/common';
-import { BotaoComponent } from '../botao/botao.component';
+import { BotaoComponent } from '../../botao/botao.component';
 import { filter } from 'rxjs';
 
 @Component({

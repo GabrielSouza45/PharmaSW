@@ -1,0 +1,20 @@
+.linha-info{
+  margin-bottom: 20px;
+}
+
+.destaques{
+  border: solid blue;
+  height: 150px;
+}
+
+.card-produtos{
+  border: solid blue;
+  height: min-content;
+
+}
+
+.col {
+  border: solid red;
+  margin-top: 20px;
+  height: 350px;
+}

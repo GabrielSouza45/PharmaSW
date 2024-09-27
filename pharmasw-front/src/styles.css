@@ -6,6 +6,10 @@
     --background: #E0E0E0;
     --cor-primaria: #13426E;
     --cor-secundaria: #2195C6;
+
+    --navbar-heigth: 80px;
+    --navbar-icon-heigth: 50px;
+    --navbar-color: #d3d3d3;
 }
 
 body{

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { BotaoComponent } from '../botao/botao.component';
+import { BotaoComponent } from '../../botao/botao.component';
 import { PaginaLayoutComponent } from '../pagina-layout/pagina-layout.component';
 
 @Component({

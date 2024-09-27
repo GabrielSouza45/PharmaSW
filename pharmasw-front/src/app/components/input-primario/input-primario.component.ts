@@ -24,6 +24,7 @@ type InputTypes = "text" | "email" | "password" | "number" | "text-box" | "file"
 export class InputPrimarioComponent implements ControlValueAccessor{
 
   @Input() type: InputTypes = "text";
+  @Input() name: string = "";
   @Input() placeHolder: string = "";
   @Input() label: string = "";
   @Input() inputName: string = "";

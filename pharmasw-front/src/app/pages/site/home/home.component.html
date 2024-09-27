@@ -1,0 +1,28 @@
+<app-layout-principal>
+  <main class="container">
+    <!-- DESTAQUES -->
+    <div class="destaques row linha-info"></div>
+
+    <!-- CARD-PRODUTOS -->
+    <div class="card-produtos row linha-info">
+      <h2>Nossos Produtos</h2>
+
+      <div class="produtos container">
+        <div class="row" *ngFor="let row of produtos | slice:0:5; let i = index">
+          <!-- Renderiza 5 produtos por linha -->
+          <div class="col" *ngFor="let produto of produtos.slice(i * 5, (i + 1) * 5)">
+            <div class="card">
+              <img [src]="produto." class="card-img-top" alt="{{ produto.nome }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ produto.nome }}</h5>
+                <p class="card-text">{{ produto.descricao }}</p>
+                <p class="card-text"><strong>Preço: {{ produto.preco }}</strong></p>
+                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</app-layout-principal>

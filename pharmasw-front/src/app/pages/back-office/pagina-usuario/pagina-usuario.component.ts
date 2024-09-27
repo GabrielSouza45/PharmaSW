@@ -11,8 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { ModalComponent } from '../../../components/modal/modal.component';
-import { PaginaInicialLayoutComponent } from '../../../components/pagina-inicial-layout/pagina-inicial-layout.component';
-import { TablePaginationComponent } from '../../../components/table-pagination/table-pagination.component';
+import { PaginaInicialLayoutComponent } from '../../../components/back-office/pagina-inicial-layout/pagina-inicial-layout.component';
+import { TablePaginationComponent } from '../../../components/back-office/table-pagination/table-pagination.component';
 import { cpfValidator } from '../../../infra/validators/cpf-validator';
 import { Status } from '../../../modelo/enums/Status';
 import { Filtros } from '../../../modelo/Filtros';

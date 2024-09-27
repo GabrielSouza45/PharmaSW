@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginLayoutComponent } from "../../../components/login-layout/login-layout.component";
+import { LoginLayoutComponent } from "../../../components/back-office/login-layout/login-layout.component";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { ToastrService } from 'ngx-toastr';
