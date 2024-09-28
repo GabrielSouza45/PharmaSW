@@ -1,10 +1,9 @@
-package br.com.pharmasw.api.controle;
+package br.com.pharmasw.api.backoffice.controle;
 
+import br.com.pharmasw.api.backoffice.servico.ProdutoServico;
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
-import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
-import br.com.pharmasw.api.servico.ProdutoServico;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +26,11 @@ public class ProdutoControle {
     @Autowired
     private ProdutoServico produtoServico;
 
-    @Autowired
-    private ProdutoRepositorio produtoRepositorio;
-
     // Listagem de todos os produtos (ativos e inativos)
     @PostMapping("/listar-produtos-pagination")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')") // -> Permite que usuarios ADMIN e ESTOQUISTA acessem o endpoint
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')")
+    // -> Permite que usuarios ADMIN e ESTOQUISTA acessem o endpoint
     public ResponseEntity<?> listarTodosProdutos(@RequestBody Filtros filtros) {
 
         return produtoServico.listarProdutosPagination(filtros);
@@ -42,7 +39,8 @@ public class ProdutoControle {
 
     @PostMapping("/listar-produtos")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')") // -> Permite que usuarios ADMIN e ESTOQUISTA acessem o endpoint
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')")
+    // -> Permite que usuarios ADMIN e ESTOQUISTA acessem o endpoint
     public ResponseEntity<?> listarProdutos(@RequestBody Filtros filtros) {
 
         return produtoServico.listarProdutos(filtros);
@@ -64,7 +62,7 @@ public class ProdutoControle {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             produto = objectMapper.readValue(jsonProduto, Produto.class);
-        } catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -85,24 +83,24 @@ public class ProdutoControle {
         ObjectMapper objectMapper = new ObjectMapper();
         Produto produto = null;
         ImagemProduto[] imagensProdutoEdicao = null;
-        if(imagens == null){
+        if (imagens == null) {
             imagens = new ArrayList<>();
         }
         try {
             produto = objectMapper.readValue(jsonProduto, Produto.class);
-        } catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        try{
-            if(!jsonImagensEdicao.isBlank()){
+        try {
+            if (!jsonImagensEdicao.isBlank()) {
                 imagensProdutoEdicao = objectMapper.readValue(jsonImagensEdicao, ImagemProduto[].class);
             }
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             return new ResponseEntity<>("Erro ao processar Json da imagem.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         // Chama o método de serviço para alterar o produto
-        return produtoServico.alterarProduto(produto,imagensProdutoEdicao, imagens);
+        return produtoServico.alterarProduto(produto, imagensProdutoEdicao, imagens);
     }
 
 
@@ -121,12 +119,13 @@ public class ProdutoControle {
     // Alterar quantidade do produto
     @PutMapping("/alterar-quantidade")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')") // Permite que apenas usuarios ADMIN e ESTOQUISTA acessem o endpoint
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')")
+    // Permite que apenas usuarios ADMIN e ESTOQUISTA acessem o endpoint
     public ResponseEntity<?> alterarQuantidadeProduto(@RequestBody Produto produtoRequest) {
         if (produtoRequest.getId() == null) {
             return ResponseEntity.badRequest().body("Id do produto não pode ser null!");
         }
-        if (produtoRequest.getQuantidadeEstoque() == null){
+        if (produtoRequest.getQuantidadeEstoque() == null) {
             return ResponseEntity.badRequest().body("A quantidade do estoque não pode ser nulo!");
         }
 

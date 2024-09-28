@@ -1,13 +1,11 @@
-package br.com.pharmasw.api.servico;
+package br.com.pharmasw.api.backoffice.servico;
 
 import br.com.pharmasw.api.modelo.Filtros;
-import br.com.pharmasw.api.modelo.Produto;
-import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.Retorno.UsuarioDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
-import br.com.pharmasw.api.servico.helpers.PaginationHelper;
+import br.com.pharmasw.api.backoffice.servico.helpers.PaginationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

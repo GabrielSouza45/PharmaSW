@@ -1,6 +1,7 @@
 package br.com.pharmasw.api.repositorio;
 
 import br.com.pharmasw.api.modelo.Produto;
+import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,7 +14,10 @@ import java.util.Optional;
 @Repository
 public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
 
-    public List<Produto> findAllByStatus(Status status);
+    List<Produto> findAllByStatus(Status status);
+
+    List<ProdutoDTO> findAllProdutoDTOsByStatus(Status status);
+
 
     Produto findProdutoByNomeAndStatus(String nome, Status status);
 

@@ -20,11 +20,15 @@ export class CrudService<T> {
     this.url = this.domain + path;
   }
 
-  
 
 
-  listar(filtros: Filtros, acao: string): Observable<T[]> {
+
+  listar(acao: string, filtros?: Filtros): Observable<T[]> {
     return this.httpClient.post<any[]>(this.url + acao, filtros);
+  }
+
+  listarGet(acao: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + acao);
   }
 
   listarUnico(filtros: Filtros, acao: string): Observable<T> {
@@ -102,7 +106,7 @@ export class CrudService<T> {
         })
       );
   }
-  
 
-  
+
+
 }

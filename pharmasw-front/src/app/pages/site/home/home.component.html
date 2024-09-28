@@ -1,7 +1,7 @@
 <app-layout-principal>
   <main class="container">
-    <!-- DESTAQUES -->
-    <div class="destaques row linha-info"></div>
+    <!-- DESTAQUES
+    <div class="destaques row linha-info"></div> -->
 
     <!-- CARD-PRODUTOS -->
     <div class="card-produtos row linha-info">
@@ -10,14 +10,17 @@
       <div class="produtos container">
         <div class="row" *ngFor="let row of produtos | slice:0:5; let i = index">
           <!-- Renderiza 5 produtos por linha -->
-          <div class="col" *ngFor="let produto of produtos.slice(i * 5, (i + 1) * 5)">
-            <div class="card">
-              <img [src]="produto" class="card-img-top" alt="{{ produto.nome }}">
+          <div class="col" *ngFor="let produtoDTO of produtos.slice(i * 5, (i + 1) * 5)">
+            <div class="card p-2" (click)="detalharProduto(produtoDTO.produto)">
+              <div class="imagem">
+                <img [src]="'data:image/jpeg;base64,'+produtoDTO.imagemPrincipal" class="card-img-top" alt="{{ produtoDTO.produto.nome }}">
+              </div>
               <div class="card-body">
-                <h5 class="card-title">{{ produto.nome }}</h5>
-                <p class="card-text">{{ produto.descricao }}</p>
-                <p class="card-text"><strong>Preço: {{ produto.valor }}</strong></p>
-                <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a>
+                <div class="rating">
+                  <i *ngFor="let star of generateStars(produtoDTO.produto)" class="bi" [ngClass]="star"></i>
+                </div>
+                <h5 class="card-title">{{ produtoDTO.produto.nome }}</h5>
+                <p class="card-text"><strong>{{ produtoDTO.produto.valor | currency : "BRL" : "symbol" : "1.2-2" }}</strong></p>
               </div>
             </div>
           </div>

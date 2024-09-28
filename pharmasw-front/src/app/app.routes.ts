@@ -7,11 +7,16 @@ import { PaginaProdutosComponent } from './pages/back-office/pagina-produtos/pag
 import { PaginaUsuarioComponent } from './pages/back-office/pagina-usuario/pagina-usuario.component';
 import { HomeComponent } from './pages/site/home/home.component';
 import { CarrinhoComponentComponent } from './pages/site/carrinho/carrinho-component.component';
+import { DetalhesProdutoComponent } from './pages/site/detalhes-produto/detalhes-produto.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+  },
+  {
+    path: 'produto/:id',
+    component: DetalhesProdutoComponent,
   },
   {
     path: 'login',

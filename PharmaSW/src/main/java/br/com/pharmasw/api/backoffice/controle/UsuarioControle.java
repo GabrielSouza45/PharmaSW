@@ -1,8 +1,8 @@
-package br.com.pharmasw.api.controle;
+package br.com.pharmasw.api.backoffice.controle;
 
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Usuario;
-import br.com.pharmasw.api.servico.UsuarioServico;
+import br.com.pharmasw.api.backoffice.servico.UsuarioServico;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

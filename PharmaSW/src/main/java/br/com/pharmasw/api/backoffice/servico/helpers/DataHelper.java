@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.servico.helpers;
+package br.com.pharmasw.api.backoffice.servico.helpers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

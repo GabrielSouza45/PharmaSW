@@ -1,12 +1,13 @@
-package br.com.pharmasw.api.servico;
+package br.com.pharmasw.api.backoffice.servico;
 
+import br.com.pharmasw.api.backoffice.servico.helpers.PaginationHelper;
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
+import br.com.pharmasw.api.repositorio.ImagemProdutoRepositorio;
 import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
-import br.com.pharmasw.api.servico.helpers.PaginationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,8 @@ public class ProdutoServico {
     private ProdutoRepositorio produtoRepositorio;
     @Autowired
     private ImagemProdutoServico imagemProdutoServico;
+    @Autowired
+    private ImagemProdutoRepositorio imagemProdutoRepositorio;
     @Autowired
     private PaginationHelper<ProdutoDTO> paginationHelper;
 
@@ -49,7 +52,7 @@ public class ProdutoServico {
         );
 
         List<ProdutoDTO> dtos = new ArrayList<>();
-        if (produtos.isEmpty()){
+        if (produtos.isEmpty()) {
             dtos.add(new ProdutoDTO(new Produto()));
         } else {
             produtos.forEach(produto -> {
@@ -63,7 +66,6 @@ public class ProdutoServico {
     }
 
 
-
     //listar produtos para edição. Retorna todos os dados
     public ResponseEntity<?> listarProdutos(Filtros filtros) {
 
@@ -73,8 +75,7 @@ public class ProdutoServico {
     }
 
 
-
-        //Metodo cadastrar os produtos
+    //Metodo cadastrar os produtos
     public ResponseEntity<?> cadastrarProduto(Produto produto, List<MultipartFile> imagens) {
 
         Produto produtoExiste =
@@ -132,7 +133,7 @@ public class ProdutoServico {
     }
 
     // Alterar Produto
-    public ResponseEntity<?> alterarProduto(Produto produtoRequest, ImagemProduto[] imagemProduto, List<MultipartFile> imagens ) {
+    public ResponseEntity<?> alterarProduto(Produto produtoRequest, ImagemProduto[] imagemProduto, List<MultipartFile> imagens) {
         Produto produto = produtoRepositorio.findById(produtoRequest.getId()).orElse(null);
 
         if (produto == null) {
@@ -149,11 +150,11 @@ public class ProdutoServico {
         // Salvar alterações
         Produto produtoAtualizado = produtoRepositorio.save(produto);
         produtoAtualizado.setImagemPrincipal(produtoRequest.getImagemPrincipal());
-        try{
-            if(imagemProduto.length > 0 ){
+        try {
+            if (imagemProduto.length > 0) {
                 this.imagemProdutoServico.alterar(produtoAtualizado, imagemProduto);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Erro ao alterar imagens.", HttpStatus.BAD_GATEWAY);
         }

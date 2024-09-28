@@ -1,7 +1,9 @@
-package br.com.pharmasw.api.servico;
+package br.com.pharmasw.api.backoffice.servico;
 
 import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
+import br.com.pharmasw.api.modelo.Retorno.ProdutoCardDTO;
+import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.ImagemProdutoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +31,7 @@ public class ImagemProdutoServico {
 
     // LISTAR IMAGENS
     public ResponseEntity<?> listarImagensProduto(Produto produto) {
-       List<ImagemProduto> imagens = imagemProdutoRepositorio.findByProdutoIdOrderByPrincipalDesc(produto.getId());
+        List<ImagemProduto> imagens = imagemProdutoRepositorio.findByProdutoIdOrderByPrincipalDesc(produto.getId());
 
         for (ImagemProduto imagem : imagens) {
             String caminhoImagem = imagem.getCaminho();
@@ -47,6 +50,27 @@ public class ImagemProdutoServico {
         return ResponseEntity.ok(imagens);
     }
 
+    public List<ProdutoCardDTO> getImagensCardDTO(List<ProdutoDTO> produtosDTO) {
+        List<ProdutoCardDTO> produtosCardDTO = new ArrayList<>();
+
+        produtosDTO.forEach(prod -> {
+            ImagemProduto imagemProduto =
+                    imagemProdutoRepositorio.findByProdutoIdAndPrincipal(prod.id(), true);
+
+            byte[] img = null;
+            if (imagemProduto != null) {
+                try {
+                    // Pega o conteudo da imagem em Base64
+                    img = this.getConteudoImagem(imagemProduto.getCaminho());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            produtosCardDTO.add(new ProdutoCardDTO(img, prod));
+        });
+
+        return produtosCardDTO;
+    }
 
     // CADASTRAR IMAGENS PRODUTOS
     public void cadastrar(Produto produtoSalvo, List<MultipartFile> imagens) throws IOException {
@@ -78,7 +102,7 @@ public class ImagemProdutoServico {
 
         for (ImagemProduto imagem : imagemProdutos) {
             ImagemProduto imagemProduto = imagemProdutoRepositorio.findById(imagem.getId()).orElse(null);
-            if(imagemProduto == null){
+            if (imagemProduto == null) {
                 continue;
             }
             imagemProduto.setPrincipal(produto.getImagemPrincipal().equals(imagem.getNomeOriginal()));

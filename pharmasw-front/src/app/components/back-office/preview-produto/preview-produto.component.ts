@@ -36,9 +36,7 @@ export class PreviewProdutoComponent extends ImagemService<ImagemProduto> {
 
   const filtro = new Filtros();
   filtro.id = data.produto.id
-    crudService.listar(filtro, "/listar-produtos").subscribe((resp: any) => {
-      console.log(resp);
-
+    crudService.listar("/listar-produtos", filtro).subscribe((resp: any) => {
       this.produto = resp;
       this.carregaCarrossel();
       console.log('teste', this.produto);

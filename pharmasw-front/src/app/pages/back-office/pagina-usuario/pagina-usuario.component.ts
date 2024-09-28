@@ -92,7 +92,7 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
     filtros.status = this.buscarForm.value.status || null;
     filtros.pagina = this.pagina;
 
-    this.listar(filtros, '/listar').subscribe((response: any) => {
+    this.listar('/listar', filtros).subscribe((response: any) => {
       this.usuarios = response.body.content;
       this.totalItens = response.body.totalElements;
     });

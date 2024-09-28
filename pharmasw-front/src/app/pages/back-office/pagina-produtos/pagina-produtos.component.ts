@@ -105,7 +105,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     filtros.status = this.buscarForm.value.status || null;
     filtros.pagina = this.pagina;
 
-    this.listar(filtros, '/listar-produtos-pagination').subscribe(
+    this.listar('/listar-produtos-pagination', filtros).subscribe(
       (response: any) => {
         this.produtos = response.content;
 
@@ -122,7 +122,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   visualizar(produto: Produto) {
     const filtro = new Filtros();
     filtro.id = produto.id;
-    this.listar(filtro, '/listar-produtos').subscribe({
+    this.listar('/listar-produtos', filtro).subscribe({
       next: (resp: any) => {
         this.dialog.open(PreviewProdutoComponent, { data: { produto: resp } });
       },
