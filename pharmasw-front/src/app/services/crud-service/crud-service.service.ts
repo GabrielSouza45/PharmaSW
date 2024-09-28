@@ -20,6 +20,9 @@ export class CrudService<T> {
     this.url = this.domain + path;
   }
 
+  
+
+
   listar(filtros: Filtros, acao: string): Observable<T[]> {
     return this.httpClient.post<any[]>(this.url + acao, filtros);
   }
