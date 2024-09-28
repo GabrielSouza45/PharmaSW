@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from '../../../services/carrinho/cart.service';
+import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
 import { Produto } from '../../../modelo/Produto';
 
 @Component({
@@ -10,29 +10,38 @@ import { Produto } from '../../../modelo/Produto';
 export class CarrinhoComponentComponent implements OnInit {
   cartItems: Produto[] = [];
   total: number = 0;
+  listaDeProdutos: Produto[] = [];
 
-  constructor(private cartService: CartService) {}
+  constructor(private carrinhoService: CarrinhoService) {}
 
   ngOnInit(): void {
-      this.cartItems = [
-    { id: 1, nome: 'Produto Teste', valor: 10 },
-    { id: 2, nome: 'Outro Produto', valor: 20,}
-  ];
-  this.calculateTotal();
+    // Inicializando com produtos predefinidos
+    this.listaDeProdutos = [
+      { id: 1, nome: 'Produto Teste', valor: 10, quantidadeEstoque: 5 },
+      { id: 2, nome: 'Outro Produto', valor: 20, quantidadeEstoque: 3 },
+    ];
+    this.CarregarCarrinho();
   }
 
-  loadCart() {
-    this.cartItems = this.cartService.getItems();
-    console.log('Itens do carrinho:', this.cartItems);  // Verificar se os itens estão carregados
-    this.calculateTotal();
+  CarregarCarrinho() {
+    this.cartItems = this.carrinhoService.getItems();
+    this.calculaTotal();
   }
 
-  removeFromCart(produto: Produto) {
-    this.cartService.removeItem(produto);
-    this.loadCart();
+  adicionarAoCarrinho(produtoId: number) {
+    const produto = this.listaDeProdutos.find(p => p.id === produtoId);
+    if (produto) {
+      this.carrinhoService.adicionar(produto);
+      this.CarregarCarrinho(); // Atualiza o carrinho após adicionar o produto
+    }
   }
 
-  calculateTotal() {
-    this.total = this.cartService.getTotalPreco();
+  removeItemCarrinho(produto: Produto) {
+    this.carrinhoService.removeItem(produto);
+    this.CarregarCarrinho();
+  }
+
+  calculaTotal() {
+    this.total = this.carrinhoService.getTotalPreco();
   }
 }
