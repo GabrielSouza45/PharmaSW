@@ -12,11 +12,11 @@
           <!-- Renderiza 5 produtos por linha -->
           <div class="col" *ngFor="let produto of produtos.slice(i * 5, (i + 1) * 5)">
             <div class="card">
-              <img [src]="produto." class="card-img-top" alt="{{ produto.nome }}">
+              <img [src]="produto" class="card-img-top" alt="{{ produto.nome }}">
               <div class="card-body">
                 <h5 class="card-title">{{ produto.nome }}</h5>
                 <p class="card-text">{{ produto.descricao }}</p>
-                <p class="card-text"><strong>Preço: {{ produto.preco }}</strong></p>
+                <p class="card-text"><strong>Preço: {{ produto.valor }}</strong></p>
                 <a href="#" class="btn btn-primary">Adicionar ao Carrinho</a>
               </div>
             </div>

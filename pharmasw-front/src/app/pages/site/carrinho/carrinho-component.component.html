@@ -12,8 +12,6 @@
       </div>
       <app-botao
         [textoBtn]="'Adicionar Produto 1'"
-        [classes]="'btn btn-primary'"
-        [desabilitarBotao]="false"
         (click)="adicionarProduto(produto1)"
       ></app-botao>
     </div>
@@ -26,8 +24,6 @@
       </div>
       <app-botao
         [textoBtn]="'Adicionar Produto 2'"
-        [classes]="'btn btn-primary'"
-        [desabilitarBotao]="false"
         (click)="adicionarProduto(produto2)"
       ></app-botao>
     </div>
@@ -47,7 +43,7 @@
 
       <!-- Input para alterar a quantidade -->
       <app-input-primario
-        [value]="produto.quantidadePedido"
+        [value]="produto.quantidadePedido.toString()"
         inputName="quantidade"
         type="number"
         placeHolder="Quantidade"
@@ -65,7 +61,7 @@
 
     <!-- Exibir o preço total -->
   <div class="total-preco">
-    <h3>Total: {{ getTotalPreco() | currency:'BRL':'symbol':'1.2-2' }}</h3>
+    <h3>Total: {{ getTotalPreco() | currency:'BRL':'symbol':'1.2-2' }} </h3>
   </div>
 
 

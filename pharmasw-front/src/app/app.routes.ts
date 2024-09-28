@@ -6,7 +6,7 @@ import { PaginaInicialComponent } from './pages/back-office/pagina-inicial/pagin
 import { PaginaProdutosComponent } from './pages/back-office/pagina-produtos/pagina-produtos.component';
 import { PaginaUsuarioComponent } from './pages/back-office/pagina-usuario/pagina-usuario.component';
 import { HomeComponent } from './pages/site/home/home.component';
-import { CarrinhoComponentComponent } from './pages/back-office/carrinho/carrinho-component.component';
+import { CarrinhoComponentComponent } from './pages/site/carrinho/carrinho-component.component';
 
 export const routes: Routes = [
   {

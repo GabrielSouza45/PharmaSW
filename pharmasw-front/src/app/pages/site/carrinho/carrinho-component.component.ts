@@ -22,7 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class CarrinhoComponentComponent{
   produto1: Produto = { id: 1, nome: 'Produto 1', valor: 100, quantidadePedido: 0 };
   produto2: Produto = { id: 2, nome: 'Produto 2', valor: 50, quantidadePedido: 0 };
-  
+
   // Injetar o serviço de carrinho
   constructor(private carrinhoService: CarrinhoService) { }
 
@@ -44,7 +44,7 @@ export class CarrinhoComponentComponent{
       this.removerProduto(produto); // Remove o produto quando a quantidade for 0
     }
   }
-  
+
 
   // Obter itens do carrinho
   getItems() {
@@ -52,7 +52,7 @@ export class CarrinhoComponentComponent{
   }
 
   // Exibir o preço total
-  getTotalPreco() {
+  getTotalPreco(): number {
     return this.carrinhoService.getTotalPreco();
   }
 }
