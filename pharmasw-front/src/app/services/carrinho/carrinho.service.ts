@@ -35,6 +35,20 @@ diminuirQuantidade(produtoId: number) {
   const item = this.items.find(p => p.id === produtoId);
   if (item && item.quantidadePedido > 1) {
     item.quantidadePedido -= 1;
+    if (item.quantidadePedido === 0) {
+      this.removeItem(item);
+    }
+    this.salvarCarrinho();
+  }
+}
+
+alterarQuantidade(produtoId: number, quantidade: number) {
+  const item = this.items.find((p) => p.id === produtoId);
+  if (item) {
+    item.quantidadePedido = quantidade;
+    if (quantidade === 0) {
+      this.removeItem(item);
+    }
     this.salvarCarrinho();
   }
 }

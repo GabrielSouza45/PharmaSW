@@ -1,47 +1,58 @@
-import { Component, OnInit } from '@angular/core';
-import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
+import { Component, NgModule} from '@angular/core';
 import { Produto } from '../../../modelo/Produto';
+import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
+import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { BotaoComponent } from '../../../components/botao/botao.component';
+import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-carrinho-component',
+  standalone:true,
+  imports: [
+    CurrencyPipe,
+    BotaoComponent,
+    InputPrimarioComponent,
+    NgIf,
+    NgFor,
+  ],
   templateUrl: './carrinho-component.component.html',
   styleUrls: ['./carrinho-component.component.css'],
 })
-export class CarrinhoComponentComponent implements OnInit {
-  cartItems: Produto[] = [];
-  total: number = 0;
-  listaDeProdutos: Produto[] = [];
+export class CarrinhoComponentComponent{
+  produto1: Produto = { id: 1, nome: 'Produto 1', valor: 100, quantidadePedido: 0 };
+  produto2: Produto = { id: 2, nome: 'Produto 2', valor: 50, quantidadePedido: 0 };
+  
+  // Injetar o serviço de carrinho
+  constructor(private carrinhoService: CarrinhoService) { }
 
-  constructor(private carrinhoService: CarrinhoService) {}
-
-  ngOnInit(): void {
-    // Inicializando com produtos predefinidos
-    this.listaDeProdutos = [
-      { id: 1, nome: 'Produto Teste', valor: 10, quantidadeEstoque: 5 },
-      { id: 2, nome: 'Outro Produto', valor: 20, quantidadeEstoque: 3 },
-    ];
-    this.CarregarCarrinho();
+  // Adicionar produtos
+  adicionarProduto(produto: Produto) {
+    this.carrinhoService.adicionar(produto);
   }
 
-  CarregarCarrinho() {
-    this.cartItems = this.carrinhoService.getItems();
-    this.calculaTotal();
+  // Remover produtos
+  removerProduto(produto: Produto) {
+    this.carrinhoService.removeItem(produto);
   }
 
-  adicionarAoCarrinho(produtoId: number) {
-    const produto = this.listaDeProdutos.find(p => p.id === produtoId);
-    if (produto) {
-      this.carrinhoService.adicionar(produto);
-      this.CarregarCarrinho(); // Atualiza o carrinho após adicionar o produto
+  alterarQuantidade(produto: Produto, event: Event) {
+    const quantidade = (event.target as HTMLInputElement).valueAsNumber; // Captura o valor como número
+    if (quantidade >= 0) { // Permite apenas números não negativos
+      this.carrinhoService.alterarQuantidade(produto.id, quantidade);
+    } else {
+      this.removerProduto(produto); // Remove o produto quando a quantidade for 0
     }
   }
+  
 
-  removeItemCarrinho(produto: Produto) {
-    this.carrinhoService.removeItem(produto);
-    this.CarregarCarrinho();
+  // Obter itens do carrinho
+  getItems() {
+    return this.carrinhoService.getItems();
   }
 
-  calculaTotal() {
-    this.total = this.carrinhoService.getTotalPreco();
+  // Exibir o preço total
+  getTotalPreco() {
+    return this.carrinhoService.getTotalPreco();
   }
 }
