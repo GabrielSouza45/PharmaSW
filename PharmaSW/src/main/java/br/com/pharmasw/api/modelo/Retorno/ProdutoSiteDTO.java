@@ -5,6 +5,7 @@ import br.com.pharmasw.api.modelo.Produto;
 import java.util.List;
 
 public record ProdutoSiteDTO(
+        Long id,
         String nome,
         String fabricante,
         String categoria,
@@ -16,7 +17,8 @@ public record ProdutoSiteDTO(
         List<byte[]> imagens
 ) {
     public ProdutoSiteDTO(Produto produto) {
-        this(produto.getNome(),
+        this(produto.getId(),
+                produto.getNome(),
                 produto.getFabricante(),
                 produto.getCategoria(),
                 produto.getDescricao(),

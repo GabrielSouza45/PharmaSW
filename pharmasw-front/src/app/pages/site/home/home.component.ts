@@ -8,11 +8,13 @@ import { Produto } from '../../../modelo/Produto';
 import { ProdutoCard } from '../../../modelo/ProdutoCard';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { CrudService } from './../../../services/crud-service/crud-service.service';
+import { BotaoComponent } from "../../../components/botao/botao.component";
+import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [LayoutPrincipalComponent, CommonModule],
+  imports: [LayoutPrincipalComponent, CommonModule, BotaoComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -24,7 +26,9 @@ export class HomeComponent {
     private http: HttpClient,
     private toastr: ToastrService,
     private router: Router,
-    private avaliacaoService: AvaliacaoService
+    private avaliacaoService: AvaliacaoService,
+    private carrinhoService: CarrinhoService
+
   ) {
     this.crudService = new CrudService(http, '/home-controle', toastr);
     this.loadProdutos();
@@ -42,5 +46,9 @@ export class HomeComponent {
 
   generateStars(produto: Produto): string[] {
     return this.avaliacaoService.generateStars(produto);
+  }
+
+  adicionarCarrinho(produto: Produto) {
+    this.carrinhoService.adicionar(produto, 1);
   }
 }

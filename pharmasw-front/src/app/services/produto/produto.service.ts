@@ -19,12 +19,10 @@ export class ProdutoService {
   }
 
   cadastrar(produto: Produto): Observable<HttpResponse<any>> {
-    console.log("Cadastro ", produto);
     return this.httpClient.post<any>(this.url + "cadastrar", produto, { observe: 'response' });
   }
 
   editar(produto: Produto): Observable<HttpResponse<any>> {
-    console.log('CORPOOOO ', produto);
 
     return this.httpClient.put<any>(this.url + "alterar-produto", produto, { observe: 'response' });
   }
@@ -33,5 +31,5 @@ export class ProdutoService {
     return this.httpClient.put<any>(this.url + "mudar-status", filtros, { observe: 'response' });
   }
 
-  
+
 }

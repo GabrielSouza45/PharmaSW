@@ -26,8 +26,6 @@ export class AuthService {
     sessionStorage.clear();
     return this.loginService.login(email, senha).pipe(
       tap((response) => {
-        console.log('auth login');
-
         this.isUsuarioAutenticado.next(true);
         this.permissaoUsuario.next(response.grupo);
       })

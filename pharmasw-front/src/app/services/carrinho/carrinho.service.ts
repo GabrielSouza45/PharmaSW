@@ -1,25 +1,37 @@
-import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { Injectable, OnInit } from '@angular/core';
 import { Produto } from '../../modelo/Produto';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CarrinhoService {
+export class CarrinhoService{
   items: Produto[] = [];
 
-  constructor() {
+  private itemCountSubject = new BehaviorSubject<number>(this.inicia());
+  itemCount$ = this.itemCountSubject.asObservable();
+
+  constructor(private toastrService: ToastrService) {
     this.carregarCarrinho();
   }
 
-  adicionar(produto: Produto): void {
+  adicionar(produto: Produto, quantidade: number): void {
     const item = this.items.find((p) => p.id === produto.id);
+
+    if (!this.validaEstoque(produto, quantidade)) {
+      this.toastrService.warning('Quantidade indisponível');
+      return;
+    }
+
     if (item) {
-      item.quantidadePedido += 1;
+      item.quantidadePedido += quantidade;
     } else {
-      produto.quantidadePedido = 1;
+      produto.quantidadePedido = quantidade;
       this.items.push(produto);
     }
     this.salvarCarrinho();
+    this.toastrService.success("Produto adicionado ao carrinho.")
   }
 
   diminuirQuantidade(produtoId: number): void {
@@ -64,6 +76,7 @@ export class CarrinhoService {
 
   salvarCarrinho(): void {
     localStorage.setItem('carrinho', JSON.stringify(this.items));
+    this.itemCountSubject.next(this.items.length);
   }
 
   carregarCarrinho(): void {
@@ -78,5 +91,25 @@ export class CarrinhoService {
       total += produto.valor * produto.quantidadePedido;
       return total;
     }, 0);
+  }
+
+  private validaEstoque(produto: Produto, quantidade: number): boolean {
+    let temEstoque: boolean = false;
+    const item = this.items.find((p) => p.id === produto.id);
+    const qtdEstoque: number = produto.quantidadeEstoque;
+
+    if (qtdEstoque > quantidade) temEstoque = true;
+
+    if (item) {
+      if (qtdEstoque >= item.quantidadePedido + quantidade) temEstoque = true;
+      else temEstoque = false;
+    }
+
+    return temEstoque;
+  }
+
+  private inicia(): number{
+    this.carregarCarrinho();
+    return this.items.length;
   }
 }

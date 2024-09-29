@@ -1,5 +1,5 @@
 <app-layout-principal>
-  <main class="container row">
+  <main class="container row" *ngIf="produto">
     <!-- Imagens -->
     <section class="col-6 p-2 imagens-produto">
       <div class="carrosel col-12">
@@ -19,11 +19,7 @@
           <!-- AVALIACAO -->
           <div class="col-6 avaliacao">
             <div class="rating">
-              <i
-                *ngFor="let star of generateStars(produto)"
-                class="bi"
-                [ngClass]="star"
-              ></i>
+              <i *ngFor="let star of stars" class="bi" [ngClass]="star"></i>
             </div>
           </div>
         </div>
@@ -40,7 +36,7 @@
 
         <!-- Descricao -->
         <div class="descricao">
-          <div class="ps-2 pe-2 text-area" >
+          <div class="ps-2 pe-2 text-area">
             <p class="fs-5">Descrição:</p>
             <app-text-area
               [disabled]="true"
@@ -67,11 +63,15 @@
           <!-- QUANTIDADE -->
           <div class="col-6 quantidade d-flex align-items-center">
             <div class="w-100 ps-2 pe-2">
-              <app-input-primario
-                type="number"
-                placeHolder="0"
-                [max]="produto.quantidadeEstoque.toString()"
-              ></app-input-primario>
+              <form [formGroup]="quantidadeProduto">
+                <app-input-primario
+                  type="number"
+                  placeHolder="Quantidade"
+                  [max]="produto.quantidadeEstoque.toString()"
+                  min="1"
+                  formControlName="quantidade"
+                ></app-input-primario>
+              </form>
             </div>
           </div>
 
@@ -79,13 +79,12 @@
           <div class="col-6 d-flex align-items-center btn-comprar">
             <div class="col-12 ps-2 pe-2">
               <app-botao
-                textoBtn="Adicionar ao Carrinho"
-                (click)="adicionarCarrinho()"
+                textoBtn="Comprar"
+                (click)="comprar()"
               ></app-botao>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   </main>

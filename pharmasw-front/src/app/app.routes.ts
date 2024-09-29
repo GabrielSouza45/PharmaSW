@@ -19,6 +19,10 @@ export const routes: Routes = [
     component: DetalhesProdutoComponent,
   },
   {
+    path: 'carrinho',
+    component: CarrinhoComponentComponent
+  },
+  {
     path: 'login',
     component: LoginComponent,
   },
@@ -39,9 +43,5 @@ export const routes: Routes = [
     component: PaginaProdutosComponent,
     canActivate: [authGuard, roleGuard],
     data: { expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA'] },
-  },
-  {
-    path: 'carrinho',
-    component: CarrinhoComponentComponent
   }
 ];

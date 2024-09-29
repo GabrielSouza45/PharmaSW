@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public record ProdutoDTO(
         Long id,
         String nome,
-        @JsonProperty("Quantidade Estoque")
         Integer quantidadeEstoque,
         Double valor,
         Double avaliacao,

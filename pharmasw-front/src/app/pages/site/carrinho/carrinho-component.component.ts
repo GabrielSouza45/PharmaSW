@@ -5,6 +5,7 @@ import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { BotaoComponent } from '../../../components/botao/botao.component';
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LayoutPrincipalComponent } from "../layout-principal/layout-principal.component";
 
 @Component({
   selector: 'app-carrinho-component',
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     InputPrimarioComponent,
     NgIf,
     NgFor,
-  ],
+    LayoutPrincipalComponent
+],
   templateUrl: './carrinho-component.component.html',
   styleUrls: ['./carrinho-component.component.css'],
 })
@@ -28,7 +30,7 @@ export class CarrinhoComponentComponent{
 
   // Adicionar produtos
   adicionarProduto(produto: Produto) {
-    this.carrinhoService.adicionar(produto);
+    this.carrinhoService.adicionar(produto, 1);
   }
 
   // Remover produtos

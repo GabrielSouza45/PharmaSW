@@ -110,8 +110,6 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
 
   // CADASTRAR
   cadastrar() {
-    console.log(this.formCadastroUsuario.value);
-
     if (
       !this.formChecker.senhaValida(this.formCadastroUsuario) ||
       !this.formChecker.checkFormErrorsUsuario(this.formCadastroUsuario)

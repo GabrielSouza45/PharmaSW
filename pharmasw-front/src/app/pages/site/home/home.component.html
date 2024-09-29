@@ -8,19 +8,50 @@
       <h2>Nossos Produtos</h2>
 
       <div class="produtos container">
-        <div class="row" *ngFor="let row of produtos | slice:0:5; let i = index">
+        <div
+          class="row"
+          *ngFor="let row of produtos | slice : 0 : 5; let i = index"
+        >
           <!-- Renderiza 5 produtos por linha -->
-          <div class="col" *ngFor="let produtoDTO of produtos.slice(i * 5, (i + 1) * 5)">
-            <div class="card p-2" (click)="detalharProduto(produtoDTO.produto)">
-              <div class="imagem">
-                <img [src]="'data:image/jpeg;base64,'+produtoDTO.imagemPrincipal" class="card-img-top" alt="{{ produtoDTO.produto.nome }}">
-              </div>
-              <div class="card-body">
-                <div class="rating">
-                  <i *ngFor="let star of generateStars(produtoDTO.produto)" class="bi" [ngClass]="star"></i>
+          <div
+            class="col"
+            *ngFor="let produtoDTO of produtos.slice(i * 5, (i + 1) * 5)"
+          >
+            <div class="card p-2">
+              <div class="" (click)="detalharProduto(produtoDTO.produto)">
+                <div class="imagem">
+                  <img
+                    [src]="
+                      'data:image/jpeg;base64,' + produtoDTO.imagemPrincipal
+                    "
+                    class="card-img-top"
+                    alt="{{ produtoDTO.produto.nome }}"
+                  />
                 </div>
-                <h5 class="card-title">{{ produtoDTO.produto.nome }}</h5>
-                <p class="card-text"><strong>{{ produtoDTO.produto.valor | currency : "BRL" : "symbol" : "1.2-2" }}</strong></p>
+                <div class="card-body">
+                  <div class="rating">
+                    <i
+                      *ngFor="let star of generateStars(produtoDTO.produto)"
+                      class="bi"
+                      [ngClass]="star"
+                    ></i>
+                  </div>
+                  <h5 class="card-title">{{ produtoDTO.produto.nome }}</h5>
+                  <p class="card-text">
+                    <strong>{{
+                      produtoDTO.produto.valor
+                        | currency : "BRL" : "symbol" : "1.2-2"
+                    }}</strong>
+                  </p>
+                </div>
+              </div>
+              <div class="col-12 d-flex align-items-center btn-comprar">
+                <div class="col-12 ps-2 pe-2 mb-2">
+                  <app-botao
+                    textoBtn="Adicionar ao Carrinho"
+                    (click)="adicionarCarrinho(produtoDTO.produto)"
+                  ></app-botao>
+                </div>
               </div>
             </div>
           </div>

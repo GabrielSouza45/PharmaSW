@@ -14,7 +14,7 @@ export class Produto {
   avaliacao?: number;
   descricao?: string;
   imagemPrincipal?: string;
-  quantidadePedido?: number;
+  quantidadePedido?: number = 0;
 
 
 

@@ -233,8 +233,6 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
     } else {
       // COLOCAR LOGICA DE ALTERACAO DO USUARIO ADMIN AQUI!!!
       const produtoEditado = this.getProduto();
-      console.log("ooooooooooooooooooo ", produtoEditado);
-
       produtoEditado.id = this.produtoEdicao.id;
       produtoEditado.imagemPrincipal = this.formProduto.value.imagemPrincipal;
 

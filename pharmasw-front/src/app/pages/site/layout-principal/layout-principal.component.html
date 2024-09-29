@@ -48,8 +48,9 @@
               </ul>
             </li>
           </ul>
-          <a href="" class="nav-link">
+          <a (click)="toCart()" class="nav-link">
             <i class="bi bi-cart"></i>
+            <span class="count">{{ itemCount }}</span>
           </a>
         </div>
       </div>

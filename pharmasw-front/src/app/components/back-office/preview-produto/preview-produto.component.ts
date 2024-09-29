@@ -41,7 +41,6 @@ export class PreviewProdutoComponent extends ImagemService<ImagemProduto> {
     crudService.listar("/listar-produtos", filtro).subscribe((resp: any) => {
       this.produto = resp;
       this.carregaCarrossel();
-      console.log('teste', this.produto);
       this.generateStars();
     });
 

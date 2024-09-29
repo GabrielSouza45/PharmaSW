@@ -36,10 +36,8 @@ export class TablePaginationComponent {
   currentPage: number = this.page;
 
   pageChanged(event: PageChangedEvent): void {
-    console.log("Exibirrrrrrrr");
 
     this.page = event.page;
     this.pageChangeEvent.emit(this.page);
-    console.log(this.page);
   }
 }

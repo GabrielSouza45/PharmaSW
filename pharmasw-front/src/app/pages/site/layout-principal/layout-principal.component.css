@@ -44,3 +44,7 @@ main{
   align-items: center;
   width: 100%;
 }
+
+.count{
+  color: var(--cor-secundaria);
+}
