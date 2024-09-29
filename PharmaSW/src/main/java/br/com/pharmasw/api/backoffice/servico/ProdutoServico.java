@@ -146,6 +146,8 @@ public class ProdutoServico {
         produto.setQuantidadeEstoque(produtoRequest.getQuantidadeEstoque() != null ? produtoRequest.getQuantidadeEstoque() : produto.getQuantidadeEstoque());
         produto.setDescricao(produtoRequest.getDescricao() != null ? produtoRequest.getDescricao() : produto.getDescricao());
         produto.setAvaliacao(produtoRequest.getAvaliacao() != null ? produtoRequest.getAvaliacao() : produto.getAvaliacao());
+        System.out.println(produtoRequest.getFabricante());
+        produto.setFabricante(produtoRequest.getFabricante() != null ? produtoRequest.getFabricante() : produto.getFabricante());
 
         // Salvar alterações
         Produto produtoAtualizado = produtoRepositorio.save(produto);

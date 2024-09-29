@@ -1,0 +1,77 @@
+main{
+  margin-top: 20px;
+  border-radius: 15px;
+  border: 1px var(--cor-secundaria) solid;
+}
+.imagens-produto{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carrosel{
+  height: 500px;
+}
+
+.conteudo{
+  border-radius: 0 15px 15px 0;
+}
+
+
+.infos{
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.categoria{
+  font-size: 20px;
+}
+
+.avaliacao{
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  padding-right: 10px;
+}
+
+.rating{
+  font-size: 20px;
+  color: rgb(216, 184, 0);
+  text-align: center;
+}
+
+
+
+.titulo{
+  height: 70px;
+  color: #3f4444;
+  font-size: 24px;
+}
+
+.fabricante{
+  color: #3f4444;
+}
+
+
+.descricao{
+  height: 160px;
+}
+
+.estoque{
+  height: 30px;
+}
+
+
+.valor{
+  height: 90px;
+}
+
+
+.comprar{
+  height: 110px;
+  display: flex;
+  flex-direction: row;
+}
+
+

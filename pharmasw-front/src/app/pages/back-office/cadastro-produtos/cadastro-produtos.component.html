@@ -7,8 +7,8 @@
 >
   <section class="conteiner">
     <div class="esquerda">
-      <!-- NOME DO PRODUTO -->
       <form [formGroup]="formProduto">
+        <!-- NOME DO PRODUTO -->
         <app-input-primario
           class="input-cadastro"
           [addLabel]="true"
@@ -16,6 +16,18 @@
           inputName="nome"
           placeHolder="Nome do produto"
           formControlName="nome"
+          [disabled] ="usuarioEstoque"
+          maxLength="200"
+        ></app-input-primario>
+
+        <!-- FABRICANTE DO PRODUTO -->
+        <app-input-primario
+          class="input-cadastro"
+          [addLabel]="true"
+          label="Fabricante:"
+          inputName="fabricante"
+          placeHolder="Fabricante do produto"
+          formControlName="fabricante"
           [disabled] ="usuarioEstoque"
           maxLength="200"
         ></app-input-primario>

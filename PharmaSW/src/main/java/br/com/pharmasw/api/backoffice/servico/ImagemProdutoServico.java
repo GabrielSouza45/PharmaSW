@@ -72,6 +72,24 @@ public class ImagemProdutoServico {
         return produtosCardDTO;
     }
 
+    public List<byte[]> getImagensPorIdProduto(Long idProduto) {
+        List<byte[]> imagens = new ArrayList<>();
+
+        List<ImagemProduto> imagensProd =
+                imagemProdutoRepositorio.findByProdutoIdOrderByPrincipalDesc(idProduto);
+        if (imagensProd != null) {
+            imagensProd.forEach(img -> {
+                try{
+                    imagens.add(this.getConteudoImagem(img.getCaminho()));
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        return imagens;
+    }
+
     // CADASTRAR IMAGENS PRODUTOS
     public void cadastrar(Produto produtoSalvo, List<MultipartFile> imagens) throws IOException {
 
@@ -105,7 +123,9 @@ public class ImagemProdutoServico {
             if (imagemProduto == null) {
                 continue;
             }
-            imagemProduto.setPrincipal(produto.getImagemPrincipal().equals(imagem.getNomeOriginal()));
+            if (!produto.getImagemPrincipal().isBlank()){
+                imagemProduto.setPrincipal(produto.getImagemPrincipal().equals(imagem.getNomeOriginal()));
+            }
             imagemProdutoRepositorio.save(imagemProduto);
 
         }

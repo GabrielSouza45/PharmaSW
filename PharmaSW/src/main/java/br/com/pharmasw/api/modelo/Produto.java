@@ -3,6 +3,8 @@ package br.com.pharmasw.api.modelo;
 import br.com.pharmasw.api.modelo.enums.Status;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "produtos")
@@ -27,6 +29,8 @@ public class Produto {
 
     @Transient
     private String imagemPrincipal;
+    @Transient
+    private List<byte[]> imagens;
 
 
     public Produto() {
@@ -115,6 +119,14 @@ public class Produto {
 
     public void setImagemPrincipal(String imagemPrincipal) {
         this.imagemPrincipal = imagemPrincipal;
+    }
+
+    public List<byte[]> getImagens() {
+        return imagens;
+    }
+
+    public void setImagens(List<byte[]> imagens) {
+        this.imagens = imagens;
     }
 
     @Override

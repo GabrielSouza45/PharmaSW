@@ -20,8 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrls: ['./carrinho-component.component.css'],
 })
 export class CarrinhoComponentComponent{
-  produto1: Produto = { id: 1, nome: 'Produto 1', valor: 100, quantidadePedido: 0 };
-  produto2: Produto = { id: 2, nome: 'Produto 2', valor: 50, quantidadePedido: 0 };
+  produto1: Produto = { id: 1, nome: 'Produto 1', fabricante: "issae", valor: 100, quantidadePedido: 0 };
+  produto2: Produto = { id: 2, nome: 'Produto 2', fabricante: "issae", valor: 50, quantidadePedido: 0 };
 
   // Injetar o serviço de carrinho
   constructor(private carrinhoService: CarrinhoService) { }

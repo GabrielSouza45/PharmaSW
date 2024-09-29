@@ -1,12 +1,10 @@
 package br.com.pharmasw.api.site.controle;
 
+import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.site.servico.SiteProdutoServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/home-controle")
@@ -26,4 +24,11 @@ public class HomeControle {
 
     }
 
+    @PostMapping("/listar-produto")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> listarProduto(@RequestBody Filtros filtro) {
+
+        return produtoServico.listarProdutoPorId(filtro);
+
+    }
 }

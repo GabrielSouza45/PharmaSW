@@ -7,7 +7,7 @@ export class Produto {
   status?: Status;
   nome?: string;
   // categoria: string;
-  // fabricante: string;
+  fabricante: string;
   quantidadeEstoque?: number;
   valor: number;
   // peso: number;
@@ -15,15 +15,15 @@ export class Produto {
   descricao?: string;
   imagemPrincipal?: string;
   quantidadePedido?: number;
-  
-  
+
+
 
   constructor(
     nome: string,
     // categoria: string,
     valor: number,
     // peso: number,
-    // fabricante: string,
+    fabricante: string,
     descricao: string,
     avaliacao: number,
     quantidadeEstoque: number
@@ -32,7 +32,7 @@ export class Produto {
     // this.categoria = categoria;
     this.valor = valor;
     // this.peso = peso;
-    // this.fabricante = fabricante;
+    this.fabricante = fabricante;
     this.descricao = descricao;
     this.avaliacao = avaliacao;
     this.quantidadeEstoque = quantidadeEstoque;

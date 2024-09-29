@@ -1,11 +1,11 @@
 <div class="carrossel">
-  <div *ngIf="images.length > 0" class="carousel carrossel">
+  <div class="carousel carrossel">
     <div
       *ngFor="let image of images; let i = index"
       class="carousel-item"
       [class.active]="i === currentSlide"
     >
-      <img [src]="image.caminho || 'data:image/jpeg;base64,'+image.imagem" alt="Uploaded image {{ i + 1 }}" />
+      <img [src]="image.caminho || 'data:image/jpeg;base64,'+image.imagem" alt="Uploaded image {{ i + 1 }}" class="mg-auto" />
     </div>
     <div class="acoes">
       <div class="itens">

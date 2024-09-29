@@ -1,3 +1,4 @@
+import { AvaliacaoService } from './../../../services/avaliacao/avaliacao.service';
 import { Produto } from '../../../modelo/Produto';
 import { Component, Inject } from '@angular/core';
 import { CarouselComponent } from '../../carousel/carousel.component';
@@ -29,6 +30,7 @@ export class PreviewProdutoComponent extends ImagemService<ImagemProduto> {
     @Inject(MAT_DIALOG_DATA) public data: any,
     http: HttpClient,
     toastr: ToastrService,
+    private avaliacaoService: AvaliacaoService
   ) {
     super(http);
 
@@ -62,25 +64,6 @@ export class PreviewProdutoComponent extends ImagemService<ImagemProduto> {
   }
 
   generateStars(): void {
-    const fullStars = Math.floor(this.produto.avaliacao); // Número de estrelas cheias
-    const hasHalfStar = this.produto.avaliacao % 1 !== 0; // Verifica se há meia estrela
-    const totalStars = 5; // Total de estrelas que você quer mostrar
-
-    // Cria um array com as classes das estrelas
-    let stars = Array(totalStars).fill('bi-star-fill'); // Estrelas cheias
-
-    // Ajusta o último item se houver uma meia estrela
-    if (hasHalfStar) {
-      stars[fullStars] = 'bi-star-half'; // Meia estrela
-    }
-
-    // Ajusta as estrelas restantes para estrela vazia
-    if (fullStars < totalStars) {
-      stars.fill('bi-star', fullStars + (hasHalfStar ? 1 : 0)); // Estrela vazia
-    }
-
-    console.log(stars);
-
-    this.estrelas = stars;
+    this.estrelas = this.avaliacaoService.generateStars(this.produto);
   }
 }

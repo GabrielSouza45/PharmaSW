@@ -10,6 +10,8 @@
         [disabled]="disabled"
         [style]="style"
         (input)="onInput($event)"
+        [ngClass]="{ 'no-resize': !isResizable }"
+        [value]="value"
     ></textarea>
     <div class="icon">
         <ng-content>

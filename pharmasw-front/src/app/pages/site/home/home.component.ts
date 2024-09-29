@@ -1,3 +1,4 @@
+import { AvaliacaoService } from './../../../services/avaliacao/avaliacao.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
@@ -22,7 +23,8 @@ export class HomeComponent {
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private avaliacaoService: AvaliacaoService
   ) {
     this.crudService = new CrudService(http, '/home-controle', toastr);
     this.loadProdutos();
@@ -39,22 +41,6 @@ export class HomeComponent {
   }
 
   generateStars(produto: Produto): string[] {
-    const fullStars = Math.floor(produto.avaliacao); // Número de estrelas cheias
-    const hasHalfStar = produto.avaliacao % 1 !== 0; // Verifica se há meia estrela
-    const totalStars = 5; // Total de estrelas que você quer mostrar
-
-    // Cria um array com as classes das estrelas
-    let stars = Array(totalStars).fill('bi-star-fill'); // Estrelas cheias
-
-    // Ajusta o último item se houver uma meia estrela
-    if (hasHalfStar) {
-      stars[fullStars] = 'bi-star-half'; // Meia estrela
-    }
-
-    // Ajusta as estrelas restantes para estrela vazia
-    if (fullStars < totalStars) {
-      stars.fill('bi-star', fullStars + (hasHalfStar ? 1 : 0)); // Estrela vazia
-    }
-    return stars;
+    return this.avaliacaoService.generateStars(produto);
   }
 }

@@ -1,1 +1,92 @@
-<p>detalhes-produto works!</p>
+<app-layout-principal>
+  <main class="container row">
+    <!-- Imagens -->
+    <section class="col-6 p-2 imagens-produto">
+      <div class="carrosel col-12">
+        <app-carousel [images]="imagens"> </app-carousel>
+      </div>
+    </section>
+
+    <!-- Informacoes do produto -->
+    <section class="col-6 p-2 info-produtos">
+      <div class="conteudo h-100">
+        <!-- INFO -->
+        <div class="infos">
+          <!-- CATEGORIA -->
+          <div class="col-6 ps-2 categoria">
+            <p>Categoria</p>
+          </div>
+          <!-- AVALIACAO -->
+          <div class="col-6 avaliacao">
+            <div class="rating">
+              <i
+                *ngFor="let star of generateStars(produto)"
+                class="bi"
+                [ngClass]="star"
+              ></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- TITULO -->
+        <div class="titulo p-2">
+          <h2>{{ produto.nome }}</h2>
+        </div>
+
+        <!-- FABRICANTE -->
+        <div class="fabricante p-2">
+          <h4>Fabricante: {{ produto.fabricante }}</h4>
+        </div>
+
+        <!-- Descricao -->
+        <div class="descricao">
+          <div class="ps-2 pe-2 text-area" >
+            <p class="fs-5">Descrição:</p>
+            <app-text-area
+              [disabled]="true"
+              [isResizable]="false"
+              [value]="produto.descricao"
+            ></app-text-area>
+          </div>
+        </div>
+
+        <!-- ESTOQUE -->
+        <div class="estoque">
+          <p class="ps-2 fs-5">Disponível: {{ produto.quantidadeEstoque }}</p>
+        </div>
+
+        <!-- VALOR -->
+        <div class="valor p-2 d-flex align-items-center">
+          <h3 class="fs-2">
+            <b>{{ produto.valor | currency : "BRL" }}</b>
+          </h3>
+        </div>
+
+        <!-- QUANTIDADE / COMPRAR -->
+        <div class="comprar">
+          <!-- QUANTIDADE -->
+          <div class="col-6 quantidade d-flex align-items-center">
+            <div class="w-100 ps-2 pe-2">
+              <app-input-primario
+                type="number"
+                placeHolder="0"
+                [max]="produto.quantidadeEstoque.toString()"
+              ></app-input-primario>
+            </div>
+          </div>
+
+          <!-- BOTAO COMPRAR -->
+          <div class="col-6 d-flex align-items-center btn-comprar">
+            <div class="col-12 ps-2 pe-2">
+              <app-botao
+                textoBtn="Adicionar ao Carrinho"
+                (click)="adicionarCarrinho()"
+              ></app-botao>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+</app-layout-principal>
