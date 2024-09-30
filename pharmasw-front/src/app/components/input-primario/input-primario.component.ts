@@ -37,7 +37,7 @@ export class InputPrimarioComponent implements ControlValueAccessor{
   @Input() addLabel: boolean = false;
   @Input() disabled: boolean = false;
   @Input() value: string = '';
-  
+
   onChange: any = () => {}
   onTouched: any = () => {}
 

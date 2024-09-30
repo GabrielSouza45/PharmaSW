@@ -1,7 +1,7 @@
 import { Component, NgModule} from '@angular/core';
 import { Produto } from '../../../modelo/Produto';
 import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
-import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { CommonModule, CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { BotaoComponent } from '../../../components/botao/botao.component';
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,19 +14,20 @@ import { LayoutPrincipalComponent } from "../layout-principal/layout-principal.c
     CurrencyPipe,
     BotaoComponent,
     InputPrimarioComponent,
-    NgIf,
-    NgFor,
+    CommonModule,
     LayoutPrincipalComponent
 ],
   templateUrl: './carrinho-component.component.html',
   styleUrls: ['./carrinho-component.component.css'],
 })
 export class CarrinhoComponentComponent{
-  produto1: Produto = { id: 1, nome: 'Produto 1', fabricante: "issae", valor: 100, quantidadePedido: 0 };
-  produto2: Produto = { id: 2, nome: 'Produto 2', fabricante: "issae", valor: 50, quantidadePedido: 0 };
+
+  produtos: Produto[] = [];
 
   // Injetar o serviço de carrinho
-  constructor(private carrinhoService: CarrinhoService) { }
+  constructor(private carrinhoService: CarrinhoService) {
+    this.produtos = carrinhoService.getItems();
+   }
 
   // Adicionar produtos
   adicionarProduto(produto: Produto) {

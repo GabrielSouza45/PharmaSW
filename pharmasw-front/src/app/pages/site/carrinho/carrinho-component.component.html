@@ -1,63 +1,41 @@
 <app-layout-principal>
-  <div class="carrinho-container">
+  <div class="carrinho-container container">
     <h2>Seu Carrinho</h2>
-
-    <div class="produto-adicionar">
-      <h3>Produtos Disponíveis</h3>
-
-      <!-- Produto 1 -->
-      <div class="produto-item">
-        <div class="produto-info">
-          <h4>{{ produto1.nome }}</h4>
-          <p>Preço: {{ produto1.valor | currency : "BRL" }}</p>
-        </div>
-        <app-botao
-          [textoBtn]="'Adicionar Produto 1'"
-          (click)="adicionarProduto(produto1)"
-        ></app-botao>
-      </div>
-
-      <!-- Produto 2 -->
-      <div class="produto-item">
-        <div class="produto-info">
-          <h4>{{ produto2.nome }}</h4>
-          <p>Preço: {{ produto2.valor | currency : "BRL" }}</p>
-        </div>
-        <app-botao
-          [textoBtn]="'Adicionar Produto 2'"
-          (click)="adicionarProduto(produto2)"
-        ></app-botao>
-      </div>
-    </div>
-
-    <hr />
-
+    
     <div *ngIf="getItems().length > 0" class="carrinho-itens">
       <h3>Itens no Carrinho</h3>
+      <br />
 
       <!-- Listagem de produtos no carrinho -->
-      <div *ngFor="let produto of getItems()" class="produto-carrinho">
-        <div class="produto-info">
-          <h4>{{ produto.nome }}</h4>
-          <p>Preço: {{ produto.valor | currency : "BRL" }}</p>
+      <div class="produto-item">
+        <div *ngFor="let produto of getItems()" class="produto-carrinho">
+          <div class="produto-info col-2">
+            <h4>{{ produto.nome }}</h4>
+            <p>Preço: {{ produto.valor | currency : "BRL" }}</p>
+          </div>
+
+          <!-- Input para alterar a quantidade -->
+          <div class="uniao row">
+            <div class="col-7">
+              <app-input-primario
+                [max]="produto.quantidadeEstoque.toString()"
+                [value]="produto.quantidadePedido.toString()"
+                inputName="quantidade"
+                type="number"
+                placeHolder="Quantidade"
+                (input)="alterarQuantidade(produto, $event)"
+              ></app-input-primario>
+            </div>
+
+            <!-- Botão para remover produto do carrinho -->
+            <div class="col-5">
+              <app-botao
+                [textoBtn]="'Remover'"
+                (click)="removerProduto(produto)"
+              ></app-botao>
+            </div>
+          </div>
         </div>
-
-        <!-- Input para alterar a quantidade -->
-        <app-input-primario
-          [value]="produto.quantidadePedido.toString()"
-          inputName="quantidade"
-          type="number"
-          placeHolder="Quantidade"
-          (input)="alterarQuantidade(produto, $event)"
-        ></app-input-primario>
-
-        <!-- Botão para remover produto do carrinho -->
-        <app-botao
-          [textoBtn]="'Remover'"
-          [classes]="'btn btn-danger'"
-          [desabilitarBotao]="false"
-          (click)="removerProduto(produto)"
-        ></app-botao>
       </div>
 
       <!-- Exibir o preço total -->
@@ -65,6 +43,9 @@
         <h3>
           Total: {{ getTotalPreco() | currency : "BRL" : "symbol" : "1.2-2" }}
         </h3>
+      </div>
+      <div class="botao-compra">
+        <app-botao textoBtn="Finalizar a Compra"> </app-botao>
       </div>
 
       <!-- Mensagem quando o carrinho estiver vazio -->

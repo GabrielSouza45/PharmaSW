@@ -8,13 +8,19 @@
   margin-bottom: 20px;
 }
 
-.produto-item, .produto-carrinho {
+.produto-carrinho{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
+}
+
+.produto-item{
+  overflow: auto;
+  padding: 20px;
+  height: 350px;
 }
 
 .produto-info {
@@ -49,4 +55,8 @@ button.btn {
 .btn-danger {
   background-color: #dc3545;
   color: white;
+}
+
+.uniao{
+  flex-grow: 0.5;
 }
