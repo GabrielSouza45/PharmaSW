@@ -29,8 +29,9 @@ export class TextAreaComponent implements ControlValueAccessor{
   @Input() maxLength: string = "2000";
   @Input() addLabel: boolean = false;
   @Input() disabled: boolean = false;
+  @Input() isResizable: boolean = true;
+  @Input() value: string = "";
 
-  value: string=''
   onChange: any = () => {}
   onTouched: any = () => {}
 

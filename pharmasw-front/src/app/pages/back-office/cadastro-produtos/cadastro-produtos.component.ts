@@ -70,6 +70,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
   iniciarForm(): FormGroup {
     return new FormGroup({
       nome: new FormControl('', [Validators.required]),
+      fabricante: new FormControl('', [Validators.required]),
       valor: new FormControl(0.0, [Validators.required, Validators.min(0)]),
       quantidadeEstoque: new FormControl(0, [
         Validators.required,
@@ -258,7 +259,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
         });
         formData.append('imagensEdicao', JSON.stringify(imagensEditar));
       }
-      console.log(formData.get("imagensEdicao"))
+
       this.editar(formData, '/alterar-produto').subscribe({
         next: (response: HttpResponse<any>) => {
           this.limparFormulario();
@@ -342,6 +343,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
     return new Produto(
       this.formProduto.value.nome,
       this.formProduto.value.valor,
+      this.formProduto.value.fabricante,
       this.formProduto.value.descricao,
       this.formProduto.value.avaliacao,
       this.formProduto.value.quantidadeEstoque
@@ -361,6 +363,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
   private carregaFormulario(): void {
     this.formProduto.patchValue({
       nome: this.produtoEdicao.nome,
+      fabricante: this.produtoEdicao.fabricante,
       valor: this.produtoEdicao.valor,
       quantidadeEstoque: this.produtoEdicao.quantidadeEstoque,
       descricao: this.produtoEdicao.descricao,

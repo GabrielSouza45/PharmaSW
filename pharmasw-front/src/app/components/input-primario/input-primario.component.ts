@@ -24,6 +24,7 @@ type InputTypes = "text" | "email" | "password" | "number" | "text-box" | "file"
 export class InputPrimarioComponent implements ControlValueAccessor{
 
   @Input() type: InputTypes = "text";
+  @Input() name: string = "";
   @Input() placeHolder: string = "";
   @Input() label: string = "";
   @Input() inputName: string = "";
@@ -35,8 +36,8 @@ export class InputPrimarioComponent implements ControlValueAccessor{
   @Input() step: string = "";
   @Input() addLabel: boolean = false;
   @Input() disabled: boolean = false;
-
-  value: string=''
+  @Input() value: string = '';
+  
   onChange: any = () => {}
   onTouched: any = () => {}
 

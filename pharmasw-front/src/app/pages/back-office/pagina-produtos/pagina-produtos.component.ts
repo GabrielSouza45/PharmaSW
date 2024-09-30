@@ -7,10 +7,10 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
-import { PaginaInicialLayoutComponent } from '../../../components/pagina-inicial-layout/pagina-inicial-layout.component';
+import { PaginaInicialLayoutComponent } from '../../../components/back-office/pagina-inicial-layout/pagina-inicial-layout.component';
 import { PopupComponent } from '../../../components/popup/popup.component';
-import { PreviewProdutoComponent } from '../../../components/preview-produto/preview-produto.component';
-import { TablePaginationComponent } from '../../../components/table-pagination/table-pagination.component';
+import { PreviewProdutoComponent } from '../../../components/back-office/preview-produto/preview-produto.component';
+import { TablePaginationComponent } from '../../../components/back-office/table-pagination/table-pagination.component';
 import { Grupo } from '../../../modelo/enums/Grupo';
 import { Status } from '../../../modelo/enums/Status';
 import { Filtros } from '../../../modelo/Filtros';
@@ -105,7 +105,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
     filtros.status = this.buscarForm.value.status || null;
     filtros.pagina = this.pagina;
 
-    this.listar(filtros, '/listar-produtos-pagination').subscribe(
+    this.listar('/listar-produtos-pagination', filtros).subscribe(
       (response: any) => {
         this.produtos = response.content;
 
@@ -122,7 +122,7 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
   visualizar(produto: Produto) {
     const filtro = new Filtros();
     filtro.id = produto.id;
-    this.listar(filtro, '/listar-produtos').subscribe({
+    this.listar('/listar-produtos', filtro).subscribe({
       next: (resp: any) => {
         this.dialog.open(PreviewProdutoComponent, { data: { produto: resp } });
       },

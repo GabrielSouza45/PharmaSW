@@ -11,8 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { ModalComponent } from '../../../components/modal/modal.component';
-import { PaginaInicialLayoutComponent } from '../../../components/pagina-inicial-layout/pagina-inicial-layout.component';
-import { TablePaginationComponent } from '../../../components/table-pagination/table-pagination.component';
+import { PaginaInicialLayoutComponent } from '../../../components/back-office/pagina-inicial-layout/pagina-inicial-layout.component';
+import { TablePaginationComponent } from '../../../components/back-office/table-pagination/table-pagination.component';
 import { cpfValidator } from '../../../infra/validators/cpf-validator';
 import { Status } from '../../../modelo/enums/Status';
 import { Filtros } from '../../../modelo/Filtros';
@@ -92,7 +92,7 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
     filtros.status = this.buscarForm.value.status || null;
     filtros.pagina = this.pagina;
 
-    this.listar(filtros, '/listar').subscribe((response: any) => {
+    this.listar('/listar', filtros).subscribe((response: any) => {
       this.usuarios = response.body.content;
       this.totalItens = response.body.totalElements;
     });
@@ -110,8 +110,6 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
 
   // CADASTRAR
   cadastrar() {
-    console.log(this.formCadastroUsuario.value);
-
     if (
       !this.formChecker.senhaValida(this.formCadastroUsuario) ||
       !this.formChecker.checkFormErrorsUsuario(this.formCadastroUsuario)

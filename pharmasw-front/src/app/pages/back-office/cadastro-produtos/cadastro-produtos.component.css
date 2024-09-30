@@ -29,8 +29,8 @@
   align-items: center;
 
   .carousel{
-    height: 600px;
-    width: 700px;
+    height: 90%;
+    width: 90%;
   }
 }
 

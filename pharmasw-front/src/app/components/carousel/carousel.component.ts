@@ -7,10 +7,10 @@ import { ImagemProduto } from '../../modelo/ImagemProduto';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './carousel.component.html',
-  styleUrl: './carousel.component.css'
+  styleUrl: './carousel.component.css',
 })
 export class CarouselComponent {
-  @Input() images: ImagemProduto[] = [];  // Receberá as imagens de outro componente
+  @Input() images: ImagemProduto[] = []; // Receberá as imagens de outro componente
   @Input() acoes: any[] = [];
   currentSlide: number = this.images.length;
 
@@ -24,21 +24,22 @@ export class CarouselComponent {
   }
 
   previousSlide() {
-    console.log(this.images);
-
-    if (this.currentSlide === 0) {
-      this.currentSlide = this.images.length - 1;
-    } else {
-      this.currentSlide--;
+    if (this.images) {
+      if (this.currentSlide === 0) {
+        this.currentSlide = this.images.length - 1;
+      } else {
+        this.currentSlide--;
+      }
     }
   }
 
   nextSlide() {
-    console.log(this.images);
-    if (this.currentSlide === this.images.length - 1) {
-      this.currentSlide = 0;
-    } else {
-      this.currentSlide++;
+    if (this.images) {
+      if (this.currentSlide === this.images.length - 1) {
+        this.currentSlide = 0;
+      } else {
+        this.currentSlide++;
+      }
     }
   }
 }

@@ -9,9 +9,7 @@ import java.util.List;
 @Repository
 public interface ImagemProdutoRepositorio extends JpaRepository<ImagemProduto, Long> {
 
-
-    List<ImagemProduto> findByProdutoId(Long id);
-
     List<ImagemProduto> findByProdutoIdOrderByPrincipalDesc(Long id);
 
+    ImagemProduto findByProdutoIdAndPrincipal(Long id, boolean principal);
 }

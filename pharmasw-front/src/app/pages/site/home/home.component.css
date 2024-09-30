@@ -1,0 +1,74 @@
+.linha-info{
+  margin-bottom: 20px;
+}
+
+.destaques{
+  height: 150px;
+}
+
+.card-produtos{
+  height: fit-content;
+  gap: 20px;
+
+}
+
+h2{
+  color: #3f4444;
+}
+
+.card{
+  height: 400px;
+  margin-bottom: 20px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 10px -5px;
+  transition: .3s ease-in;
+}
+
+.card:hover{
+  cursor: pointer;
+  border: 1px #000 solid;
+}
+
+.col {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.imagem{
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  background-color: var(--background);
+}
+
+img{
+  width: 148px;
+  height: 148px;
+  object-fit: cover;
+  transition: .3s ease-in;
+}
+
+.card:hover img{
+  width: 160px;
+}
+
+.rating{
+  height: 40px;
+  font-size: 20px;
+  color: rgb(216, 184, 0);
+}
+
+.card-title{
+  height: 40px;
+  font-size: 18px;
+  color: #888888;
+}
+
+.card-text
+{
+  font-size: 20px;
+  text-align: left;
+  height: 35px;
+}
