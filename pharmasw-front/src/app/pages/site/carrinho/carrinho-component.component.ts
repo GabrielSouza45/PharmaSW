@@ -38,6 +38,7 @@ export class CarrinhoComponentComponent {
   produtos: Produto[] = [];
   precoTotal: number = this.getTotalPreco();
   opcoesCep: OpcoesCep[] = [];
+  freteSelecionado: OpcoesCep;
 
   ngOnInit() {
     // Inicializando o formulário com um grupo de radio buttons
@@ -51,6 +52,7 @@ export class CarrinhoComponentComponent {
 
     // Escutando as mudanças de valor do radio button
     this.opcaoForm.get('opcaoCep')?.valueChanges.subscribe((value: OpcoesCep) => {
+      this.freteSelecionado = value;
       this.precoTotal = this.getTotalPreco(value);
     });
   }
@@ -83,6 +85,7 @@ export class CarrinhoComponentComponent {
   // Remover produtos
   removerProduto(produto: Produto) {
     this.carrinhoService.removeItem(produto);
+    this.precoTotal = this.getTotalPreco(this.freteSelecionado);
   }
 
   alterarQuantidade(produto: Produto, event: Event) {
@@ -90,6 +93,7 @@ export class CarrinhoComponentComponent {
     if (quantidade >= 0) {
       // Permite apenas números não negativos
       this.carrinhoService.alterarQuantidade(produto.id, quantidade);
+      this.precoTotal = this.getTotalPreco(this.freteSelecionado);
     } else {
       this.removerProduto(produto); // Remove o produto quando a quantidade for 0
     }
