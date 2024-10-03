@@ -18,6 +18,16 @@ public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
 
     List<ProdutoDTO> findAllProdutoDTOsByStatus(Status status);
 
+    @Query(value = "SELECT * FROM produtos WHERE nome LIKE %:nome% AND status = :status", nativeQuery = true)
+    List<Produto> buscarProdutosByNomeAndStatus(
+            @Param("nome") String nome,
+            @Param("status") String status);
+
+    @Query(value = "SELECT * FROM produtos WHERE fabricante LIKE %:fabricante% AND status = :status", nativeQuery = true)
+    List<Produto> buscarProdutosByFabricanteAndStatus(
+            @Param("fabricante") String fabricante,
+            @Param("status") String status);
+
 
     Produto findProdutoByNomeAndStatus(String nome, Status status);
 
@@ -43,4 +53,5 @@ public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
     Produto findByNomeAndFabricanteAndStatus(String nome, String fabricante, Status status);
 
     Produto findByIdAndStatus(Long id, Status status);
+
 }

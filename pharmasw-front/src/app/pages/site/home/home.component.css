@@ -1,5 +1,3 @@
-.container{
-}
 .linha-info{
   margin-bottom: 20px;
 }
@@ -78,4 +76,10 @@ img{
   font-size: 20px;
   text-align: left;
   height: 35px;
+}
+
+
+
+.produto-nao-encontrado{
+  color: #3f4444;
 }

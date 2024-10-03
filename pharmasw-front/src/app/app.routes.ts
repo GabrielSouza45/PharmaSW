@@ -15,6 +15,10 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'home/:busca',
+    component: HomeComponent,
+  },
+  {
     path: 'produto/:id',
     component: DetalhesProdutoComponent,
   },

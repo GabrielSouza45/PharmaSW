@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/home-controle")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -22,7 +24,16 @@ public class HomeControle {
     @GetMapping("/listar-produtos-card")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     // -> Permite que qualquer usuario acesse o endpoint -> SITE
-    public ResponseEntity<?> listarProdutos() {
+    public ResponseEntity<?> listarProdutos( @RequestParam(name = "busca", required = false) String busca) {
+
+        if (busca != null && !busca.isBlank()){
+
+            if (!isValidSearchTerm(busca)) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            return produtoServico.listarProdutosCardBusca(busca);
+        }
 
         return produtoServico.listarProdutosCard();
 
@@ -54,5 +65,10 @@ public class HomeControle {
         public void setCep(String cep) {
             this.cep = cep;
         }
+    }
+
+    private boolean isValidSearchTerm(String searchTerm) {
+        // Validação simples: verificar se o termo tem pelo menos 3 caracteres e não contém SQL malicioso
+        return searchTerm != null && searchTerm.length() >= 3 && searchTerm.matches("^[a-zA-Z0-9\\s]+$");
     }
 }

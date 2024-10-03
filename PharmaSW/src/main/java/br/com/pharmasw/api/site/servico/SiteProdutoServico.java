@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,10 +30,41 @@ public class SiteProdutoServico {
 
         List<ProdutoDTO> produtoDTO = produtoRepositorio.findAllProdutoDTOsByStatus(Status.ATIVO);
 
+        if (produtoDTO.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         List<ProdutoCardDTO> produtosCardDTO = imagemProdutoServico.getImagensCardDTO(produtoDTO);
 
         return new ResponseEntity<>(produtosCardDTO, HttpStatus.OK);
 
+    }
+
+    public ResponseEntity<?> listarProdutosCardBusca(String busca) {
+
+        System.out.println("\n \n \n BUSCA : " + busca);
+        List<Produto> produtos = produtoRepositorio.buscarProdutosByNomeAndStatus(busca, Status.ATIVO.toString());
+        System.out.println("length: " + produtos.size());
+        if (produtos.isEmpty())
+            produtos = produtoRepositorio.buscarProdutosByFabricanteAndStatus(busca, Status.ATIVO.toString());
+
+        if (produtos.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        List<ProdutoDTO> produtosDTO = getProdutosDTO(produtos);
+
+        List<ProdutoCardDTO> produtosCardDTO = imagemProdutoServico.getImagensCardDTO(produtosDTO);
+
+        return new ResponseEntity<>(produtosCardDTO, HttpStatus.OK);
+    }
+
+    private List<ProdutoDTO> getProdutosDTO(List<Produto> produtos) {
+        List<ProdutoDTO> produtosDTO = new ArrayList<>();
+
+        produtos.forEach(prod -> {
+            produtosDTO.add(new ProdutoDTO(prod));
+        });
+
+        return produtosDTO;
     }
 
     public ResponseEntity<?> listarProdutoPorId(Filtros filtro) {

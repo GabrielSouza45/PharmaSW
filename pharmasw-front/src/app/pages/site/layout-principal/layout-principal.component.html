@@ -6,12 +6,12 @@
         <a class="navbar-brand" href="#">
           <img src="assets/logo-sem-texto.png" alt="Logo PharmaSW" />
         </a>
-
         <!-- Input de busca e botão de pesquisa no centro -->
         <div class="d-flex justify-content-center w-75 search-bar">
-          <form class="d-flex w-75">
+          <form [formGroup]="formBusca" class="d-flex w-75">
             <div class="me-2 flex-grow-1 border rounded-3">
               <app-input-primario
+                formControlName="inputPesquisa"
                 name="busca-produto"
                 placeHolder="Buscar produtos"
                 inputName="buscaProduto"
