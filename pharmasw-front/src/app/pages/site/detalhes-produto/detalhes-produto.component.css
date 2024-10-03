@@ -1,7 +1,7 @@
 main{
   margin-top: 20px;
   border-radius: 15px;
-  border: 1px var(--cor-secundaria) solid;
+  background-color: #fff;
 }
 .imagens-produto{
   display: flex;

@@ -1,27 +1,25 @@
-import { AvaliacaoService } from './../../../services/avaliacao/avaliacao.service';
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
-import { CarouselComponent } from '../../../components/carousel/carousel.component';
-import { ImagemProduto } from '../../../modelo/ImagemProduto';
-import { Filtros } from '../../../modelo/Filtros';
-import { CrudService } from '../../../services/crud-service/crud-service.service';
-import { Produto } from '../../../modelo/Produto';
-import { ToastrService } from 'ngx-toastr';
-import { HttpClient } from '@angular/common/http';
-import { ImagemService } from '../../../services/imagem/imagem.service';
 import { CommonModule } from '@angular/common';
-import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
-import { BotaoComponent } from '../../../components/botao/botao.component';
-import { TextAreaComponent } from '../../../components/text-area/text-area.component';
-import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { BotaoComponent } from '../../../components/botao/botao.component';
+import { CarouselComponent } from '../../../components/carousel/carousel.component';
+import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
+import { TextAreaComponent } from '../../../components/text-area/text-area.component';
+import { Filtros } from '../../../modelo/Filtros';
+import { ImagemProduto } from '../../../modelo/ImagemProduto';
+import { Produto } from '../../../modelo/Produto';
+import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
+import { CrudService } from '../../../services/crud-service/crud-service.service';
+import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
+import { AvaliacaoService } from './../../../services/avaliacao/avaliacao.service';
 
 @Component({
   selector: 'app-detalhes-produto',
@@ -64,9 +62,8 @@ export class DetalhesProdutoComponent extends CrudService<Produto> {
       this.carregaImagens(response.imagens);
       response.imagens = null;
       this.produto = response;
-      this.generateStars();
-      this.iniciaForm();
     });
+    this.iniciaForm();
   }
 
   private iniciaForm() {

@@ -1,7 +1,13 @@
-.carrinho-container {
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+
+.borda{
+  border: 2px solid red;
+}
+
+.container{
+  background-color: #fff;
+  min-width: 995px;
+  margin-top: 20px;
+  border-radius: 15px;
 }
 
 .produto-adicionar {
@@ -23,9 +29,7 @@
   height: 350px;
 }
 
-.produto-info {
-  flex-grow: 1;
-}
+
 
 .produto-info h4 {
   margin: 0;
@@ -41,22 +45,52 @@
   text-align: right;
 }
 
-button.btn {
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-size: 14px;
+
+.direita{
+  min-width: 240px;
+}
+.direita .row{
+  background-color: var(--background);
+  border-radius: 15px;
+  height: 100%;
 }
 
-.btn-primary {
-  background-color: #007bff;
-  color: white;
+p{
+  margin: 0;
 }
 
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
+i:hover{
+  cursor: pointer;
 }
 
-.uniao{
-  flex-grow: 0.5;
+.infos-cep{
+  padding-left: 10px;
+  border-left: 1px solid #fff;
+  margin-bottom: 5px;
+}
+
+.cep{
+  padding-left: 10px;
+  border-left: 1px solid #fff;
+  margin-top: 15px;
+}
+
+.cep-info{
+  border-bottom: 1px solid #fff;
+  margin-top: 15px;
+}
+
+
+.sem-produtos{
+  margin-top: 30px;
+  text-align: center;
+}
+
+.sem-produtos h3{
+  color: #575757;
+}
+
+
+.sem-produtos h4{
+  color: #8b8b8b;
 }

@@ -19,7 +19,7 @@
           <!-- AVALIACAO -->
           <div class="col-6 avaliacao">
             <div class="rating">
-              <i *ngFor="let star of stars" class="bi" [ngClass]="star"></i>
+              <i *ngFor="let star of generateStars()" class="bi" [ngClass]="star"></i>
             </div>
           </div>
         </div>

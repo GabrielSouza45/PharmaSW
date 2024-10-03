@@ -2,6 +2,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Injectable, OnInit } from '@angular/core';
 import { Produto } from '../../modelo/Produto';
 import { BehaviorSubject } from 'rxjs';
+import { Cep } from '../../modelo/Cep';
+import { OpcoesCep } from '../../modelo/OpcoesCep';
 
 @Injectable({
   providedIn: 'root',
@@ -86,11 +88,16 @@ export class CarrinhoService{
     }
   }
 
-  getTotalPreco(): number {
-    return this.items.reduce((total: number, produto: Produto) => {
+  getTotalPreco(cep?: OpcoesCep): number {
+    let total = this.items.reduce((total: number, produto: Produto) => {
       total += produto.valor * produto.quantidadePedido;
       return total;
     }, 0);
+
+    if (cep)
+      total += cep.preco;
+
+    return total;
   }
 
   private validaEstoque(produto: Produto, quantidade: number): boolean {
@@ -98,7 +105,7 @@ export class CarrinhoService{
     const item = this.items.find((p) => p.id === produto.id);
     const qtdEstoque: number = produto.quantidadeEstoque;
 
-    if (qtdEstoque > quantidade) temEstoque = true;
+    if (qtdEstoque >= quantidade) temEstoque = true;
 
     if (item) {
       if (qtdEstoque >= item.quantidadePedido + quantidade) temEstoque = true;

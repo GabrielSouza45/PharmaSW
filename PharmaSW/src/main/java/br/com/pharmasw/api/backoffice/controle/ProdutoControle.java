@@ -89,6 +89,7 @@ public class ProdutoControle {
         try {
             produto = objectMapper.readValue(jsonProduto, Produto.class);
         } catch (JsonProcessingException e) {
+            System.out.println(e);
             return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         try {

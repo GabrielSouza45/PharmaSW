@@ -8,14 +8,10 @@
       <h2>Nossos Produtos</h2>
 
       <div class="produtos container">
-        <div
-          class="row"
-          *ngFor="let row of produtos | slice : 0 : 5; let i = index"
-        >
-          <!-- Renderiza 5 produtos por linha -->
+        <div class="row ">
           <div
-            class="col"
-            *ngFor="let produtoDTO of produtos.slice(i * 5, (i + 1) * 5)"
+            class="col-12 col-md-6 col-lg-4 col-xl-2 mb-3 for-card"
+            *ngFor="let produtoDTO of produtos"
           >
             <div class="card p-2">
               <div class="" (click)="detalharProduto(produtoDTO.produto)">

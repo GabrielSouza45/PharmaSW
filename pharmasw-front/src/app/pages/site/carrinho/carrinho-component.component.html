@@ -1,56 +1,117 @@
 <app-layout-principal>
-  <div class="carrinho-container container">
-    <h2>Seu Carrinho</h2>
-    
-    <div *ngIf="getItems().length > 0" class="carrinho-itens">
-      <h3>Itens no Carrinho</h3>
-      <br />
+  <div class="container">
+    <div class="row p-2 d-flex justify-content-around">
+      <!-- INFORMAÇÕES SOBRE OS PEDIDOS -->
+      <div class="esquerda col-8">
+        <h2>Seu Carrinho</h2>
 
-      <!-- Listagem de produtos no carrinho -->
-      <div class="produto-item">
-        <div *ngFor="let produto of getItems()" class="produto-carrinho">
-          <div class="produto-info col-2">
-            <h4>{{ produto.nome }}</h4>
-            <p>Preço: {{ produto.valor | currency : "BRL" }}</p>
+        <div *ngIf="getItems().length > 0" class="carrinho-itens">
+          <h3>Itens no Carrinho</h3>
+          <br />
+
+          <!-- Listagem de produtos no carrinho -->
+          <div class="produto-item">
+            <div *ngFor="let produto of getItems()" class="produto-carrinho">
+              <div class="produto-info col-6">
+                <h4>{{ produto.nome }}</h4>
+                <p>Preço: {{ produto.valor | currency : "BRL" }}</p>
+              </div>
+
+              <!-- Input para alterar a quantidade -->
+              <div class="uniao col-6 row">
+                <div class="col-7">
+                  <app-input-primario
+                    [max]="produto.quantidadeEstoque.toString()"
+                    [value]="produto.quantidadePedido.toString()"
+                    inputName="quantidade"
+                    type="number"
+                    placeHolder="Quantidade"
+                    (input)="alterarQuantidade(produto, $event)"
+                  ></app-input-primario>
+                </div>
+
+                <!-- Botão para remover produto do carrinho -->
+                <div class="col-5">
+                  <app-botao
+                    [textoBtn]="'Remover'"
+                    (click)="removerProduto(produto)"
+                  ></app-botao>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Input para alterar a quantidade -->
-          <div class="uniao row">
-            <div class="col-7">
-              <app-input-primario
-                [max]="produto.quantidadeEstoque.toString()"
-                [value]="produto.quantidadePedido.toString()"
-                inputName="quantidade"
-                type="number"
-                placeHolder="Quantidade"
-                (input)="alterarQuantidade(produto, $event)"
-              ></app-input-primario>
-            </div>
+          <!-- Exibir o preço total -->
+          <div class="total-preco">
+            <h3>
+              Total:
+              {{ precoTotal | currency : "BRL" : "symbol" : "1.2-2" }}
+            </h3>
+          </div>
 
-            <!-- Botão para remover produto do carrinho -->
-            <div class="col-5">
-              <app-botao
-                [textoBtn]="'Remover'"
-                (click)="removerProduto(produto)"
-              ></app-botao>
+          <!-- BOTAO FINALIZAR COMPRA -->
+          <div class="botao-compra w-100 d-flex justify-content-end">
+            <div class="col-4">
+              <app-botao textoBtn="Finalizar a Compra"> </app-botao>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Exibir o preço total -->
-      <div class="total-preco">
-        <h3>
-          Total: {{ getTotalPreco() | currency : "BRL" : "symbol" : "1.2-2" }}
-        </h3>
-      </div>
-      <div class="botao-compra">
-        <app-botao textoBtn="Finalizar a Compra"> </app-botao>
+      <!-- FRETE -->
+      <div *ngIf="getItems().length > 0"  class="direita col-3">
+        <div class="row p-3">
+          <div class="calcular-frete">
+            <h3>Calcular Frete</h3>
+            <div class="form-cep pt-2">
+              <form [formGroup]="cepForm">
+                <app-input-primario
+                  placeHolder="_____-___"
+                  maxLength="8"
+                  formControlName="cep"
+                  ><i
+                    class="bi bi-search"
+                    style="color: white"
+                    (click)="pesquisarCep()"
+                  ></i
+                ></app-input-primario>
+              </form>
+            </div>
+            <div class="cep-info">
+              <div class="" *ngIf="cep">
+                <p class="infos-cep">Rua: {{ cep.logradouro }}</p>
+                <p class="infos-cep">Bairro: {{ cep.bairro }}</p>
+                <p class="infos-cep">Cidade: {{ cep.localidade }}</p>
+                <p class="infos-cep">UF: {{ cep.uf }}</p>
+              </div>
+            </div>
+            <form [formGroup]="opcaoForm">
+              <div class="cep" *ngFor="let opcao of opcoesCep">
+                <div class="check-box d-flex align-items-center">
+                  <input
+                    type="radio"
+                    [id]="opcao.id"
+                    name="opcaoCep"
+                    [value]="opcao"
+                    formControlName="opcaoCep"
+                  />
+                  <label class="ps-2" [for]="opcao.id">
+                    <p>{{ opcao.prazo }}</p>
+                    <p>{{ opcao.preco | currency : "BRL" }}</p>
+                  </label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
 
       <!-- Mensagem quando o carrinho estiver vazio -->
       <div *ngIf="getItems().length === 0">
-        <p>Seu carrinho está vazio!</p>
+        <div class="sem-produtos">
+          <h3>Você ainda não tem itens no carrinho!</h3>
+          <h4><a href="#">Clique aqui</a> e adicione novos produtos.</h4>
+        </div>
       </div>
     </div>
   </div>
