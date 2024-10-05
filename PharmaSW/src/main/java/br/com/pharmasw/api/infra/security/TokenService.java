@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.infra.security;
 
+import br.com.pharmasw.api.modelo.Pessoa;
 import br.com.pharmasw.api.modelo.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -19,7 +20,7 @@ public class TokenService {
     @Value("${API.SECURITY.TOKEN.SECRET}")
     private String secret;
 
-    public String gerarToken(Usuario usuario) {
+    public String gerarToken(Pessoa usuario) {
         try {
 
             Algorithm algorithm = Algorithm.HMAC256(secret);

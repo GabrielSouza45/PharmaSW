@@ -1,6 +1,7 @@
 package br.com.pharmasw.api.backoffice.controle;
 
 import br.com.pharmasw.api.infra.security.TokenService;
+import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Retorno.AuthDTO;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Grupo;
@@ -34,7 +35,25 @@ public class AutenticacaoControle {
         Grupo grupo = ((Usuario) auth.getPrincipal()).getGrupo();
         Long id = ((Usuario) auth.getPrincipal()).getId();
 
-        return ResponseEntity.ok(new AuthDTO(token, nome, grupo, id));
+        return ResponseEntity.ok(new AuthDTO<>(token, nome, grupo, id));
+
+    }
+
+    @PostMapping("/login-site")
+    public ResponseEntity<?> loginCliente(@RequestBody Cliente cliente) {
+
+        var usernamePassword = new UsernamePasswordAuthenticationToken(
+                cliente.getEmail(),
+                cliente.getSenha()
+        );
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+        var token = tokenService.gerarToken((Cliente) auth.getPrincipal());
+
+        String nome = ((Cliente) auth.getPrincipal()).getNome();
+        String grupo = "CLIENTE";
+        Long id = ((Cliente) auth.getPrincipal()).getId();
+
+        return ResponseEntity.ok(new AuthDTO<>(token, nome, grupo, id));
 
     }
 }

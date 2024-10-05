@@ -1,6 +1,7 @@
 package br.com.pharmasw.api.infra.security;
 
 import br.com.pharmasw.api.modelo.enums.Status;
+import br.com.pharmasw.api.repositorio.ClienteRepositorio;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
@@ -25,6 +26,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+    @Autowired
+    private ClienteRepositorio clienteRepositorio;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -40,6 +43,8 @@ public class SecurityFilter extends OncePerRequestFilter {
                 System.out.println("LOGIN AUTH TOKEN -> " + login);
                 System.out.println("AUTH TOKEN -> " + token);
                 UserDetails user = usuarioRepositorio.findByEmailAndStatus(login, Status.ATIVO);
+                if (user == null)
+                    user = clienteRepositorio.findClienteByEmail(login);
 
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);

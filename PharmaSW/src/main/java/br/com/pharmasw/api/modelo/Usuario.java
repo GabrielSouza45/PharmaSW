@@ -16,7 +16,7 @@ import java.util.List;
 @Entity(name = "usuarios")
 @Table(name = "usuarios")
 @EqualsAndHashCode(of = "id")
-public class Usuario implements UserDetails {
+public class Usuario implements UserDetails, Pessoa {
 
     //ATRIBUTOS PADRÃO
     @Id
