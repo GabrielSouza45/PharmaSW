@@ -1,6 +1,6 @@
-package br.com.pharmasw.api.site.servico;
+package br.com.pharmasw.api.servico.site;
 
-import br.com.pharmasw.api.backoffice.servico.ImagemProdutoServico;
+import br.com.pharmasw.api.servico.site.servico.ImagemProdutoServico;
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Retorno.ProdutoCardDTO;
