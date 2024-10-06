@@ -1,6 +1,5 @@
-package br.com.pharmasw.api.site.servico;
+package br.com.pharmasw.api.servico.site;
 
-import br.com.pharmasw.api.modelo.Endereco;
 import br.com.pharmasw.api.modelo.ViaCepEndereco;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

@@ -1,10 +1,7 @@
-package br.com.pharmasw.api.site.controle;
+package br.com.pharmasw.api.controle.site;
 
-import br.com.pharmasw.api.modelo.Cliente;
-import br.com.pharmasw.api.site.servico.ClienteServico;
-import jakarta.validation.Valid;
+import br.com.pharmasw.api.servico.site.ClienteServico;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

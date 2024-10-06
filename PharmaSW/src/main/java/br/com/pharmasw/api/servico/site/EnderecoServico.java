@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.site.servico;
+package br.com.pharmasw.api.servico.site;
 
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Endereco;
