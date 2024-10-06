@@ -1,6 +1,6 @@
-package br.com.pharmasw.api.servico.site.servico;
+package br.com.pharmasw.api.backoffice.servico;
 
-import br.com.pharmasw.api.servico.site.servico.helpers.PaginationHelper;
+import br.com.pharmasw.api.backoffice.servico.helpers.PaginationHelper;
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;

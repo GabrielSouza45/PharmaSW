@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.controle.backoffice;
+package br.com.pharmasw.api.backoffice.controle;
 
 import br.com.pharmasw.api.infra.security.TokenService;
 import br.com.pharmasw.api.modelo.Cliente;

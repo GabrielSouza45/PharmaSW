@@ -1,8 +1,8 @@
-package br.com.pharmasw.api.controle.backoffice;
+package br.com.pharmasw.api.backoffice.controle;
 
 import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
-import br.com.pharmasw.api.servico.site.servico.ImagemProdutoServico;
+import br.com.pharmasw.api.backoffice.servico.ImagemProdutoServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

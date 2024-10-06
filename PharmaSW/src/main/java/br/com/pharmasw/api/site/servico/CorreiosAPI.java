@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.servico.site;
+package br.com.pharmasw.api.site.servico;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

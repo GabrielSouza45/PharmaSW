@@ -1,10 +1,10 @@
-package br.com.pharmasw.api.controle.site;
+package br.com.pharmasw.api.site.controle;
 
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Filtros;
-import br.com.pharmasw.api.servico.site.ClienteServico;
-import br.com.pharmasw.api.servico.site.CorreiosAPI;
-import br.com.pharmasw.api.servico.site.SiteProdutoServico;
+import br.com.pharmasw.api.site.servico.ClienteServico;
+import br.com.pharmasw.api.site.servico.CorreiosAPI;
+import br.com.pharmasw.api.site.servico.SiteProdutoServico;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
