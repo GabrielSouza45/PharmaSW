@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.backoffice.servico.helpers;
+package br.com.pharmasw.api.servico.backoffice.helpers;
 
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Usuario;
