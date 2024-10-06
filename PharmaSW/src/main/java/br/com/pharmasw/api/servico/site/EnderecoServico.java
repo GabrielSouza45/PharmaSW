@@ -21,7 +21,7 @@ public class EnderecoServico {
         if (endereco.getTipoEndereco() == TipoEndereco.ENTREGA){
             return this.cadastrarEnderecoEntrega(endereco, cliente);
         } else {
-            return this.cadastrarEndetecoFaturamento(endereco, cliente);
+            return this.cadastrarEnderecoFaturamento(endereco, cliente);
         }
 
     }
@@ -57,7 +57,7 @@ public class EnderecoServico {
     }
 
 
-    private ResponseEntity<?> cadastrarEndetecoFaturamento(Endereco endereco, Cliente cliente) {
+    private ResponseEntity<?> cadastrarEnderecoFaturamento(Endereco endereco, Cliente cliente) {
 
         boolean clienteJaTemEndereco =
                 enderecoRepositorio.existsByClienteIdAndTipoEndereco(cliente.getId(), TipoEndereco.FATURAMENTO);
