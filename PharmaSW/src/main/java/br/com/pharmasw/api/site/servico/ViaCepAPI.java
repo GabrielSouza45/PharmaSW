@@ -1,5 +1,8 @@
 package br.com.pharmasw.api.site.servico;
 
+import br.com.pharmasw.api.modelo.Endereco;
+import br.com.pharmasw.api.modelo.ViaCepEndereco;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.stereotype.Service;
@@ -11,13 +14,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Service
-public class CorreiosAPI {
+public class ViaCepAPI {
 
-    public String consultar(String cep){
+    public static ViaCepEndereco consultar(String cep){
         if (cep.isBlank())
             return null;
 
         final String URL = "https://viacep.com.br/ws/"+cep+"/json/";
+
+        ViaCepEndereco endereco = null;
+        Gson gson = new Gson();
 
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -39,7 +45,8 @@ public class CorreiosAPI {
                 if (json.has("erro")) {
                     return null;
                 } else {
-                    return responseBody;
+                    endereco = gson.fromJson(responseBody, ViaCepEndereco.class);
+                    return endereco;
                 }
             } else {
                 System.out.println("Erro na consulta: " + response.statusCode());

@@ -3,7 +3,7 @@ package br.com.pharmasw.api.site.controle;
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.site.servico.ClienteServico;
-import br.com.pharmasw.api.site.servico.CorreiosAPI;
+import br.com.pharmasw.api.site.servico.ViaCepAPI;
 import br.com.pharmasw.api.site.servico.SiteProdutoServico;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,6 @@ public class HomeControle {
 
     @Autowired
     private SiteProdutoServico produtoServico;
-    @Autowired
-    private CorreiosAPI correiosAPI;
-
     @Autowired
     private ClienteServico clienteServico;
 
@@ -61,7 +58,7 @@ public class HomeControle {
     @PostMapping("/consultar-cep")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> listarProduto(@RequestBody Cep cep) {
-        return new ResponseEntity<>(correiosAPI.consultar(cep.cep), HttpStatus.OK);
+        return new ResponseEntity<>(ViaCepAPI.consultar(cep.cep), HttpStatus.OK);
     }
 
     public static class Cep{
