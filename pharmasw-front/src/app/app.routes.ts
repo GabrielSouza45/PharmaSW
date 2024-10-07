@@ -8,6 +8,8 @@ import { PaginaUsuarioComponent } from './pages/back-office/pagina-usuario/pagin
 import { HomeComponent } from './pages/site/home/home.component';
 import { CarrinhoComponentComponent } from './pages/site/carrinho/carrinho-component.component';
 import { DetalhesProdutoComponent } from './pages/site/detalhes-produto/detalhes-produto.component';
+import { CadastroClienteComponent } from './pages/site/cadastro-cliente/cadastro-cliente.component';
+import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +27,14 @@ export const routes: Routes = [
   {
     path: 'carrinho',
     component: CarrinhoComponentComponent
+  },
+  {
+    path: 'entrar',
+    component: LoginClienteComponent
+  },
+  {
+    path: 'cadastre-se',
+    component: CadastroClienteComponent
   },
   {
     path: 'login',

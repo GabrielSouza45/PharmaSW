@@ -22,9 +22,9 @@ export class AuthService {
     this.checkAutenticacao();
   }
 
-  login(email: string, senha: string) {
+  login(email: string, senha: string, url: string) {
     sessionStorage.clear();
-    return this.loginService.login(email, senha).pipe(
+    return this.loginService.login(email, senha, url).pipe(
       tap((response) => {
         this.isUsuarioAutenticado.next(true);
         this.permissaoUsuario.next(response.grupo);
@@ -32,12 +32,12 @@ export class AuthService {
     );
   }
 
-  logout() {
+  logout(rota: string) {
     sessionStorage.clear();
     this.isUsuarioAutenticado.next(false);
     this.permissaoUsuario.next(null);
     this.ngZone.run(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate([rota]);
     });
   }
 

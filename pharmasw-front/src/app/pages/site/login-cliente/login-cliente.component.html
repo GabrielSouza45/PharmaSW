@@ -1,0 +1,39 @@
+<app-layout-principal>
+  <main class="w-100 h-100 d-flex align-items-center justify-content-center">
+    <section class="d-flex flex-column align-items-center">
+      <div class="titulo">
+        <img class="logo" src="assets/logo-sem-texto.png" />
+        <h1>Entrar</h1>
+      </div>
+      <form [formGroup]="loginForm">
+        <app-input-primario
+          formControlName="email"
+          inputName="email"
+          type="email"
+          name="email"
+          [addLabel]="true"
+          label="Login"
+          placeHolder="exemple@exemple.com"
+        >
+          <i class="bi bi-envelope"></i>
+        </app-input-primario>
+
+        <app-input-primario
+          formControlName="senha"
+          inputName="senha"
+          type="password"
+          [addLabel]="true"
+          label="Senha"
+          placeHolder="senha"
+        >
+          <i class="bi bi-lock"></i>
+        </app-input-primario>
+
+        <!-- <span>Esqueceu a senha?</span> -->
+      </form>
+      <div class="w-75 mt-3">
+        <app-botao textoBtn="Entrar" (click)="submit()" />
+      </div>
+    </section>
+  </main>
+</app-layout-principal>

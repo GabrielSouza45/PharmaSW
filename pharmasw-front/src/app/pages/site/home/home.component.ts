@@ -71,10 +71,7 @@ export class HomeComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.produtosBusca = response;
-        },
-        error: (e) => {
-          console.error('Erro ao buscar produtos.', e);
-        },
+        }
       });
     this.buscarProduto = true;
   }

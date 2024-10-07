@@ -37,14 +37,20 @@ main{
 }
 
 .conteudo {
+  overflow: auto;
   margin-top: var(--navbar-heigth);
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: calc(100vh - var(--navbar-heigth));
 }
 
 .count{
   color: var(--cor-secundaria);
+}
+
+li:hover{
+  cursor: pointer;
 }

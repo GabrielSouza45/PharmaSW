@@ -19,11 +19,11 @@
       </div>
     </div>
     <!-- Controles para navegação no carousel -->
-    <a class="carousel-control-prev" (click)="previousSlide()" role="button">
+    <a *ngIf="images.length > 1" class="carousel-control-prev" (click)="previousSlide()" role="button">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Anterior</span>
     </a>
-    <a class="carousel-control-next" (click)="nextSlide()" role="button">
+    <a *ngIf="images.length > 1" class="carousel-control-next" (click)="nextSlide()" role="button">
       <span class="sr-only">Próxima</span>
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
     </a>

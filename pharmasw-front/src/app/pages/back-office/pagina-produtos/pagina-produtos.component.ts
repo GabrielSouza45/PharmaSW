@@ -144,7 +144,6 @@ export class PaginaProdutosComponent extends CrudService<Produto> {
             this.pesquisar();
           },
           error: (error) => {
-            console.error('Erro ao alterar o Produto', error);
             this.toastrService.error(
               'Erro ao alterar o Produto. Tente novamente mais tarde.'
             );
