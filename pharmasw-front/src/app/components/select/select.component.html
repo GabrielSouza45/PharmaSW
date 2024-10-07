@@ -1,0 +1,20 @@
+<main>
+  <label [for]="selectName" class="form-label">{{ label }}</label>
+  <div class="select">
+    <select
+      class="form-select"
+      aria-label="Select an option"
+      id="selectOptions"
+      (change)="onSelectChange($event)"
+      [id]="selectName"
+    >
+      <option value="" disabled selected>Selecione</option>
+      <option *ngFor="let option of options" [value]="option.value">
+        {{ option.text }}
+      </option>
+    </select>
+    <div class="icon">
+      <ng-content> </ng-content>
+    </div>
+  </div>
+</main>

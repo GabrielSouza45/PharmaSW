@@ -2,7 +2,7 @@ package br.com.pharmasw.api.controle.backoffice;
 
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Usuario;
-import br.com.pharmasw.api.backoffice.servico.UsuarioServico;
+import br.com.pharmasw.api.servico.backoffice.UsuarioServico;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

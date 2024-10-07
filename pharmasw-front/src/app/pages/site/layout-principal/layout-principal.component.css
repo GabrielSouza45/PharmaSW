@@ -1,36 +1,33 @@
-main{
+main {
   display: flex;
   flex-direction: column;
 }
 
-.nav-bar{
+.nav-bar {
   width: 100%;
-  transition: all .15s ease-in-out;
+  transition: all 0.15s ease-in-out;
   height: var(--navbar-heigth);
   position: fixed;
   z-index: 9999;
 
-  .navbar{
+  .navbar {
     height: 100%;
     background-color: var(--navbar-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     padding: 1rem 7%;
 
-    img{
+    img {
       width: var(--navbar-icon-heigth);
     }
 
-    i{
+    i {
       font-size: 25px;
     }
 
-    i:hover{
+    i:hover {
       cursor: pointer;
     }
 
-    .icon-buscar{
+    .icon-buscar {
       color: white;
     }
   }
@@ -47,10 +44,10 @@ main{
   height: calc(100vh - var(--navbar-heigth));
 }
 
-.count{
+.count {
   color: var(--cor-secundaria);
 }
 
-li:hover{
+li:hover {
   cursor: pointer;
 }

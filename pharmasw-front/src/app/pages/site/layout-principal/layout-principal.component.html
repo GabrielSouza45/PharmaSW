@@ -7,7 +7,7 @@
           <img src="assets/logo-sem-texto.png" alt="Logo PharmaSW" />
         </a>
         <!-- Input de busca e botão de pesquisa no centro -->
-        <div class="d-flex justify-content-center w-75 search-bar">
+        <div class="d-flex justify-content-center search-bar col-md-8 col-lg-9">
           <form [formGroup]="formBusca" class="d-flex w-75">
             <div class="me-2 flex-grow-1 border rounded-3">
               <app-input-primario
@@ -59,7 +59,7 @@
                     <a
                       class="dropdown-item"
                       (click)="logout()"
-                      style="color: red;"
+                      style="color: red"
                       >Sair</a
                     >
                   </li>
