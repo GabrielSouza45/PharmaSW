@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.backoffice.controle;
+package br.com.pharmasw.api.controle.backoffice;
 
 import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;

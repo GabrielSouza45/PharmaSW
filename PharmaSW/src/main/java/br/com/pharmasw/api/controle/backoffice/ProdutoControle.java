@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.backoffice.controle;
+package br.com.pharmasw.api.controle.backoffice;
 
 import br.com.pharmasw.api.backoffice.servico.ProdutoServico;
 import br.com.pharmasw.api.modelo.Filtros;
