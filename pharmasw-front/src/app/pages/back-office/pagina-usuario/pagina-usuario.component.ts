@@ -123,7 +123,6 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
         this.pesquisar();
       },
       error: (error) => {
-        console.error('Erro ao adicionar Usuário.', error);
         this.toastrService.error(
           'Erro ao adicionar Usuário. Tente novamente mais tarde.'
         );
@@ -148,7 +147,6 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
         this.pesquisar();
       },
       error: (error) => {
-        console.error('Erro ao alterar o status.', error);
         this.toastrService.error(
           'Erro ao alterar o status. Tente novamente mais tarde.'
         );
@@ -198,7 +196,6 @@ export class PaginaUsuarioComponent extends CrudService<Usuario> {
         this.modalAberto = false;
       },
       error: (error) => {
-        console.error('Erro ao alterar o usuário', error);
         this.toastrService.error(
           'Erro ao alterar o usuário. Tente novamente mais tarde.'
         );

@@ -8,6 +8,8 @@ import { FormGroup } from '@angular/forms';
 export class FormCheckerService {
   constructor(private toastrService: ToastrService) {}
 
+  // USUARIO
+
   checkFormErrorsUsuario(formGroup: FormGroup): boolean {
     let valido: boolean = true;
     const controls = formGroup.controls;
@@ -46,6 +48,8 @@ export class FormCheckerService {
     return valido;
   }
 
+  // SENHA
+
   senhaValida(formGroup: FormGroup): boolean {
     const controls = formGroup.controls;
 
@@ -73,6 +77,8 @@ export class FormCheckerService {
     }
     return true;
   }
+
+  // PRODUTOS
 
   checkFormErrorsProdutos(formGroup: FormGroup): boolean {
     let valido: boolean = true;
@@ -121,19 +127,83 @@ export class FormCheckerService {
       valido = false;
     }
 
-      // Verifica se há erros no campo 'avaliacao'
-      if (controls['avaliacao']?.errors) {
-        if (controls['avaliacao']?.errors?.['required']) {
-          this.toastrService.warning('O campo de Avaliação é obrigatório.');
-        }
-        if (controls['avaliacao']?.errors?.['min']) {
-          this.toastrService.warning('Avaliação mínima: 0.');
-        }
-        if (controls['avaliacao']?.errors?.['max']) {
-          this.toastrService.warning('Avaliação máxima: 5.');
-        }
-        valido = false;
+    // Verifica se há erros no campo 'avaliacao'
+    if (controls['avaliacao']?.errors) {
+      if (controls['avaliacao']?.errors?.['required']) {
+        this.toastrService.warning('O campo de Avaliação é obrigatório.');
       }
+      if (controls['avaliacao']?.errors?.['min']) {
+        this.toastrService.warning('Avaliação mínima: 0.');
+      }
+      if (controls['avaliacao']?.errors?.['max']) {
+        this.toastrService.warning('Avaliação máxima: 5.');
+      }
+      valido = false;
+    }
+    return valido;
+  }
+
+  // CLIENTE
+
+  checkFormErrorsCliente(formGroup: FormGroup): boolean {
+    let valido: boolean = true;
+    const controls = formGroup.controls;
+
+    // Verifica se há erros no campo 'nome'
+    console.log(controls['nome']?.errors);
+    console.log(controls['cpf']?.errors);
+
+    if (controls['nome']?.errors) {
+      const control = controls['nome'];
+      if (control.errors['required']) {
+        this.toastrService.warning('O campo nome é obrigatório.');
+      } else if (control.errors['maxLength']) {
+        this.toastrService.warning('Nome deve ter no máximo 255 caracteres.');
+      } else if (control.errors['maxWords']) {
+        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        this.toastrService.warning('Nome deve ter no máximo 2 palavras.');
+      } else if (control.errors['minWordLength']) {
+        this.toastrService.warning(
+          'Nome deve ter no mínimo 3 letras em cada palavra.'
+        );
+      }
+      valido = false;
+    }
+
+    // Verifica se há erros no campo 'email'
+    if (controls['email']?.errors) {
+      if (controls['email'].errors['required']) {
+        this.toastrService.warning('O campo de email é obrigatório.');
+      } else if (controls['email'].errors['email']) {
+        this.toastrService.warning('O email inserido não é válido.');
+      }
+      valido = false;
+    }
+
+    // Verifica se há erros no campo 'cpf'
+    if (controls['cpf']?.errors) {
+      if (controls['cpf'].errors['invalidCpf']) {
+        this.toastrService.warning('CPF Inválido.');
+      } else if (controls['cpf'].errors['required']) {
+        this.toastrService.warning('CPF é obrigatório.');
+      }
+      valido = false;
+    }
+
+    // Verifica se há erros no campo 'genero'
+    if (controls['genero']?.errors?.['required']) {
+      this.toastrService.warning('O campo de genero é obrigatório.');
+      valido = false;
+    }
+
+    // Verifica se há erros no campo 'dataNascimento'
+    if (controls['dataNascimento']?.errors?.['required']) {
+      this.toastrService.warning(
+        'O campo de data de nascimento é obrigatório.'
+      );
+      valido = false;
+    }
+
     return valido;
   }
 }

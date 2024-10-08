@@ -18,7 +18,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #13426e;
+      background-color: var(--cor-primaria);
       border-radius: 0 8px 8px 0;
     }
 
@@ -26,7 +26,7 @@
       font-size: 25px;
       border: none;
       border-radius: 8px 0 0 8px;
-      background-color: rgb(236, 236, 236);
+      background-color: var(--cor-input);
       padding: 5px 0 5px 15px;
       width: 100%;
 

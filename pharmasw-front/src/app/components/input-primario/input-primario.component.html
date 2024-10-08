@@ -1,26 +1,25 @@
 <div class="input-wrapper">
-    <label *ngIf="addLabel" [style]="styleLabel" [for]="inputName">{{ label }}</label>
-    <div class="input-content">
-        <input
-            [type]="type"
-            [placeholder]="placeHolder"
-            class="form-control"
-            [value]="value"
-            (input)="onInput($event)"
-            [maxLength]="maxLength"
-            [max]="max"
-            [min]="min"
-            [disabled]="disabled"
-            [style]="style"
-            [step]="step"
-            [name]="name"
-        />
-        <div class="icon">
-            <ng-content>
-
-            </ng-content>
-        </div>
+  <label *ngIf="addLabel" [style]="styleLabel" [for]="inputName">{{
+    label
+  }}</label>
+  <div class="input-content">
+    <input
+      [type]="type"
+      [placeholder]="placeHolder"
+      class="form-control"
+      [value]="value"
+      (input)="onInput($event)"
+      [maxLength]="maxLength"
+      [max]="max"
+      [min]="min"
+      [disabled]="disabled"
+      [style]="style"
+      [step]="step"
+      [name]="name"
+      [id]="inputName"
+    />
+    <div class="icon">
+      <ng-content> </ng-content>
     </div>
-
-
+  </div>
 </div>

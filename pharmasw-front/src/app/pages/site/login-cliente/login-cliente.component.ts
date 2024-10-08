@@ -1,29 +1,29 @@
 import { Component } from '@angular/core';
-import { LoginLayoutComponent } from "../../../components/back-office/login-layout/login-layout.component";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
-import { ToastrService } from 'ngx-toastr';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../infra/auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { BotaoComponent } from "../../../components/botao/botao.component";
+import { PopupComponent } from "../../../components/popup/popup.component";
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-cliente',
   standalone: true,
   imports: [
-    LoginLayoutComponent,
-    ReactiveFormsModule,
+    LayoutPrincipalComponent,
     InputPrimarioComponent,
-    CommonModule
-  ],
-  providers: [
-    AuthService
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+    ReactiveFormsModule,
+    CommonModule,
+    BotaoComponent,
+    PopupComponent
+],
+  templateUrl: './login-cliente.component.html',
+  styleUrl: './login-cliente.component.css',
 })
-
-export class LoginComponent {
+export class LoginClienteComponent {
   loginForm!: FormGroup;
 
   constructor(
@@ -43,11 +43,11 @@ export class LoginComponent {
       return;
     }
 
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.senha, "login")
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.senha, "login-site")
       .subscribe({
         next: () => {
           this.toastService.success("Login Realizado com sucesso!");
-          document.location.href = '/pagina-inicial';
+          this.router.navigate(['/']);
         },
         error: (erro) => {
           if (erro.status === 403) {
@@ -71,5 +71,4 @@ export class LoginComponent {
       this.toastService.warning("O campo de senha é obrigatório.");
     }
   }
-
 }

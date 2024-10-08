@@ -1,6 +1,5 @@
 package br.com.pharmasw.api.servico.site;
 
-import br.com.pharmasw.api.backoffice.servico.ImagemProdutoServico;
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Retorno.ProdutoCardDTO;
@@ -8,6 +7,7 @@ import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.Retorno.ProdutoSiteDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
+import br.com.pharmasw.api.servico.backoffice.ImagemProdutoServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

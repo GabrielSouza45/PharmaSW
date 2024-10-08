@@ -1,4 +1,4 @@
-package br.com.pharmasw.api.backoffice.servico.helpers;
+package br.com.pharmasw.api.servico.backoffice.helpers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

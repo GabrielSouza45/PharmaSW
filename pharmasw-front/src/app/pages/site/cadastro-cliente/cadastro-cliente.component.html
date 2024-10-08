@@ -1,0 +1,108 @@
+<app-layout-principal>
+  <div class="container p-5 mt-4">
+    <div class="titulo">
+      <img class="logo" src="assets/logo-sem-texto.png" />
+      <h1>Crie seu cadastro</h1>
+    </div>
+    <form class="form-cadastro w-100 mb-5" [formGroup]="formCadastro">
+      <div class="row">
+        <div class="col-12">
+          <!-- nome -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Nome:"
+            inputName="nome"
+            placeHolder="Nome"
+            formControlName="nome"
+            maxLength="255"
+          ></app-input-primario>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <!-- email -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Email:"
+            inputName="email"
+            type="email"
+            placeHolder="usuario@exemple.com"
+            formControlName="email"
+          ></app-input-primario>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <!-- cpf -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Cpf:"
+            inputName="cpf"
+            placeHolder="xxx.xxx.xxx-xx"
+            formControlName="cpf"
+            maxLength="11"
+          ></app-input-primario>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <!-- dataNascimento -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Data de Nascimento:"
+            inputName="dataNascimento"
+            placeHolder="xx/xx/xxxx"
+            formControlName="dataNascimento"
+            type="date"
+            [max]="getCurrentDate()"
+          ></app-input-primario>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <!-- genero -->
+          <app-select
+            class="input-cadastro"
+            label="Gênero:"
+            selectName="genero"
+            [options]="optionsGenero"
+            (valueChange)="formCadastro.get('genero').setValue($event)"
+          ></app-select>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-sm-12 col-md-6">
+          <!-- senha -->
+          <app-input-primario
+            type="password"
+            class="input-cadastro"
+            [addLabel]="true"
+            label="Senha:"
+            inputName="senha"
+            placeHolder="******"
+            formControlName="senha"
+          ></app-input-primario>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <!-- confirmar - senha -->
+          <app-input-primario
+            type="password"
+            class="input-cadastro"
+            [addLabel]="true"
+            label="Confirmar Senha:"
+            inputName="confirmarSenha"
+            placeHolder="******"
+            formControlName="confirmarSenha"
+          ></app-input-primario>
+        </div>
+      </div>
+    </form>
+    <div class="row d-flex justify-content-center">
+      <div class="col-sm-12 col-md-6">
+        <app-botao textoBtn="Cadastrar" (click)="cadastrar()" />
+      </div>
+    </div>
+  </div>
+</app-layout-principal>

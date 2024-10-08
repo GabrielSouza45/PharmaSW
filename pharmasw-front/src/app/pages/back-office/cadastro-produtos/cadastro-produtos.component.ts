@@ -190,7 +190,6 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
         this.dialogRef.close('cadastrado');
       },
       error: (error) => {
-        console.error('Erro ao adicionar Usuário.', error);
         this.toastrService.error(
           'Erro ao adicionar Usuário. Tente novamente mais tarde.'
         );
@@ -224,7 +223,6 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
           this.dialogRef.close('editado');
         },
         error: (error) => {
-          console.error('Erro ao alterar produto', error);
           this.toastrService.error(
             'Erro ao alterar o produto. Tente novamente mais tarde.'
           );
@@ -266,7 +264,6 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
           this.dialogRef.close('editado');
         },
         error: (error) => {
-          console.error('Erro ao alterar produto', error);
           this.toastrService.error(
             'Erro ao alterar o produto. Tente novamente mais tarde.'
           );

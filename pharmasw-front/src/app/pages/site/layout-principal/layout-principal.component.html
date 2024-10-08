@@ -7,7 +7,7 @@
           <img src="assets/logo-sem-texto.png" alt="Logo PharmaSW" />
         </a>
         <!-- Input de busca e botão de pesquisa no centro -->
-        <div class="d-flex justify-content-center w-75 search-bar">
+        <div class="d-flex justify-content-center search-bar col-md-8 col-lg-9">
           <form [formGroup]="formBusca" class="d-flex w-75">
             <div class="me-2 flex-grow-1 border rounded-3">
               <app-input-primario
@@ -42,9 +42,28 @@
               >
                 <i class="bi bi-person"></i>
               </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Entrar</a></li>
-                <li><a class="dropdown-item" href="#">Registrar</a></li>
+              <ul class="dropdown-menu" *ngIf="!userLogado">
+                <li><a class="dropdown-item" (click)="toLogin()">Entrar</a></li>
+                <li>
+                  <a class="dropdown-item" (click)="toRegister()">Registrar</a>
+                </li>
+              </ul>
+              <ul class="dropdown-menu" *ngIf="userLogado">
+                <div class="ps-2 pe-2">
+                  <li>
+                    <a class="dropdown-item" (click)="toPerfil()"
+                      >Minha Conta</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      (click)="logout()"
+                      style="color: red"
+                      >Sair</a
+                    >
+                  </li>
+                </div>
               </ul>
             </li>
           </ul>

@@ -41,7 +41,7 @@ export class MenuLateralComponent {
   }
 
   logOut(){
-    this.authService.logout();
+    this.authService.logout('/login');
   }
 
 }

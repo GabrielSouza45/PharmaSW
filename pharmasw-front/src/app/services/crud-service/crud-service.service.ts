@@ -49,13 +49,13 @@ export class CrudService<T> {
           const statusCode = response.status;
 
           if (statusCode === 201) {
-            this.toastrServico.success('Registro registrado com sucesso!');
+            this.toastrServico.success('Registro criado com sucesso!');
           } else if (statusCode === 401) {
-            this.toastrServico.error(
+            this.toastrServico.warning(
               'Erro na solicitação. Verifique os dados e tente novamente.'
             );
           } else {
-            this.toastrServico.warning('Resposta inesperada do servidor.');
+            this.toastrServico.error('Resposta inesperada do servidor.');
           }
         })
       );
@@ -71,11 +71,11 @@ export class CrudService<T> {
           if (statusCode === 200) {
             this.toastrServico.success('Registro alterado com sucesso!');
           } else if (statusCode === 400) {
-            this.toastrServico.error('Erro na solicitação.');
+            this.toastrServico.warning('Erro na solicitação.');
           } else if (statusCode === 404) {
-            this.toastrServico.error('Registro não encontrado.');
+            this.toastrServico.warning('Registro não encontrado.');
           } else {
-            this.toastrServico.warning('Resposta inesperada do servidor.');
+            this.toastrServico.error('Resposta inesperada do servidor.');
           }
         })
       );

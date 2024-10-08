@@ -64,17 +64,6 @@ export class CarrinhoComponentComponent {
     private toastrService: ToastrService
   ) {
     this.produtos = carrinhoService.getItems();
-
-    // Inicializando o formulário com um grupo de radio buttons
-    this.cepForm = new FormGroup({
-      cep: new FormControl('', Validators.required),
-      opcaoCep: new FormControl(''),
-    });
-
-    // Escutando as mudanças de valor do radio button
-    this.cepForm.get('opcaoCep')?.valueChanges.subscribe((value) => {
-      console.log('Radio selecionado:', value);
-    });
   }
 
   // Adicionar produtos
@@ -123,7 +112,6 @@ export class CarrinhoComponentComponent {
         }
       },
       error: (erro) => {
-        console.error(erro);
         this.toastrService.error('Erro ao localizar CEP.');
       },
     });

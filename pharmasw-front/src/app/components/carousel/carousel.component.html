@@ -5,7 +5,12 @@
       class="carousel-item"
       [class.active]="i === currentSlide"
     >
-      <img [src]="image.caminho || 'data:image/jpeg;base64,'+image.imagem" alt="Uploaded image {{ i + 1 }}" class="mg-auto" />
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <img
+          [src]="image.caminho || 'data:image/jpeg;base64,' + image.imagem"
+          alt="Uploaded image {{ i + 1 }}"
+        />
+      </div>
     </div>
     <div class="acoes">
       <div class="itens">
@@ -19,11 +24,21 @@
       </div>
     </div>
     <!-- Controles para navegação no carousel -->
-    <a class="carousel-control-prev" (click)="previousSlide()" role="button">
+    <a
+      *ngIf="images.length > 1"
+      class="carousel-control-prev"
+      (click)="previousSlide()"
+      role="button"
+    >
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Anterior</span>
     </a>
-    <a class="carousel-control-next" (click)="nextSlide()" role="button">
+    <a
+      *ngIf="images.length > 1"
+      class="carousel-control-next"
+      (click)="nextSlide()"
+      role="button"
+    >
       <span class="sr-only">Próxima</span>
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
     </a>

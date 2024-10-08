@@ -1,0 +1,39 @@
+section{
+  background-color: #fff;
+  border-radius: 15px;
+}
+form {
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 34px;
+
+  span {
+    font-size: 15px;
+    text-decoration: underline;
+    color: var(--cor-secundaria);
+    text-align: end;
+  }
+}
+
+i {
+  font-size: 30px;
+  color: var(--background);
+}
+
+.titulo {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-right: 30px;
+
+  h1 {
+    padding: 0 5px 0 5px;
+  }
+
+  img {
+    height: 40px;
+  }
+}

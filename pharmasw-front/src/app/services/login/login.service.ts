@@ -14,7 +14,7 @@ export class LoginService {
 
   constructor(private httpClient: HttpClient) {  }
 
-  login(email: string, senha: string): Observable<LoginResponse> {
+  login(email: string, senha: string, url: string): Observable<LoginResponse> {
 
     this.loginObj = new Login(
       email,
@@ -22,7 +22,7 @@ export class LoginService {
     );
 
     return this.httpClient
-      .post<LoginResponse>("http://localhost:8080/auth/login", this.loginObj)
+      .post<LoginResponse>("http://localhost:8080/auth/"+url, this.loginObj)
       .pipe(
         tap((value) => {
           sessionStorage.setItem("token", value.token);
