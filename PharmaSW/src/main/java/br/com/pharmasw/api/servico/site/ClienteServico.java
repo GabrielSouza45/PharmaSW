@@ -28,4 +28,22 @@ public class ClienteServico {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    //Alterar Cliente
+    public ResponseEntity<?> alterar(Cliente clienteRequest){
+
+        Cliente cliente =
+                clienteRepositorio.findClienteByEmailAndSenha(clienteRequest.getEmail(), clienteRequest.getSenha());
+
+        String senhaEncriptada = "";
+        if (clienteRequest.getSenha() != null) {
+            senhaEncriptada = new BCryptPasswordEncoder().encode(clienteRequest.getSenha());
+        }
+
+        cliente.setNome(clienteRequest.getNome() != null ? clienteRequest.getNome() : cliente.getNome());
+        cliente.setDataNascimento(clienteRequest.getDataNascimento() != null ? clienteRequest.getDataNascimento() : cliente.getDataNascimento());
+        cliente.setGenero(clienteRequest.getGenero());
+        Cliente retorno = clienteRepositorio.save(cliente);
+
+        return ResponseEntity.ok(retorno);
+    }
 }
