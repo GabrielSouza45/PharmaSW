@@ -84,6 +84,9 @@ public class EnderecoServico {
 
     }
 
+    public ResponseEntity<?> adicionarNovoEnderecoEntrega(Endereco endereco, Cliente cliente){
+        
+    }
 
 
 
