@@ -30,7 +30,7 @@ public class ClienteServico {
 
     //Alterar Cliente
     public ResponseEntity<?> alterar(Cliente clienteRequest){
-
+        
         Cliente cliente =
                 clienteRepositorio.findClienteByEmaill(clienteRequest.getEmail());
 
@@ -42,6 +42,7 @@ public class ClienteServico {
         cliente.setNome(clienteRequest.getNome() != null ? clienteRequest.getNome() : cliente.getNome());
         cliente.setDataNascimento(clienteRequest.getDataNascimento() != null ? clienteRequest.getDataNascimento() : cliente.getDataNascimento());
         cliente.setGenero(clienteRequest.getGenero());
+
         Cliente retorno = clienteRepositorio.save(cliente);
 
         return ResponseEntity.ok(retorno);
