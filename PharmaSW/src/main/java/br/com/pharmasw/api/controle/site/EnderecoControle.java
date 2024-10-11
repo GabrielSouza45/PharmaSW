@@ -2,6 +2,7 @@ package br.com.pharmasw.api.controle.site;
 
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Endereco;
+import br.com.pharmasw.api.modelo.enums.TipoEndereco;
 import br.com.pharmasw.api.repositorio.ClienteRepositorio;
 import br.com.pharmasw.api.servico.site.EnderecoServico;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class EnderecoControle {
 
     @PostMapping("/cadastrar")
     @PreAuthorize("hasRole('CLIENTE') or hasRoler('ADMIN')")
-    public ResponseEntity<?> cadastrarEndereco(@Valid @RequestBody Endereco endereco){
+    public ResponseEntity<?> cadastrarEndereco(@Valid @RequestBody Endereco endereco) {
 
         Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());
         if (clienteOpt.isEmpty())
@@ -37,4 +38,19 @@ public class EnderecoControle {
         return enderecoServico.cadastrar(endereco, cliente);
     }
 
+    @PostMapping("/entrega")
+    @PreAuthorize("hasRole('CLIENTE') or hasRoler('ADMIN')")
+    public ResponseEntity<?> adicionarEndereco(@Valid @RequestBody Endereco endereco) {
+        Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());
+        if (clienteOpt.isEmpty()) {
+            return new ResponseEntity<>("Cliente não localizado", HttpStatus.BAD_GATEWAY);
+        }
+
+        Cliente cliente = clienteOpt.get();
+        if (endereco.getTipoEndereco() != TipoEndereco.ENTREGA) {
+            return new ResponseEntity<>("Tipo de endereço inválido", HttpStatus.BAD_REQUEST);
+        }
+
+        return enderecoServico.adicionarNovoEnderecoEntrega(endereco, cliente);
+    }
 }

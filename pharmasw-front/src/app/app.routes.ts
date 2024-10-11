@@ -10,6 +10,7 @@ import { CarrinhoComponentComponent } from './pages/site/carrinho/carrinho-compo
 import { DetalhesProdutoComponent } from './pages/site/detalhes-produto/detalhes-produto.component';
 import { CadastroClienteComponent } from './pages/site/cadastro-cliente/cadastro-cliente.component';
 import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.component';
+import { ClienteAlterarComponent } from './pages/site/cliente-alterar/cliente-alterar.component';
 
 export const routes: Routes = [
   {
@@ -57,5 +58,9 @@ export const routes: Routes = [
     component: PaginaProdutosComponent,
     canActivate: [authGuard, roleGuard],
     data: { expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA'] },
+  },
+  {
+    path: 'cliente-alterar',
+    component: ClienteAlterarComponent
   }
 ];

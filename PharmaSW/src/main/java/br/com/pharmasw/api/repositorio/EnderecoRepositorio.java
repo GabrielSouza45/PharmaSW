@@ -16,7 +16,7 @@ public interface EnderecoRepositorio extends JpaRepository<Endereco, Long> {
 
     boolean existsByClienteIdAndCepAndTipoEndereco(Long id, @NotBlank(message = "CEP é obrigatório") String cep, TipoEndereco tipoEndereco);
 
-    Endereco findByClienteAndTipoEndereco(Long clienteId, TipoEndereco tipoEndereco);
+    Endereco findByClienteIdAndTipoEndereco(Long clienteId, TipoEndereco tipoEndereco);
 
-    List<Endereco> findByClienteIdAndTipoEnderecoAndPadrao(Long clienteId, TipoEndereco tipoEndereco, boolean b);
+    Endereco findByClienteIdAndTipoEnderecoAndPadrao(Long clienteId, TipoEndereco tipoEndereco, boolean padrao);
 }

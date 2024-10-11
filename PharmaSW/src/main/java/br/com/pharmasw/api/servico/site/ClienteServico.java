@@ -32,7 +32,7 @@ public class ClienteServico {
     public ResponseEntity<?> alterar(Cliente clienteRequest){
         
         Cliente cliente =
-                clienteRepositorio.findClienteByEmaill(clienteRequest.getEmail());
+                clienteRepositorio.findByEmail(clienteRequest.getEmail());
 
         String senhaEncriptada = "";
         if (clienteRequest.getSenha() != null) {

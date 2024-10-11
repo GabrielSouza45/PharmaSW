@@ -1,0 +1,92 @@
+<app-layout-principal>
+  <div class="container p-5 mt-4">
+    <div class="titulo">
+      <h1>Alterar Dados do Cliente</h1>
+    </div>
+    <form class="form-alterar w-100 mb-5" [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-12">
+          <!-- Nome -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Nome:"
+            inputName="nome"
+            placeHolder="Nome completo"
+            formControlName="nome"
+            maxLength="255"
+          ></app-input-primario>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-6 mt-2">
+          <!-- Data de Nascimento -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Data de Nascimento:"
+            inputName="dataNascimento"
+            type="date"
+            formControlName="dataNascimento"
+            [max]="getCurrentDate()"
+          ></app-input-primario>
+        </div>
+
+        <div class="col-sm-12 col-md-6 mt-2">
+          <!-- Gênero -->
+          <app-select
+            class="input-cadastro"
+            label="Gênero:"
+            selectName="genero"
+            [options]="optionsGenero"
+            (valueChange)="clienteForm.get('genero').setValue($event)"
+          ></app-select>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-sm-12 col-md-6">
+          <!-- Senha -->
+          <app-input-primario
+            type="password"
+            class="input-cadastro"
+            [addLabel]="true"
+            label="Senha:"
+            inputName="senha"
+            placeHolder="******"
+            formControlName="senha"
+          ></app-input-primario>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <!-- Confirmar Senha -->
+          <app-input-primario
+            type="password"
+            class="input-cadastro"
+            [addLabel]="true"
+            label="Confirmar Senha:"
+            inputName="confirmarSenha"
+            placeHolder="******"
+            formControlName="confirmarSenha"
+          ></app-input-primario>
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-center mt-4">
+        <div class="col-sm-12 col-md-6">
+          <app-botao
+            textoBtn="Confirmar Alterações"
+            (click)="onSubmit()"
+          ></app-botao>
+        </div>
+        <div class="col-sm-12 col-md-6 "> <!-- Adicionando margem superior -->
+          <app-botao
+            class="btn-secondary"
+            textoBtn="Cancelar"
+            (click)="fecharModal()"
+          ></app-botao>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-layout-principal>
