@@ -1,0 +1,116 @@
+<app-layout-principal>
+  <div class="container p-5 mt-4">
+    <div class="titulo">
+      <h1>Adicionar Novo Endereço</h1>
+    </div>
+    <form class="form-alterar w-100 mb-5" [formGroup]="enderecoForm" (ngSubmit)="adicionarNovoEndereco()">
+      <div class="row">
+        <div class="col-12">
+          <!-- CEP -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="CEP:"
+            inputName="cep"
+            placeHolder="Digite o CEP"
+            formControlName="cep"
+          ></app-input-primario>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12">
+          <!-- Logradouro -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Logradouro:"
+            inputName="logradouro"
+            placeHolder="Digite o logradouro"
+            formControlName="logradouro"
+          ></app-input-primario>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-sm-6">
+          <!-- Número -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Número:"
+            inputName="numero"
+            placeHolder="Digite o número"
+            formControlName="numero"
+          ></app-input-primario>
+        </div>
+
+        <div class="col-sm-6">
+          <!-- Complemento -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Complemento:"
+            inputName="complemento"
+            placeHolder="Digite o complemento (opcional)"
+            formControlName="complemento"
+          ></app-input-primario>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-sm-6">
+          <!-- Bairro -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Bairro:"
+            inputName="bairro"
+            placeHolder="Digite o bairro"
+            formControlName="bairro"
+          ></app-input-primario>
+        </div>
+        <div class="col-sm-6">
+          <!-- Cidade -->
+          <app-input-primario
+            class="input-cadastro input-padrao"
+            [addLabel]="true"
+            label="Cidade:"
+            inputName="cidade"
+            placeHolder="Digite a cidade"
+            formControlName="cidade"
+          ></app-input-primario>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-sm-6">
+          <!-- UF -->
+          <app-select
+            class="input-cadastro"
+            label="UF:"
+            selectName="uf"
+            [options]="optionsUF"
+            formControlName="uf"
+          ></app-select>
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-center mt-4">
+        <div class="col-sm-6">
+          <app-botao
+            textoBtn="Salvar Endereço"
+            (click)="adicionarNovoEndereco()"
+          ></app-botao>
+        </div>
+        <div class="col-sm-6">
+          <app-botao
+            class="btn-secondary"
+            textoBtn="Cancelar"
+            (click)="fecharModal()"
+          ></app-botao>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-layout-principal>

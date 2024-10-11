@@ -11,6 +11,7 @@ import { DetalhesProdutoComponent } from './pages/site/detalhes-produto/detalhes
 import { CadastroClienteComponent } from './pages/site/cadastro-cliente/cadastro-cliente.component';
 import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.component';
 import { ClienteAlterarComponent } from './pages/site/cliente-alterar/cliente-alterar.component';
+import { EnderecoComponent } from './pages/site/endereco/endereco/endereco.component';
 
 export const routes: Routes = [
   {
@@ -62,5 +63,9 @@ export const routes: Routes = [
   {
     path: 'cliente-alterar',
     component: ClienteAlterarComponent
+  },
+  {
+    path: 'endereco',
+    component: EnderecoComponent
   }
 ];
