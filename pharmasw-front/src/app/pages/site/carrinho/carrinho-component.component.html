@@ -1,5 +1,5 @@
 <app-layout-principal>
-  <div class="container">
+  <main class="container p-2">
     <div class="row p-2 d-flex justify-content-around">
       <!-- INFORMAÇÕES SOBRE OS PEDIDOS -->
       <div class="esquerda col-8">
@@ -43,6 +43,14 @@
 
           <!-- Exibir o preço total -->
           <div class="total-preco">
+            <h5>
+              Subtotal:
+              {{ precoSubtotal | currency : "BRL" : "symbol" : "1.2-2" }}
+            </h5>
+            <h5>
+              Frete:
+              {{ freteSelecionado.preco | currency : "BRL" : "symbol" : "1.2-2" }}
+            </h5>
             <h3>
               Total:
               {{ precoTotal | currency : "BRL" : "symbol" : "1.2-2" }}
@@ -114,5 +122,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </app-layout-principal>

@@ -36,6 +36,7 @@ export class CarrinhoComponentComponent {
   opcaoForm: FormGroup;
   cep: Cep;
   produtos: Produto[] = [];
+  precoSubtotal: number = this.getSubTotal();
   precoTotal: number = this.getTotalPreco();
   opcoesCep: OpcoesCep[] = [];
   freteSelecionado: OpcoesCep;
@@ -64,6 +65,7 @@ export class CarrinhoComponentComponent {
     private toastrService: ToastrService
   ) {
     this.produtos = carrinhoService.getItems();
+    this.freteSelecionado = new OpcoesCep(1, "", 0);
   }
 
   // Adicionar produtos
@@ -83,6 +85,8 @@ export class CarrinhoComponentComponent {
       // Permite apenas números não negativos
       this.carrinhoService.alterarQuantidade(produto.id, quantidade);
       this.precoTotal = this.getTotalPreco(this.freteSelecionado);
+      this.precoSubtotal = this.getSubTotal();
+
     } else {
       this.removerProduto(produto); // Remove o produto quando a quantidade for 0
     }
@@ -96,6 +100,10 @@ export class CarrinhoComponentComponent {
   // Exibir o preço total
   getTotalPreco(cep?: OpcoesCep): number {
     return this.carrinhoService.getTotalPreco(cep);
+  }
+
+  getSubTotal(): number{
+    return this.carrinhoService.getSubtotalPreco();
   }
 
   pesquisarCep() {

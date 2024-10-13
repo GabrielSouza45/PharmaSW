@@ -88,6 +88,15 @@ export class CarrinhoService{
     }
   }
 
+  getSubtotalPreco(): number {
+    let total = this.items.reduce((total: number, produto: Produto) => {
+      total += produto.valor * produto.quantidadePedido;
+      return total;
+    }, 0);
+
+    return total;
+  }
+
   getTotalPreco(cep?: OpcoesCep): number {
     let total = this.items.reduce((total: number, produto: Produto) => {
       total += produto.valor * produto.quantidadePedido;
