@@ -40,6 +40,7 @@ export class EnderecoComponent {
   endereco: Endereco;
 
   optionsUF: Opcoes[] = [
+    { value: 'SR', text: 'Selecione uma resposta' },
     { value: 'AC', text: 'Acre' },
     { value: 'AL', text: 'Alagoas' },
     { value: 'AP', text: 'Amapá' },
@@ -83,7 +84,7 @@ export class EnderecoComponent {
       complemento: [''],
       bairro: ['', Validators.required],
       cidade: ['', Validators.required],
-      uf: ['', Validators.required],
+      uf: ['SR']
     });
   }
 
