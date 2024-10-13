@@ -37,4 +37,14 @@ public class EnderecoControle {
         return enderecoServico.cadastrar(endereco, cliente);
     }
 
+    @PutMapping("/alterar-padrao/{idEndereco}")
+    @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
+    public ResponseEntity<?> alterarEnderecoPadrao(@PathVariable Long idEndereco) {
+        try {
+            return enderecoServico.alterarEnderecoPadrao(idEndereco);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao atualizar o endereço padrão", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

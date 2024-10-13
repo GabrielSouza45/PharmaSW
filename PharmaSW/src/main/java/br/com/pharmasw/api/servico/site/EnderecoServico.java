@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EnderecoServico {
@@ -57,6 +59,7 @@ public class EnderecoServico {
     }
 
 
+
     private ResponseEntity<?> cadastrarEndetecoFaturamento(Endereco endereco, Cliente cliente) {
 
         boolean clienteJaTemEndereco =
@@ -84,7 +87,26 @@ public class EnderecoServico {
 
     }
 
+    public ResponseEntity<?> alterarEnderecoPadrao(Long idEndereco) {
+        Optional<Endereco> enderecoOpt = enderecoRepositorio.findById(idEndereco);
+        if (enderecoOpt.isEmpty()) {
+            return new ResponseEntity<>("Endereço não encontrado", HttpStatus.NOT_FOUND);
+        }
 
+        Endereco enderecoEscolhido = enderecoOpt.get();
+        Cliente cliente = enderecoEscolhido.getCliente();
 
+        List<Endereco> enderecosDoCliente = enderecoRepositorio.findByClienteId(cliente.getId());
+
+        enderecosDoCliente.forEach(endereco -> {
+            endereco.setPadrao(false);
+            enderecoRepositorio.save(endereco);
+        });
+
+        enderecoEscolhido.setPadrao(true);
+        enderecoRepositorio.save(enderecoEscolhido);
+
+        return new ResponseEntity<>("Endereço padrão atualizado com sucesso!", HttpStatus.OK);
+    }
 
 }
