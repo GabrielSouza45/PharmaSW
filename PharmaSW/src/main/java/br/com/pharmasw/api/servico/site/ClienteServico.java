@@ -31,24 +31,25 @@ public class ClienteServico {
     }
 
     //Alterar Cliente
-    public ResponseEntity<?> alterar(Cliente clienteRequest){
-        
-        Cliente cliente =
-                clienteRepositorio.findByEmail(clienteRequest.getEmail());
+    public ResponseEntity<?> alterar(Cliente clienteRequest) {
+        Cliente cliente = clienteRepositorio.findByEmail(clienteRequest.getEmail());
 
-        String senhaEncriptada = "";
-        if (clienteRequest.getSenha() != null) {
-            senhaEncriptada = new BCryptPasswordEncoder().encode(clienteRequest.getSenha());
+        // Atualiza a senha somente se uma nova senha for fornecida
+        if (clienteRequest.getSenha() != null && !clienteRequest.getSenha().isEmpty()) {
+            String senhaEncriptada = new BCryptPasswordEncoder().encode(clienteRequest.getSenha());
+            cliente.setSenha(senhaEncriptada);
         }
 
+        // Atualiza outros campos do cliente
         cliente.setNome(clienteRequest.getNome() != null ? clienteRequest.getNome() : cliente.getNome());
         cliente.setDataNascimento(clienteRequest.getDataNascimento() != null ? clienteRequest.getDataNascimento() : cliente.getDataNascimento());
-        cliente.setGenero(clienteRequest.getGenero());
+        cliente.setGenero(clienteRequest.getGenero() != null ? clienteRequest.getGenero() : cliente.getGenero());
 
         Cliente retorno = clienteRepositorio.save(cliente);
-
         return ResponseEntity.ok(retorno);
     }
+
+
     public ResponseEntity<?> listarClientePorId(Long id) {
 
         Optional<Cliente> clienteOpt = clienteRepositorio.findById(id);

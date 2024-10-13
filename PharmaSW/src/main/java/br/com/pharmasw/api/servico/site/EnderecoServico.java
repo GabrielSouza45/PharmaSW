@@ -135,16 +135,20 @@ public class EnderecoServico {
             return new ResponseEntity<>("Endereço já cadastrado", HttpStatus.BAD_REQUEST);
         }
 
+        // Preenche os dados do endereço a partir da consulta à API
         endereco.setLogradouro(apiEndereco.getLogradouro());
         endereco.setBairro(apiEndereco.getBairro());
         endereco.setCidade(apiEndereco.getLocalidade());
         endereco.setUf(apiEndereco.getUf());
         endereco.setCliente(cliente);
 
+        // Verifica se já existe um endereço de entrega
         boolean enderecoEntregaExiste = enderecoRepositorio.existsByClienteIdAndTipoEndereco(cliente.getId(), TipoEndereco.ENTREGA);
+
         if (!enderecoEntregaExiste) {
             endereco.setPadrao(true);
         } else if (endereco.isPadrao()) {
+            // Atualiza o endereço padrão para este novo
             Endereco enderecoPadraoAtual = enderecoRepositorio.findByClienteIdAndTipoEnderecoAndPadrao(cliente.getId(), TipoEndereco.ENTREGA, true);
             if (enderecoPadraoAtual != null) {
                 enderecoPadraoAtual.setPadrao(false);
@@ -152,8 +156,10 @@ public class EnderecoServico {
             }
         }
 
+        // Salva o novo endereço
         Endereco retorno = enderecoRepositorio.save(endereco);
-        retorno.setCliente(null);
+        retorno.setCliente(null); // Evita expor dados sensíveis do cliente
         return new ResponseEntity<>(retorno, HttpStatus.CREATED);
     }
+
 }

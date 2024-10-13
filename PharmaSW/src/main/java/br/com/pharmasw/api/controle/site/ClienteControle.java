@@ -23,10 +23,14 @@ public class ClienteControle {
         if (cliente.getEmail() == null)
             return new ResponseEntity<>("Email é obrigatório!", HttpStatus.BAD_REQUEST);
 
-        return clienteServico.alterar(cliente);
-
+        try {
+            return clienteServico.alterar(cliente);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao alterar o cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-        @PostMapping("/listar-cliente-id")
+
+    @PostMapping("/listar-cliente-id")
         @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
         public ResponseEntity<?> listarClientePorId (@RequestBody Filtros filtro){
             if (filtro.getId() == null)

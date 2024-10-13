@@ -34,17 +34,38 @@ public class EnderecoControle {
         return enderecoServico.listarPorCliente(filtro.getId());
     }
 
-    @PostMapping("/cadastrar")
-    @PreAuthorize("hasRole('CLIENTE') or hasRoler('ADMIN')")
-    public ResponseEntity<?> cadastrarEndereco(@Valid @RequestBody Endereco endereco) {
+    @PostMapping("/cadastrar-endereco-entrega")
+    @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
+    public ResponseEntity<?> adicionarNovoEnderecoEntrega(@Valid @RequestBody Endereco endereco) {
+        try {
+            // Verifica se o cliente existe pelo ID do cliente fornecido no endereço
+            Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());
+            if (clienteOpt.isEmpty())
+                return new ResponseEntity<>("Cliente não localizado", HttpStatus.NOT_FOUND);
 
+            Cliente cliente = clienteOpt.get();
+
+            return enderecoServico.adicionarNovoEnderecoEntrega(endereco, cliente);
+        } catch (Exception e) {
+            // Retorna erro genérico caso ocorra algum problema inesperado
+            return new ResponseEntity<>("Erro ao cadastrar o endereço.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/entrega")
+    @PreAuthorize("hasRole('CLIENTE') or hasRoler('ADMIN')")
+    public ResponseEntity<?> adicionarEndereco(@Valid @RequestBody Endereco endereco) {
         Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());
-        if (clienteOpt.isEmpty())
+        if (clienteOpt.isEmpty()) {
             return new ResponseEntity<>("Cliente não localizado", HttpStatus.BAD_GATEWAY);
+        }
 
         Cliente cliente = clienteOpt.get();
+        if (endereco.getTipoEndereco() != TipoEndereco.ENTREGA) {
+            return new ResponseEntity<>("Tipo de endereço inválido", HttpStatus.BAD_REQUEST);
+        }
 
-        return enderecoServico.cadastrar(endereco, cliente);
+        return enderecoServico.adicionarNovoEnderecoEntrega(endereco, cliente);
     }
 
     @PutMapping("/alterar-padrao/{idEndereco}")
