@@ -2,6 +2,7 @@ package br.com.pharmasw.api.controle.site;
 
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Endereco;
+import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.repositorio.ClienteRepositorio;
 import br.com.pharmasw.api.servico.site.EnderecoServico;
 import jakarta.validation.Valid;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/endereco")
+@RequestMapping("/endereco-controle")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EnderecoControle {
 
@@ -23,10 +24,18 @@ public class EnderecoControle {
     @Autowired
     private ClienteRepositorio clienteRepositorio;
 
+    @PostMapping("/listar-por-cliente")
+    @PreAuthorize("hasRole('CLIENTE') or hasRoler('ADMIN')")
+    public ResponseEntity<?> listarPorCliente(@RequestBody Filtros filtro) {
+        if (filtro.getId() == null)
+            return new ResponseEntity<>("Cliente não pode ser nulo.", HttpStatus.BAD_REQUEST);
+
+        return enderecoServico.listarPorCliente(filtro.getId());
+    }
 
     @PostMapping("/cadastrar")
     @PreAuthorize("hasRole('CLIENTE') or hasRoler('ADMIN')")
-    public ResponseEntity<?> cadastrarEndereco(@Valid @RequestBody Endereco endereco){
+    public ResponseEntity<?> cadastrarEndereco(@Valid @RequestBody Endereco endereco) {
 
         Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());
         if (clienteOpt.isEmpty())

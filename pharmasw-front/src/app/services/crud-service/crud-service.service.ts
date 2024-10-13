@@ -9,8 +9,8 @@ import { Filtros } from '../../modelo/Filtros';
   providedIn: 'root',
 })
 export class CrudService<T> {
-  private domain: string = 'http://localhost:8080';
-  private url: string;
+  public domain: string = 'http://localhost:8080';
+  public url: string;
 
   constructor(
     private httpClient: HttpClient,

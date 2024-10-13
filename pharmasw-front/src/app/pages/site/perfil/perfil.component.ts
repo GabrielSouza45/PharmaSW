@@ -1,15 +1,18 @@
-import { MatDialog } from '@angular/material/dialog';
-import { Component } from '@angular/core';
-import { LayoutPrincipalComponent } from "../layout-principal/layout-principal.component";
 import { CommonModule } from '@angular/common';
-import { Cliente } from '../../../modelo/Cliente';
-import { Genero } from '../../../modelo/enums/Genero';
-import { InputSecundarioComponent } from "../../../components/input-secundario/input-secundario.component";
-import { BotaoComponent } from "../../../components/botao/botao.component";
-import { Endereco } from '../../../modelo/Endereco';
-import { ComponentType } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ComponentType, ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { TipoEndereco } from '../../../modelo/enums/TipoEndereco';
+import { BotaoComponent } from "../../../components/botao/botao.component";
+import { InputSecundarioComponent } from "../../../components/input-secundario/input-secundario.component";
+import { Cliente } from '../../../modelo/Cliente';
+import { Filtros } from '../../../modelo/Filtros';
+import { LayoutPrincipalComponent } from "../layout-principal/layout-principal.component";
+import { AuthService } from './../../../infra/auth/auth.service';
+import { Endereco } from './../../../modelo/Endereco';
+import { CrudService } from './../../../services/crud-service/crud-service.service';
+import { EnderecoService } from './../../../services/endereco/endereco.service';
 
 @Component({
   selector: 'app-perfil',
@@ -18,119 +21,55 @@ import { TipoEndereco } from '../../../modelo/enums/TipoEndereco';
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })
-export class PerfilComponent {
+export class PerfilComponent extends CrudService<Cliente>{
   dados: Cliente;
   enderecos: Endereco[] =[];
 
   constructor(
-    private dialog: MatDialog
-
+    private dialog: MatDialog,
+    private enderecoService: EnderecoService,
+    private http: HttpClient,
+    private toastr: ToastrService,
+    private authService: AuthService,
   ){
-
-    this.dados = new Cliente(
-      "gabrielsouza45@live.com",
-      "42277864870",
-      "Gabriel Souza",
-      '2001-10-17',
-      Genero.MASCULINO,
-      ""
-    );
-
-    this.enderecos.push(
-      new Endereco(
-        "04852214",
-        "AAA",
-        "165",
-        "AAA",
-        "Jd aaaa",
-        "São Paulo",
-        "SP",
-        true,
-        TipoEndereco.ENTREGA
-      ),
-      new Endereco(
-        "04852214",
-        "AAA",
-        "165",
-        "AAA",
-        "Jd aaaa",
-        "São Paulo",
-        "SP",
-        false,
-        TipoEndereco.ENTREGA
-      ),
-      new Endereco(
-        "04852214",
-        "AAA",
-        "165",
-        "AAA",
-        "Jd aaaa",
-        "São Paulo",
-        "SP",
-        false,
-        TipoEndereco.ENTREGA
-      ),
-      new Endereco(
-        "04852214",
-        "AAA",
-        "165",
-        "AAA",
-        "Jd aaaa",
-        "São Paulo",
-        "SP",
-        false,
-        TipoEndereco.ENTREGA
-      ),
-      new Endereco(
-        "04852214",
-        "AAA",
-        "165",
-        "AAA",
-        "Jd aaaa",
-        "São Paulo",
-        "SP",
-        false,
-        TipoEndereco.ENTREGA
-      ),
-      new Endereco(
-        "04852214",
-        "AAA",
-        "165",
-        "AAA",
-        "Jd aaaa",
-        "São Paulo",
-        "SP",
-        false,
-        TipoEndereco.ENTREGA
-      ),
-      new Endereco(
-        "04852214",
-        "AAA",
-        "165",
-        "AAA",
-        "Jd aaaa",
-        "São Paulo",
-        "SP",
-        false,
-        TipoEndereco.ENTREGA
-      ),
-      new Endereco(
-        "04852214",
-        "AAA",
-        "165",
-        "AAA",
-        "Jd aaaa",
-        "São Paulo",
-        "SP",
-        false,
-        TipoEndereco.ENTREGA
-      ),
-    )
+    super(http, "/cliente-controle", toastr);
+    this.getCliente();
+    this.getEnderecos();
   }
 
+  private getEnderecos(): void{
+    let filtro = new Filtros();
+    filtro.id = this.authService.getIdUser();
+    this.enderecoService.listar("/listar-por-cliente", filtro).subscribe({
+      next: (enderecos: Endereco[]) =>{
+        this.enderecos = enderecos;
+      },
+      error: () => {
+        this.toastr.error("Erro inesperado. por favor, tente novamente mais tarde.");
+      }
+    });
+  }
+
+  private getCliente(): void{
+    let filtro = new Filtros();
+    filtro.id = this.authService.getIdUser();
+    this.listarUnico(filtro, "/listar-cliente-id").subscribe({
+      next: (cliente: Cliente) => {
+        this.dados = cliente;
+      },
+      error: () => {
+        this.toastr.error("Erro inesperado. por favor, tente novamente mais tarde.");
+      }
+    });
+  }
 
   definirPadrao(endereco: Endereco){
-
+    this.enderecoService.alterarPadrao(endereco.id).subscribe({
+      next: () => {
+        this.toastr.success("Endereço padrão atualizado com sucesso.");
+        this.getEnderecos();
+      }
+    });
   }
 
 

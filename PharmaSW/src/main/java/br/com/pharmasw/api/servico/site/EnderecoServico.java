@@ -18,6 +18,18 @@ public class EnderecoServico {
     @Autowired
     private EnderecoRepositorio enderecoRepositorio;
 
+    public ResponseEntity<?> listarPorCliente(Long id) {
+
+        List<Endereco> enderecos = enderecoRepositorio.findByClienteIdOrderByPadraoDesc(id);
+        if (enderecos.isEmpty()) {
+            return new ResponseEntity<>("Endereços não encontrados.", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(enderecos, HttpStatus.OK);
+
+    }
+
+
     public ResponseEntity<?> cadastrar(Endereco endereco, Cliente cliente){
 
         if (endereco.getTipoEndereco() == TipoEndereco.ENTREGA){
@@ -106,7 +118,8 @@ public class EnderecoServico {
         enderecoEscolhido.setPadrao(true);
         enderecoRepositorio.save(enderecoEscolhido);
 
-        return new ResponseEntity<>("Endereço padrão atualizado com sucesso!", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 }

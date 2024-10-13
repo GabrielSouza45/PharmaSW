@@ -62,4 +62,8 @@ export class AuthService {
   getToken(): string {
     return sessionStorage.getItem('token');
   }
+
+  getIdUser(): number{
+    return Number(sessionStorage.getItem('id'));
+  }
 }

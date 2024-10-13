@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClienteServico {
     @Autowired
@@ -26,6 +28,18 @@ public class ClienteServico {
         ClienteDTO dto = new ClienteDTO(clienteRepositorio.save(cliente));
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<?> listarClientePorId(Long id) {
+
+        Optional<Cliente> clienteOpt = clienteRepositorio.findById(id);
+        if (clienteOpt.isEmpty())
+            return new ResponseEntity<>("Cliente não encontrado.", HttpStatus.NOT_FOUND);
+
+        Cliente cliente = clienteOpt.get();
+        ClienteDTO dto = new ClienteDTO(cliente);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
 }
