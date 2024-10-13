@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
-=======
 
->>>>>>> parent of eb373e9 (Att)
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +20,19 @@ public class EnderecoServico {
     private EnderecoRepositorio enderecoRepositorio;
 
     public ResponseEntity<?> cadastrar(Endereco endereco, Cliente cliente) {
+    public ResponseEntity<?> listarPorCliente(Long id) {
+
+        List<Endereco> enderecos = enderecoRepositorio.findByClienteIdOrderByPadraoDesc(id);
+        if (enderecos.isEmpty()) {
+            return new ResponseEntity<>("Endereços não encontrados.", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(enderecos, HttpStatus.OK);
+
+    }
+
+
+    public ResponseEntity<?> cadastrar(Endereco endereco, Cliente cliente){
 
         if (endereco.getTipoEndereco() == TipoEndereco.ENTREGA) {
             return this.cadastrarEnderecoEntrega(endereco, cliente);
@@ -91,7 +101,6 @@ public class EnderecoServico {
 
     }
 
-<<<<<<< HEAD
     public ResponseEntity<?> alterarEnderecoPadrao(Long idEndereco) {
         Optional<Endereco> enderecoOpt = enderecoRepositorio.findById(idEndereco);
         if (enderecoOpt.isEmpty()) {
@@ -111,9 +120,9 @@ public class EnderecoServico {
         enderecoEscolhido.setPadrao(true);
         enderecoRepositorio.save(enderecoEscolhido);
 
-        return new ResponseEntity<>("Endereço padrão atualizado com sucesso!", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-=======
+
     //Adicionar novos endereços entrega
     public ResponseEntity<?> adicionarNovoEnderecoEntrega(Endereco endereco, Cliente cliente) {
         ViaCepEndereco apiEndereco = ViaCepAPI.consultar(endereco.getCep());
@@ -126,7 +135,6 @@ public class EnderecoServico {
         if (existeEnderecoEntrega) {
             return new ResponseEntity<>("Endereço já cadastrado", HttpStatus.BAD_REQUEST);
         }
->>>>>>> parent of eb373e9 (Att)
 
         endereco.setLogradouro(apiEndereco.getLogradouro());
         endereco.setBairro(apiEndereco.getBairro());
@@ -149,4 +157,6 @@ public class EnderecoServico {
         retorno.setCliente(null);
         return new ResponseEntity<>(retorno, HttpStatus.CREATED);
     }
+}
+
 }
