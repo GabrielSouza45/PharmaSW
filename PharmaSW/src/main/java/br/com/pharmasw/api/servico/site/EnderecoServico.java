@@ -19,7 +19,6 @@ public class EnderecoServico {
     @Autowired
     private EnderecoRepositorio enderecoRepositorio;
 
-    public ResponseEntity<?> cadastrar(Endereco endereco, Cliente cliente) {
     public ResponseEntity<?> listarPorCliente(Long id) {
 
         List<Endereco> enderecos = enderecoRepositorio.findByClienteIdOrderByPadraoDesc(id);
@@ -74,7 +73,7 @@ public class EnderecoServico {
 
 
 
-    private ResponseEntity<?> cadastrarEndetecoFaturamento(Endereco endereco, Cliente cliente) {
+    private ResponseEntity<?> cadastrarEnderecoFaturamento(Endereco endereco, Cliente cliente) {
 
         boolean clienteJaTemEndereco =
                 enderecoRepositorio.existsByClienteIdAndTipoEndereco(cliente.getId(), TipoEndereco.FATURAMENTO);
@@ -157,6 +156,4 @@ public class EnderecoServico {
         retorno.setCliente(null);
         return new ResponseEntity<>(retorno, HttpStatus.CREATED);
     }
-}
-
 }

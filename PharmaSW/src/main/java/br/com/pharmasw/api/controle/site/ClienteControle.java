@@ -24,12 +24,15 @@ public class ClienteControle {
             return new ResponseEntity<>("Email é obrigatório!", HttpStatus.BAD_REQUEST);
 
         return clienteServico.alterar(cliente);
-    @PostMapping("/listar-cliente-id")
-    @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
-    public ResponseEntity<?> listarClientePorId(@RequestBody Filtros filtro){
-        if (filtro.getId() == null)
-            return new ResponseEntity<>("Cliente não pode ser nulo.", HttpStatus.BAD_REQUEST);
 
-        return clienteServico.listarClientePorId(filtro.getId());
     }
-}
+        @PostMapping("/listar-cliente-id")
+        @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
+        public ResponseEntity<?> listarClientePorId (@RequestBody Filtros filtro){
+            if (filtro.getId() == null)
+                return new ResponseEntity<>("Cliente não pode ser nulo.", HttpStatus.BAD_REQUEST);
+
+            return clienteServico.listarClientePorId(filtro.getId());
+        }
+    }
+
