@@ -1,0 +1,90 @@
+<app-layout-principal>
+  <main class="container p-4">
+    <div class="row">
+      <h1>Minha conta</h1>
+    </div>
+    <div class="row mt-3" style="min-height: 650px">
+      <!-- DADOS CLIENTE -->
+      <div
+        class="container d-flex justify-content-between p-2 col-lg-6 col-md-6 col-sm-12"
+      >
+        <div class="container h-100 d-flex justify-content-between flex-column">
+          <h3>Meus dados</h3>
+
+          <app-input-secundario
+            txtLabel="Nome:"
+            [value]="dados.nome"
+            [disabled]="true"
+            [id]="dados.nome"
+          ></app-input-secundario>
+          <app-input-secundario
+            txtLabel="Email:"
+            [value]="dados.email"
+            [disabled]="true"
+            [id]="dados.email"
+          ></app-input-secundario>
+          <app-input-secundario
+            txtLabel="CPF:"
+            [value]="dados.cpf"
+            [disabled]="true"
+            [id]="dados.cpf"
+          ></app-input-secundario>
+          <app-input-secundario
+            txtLabel="Gênero:"
+            [value]="dados.genero"
+            [disabled]="true"
+            [id]="dados.genero"
+          ></app-input-secundario>
+          <app-input-secundario
+            txtLabel="Data de Nascimento:"
+            type="date"
+            [value]="dados.dataNascimento"
+            [disabled]="true"
+            [id]="dados.dataNascimento"
+          ></app-input-secundario>
+
+          <div class="d-flex justify-content-center">
+            <div class="w-75 mt-5 mb-5">
+              <app-botao textoBtn="Editar Dados"></app-botao>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENDERECOS -->
+      <div
+        class="container d-flex justify-content-between p-2 col-lg-6 col-md-6 col-sm-12"
+      >
+        <div class="container h-100 d-flex justify-content-between flex-column">
+          <h3>Meus Endereços</h3>
+          <div class="enderecos p-2 overflow-auto">
+            <div class="" *ngFor="let endereco of enderecos">
+              <div class="endereco p-1 ps-3" [ngClass]="endereco.padrao ? 'endereco-padrao': 'endereco-salvo'">
+                <div class="d-flex justify-content-between">
+                  <p>{{ endereco.logradouro }}</p>
+                  <span>{{ endereco.padrao ? "(PADRÃO)" : "" }}</span>
+                </div>
+                <p>Número: {{ endereco.numero }}, {{ endereco.complemento }}</p>
+                <p>
+                  Cep {{ endereco.cep }}, {{ endereco.cidade }},
+                  {{ endereco.uf }}
+                </p>
+                <div
+                  class="d-flex justify-content-end"
+                  *ngIf="!endereco.padrao"
+                >
+                  <a (click)="definirPadrao(endereco)">Difinir padrão</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="w-75 mt-5 mb-5">
+              <app-botao textoBtn="Adicionar Endereco"></app-botao>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</app-layout-principal>

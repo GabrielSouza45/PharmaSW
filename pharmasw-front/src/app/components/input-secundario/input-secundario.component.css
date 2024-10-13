@@ -1,0 +1,31 @@
+.form-group {
+  position: relative;
+  margin-top: 20px;
+}
+
+/* Estilo do Input */
+.form-group input {
+  width: 100%;
+  padding: 10px 10px 10px 15px; /* Espaço extra para a label */
+  font-size: 16px;
+  border: 1px solid var(--cor-primaria);
+  border-radius: 4px;
+  outline: none;
+  background-color: #fff;
+}
+
+/* Estilo da Label */
+.form-group label {
+  position: absolute;
+  top: -10px; /* Levanta a label acima da borda do input */
+  left: 10px; /* Define a posição horizontal da label */
+  background-color: #fff; /* Cor de fundo da label para cobrir a borda do input */
+  padding: 0 5px; /* Pequeno padding para fazer a label parecer encaixada */
+  font-size: 14px;
+  color: var(--cor-primaria);
+}
+
+/* Quando o input é focado */
+.form-group input:focus {
+  border-color: var(--cor-secundaria);
+}

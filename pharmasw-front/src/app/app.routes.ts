@@ -10,6 +10,7 @@ import { CarrinhoComponentComponent } from './pages/site/carrinho/carrinho-compo
 import { DetalhesProdutoComponent } from './pages/site/detalhes-produto/detalhes-produto.component';
 import { CadastroClienteComponent } from './pages/site/cadastro-cliente/cadastro-cliente.component';
 import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.component';
+import { PerfilComponent } from './pages/site/perfil/perfil.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,10 @@ export const routes: Routes = [
   {
     path: 'cadastre-se',
     component: CadastroClienteComponent
+  },
+  {
+    path: 'minha-conta',
+    component: PerfilComponent
   },
   {
     path: 'login',

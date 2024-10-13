@@ -1,11 +1,21 @@
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandlerFn,
+  HttpInterceptorFn,
+  HttpRequest,
+} from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHandlerFn, HttpInterceptor, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { catchError, Observable, throwError } from "rxjs";
-import { AuthService } from "../auth/auth.service";
-import { Router } from "@angular/router";
+import { catchError, Observable, throwError } from 'rxjs';
+import { Grupo } from '../../modelo/enums/Grupo';
+import { AuthService } from '../auth/auth.service';
 
-export const requestInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
+export const requestInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<any>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<any>> => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const toastrService = inject(ToastrService);
@@ -14,10 +24,19 @@ export const requestInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, nex
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 && error.error.menssagem === 'Token Expirado.') {
         toastrService.error('Token expirado, faça o login novamente.');
-        authService.logout('/login'); // Limpa o token e desloga o usuário
+        redirecionaUsuario(); // Limpa o token e desloga o usuário
       }
 
       return throwError(() => error); // Repropaga o erro
     })
   );
+
+  function redirecionaUsuario() {
+    const grupo = authService.getUserRole();
+    if (grupo == Grupo.ADMINISTRADOR || grupo == Grupo.ESTOQUISTA) {
+      authService.logout('/login');
+    } else {
+      authService.logout('/entrar');
+    }
+  }
 };
