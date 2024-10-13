@@ -38,19 +38,14 @@ public class EnderecoControle {
         return enderecoServico.cadastrar(endereco, cliente);
     }
 
-    @PostMapping("/entrega")
-    @PreAuthorize("hasRole('CLIENTE') or hasRoler('ADMIN')")
-    public ResponseEntity<?> adicionarEndereco(@Valid @RequestBody Endereco endereco) {
-        Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());
-        if (clienteOpt.isEmpty()) {
-            return new ResponseEntity<>("Cliente não localizado", HttpStatus.BAD_GATEWAY);
+    @PutMapping("/alterar-padrao/{idEndereco}")
+    @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
+    public ResponseEntity<?> alterarEnderecoPadrao(@PathVariable Long idEndereco) {
+        try {
+            return enderecoServico.alterarEnderecoPadrao(idEndereco);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao atualizar o endereço padrão", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        Cliente cliente = clienteOpt.get();
-        if (endereco.getTipoEndereco() != TipoEndereco.ENTREGA) {
-            return new ResponseEntity<>("Tipo de endereço inválido", HttpStatus.BAD_REQUEST);
-        }
-
-        return enderecoServico.adicionarNovoEnderecoEntrega(endereco, cliente);
     }
+
 }

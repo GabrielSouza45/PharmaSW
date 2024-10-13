@@ -4,6 +4,8 @@ import br.com.pharmasw.api.modelo.Endereco;
 import br.com.pharmasw.api.modelo.enums.TipoEndereco;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
 
 import java.util.List;
 
@@ -16,7 +18,5 @@ public interface EnderecoRepositorio extends JpaRepository<Endereco, Long> {
 
     boolean existsByClienteIdAndCepAndTipoEndereco(Long id, @NotBlank(message = "CEP é obrigatório") String cep, TipoEndereco tipoEndereco);
 
-    Endereco findByClienteIdAndTipoEndereco(Long clienteId, TipoEndereco tipoEndereco);
-
-    Endereco findByClienteIdAndTipoEnderecoAndPadrao(Long clienteId, TipoEndereco tipoEndereco, boolean padrao);
+    List<Endereco> findByClienteId(Long clienteId);
 }

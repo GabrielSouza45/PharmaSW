@@ -10,28 +10,8 @@ main {
   position: fixed;
   z-index: 9999;
 
-  .navbar {
-    height: 100%;
-    background-color: var(--navbar-color);
-    padding: 1rem 7%;
-
-    img {
-      width: var(--navbar-icon-heigth);
-    }
-
-    i {
-      font-size: 25px;
-    }
-
-    i:hover {
-      cursor: pointer;
-    }
-
-    .icon-buscar {
-      color: white;
-    }
-  }
 }
+
 
 .conteudo {
   overflow: auto;
@@ -42,12 +22,4 @@ main {
   align-items: center;
   width: 100%;
   height: calc(100vh - var(--navbar-heigth));
-}
-
-.count {
-  color: var(--cor-secundaria);
-}
-
-li:hover {
-  cursor: pointer;
 }

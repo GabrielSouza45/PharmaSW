@@ -1,0 +1,39 @@
+
+.nav-bar {
+  width: 100%;
+  transition: all 0.15s ease-in-out;
+  height: var(--navbar-heigth);
+  position: fixed;
+  z-index: 9999;
+
+  .navbar {
+    height: 100%;
+    background-color: var(--navbar-color);
+    padding: 1rem 7%;
+
+    img {
+      width: var(--navbar-icon-heigth);
+    }
+
+    i {
+      font-size: 25px;
+    }
+
+    i:hover {
+      cursor: pointer;
+    }
+
+    .icon-buscar {
+      color: white;
+    }
+  }
+}
+
+
+.count {
+  color: var(--cor-secundaria);
+}
+
+li:hover {
+  cursor: pointer;
+}
