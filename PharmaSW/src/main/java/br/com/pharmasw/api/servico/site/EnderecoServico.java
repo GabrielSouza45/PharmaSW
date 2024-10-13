@@ -8,8 +8,11 @@ import br.com.pharmasw.api.repositorio.EnderecoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of eb373e9 (Att)
 import java.util.List;
 import java.util.Optional;
 
@@ -88,6 +91,7 @@ public class EnderecoServico {
 
     }
 
+<<<<<<< HEAD
     public ResponseEntity<?> alterarEnderecoPadrao(Long idEndereco) {
         Optional<Endereco> enderecoOpt = enderecoRepositorio.findById(idEndereco);
         if (enderecoOpt.isEmpty()) {
@@ -109,20 +113,31 @@ public class EnderecoServico {
 
         return new ResponseEntity<>("Endereço padrão atualizado com sucesso!", HttpStatus.OK);
     }
+=======
+    //Adicionar novos endereços entrega
+    public ResponseEntity<?> adicionarNovoEnderecoEntrega(Endereco endereco, Cliente cliente) {
+        ViaCepEndereco apiEndereco = ViaCepAPI.consultar(endereco.getCep());
 
-        // Preenchendo dados do endereço a partir da API
+        if (apiEndereco == null) {
+            return new ResponseEntity<>("CEP não localizado", HttpStatus.BAD_GATEWAY);
+        }
+
+        boolean existeEnderecoEntrega = enderecoRepositorio.existsByClienteIdAndCepAndTipoEndereco(cliente.getId(), endereco.getCep(), TipoEndereco.ENTREGA);
+        if (existeEnderecoEntrega) {
+            return new ResponseEntity<>("Endereço já cadastrado", HttpStatus.BAD_REQUEST);
+        }
+>>>>>>> parent of eb373e9 (Att)
+
         endereco.setLogradouro(apiEndereco.getLogradouro());
         endereco.setBairro(apiEndereco.getBairro());
         endereco.setCidade(apiEndereco.getLocalidade());
         endereco.setUf(apiEndereco.getUf());
         endereco.setCliente(cliente);
 
-        // Verificando se o cliente já tem um endereço de entrega padrão
         boolean enderecoEntregaExiste = enderecoRepositorio.existsByClienteIdAndTipoEndereco(cliente.getId(), TipoEndereco.ENTREGA);
         if (!enderecoEntregaExiste) {
-            endereco.setPadrao(true);  // Definindo como padrão se não existir outro
+            endereco.setPadrao(true);
         } else if (endereco.isPadrao()) {
-            // Se o novo endereço for marcado como padrão, o endereço anterior é desmarcado
             Endereco enderecoPadraoAtual = enderecoRepositorio.findByClienteIdAndTipoEnderecoAndPadrao(cliente.getId(), TipoEndereco.ENTREGA, true);
             if (enderecoPadraoAtual != null) {
                 enderecoPadraoAtual.setPadrao(false);
@@ -130,10 +145,8 @@ public class EnderecoServico {
             }
         }
 
-        // Salvando o novo endereço
-        Endereco enderecoSalvo = enderecoRepositorio.save(endereco);
-        enderecoSalvo.setCliente(null);  // Remover referência circular
-
-        return new ResponseEntity<>(enderecoSalvo, HttpStatus.CREATED);
+        Endereco retorno = enderecoRepositorio.save(endereco);
+        retorno.setCliente(null);
+        return new ResponseEntity<>(retorno, HttpStatus.CREATED);
     }
 }
