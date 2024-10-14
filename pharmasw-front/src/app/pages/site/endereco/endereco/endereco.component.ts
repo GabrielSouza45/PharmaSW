@@ -38,6 +38,8 @@ export class EnderecoComponent {
     }
   enderecoForm: FormGroup;
   endereco: Endereco;
+  mensagemSucesso: string | null = null;
+  mensagemErro: string | null = null;
 
   optionsUF: Opcoes[] = [
     { value: 'AC', text: 'Acre' },
@@ -97,20 +99,23 @@ export class EnderecoComponent {
         this.enderecoForm.value.cidade,
         this.enderecoForm.value.uf,
         true, // Endereço padrão
-        TipoEntrega.ENTREGA, // Definindo tipo de endereço
+        TipoEntrega.ENTREGA, // Tipo de endereço
         this.enderecoForm.value.complemento
       );
 
       this.enderecoService.adicionarEndereco(novoEndereco).subscribe({
         next: (response) => {
-          console.log('Endereço adicionado:', response);
+          this.mensagemSucesso = 'Endereço adicionado com sucesso!';
+          this.mensagemErro = null;
         },
         error: (error) => {
-          console.error('Erro ao adicionar endereço:', error);
+          this.mensagemErro = 'Erro ao adicionar o endereço. Verifique os dados e tente novamente.';
+          this.mensagemSucesso = null;
         }
       });
     } else {
-      console.warn('Formulário inválido!');
+      this.mensagemErro = 'Formulário inválido! Por favor, preencha todos os campos corretamente.';
+      this.mensagemSucesso = null;
     }
-  }
+}
 }

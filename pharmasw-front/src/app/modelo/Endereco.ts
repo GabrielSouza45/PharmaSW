@@ -1,38 +1,38 @@
 import { TipoEndereco } from './enums/TipoEndereco';
+import { TipoEntrega } from './enums/TipoEntrega';
 
 export class Endereco {
-  id: number;
+  id?: number;
   cep: string;
   logradouro: string;
   numero: string;
-  complemento: string;
+  complemento?: string;
   bairro: string;
   cidade: string;
   uf: string;
   padrao: boolean;
-  tipoEndereco: TipoEndereco;
-
-  idClienteCadastro: number;
+  tipoEndereco: TipoEntrega;
+  idClienteCadastro?: number;
 
   constructor(
     cep: string,
     logradouro: string,
     numero: string,
-    complemento: string,
     bairro: string,
     cidade: string,
     uf: string,
     padrao: boolean,
-    tipoEndereco: TipoEndereco
+    tipoEndereco: TipoEntrega,
+    complemento?: string,
   ) {
     this.cep = cep;
     this.logradouro = logradouro;
     this.numero = numero;
-    this.complemento = complemento;
     this.bairro = bairro;
     this.cidade = cidade;
     this.uf = uf;
     this.padrao = padrao;
     this.tipoEndereco = tipoEndereco;
+    this.complemento = complemento;
   }
 }

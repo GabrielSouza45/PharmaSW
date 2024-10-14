@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CrudService } from '../crud-service/crud-service.service';
@@ -10,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EnderecoService extends CrudService<Endereco> {
 
+  private apiUrl = 'http://localhost:8080/entrega';
+  
   constructor(private http: HttpClient, private toastr: ToastrService) {
     super(http, '/endereco-controle', toastr);
   }
@@ -20,5 +22,10 @@ export class EnderecoService extends CrudService<Endereco> {
       `${this.url}/alterar-padrao/${idEndereco}`,
       null
     );
+  }
+
+  adicionarEndereco(endereco: Endereco): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(this.apiUrl, endereco, { headers });
   }
 }

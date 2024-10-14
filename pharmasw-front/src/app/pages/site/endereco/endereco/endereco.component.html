@@ -3,112 +3,114 @@
     <div class="titulo">
       <h1>Adicionar Novo Endereço</h1>
     </div>
+
+    <!-- Exibir mensagem de sucesso -->
+    <div *ngIf="mensagemSucesso" class="alert alert-success">
+      {{ mensagemSucesso }}
+    </div>
+
+    <!-- Exibir mensagem de erro -->
+    <div *ngIf="mensagemErro" class="alert alert-danger">
+      {{ mensagemErro }}
+    </div>
+
     <form class="form-alterar w-100 mb-5" [formGroup]="enderecoForm" (ngSubmit)="adicionarNovoEndereco()">
       <div class="row">
         <div class="col-12">
           <!-- CEP -->
-          <app-input-primario
-            class="input-cadastro input-padrao"
-            [addLabel]="true"
-            label="CEP:"
-            inputName="cep"
-            placeHolder="Digite o CEP"
+          <label for="cep">CEP:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cep"
             formControlName="cep"
-          ></app-input-primario>
+            placeholder="Digite o CEP"
+          />
         </div>
       </div>
 
       <div class="row mt-4">
         <div class="col-12">
           <!-- Logradouro -->
-          <app-input-primario
-            class="input-cadastro input-padrao"
-            [addLabel]="true"
-            label="Logradouro:"
-            inputName="logradouro"
-            placeHolder="Digite o logradouro"
+          <label for="logradouro">Logradouro:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="logradouro"
             formControlName="logradouro"
-          ></app-input-primario>
+            placeholder="Digite o logradouro"
+          />
         </div>
       </div>
 
       <div class="row mt-4">
         <div class="col-sm-6">
           <!-- Número -->
-          <app-input-primario
-            class="input-cadastro input-padrao"
-            [addLabel]="true"
-            label="Número:"
-            inputName="numero"
-            placeHolder="Digite o número"
+          <label for="numero">Número:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="numero"
             formControlName="numero"
-          ></app-input-primario>
+            placeholder="Digite o número"
+          />
         </div>
 
         <div class="col-sm-6">
           <!-- Complemento -->
-          <app-input-primario
-            class="input-cadastro input-padrao"
-            [addLabel]="true"
-            label="Complemento:"
-            inputName="complemento"
-            placeHolder="Digite o complemento (opcional)"
+          <label for="complemento">Complemento:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="complemento"
             formControlName="complemento"
-          ></app-input-primario>
+            placeholder="Digite o complemento (opcional)"
+          />
         </div>
       </div>
 
       <div class="row mt-4">
         <div class="col-sm-6">
           <!-- Bairro -->
-          <app-input-primario
-            class="input-cadastro input-padrao"
-            [addLabel]="true"
-            label="Bairro:"
-            inputName="bairro"
-            placeHolder="Digite o bairro"
+          <label for="bairro">Bairro:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="bairro"
             formControlName="bairro"
-          ></app-input-primario>
+            placeholder="Digite o bairro"
+          />
         </div>
+
         <div class="col-sm-6">
           <!-- Cidade -->
-          <app-input-primario
-            class="input-cadastro input-padrao"
-            [addLabel]="true"
-            label="Cidade:"
-            inputName="cidade"
-            placeHolder="Digite a cidade"
+          <label for="cidade">Cidade:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cidade"
             formControlName="cidade"
-          ></app-input-primario>
+            placeholder="Digite a cidade"
+          />
         </div>
       </div>
 
       <div class="row mt-4">
         <div class="col-sm-6">
           <!-- UF -->
-          <app-select
-            class="input-cadastro"
-            label="UF:"
-            selectName="uf"
-            [options]="optionsUF"
-            formControlName="uf"
-          ></app-select>
+          <label for="uf">UF:</label>
+          <select class="form-control" id="uf" formControlName="uf">
+            <option *ngFor="let option of optionsUF" [value]="option.value">{{ option.text }}</option>
+          </select>
         </div>
       </div>
 
       <div class="row d-flex justify-content-center mt-4">
         <div class="col-sm-6">
-          <app-botao
-            textoBtn="Salvar Endereço"
-            (click)="adicionarNovoEndereco()"
-          ></app-botao>
+          <button type="submit" class="btn btn-primary">Salvar Endereço</button>
         </div>
         <div class="col-sm-6">
-          <app-botao
-            class="btn-secondary"
-            textoBtn="Cancelar"
-            (click)="fecharModal()"
-          ></app-botao>
+          <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
         </div>
       </div>
     </form>

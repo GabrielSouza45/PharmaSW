@@ -56,13 +56,6 @@ optionsGenero: Opcoes[] = [];
   }
 
   ngOnInit(): void {
-    this.clienteForm = this.fb.group({
-      nome: ['', Validators.required],
-      dataNascimento: ['', Validators.required],
-      genero: ['', Validators.required],
-      senha: ['']
-    });
-
     this.carregarDadosCliente();
   }
 
@@ -85,16 +78,22 @@ optionsGenero: Opcoes[] = [];
     }
   }
 
+
   onSubmit(): void {
     if (this.clienteForm.valid) {
       const clienteData = this.clienteForm.value;
 
-      this.clienteService.alterarCliente(clienteData).subscribe((response) => {
-        console.log('Dados alterados com sucesso!');
-        this.router.navigate(['/dashboard']);
-      }, (error: any) => {
-        console.error('Erro ao alterar dados:', error);
-      });
+      this.clienteService.alterarCliente(clienteData).subscribe(
+        (response) => {
+          this.toastr.success(response); // Exibe mensagem de sucesso
+          this.router.navigate(['/dashboard']);
+        },
+        (error) => {
+          this.toastr.error(error.error || 'Erro ao alterar dados.'); // Exibe mensagem de erro
+        }
+      );
+    } else {
+      this.toastr.warning('Por favor, preencha todos os campos corretamente.'); // Alerta caso o formulário não esteja válido
     }
   }
 

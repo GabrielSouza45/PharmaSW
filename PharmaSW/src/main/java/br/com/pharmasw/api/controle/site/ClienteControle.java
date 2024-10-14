@@ -26,7 +26,7 @@ public class ClienteControle {
         try {
             return clienteServico.alterar(cliente);
         } catch (Exception e) {
-            return new ResponseEntity<>("Erro ao alterar o cliente.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Erro ao alterar o cliente: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

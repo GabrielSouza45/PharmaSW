@@ -34,7 +34,7 @@ public class EnderecoControle {
         return enderecoServico.listarPorCliente(filtro.getId());
     }
 
-    @PostMapping("/cadastrar-endereco-entrega")
+    @PostMapping("/entrega")
     @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
     public ResponseEntity<?> adicionarNovoEnderecoEntrega(@Valid @RequestBody Endereco endereco) {
         try {
@@ -50,22 +50,6 @@ public class EnderecoControle {
             // Retorna erro genérico caso ocorra algum problema inesperado
             return new ResponseEntity<>("Erro ao cadastrar o endereço.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @PostMapping("/entrega")
-    @PreAuthorize("hasRole('CLIENTE') or hasRoler('ADMIN')")
-    public ResponseEntity<?> adicionarEndereco(@Valid @RequestBody Endereco endereco) {
-        Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());
-        if (clienteOpt.isEmpty()) {
-            return new ResponseEntity<>("Cliente não localizado", HttpStatus.BAD_GATEWAY);
-        }
-
-        Cliente cliente = clienteOpt.get();
-        if (endereco.getTipoEndereco() != TipoEndereco.ENTREGA) {
-            return new ResponseEntity<>("Tipo de endereço inválido", HttpStatus.BAD_REQUEST);
-        }
-
-        return enderecoServico.adicionarNovoEnderecoEntrega(endereco, cliente);
     }
 
     @PutMapping("/alterar-padrao/{idEndereco}")

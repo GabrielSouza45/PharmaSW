@@ -33,6 +33,9 @@ public class ClienteServico {
     //Alterar Cliente
     public ResponseEntity<?> alterar(Cliente clienteRequest) {
         Cliente cliente = clienteRepositorio.findByEmail(clienteRequest.getEmail());
+        if (cliente == null) {
+            return new ResponseEntity<>("Cliente não encontrado.", HttpStatus.NOT_FOUND);
+        }
 
         // Atualiza a senha somente se uma nova senha for fornecida
         if (clienteRequest.getSenha() != null && !clienteRequest.getSenha().isEmpty()) {
@@ -41,13 +44,21 @@ public class ClienteServico {
         }
 
         // Atualiza outros campos do cliente
-        cliente.setNome(clienteRequest.getNome() != null ? clienteRequest.getNome() : cliente.getNome());
-        cliente.setDataNascimento(clienteRequest.getDataNascimento() != null ? clienteRequest.getDataNascimento() : cliente.getDataNascimento());
-        cliente.setGenero(clienteRequest.getGenero() != null ? clienteRequest.getGenero() : cliente.getGenero());
+        if (clienteRequest.getNome() != null) {
+            cliente.setNome(clienteRequest.getNome());
+        }
+        if (clienteRequest.getDataNascimento() != null) {
+            cliente.setDataNascimento(clienteRequest.getDataNascimento());
+        }
+        if (clienteRequest.getGenero() != null) {
+            cliente.setGenero(clienteRequest.getGenero());
+        }
 
-        Cliente retorno = clienteRepositorio.save(cliente);
-        return ResponseEntity.ok(retorno);
+        clienteRepositorio.save(cliente);
+        return ResponseEntity.ok("Dados do cliente alterados com sucesso.");
     }
+
+
 
 
     public ResponseEntity<?> listarClientePorId(Long id) {

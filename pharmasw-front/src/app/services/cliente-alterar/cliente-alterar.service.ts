@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ClienteAlterarService {
 
-  private apiUrl = 'http://localhost:8080/cliente-controle/alterar'; // URL para o backend
+  private apiUrl = 'http://localhost:8080/cliente-controle'; // URL para o backend
 
   constructor(private http: HttpClient) { }
 
@@ -16,6 +16,6 @@ export class ClienteAlterarService {
   }
 
   alterarCliente(clienteData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/alterar`, clienteData);
+    return this.http.put<any>(`${this.apiUrl}/alterar-cliente`, clienteData);
   }
 }
