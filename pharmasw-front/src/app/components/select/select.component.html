@@ -8,7 +8,7 @@
       (change)="onSelectChange($event)"
       [id]="selectName"
     >
-      <option value="" disabled selected>Selecione</option>
+      <option value="none" disabled selected>Selecione</option>
       <option *ngFor="let option of options" [value]="option.value">
         {{ option.text }}
       </option>

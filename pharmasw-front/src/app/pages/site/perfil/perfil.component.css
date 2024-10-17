@@ -5,7 +5,7 @@ main{
 }
 
 .enderecos{
-  height: 450px;
+  max-height: 450px;
 }
 .endereco{
   height: fit-content;

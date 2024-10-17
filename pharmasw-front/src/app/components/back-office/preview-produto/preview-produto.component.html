@@ -4,7 +4,7 @@
       <i class="bi bi-arrow-left-circle-fill" (click)="voltar()"></i>
       <h3>Produto preview</h3>
     </div>
-    <div class="conteudo">
+    <div class="conteudo" *ngIf="produto">
       <div class="titulo">
         <h1>{{ produto.nome }}</h1>
       </div>

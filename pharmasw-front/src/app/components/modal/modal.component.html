@@ -1,20 +1,23 @@
 <div class="modal-backdrop">
   <div class="modal-content">
-    <h2>{{ tituloModal }}</h2>
-    <div class="conteudo">
-      <ng-content #name> </ng-content>
-    </div>
-    <div class="modal-actions">
-      <app-botao
-        class="botao"
-        textoBtn="Cancelar"
-        (click)="fecharModal()"
-      ></app-botao>
-      <app-botao
-        class="botao confirmar"
-        [textoBtn]="textoBotao"
-        (click)="onSubmit()"
-      ></app-botao>
+    <div class="container h-100">
+      <h2 class="row d-flex justify-content-center">{{ tituloModal }}</h2>
+
+      <div class="row mt-2 p-2 overflow-auto conteudo">
+        <ng-content #name> </ng-content>
+      </div>
+      <div class="row d-flex justify-content-between">
+        <div class="col-sm-12 col-lg-6 mt-3">
+          <div class="col-12 col-sm-12 col-lg-9">
+            <app-botao textoBtn="Cancelar" (click)="fecharModal()"></app-botao>
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-6 mt-3">
+          <div class="col-12 col-sm-12 col-lg-9 float-end">
+            <app-botao [textoBtn]="textoBotao" (click)="onSubmit()"></app-botao>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

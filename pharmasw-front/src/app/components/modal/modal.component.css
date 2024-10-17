@@ -21,32 +21,11 @@
   height: 97%;
 }
 
-h2{
-  text-align: center;
-}
-
 .conteudo{
-  height: 90%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 1px solid #ddd ;
+  border-radius: 15px;
+  min-height: 700px;
+  max-height: 850px;
 }
 
-
-.modal-actions {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  bottom: 0;
-  left: 0;
-  height: 55px;
-}
-
-.botao{
-  width: 150px;
-}
-
-.confirmar{
-  width: 200px;
-}
 

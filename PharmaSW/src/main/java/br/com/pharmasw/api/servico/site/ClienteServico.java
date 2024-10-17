@@ -17,7 +17,7 @@ public class ClienteServico {
     private ClienteRepositorio clienteRepositorio;
 
     // CADASTRAR CLIENTE
-    public ResponseEntity<?> cadastrar (Cliente cliente){
+    public ResponseEntity<?> cadastrar(Cliente cliente) {
 
         boolean exists = clienteRepositorio.existsByEmailOrCpf(cliente.getEmail(), cliente.getCpf());
         if (exists)
@@ -32,33 +32,28 @@ public class ClienteServico {
 
     //Alterar Cliente
     public ResponseEntity<?> alterar(Cliente clienteRequest) {
-        Cliente cliente = clienteRepositorio.findByEmail(clienteRequest.getEmail());
-        if (cliente == null) {
+        Optional<Cliente> clienteOpt = clienteRepositorio.findById(clienteRequest.getId());
+        if (clienteOpt.isEmpty()) {
             return new ResponseEntity<>("Cliente não encontrado.", HttpStatus.NOT_FOUND);
         }
 
+        Cliente cliente = clienteOpt.get();
+
         // Atualiza a senha somente se uma nova senha for fornecida
-        if (clienteRequest.getSenha() != null && !clienteRequest.getSenha().isEmpty()) {
+        if (!clienteRequest.getSenha().isBlank()) {
             String senhaEncriptada = new BCryptPasswordEncoder().encode(clienteRequest.getSenha());
             cliente.setSenha(senhaEncriptada);
         }
 
         // Atualiza outros campos do cliente
-        if (clienteRequest.getNome() != null) {
-            cliente.setNome(clienteRequest.getNome());
-        }
-        if (clienteRequest.getDataNascimento() != null) {
-            cliente.setDataNascimento(clienteRequest.getDataNascimento());
-        }
-        if (clienteRequest.getGenero() != null) {
-            cliente.setGenero(clienteRequest.getGenero());
-        }
+
+        cliente.setNome(clienteRequest.getNome());
+        cliente.setDataNascimento(clienteRequest.getDataNascimento());
+        cliente.setGenero(clienteRequest.getGenero());
 
         clienteRepositorio.save(cliente);
-        return ResponseEntity.ok("Dados do cliente alterados com sucesso.");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 
 
     public ResponseEntity<?> listarClientePorId(Long id) {

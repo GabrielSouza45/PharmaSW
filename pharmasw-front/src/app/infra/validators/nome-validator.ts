@@ -15,7 +15,6 @@ export function nameValidator(): ValidatorFn {
 
     // Divide o nome em palavras
     const words = name.trim().split(/\s+/);
-console.log(words.length);
 
     // Verifica se há mais de duas palavras
     if (words.length > 2) {

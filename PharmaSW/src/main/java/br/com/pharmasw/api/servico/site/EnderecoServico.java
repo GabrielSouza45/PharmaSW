@@ -22,9 +22,6 @@ public class EnderecoServico {
     public ResponseEntity<?> listarPorCliente(Long id) {
 
         List<Endereco> enderecos = enderecoRepositorio.findByClienteIdOrderByPadraoDesc(id);
-        if (enderecos.isEmpty()) {
-            return new ResponseEntity<>("Endereços não encontrados.", HttpStatus.NOT_FOUND);
-        }
 
         return new ResponseEntity<>(enderecos, HttpStatus.OK);
 

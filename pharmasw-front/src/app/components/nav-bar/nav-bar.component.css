@@ -29,6 +29,9 @@
   }
 }
 
+.search-bar {
+  justify-content: center;
+}
 
 .count {
   color: var(--cor-secundaria);
@@ -36,4 +39,29 @@
 
 li:hover {
   cursor: pointer;
+}
+
+
+/* Ajustes para telas pequenas */
+@media (max-width: 992px) {
+  .navbar-collapse {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo */
+    background-color: var(--navbar-color);
+  }
+
+  /* Colocar o input de busca em largura total no colapso */
+  .search-bar {
+    width: 100%; /* Input de busca ocupa toda a largura */
+    margin-bottom: 1rem; /* Espaço abaixo do input */
+    justify-content: end;
+  }
+
+  /* Centralizar ícones de usuário e carrinho no colapso */
+  .navbar-nav,
+  .nav-link {
+    text-align: center; /* Centraliza os links e ícones */
+    margin-bottom: 1rem; /* Espaço entre os itens */
+  }
 }

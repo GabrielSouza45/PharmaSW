@@ -20,8 +20,14 @@ public class ClienteControle {
     @PutMapping("/alterar-cliente")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> alterarCliente(@RequestBody Cliente cliente) {
-        if (cliente.getEmail() == null)
-            return new ResponseEntity<>("Email é obrigatório!", HttpStatus.BAD_REQUEST);
+        if (cliente.getId() == null)
+            return new ResponseEntity<>("Id é obrigatório!", HttpStatus.BAD_REQUEST);
+        if (cliente.getNome() == null)
+            return new ResponseEntity<>("Nome é obrigatório!", HttpStatus.BAD_REQUEST);
+        if (cliente.getDataNascimento() == null)
+            return new ResponseEntity<>("Data de Nascimento é obrigatório!", HttpStatus.BAD_REQUEST);
+        if (cliente.getGenero() == null)
+            return new ResponseEntity<>("Gênero é obrigatório!", HttpStatus.BAD_REQUEST);
 
         try {
             return clienteServico.alterar(cliente);

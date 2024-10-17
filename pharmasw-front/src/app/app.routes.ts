@@ -5,16 +5,15 @@ import { LoginComponent } from './pages/back-office/login/login.component';
 import { PaginaInicialComponent } from './pages/back-office/pagina-inicial/pagina-inicial.component';
 import { PaginaProdutosComponent } from './pages/back-office/pagina-produtos/pagina-produtos.component';
 import { PaginaUsuarioComponent } from './pages/back-office/pagina-usuario/pagina-usuario.component';
-import { HomeComponent } from './pages/site/home/home.component';
+import { CadastroClienteComponent } from './pages/site/cadastro-cliente/cadastro-cliente.component';
 import { CarrinhoComponentComponent } from './pages/site/carrinho/carrinho-component.component';
 import { DetalhesProdutoComponent } from './pages/site/detalhes-produto/detalhes-produto.component';
-import { CadastroClienteComponent } from './pages/site/cadastro-cliente/cadastro-cliente.component';
+import { HomeComponent } from './pages/site/home/home.component';
 import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.component';
 import { PerfilComponent } from './pages/site/perfil/perfil.component';
-import { ClienteAlterarComponent } from './pages/site/cliente-alterar/cliente-alterar.component';
-import { EnderecoComponent } from './pages/site/endereco/endereco/endereco.component';
 
 export const routes: Routes = [
+  // SITE
   {
     path: '',
     component: HomeComponent,
@@ -41,8 +40,11 @@ export const routes: Routes = [
   },
   {
     path: 'minha-conta',
-    component: PerfilComponent
+    component: PerfilComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { expectedRole: ['CLIENTE'] },
   },
+  // BACKOFFICE
   {
     path: 'login',
     component: LoginComponent,
@@ -64,13 +66,5 @@ export const routes: Routes = [
     component: PaginaProdutosComponent,
     canActivate: [authGuard, roleGuard],
     data: { expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA'] },
-  },
-  {
-    path: 'cliente-alterar',
-    component: ClienteAlterarComponent,
-  },
-  {
-    path: 'endereco',
-    component: EnderecoComponent,
   }
 ];

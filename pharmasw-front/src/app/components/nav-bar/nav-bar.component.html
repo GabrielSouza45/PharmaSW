@@ -2,74 +2,103 @@
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container container-fluid justify-content-between">
       <!-- Logo à esquerda -->
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand col-2" href="#">
         <img src="assets/logo-sem-texto.png" alt="Logo PharmaSW" />
       </a>
-      <!-- Input de busca e botão de pesquisa no centro -->
-      <div class="d-flex justify-content-center search-bar col-md-8 col-lg-9">
-        <form [formGroup]="formBusca" class="d-flex w-75">
-          <div class="me-2 flex-grow-1 border rounded-3">
-            <app-input-primario
-              formControlName="inputPesquisa"
-              name="busca-produto"
-              placeHolder="Buscar produtos"
-              inputName="buscaProduto"
-              style="font-size: 20px"
-            >
-              <i
-                class="bi bi-search icon-buscar"
-                (click)="buscarProduto()"
-              ></i>
-            </app-input-primario>
-          </div>
-        </form>
-      </div>
 
-      <!-- Ícones de usuário e carrinho de compras à direita -->
-      <div class="d-flex gap-3 align-items-center">
-        <ul
-          class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
-          style="--bs-scroll-height: 100px"
-        >
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="bi bi-person"></i>
-            </a>
-            <ul class="dropdown-menu" *ngIf="!userLogado">
-              <li><a class="dropdown-item" (click)="toLogin()">Entrar</a></li>
-              <li>
-                <a class="dropdown-item" (click)="toRegister()">Registrar</a>
-              </li>
-            </ul>
-            <ul class="dropdown-menu" *ngIf="userLogado">
-              <div class="ps-2 pe-2">
-                <li>
-                  <a class="dropdown-item" (click)="toPerfil()"
-                    >Minha Conta</a
-                  >
-                </li>
-                <li>
-                  <a
-                    class="dropdown-item"
-                    (click)="logout()"
-                    style="color: red"
-                    >Sair</a
-                  >
-                </li>
+      <!-- Botão de menu tipo hambúrguer para dispositivos móveis -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Ícones e input dentro do offcanvas (menu lateral) -->
+      <div
+        class="offcanvas offcanvas-end col-10"
+        tabindex="-1"
+        id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel"
+      >
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="d-flex align-items-center search-bar col-md-8 col-lg-9">
+            <form [formGroup]="formBusca" class="d-flex w-100">
+              <div class="me-2 flex-grow-1 border rounded-3 w-100">
+                <app-input-primario
+                  formControlName="inputPesquisa"
+                  name="busca-produto"
+                  placeHolder="Buscar produtos"
+                  inputName="buscaProduto"
+                  style="font-size: 20px"
+                >
+                  <i
+                    class="bi bi-search icon-buscar"
+                    (click)="buscarProduto()"
+                  ></i>
+                </app-input-primario>
               </div>
-            </ul>
-          </li>
-        </ul>
-        <a (click)="toCart()" class="nav-link">
-          <i class="bi bi-cart"></i>
-          <span class="count">{{ itemCount }}</span>
-        </a>
+            </form>
+          </div>
+
+          <!-- Ícones de usuário e carrinho dentro do menu lateral -->
+          <ul
+            class="navbar-nav justify-content-end flex-grow-1 pe-3"
+          >
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-person"></i>
+              </a>
+              <ul class="dropdown-menu" *ngIf="!userLogado">
+                <li><a class="dropdown-item" (click)="toLogin()">Entrar</a></li>
+                <li>
+                  <a class="dropdown-item" (click)="toRegister()">Registrar</a>
+                </li>
+              </ul>
+              <ul class="dropdown-menu" *ngIf="userLogado">
+                <div class="ps-2 pe-2">
+                  <li>
+                    <a class="dropdown-item" (click)="toPerfil()"
+                      >Minha Conta</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      (click)="logout()"
+                      style="color: red"
+                      >Sair</a
+                    >
+                  </li>
+                </div>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a (click)="toCart()" class="nav-link">
+                <i class="bi bi-cart"></i>
+                <span class="count">{{ itemCount }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>

@@ -149,10 +149,6 @@ export class FormCheckerService {
     let valido: boolean = true;
     const controls = formGroup.controls;
 
-    // Verifica se há erros no campo 'nome'
-    console.log(controls['nome']?.errors);
-    console.log(controls['cpf']?.errors);
-
     if (controls['nome']?.errors) {
       const control = controls['nome'];
       if (control.errors['required']) {
@@ -160,7 +156,6 @@ export class FormCheckerService {
       } else if (control.errors['maxLength']) {
         this.toastrService.warning('Nome deve ter no máximo 255 caracteres.');
       } else if (control.errors['maxWords']) {
-        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
         this.toastrService.warning('Nome deve ter no máximo 2 palavras.');
       } else if (control.errors['minWordLength']) {
         this.toastrService.warning(

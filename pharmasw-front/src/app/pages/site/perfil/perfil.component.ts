@@ -1,3 +1,4 @@
+import { Status } from './../../../modelo/enums/Status';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
@@ -13,6 +14,7 @@ import { AuthService } from './../../../infra/auth/auth.service';
 import { Endereco } from './../../../modelo/Endereco';
 import { CrudService } from './../../../services/crud-service/crud-service.service';
 import { EnderecoService } from './../../../services/endereco/endereco.service';
+import { ClienteAlterarComponent } from '../cliente-alterar/cliente-alterar.component';
 
 @Component({
   selector: 'app-perfil',
@@ -37,6 +39,16 @@ export class PerfilComponent extends CrudService<Cliente>{
     this.getEnderecos();
   }
 
+  editarDados(){
+    const dados = {
+      cliente: this.dados
+    };
+    this.abrirComponent(dados, ClienteAlterarComponent).subscribe(() => {
+      this.getCliente();
+    });
+  }
+
+
   private getEnderecos(): void{
     let filtro = new Filtros();
     filtro.id = this.authService.getIdUser();
@@ -44,8 +56,9 @@ export class PerfilComponent extends CrudService<Cliente>{
       next: (enderecos: Endereco[]) =>{
         this.enderecos = enderecos;
       },
-      error: () => {
-        this.toastr.error("Erro inesperado. por favor, tente novamente mais tarde.");
+      error: (resp) => {
+        if(resp.status != 404)
+          this.toastr.error("Erro inesperado. por favor, tente novamente mais tarde.");
       }
     });
   }

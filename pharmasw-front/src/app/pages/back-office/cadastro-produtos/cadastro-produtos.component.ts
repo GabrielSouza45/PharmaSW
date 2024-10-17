@@ -237,6 +237,7 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
       produtoEditado.valor = Number(produtoEditado.valor);
       produtoEditado.quantidadeEstoque = Number(produtoEditado.quantidadeEstoque);
       produtoEditado.avaliacao = Number(produtoEditado.avaliacao);
+      delete produtoEditado.quantidadePedido;
 
       const formData = new FormData();
       let imagensEditar:ImagemProduto[]=[];
