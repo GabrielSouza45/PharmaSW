@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 type InputTypes = "text" | "email" | "password" | "number" | "date" | "file"
@@ -37,9 +37,14 @@ export class InputPrimarioComponent implements ControlValueAccessor{
   @Input() addLabel: boolean = false;
   @Input() disabled: boolean = false;
   @Input() value: string = '';
+  @Output() blur = new EventEmitter<void>();
 
   onChange: any = () => {}
   onTouched: any = () => {}
+
+  onBlur(event: Event) {
+    this.blur.emit();
+  }
 
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value

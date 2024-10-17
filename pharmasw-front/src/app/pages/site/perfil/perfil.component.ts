@@ -15,6 +15,7 @@ import { Endereco } from './../../../modelo/Endereco';
 import { CrudService } from './../../../services/crud-service/crud-service.service';
 import { EnderecoService } from './../../../services/endereco/endereco.service';
 import { ClienteAlterarComponent } from '../cliente-alterar/cliente-alterar.component';
+import { EnderecoComponent } from '../endereco/endereco/endereco.component';
 
 @Component({
   selector: 'app-perfil',
@@ -45,6 +46,15 @@ export class PerfilComponent extends CrudService<Cliente>{
     };
     this.abrirComponent(dados, ClienteAlterarComponent).subscribe(() => {
       this.getCliente();
+    });
+  }
+
+  addEndereco(){
+    const dados = {
+      cliente: this.dados
+    };
+    this.abrirComponent(dados, EnderecoComponent).subscribe(() => {
+      this.getEnderecos();
     });
   }
 

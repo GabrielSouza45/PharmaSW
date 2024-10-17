@@ -201,4 +201,64 @@ export class FormCheckerService {
 
     return valido;
   }
+
+  validaCep(formGroup: FormGroup): boolean{
+    let valido: boolean = true;
+    const controls = formGroup.controls;
+
+    console.log(formGroup);
+
+    if (controls['cep']?.errors?.['required']){
+      this.toastrService.warning(
+        'Digite o CEP.'
+      );
+
+      valido = false;
+    }
+
+    if (controls['cep']?.errors?.['minlength']){
+      this.toastrService.warning(
+        'CEP inválido.'
+      );
+
+      valido = false;
+    }
+
+    return valido;
+  }
+
+  checkFormErrorsEndereco(formGroup: FormGroup): boolean{
+    let valido: boolean = true;
+    const controls = formGroup.controls;
+
+    valido = this.validaCep(formGroup);
+
+
+    if (controls['logradouro']?.errors?.['required']) {
+      this.toastrService.warning("Logradouro é obrigatório. Por favor, digite seu CEP!");
+      valido = false;
+    }
+
+    if (controls['numero']?.errors?.['required']) {
+      this.toastrService.warning("Número é obrigatório.");
+      valido = false;
+    }
+
+    if (controls['bairro']?.errors?.['required']) {
+      this.toastrService.warning("Bairro é obrigatório. Por favor, digite seu CEP!");
+      valido = false;
+    }
+
+    if (controls['cidade']?.errors?.['required']) {
+      this.toastrService.warning("Cidade é obrigatório. Por favor, digite seu CEP!");
+      valido = false;
+    }
+
+    if (controls['uf']?.errors?.['required']) {
+      this.toastrService.warning("UF é obrigatório. Por favor, digite seu CEP!");
+      valido = false;
+    }
+
+    return valido;
+  }
 }

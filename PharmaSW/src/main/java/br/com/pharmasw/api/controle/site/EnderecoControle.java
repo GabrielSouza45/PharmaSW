@@ -2,7 +2,6 @@ package br.com.pharmasw.api.controle.site;
 
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Endereco;
-import br.com.pharmasw.api.modelo.enums.TipoEndereco;
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.repositorio.ClienteRepositorio;
 import br.com.pharmasw.api.servico.site.EnderecoServico;
@@ -34,9 +33,10 @@ public class EnderecoControle {
         return enderecoServico.listarPorCliente(filtro.getId());
     }
 
-    @PostMapping("/entrega")
+    @PostMapping("/adicionar")
     @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
-    public ResponseEntity<?> adicionarNovoEnderecoEntrega(@Valid @RequestBody Endereco endereco) {
+    public ResponseEntity<?> adicionarNovoEndereco(@Valid @RequestBody Endereco endereco) {
+        System.out.println("aaaaaaaaaaaaaaaaaaaaa");
         try {
             // Verifica se o cliente existe pelo ID do cliente fornecido no endereço
             Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());
@@ -45,7 +45,7 @@ public class EnderecoControle {
 
             Cliente cliente = clienteOpt.get();
 
-            return enderecoServico.adicionarNovoEnderecoEntrega(endereco, cliente);
+            return enderecoServico.cadastrar(endereco, cliente);
         } catch (Exception e) {
             // Retorna erro genérico caso ocorra algum problema inesperado
             return new ResponseEntity<>("Erro ao cadastrar o endereço.", HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
-import { EnderecoService } from '../../../../services/endereco/endereco.service';
-import { Endereco } from '../../../../modelo/Endereco';
-import { TipoEntrega } from '../../../../modelo/enums/TipoEntrega';
+import { CommonModule } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { PaginaLayoutComponent } from '../../../../components/back-office/pagina-layout/pagina-layout.component';
 import { BotaoComponent } from '../../../../components/botao/botao.component';
 import { InputPrimarioComponent } from '../../../../components/input-primario/input-primario.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../../../../components/modal/modal.component';
-import { PaginaLayoutComponent } from '../../../../components/back-office/pagina-layout/pagina-layout.component';
 import { SelectComponent } from '../../../../components/select/select.component';
+import { AuthService } from '../../../../infra/auth/auth.service';
+import { Cep } from '../../../../modelo/Cep';
+import { Endereco } from '../../../../modelo/Endereco';
+import { EnderecoService } from '../../../../services/endereco/endereco.service';
+import { FormCheckerService } from '../../../../services/form-checker/form-checker.service';
+import { ClienteAlterarComponent } from '../../cliente-alterar/cliente-alterar.component';
 import { LayoutPrincipalComponent } from '../../layout-principal/layout-principal.component';
-
-interface Opcoes {
-  value: string;
-  text: string;
-}
+import { TipoEndereco } from './../../../../modelo/enums/TipoEndereco';
+import { CorreiosApiService } from './../../../../services/correios/correios-api.service';
 
 @Component({
   selector: 'app-endereco',
@@ -33,89 +35,79 @@ interface Opcoes {
   styleUrl: './endereco.component.css'
 })
 export class EnderecoComponent {
-  fecharModal() {
-    throw new Error('Method not implemented.');
-    }
+
   enderecoForm: FormGroup;
   endereco: Endereco;
-  mensagemSucesso: string | null = null;
-  mensagemErro: string | null = null;
-
-  optionsUF: Opcoes[] = [
-    { value: 'AC', text: 'Acre' },
-    { value: 'AL', text: 'Alagoas' },
-    { value: 'AP', text: 'Amapá' },
-    { value: 'AM', text: 'Amazonas' },
-    { value: 'BA', text: 'Bahia' },
-    { value: 'CE', text: 'Ceará' },
-    { value: 'DF', text: 'Distrito Federal' },
-    { value: 'ES', text: 'Espírito Santo' },
-    { value: 'GO', text: 'Goiás' },
-    { value: 'MA', text: 'Maranhão' },
-    { value: 'MT', text: 'Mato Grosso' },
-    { value: 'MS', text: 'Mato Grosso do Sul' },
-    { value: 'MG', text: 'Minas Gerais' },
-    { value: 'PA', text: 'Pará' },
-    { value: 'PB', text: 'Paraíba' },
-    { value: 'PR', text: 'Paraná' },
-    { value: 'PE', text: 'Pernambuco' },
-    { value: 'PI', text: 'Piauí' },
-    { value: 'RJ', text: 'Rio de Janeiro' },
-    { value: 'RN', text: 'Rio Grande do Norte' },
-    { value: 'RS', text: 'Rio Grande do Sul' },
-    { value: 'RO', text: 'Rondônia' },
-    { value: 'RR', text: 'Roraima' },
-    { value: 'SC', text: 'Santa Catarina' },
-    { value: 'SP', text: 'São Paulo' },
-    { value: 'SE', text: 'Sergipe' },
-    { value: 'TO', text: 'Tocantins' },
-  ];
-
+  idCliente: number = this.auth.getIdUser();
 
   constructor(
-    private fb: FormBuilder,
-    private enderecoService: EnderecoService
-  ) {}
-
-  ngOnInit(): void {
-    this.enderecoForm = this.fb.group({
-      cep: ['', [Validators.required, Validators.pattern('[0-9]{5}-[0-9]{3}')]],
-      logradouro: ['', Validators.required],
-      numero: ['', Validators.required],
-      complemento: [''],
-      bairro: ['', Validators.required],
-      cidade: ['', Validators.required],
-      uf: ['', Validators.required],
-    });
+    public dialogRef: MatDialogRef<ClienteAlterarComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private enderecoService: EnderecoService,
+    private cepApi: CorreiosApiService,
+    private toastr: ToastrService,
+    private cheker: FormCheckerService,
+    private auth: AuthService
+  ) {
+    this.getForm();
   }
 
-  adicionarNovoEndereco() {
-    if (this.enderecoForm.valid) {
-      const novoEndereco = new Endereco(
-        this.enderecoForm.value.cep,
-        this.enderecoForm.value.logradouro,
-        this.enderecoForm.value.numero,
-        this.enderecoForm.value.bairro,
-        this.enderecoForm.value.cidade,
-        this.enderecoForm.value.uf,
-        true, // Endereço padrão
-        TipoEntrega.ENTREGA, // Tipo de endereço
-        this.enderecoForm.value.complemento
-      );
 
-      this.enderecoService.adicionarEndereco(novoEndereco).subscribe({
+  pesquisaCep() {
+    if (this.cheker.validaCep(this.enderecoForm)) {
+      this.cepApi.consultar(this.enderecoForm.value.cep).subscribe({
+        next: (resp: Cep) => {
+          this.alimentaForm(resp);
+        }
+      });
+    }
+  }
+
+  fecharModal() {
+    this.dialogRef.close();
+  }
+
+  onSubmit() {
+    if (this.cheker.checkFormErrorsEndereco(this.enderecoForm)) {
+      const novoEndereco: Endereco = this.enderecoForm.value;
+      novoEndereco.idClienteCadastro = this.idCliente;
+      novoEndereco.padrao = true;
+      novoEndereco.tipoEndereco = TipoEndereco.ENTREGA.toUpperCase();
+
+      this.enderecoService.adicionar(novoEndereco, "/adicionar").subscribe({
         next: (response) => {
-          this.mensagemSucesso = 'Endereço adicionado com sucesso!';
-          this.mensagemErro = null;
+          this.fecharModal();
+
         },
         error: (error) => {
-          this.mensagemErro = 'Erro ao adicionar o endereço. Verifique os dados e tente novamente.';
-          this.mensagemSucesso = null;
+          if (error.status == 400) {
+            this.toastr.warning("Endereço já cadastrado.");
+          }
         }
       });
     } else {
-      this.mensagemErro = 'Formulário inválido! Por favor, preencha todos os campos corretamente.';
-      this.mensagemSucesso = null;
+
     }
-}
+  }
+
+  private alimentaForm(cep: Cep) {
+    this.enderecoForm.patchValue({
+      logradouro: cep.logradouro,
+      bairro: cep.bairro,
+      cidade: cep.localidade,
+      uf: cep.uf,
+    });
+  }
+
+  private getForm() {
+    this.enderecoForm = new FormGroup({
+      cep: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      logradouro: new FormControl('', Validators.required),
+      numero: new FormControl('', Validators.required),
+      complemento: new FormControl(''),
+      bairro: new FormControl('', Validators.required),
+      cidade: new FormControl('', Validators.required),
+      uf: new FormControl('', Validators.required),
+    });
+  }
 }

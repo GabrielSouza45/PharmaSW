@@ -46,7 +46,7 @@ public class EnderecoServico {
             return new ResponseEntity<>("Cep não localizado", HttpStatus.BAD_GATEWAY);
 
         boolean existe =
-                enderecoRepositorio.existsByClienteIdAndCepAndTipoEndereco(cliente.getId(), endereco.getCep(), TipoEndereco.ENTREGA);
+                enderecoRepositorio.existsByClienteIdAndCepAndTipoEnderecoAndNumero(cliente.getId(), endereco.getCep(), TipoEndereco.ENTREGA, endereco.getNumero());
 
         if (existe)
             return new ResponseEntity<>("Endereço já cadastrado", HttpStatus.BAD_REQUEST);
@@ -57,15 +57,10 @@ public class EnderecoServico {
         endereco.setUf(apiEndereco.getUf());
         endereco.setCliente(cliente);
 
-        boolean clienteJaTemEndereco =
-                enderecoRepositorio.existsByClienteIdAndTipoEndereco(cliente.getId(), TipoEndereco.ENTREGA);
-
-        if (!clienteJaTemEndereco)
-            endereco.setPadrao(true);
-
-        Endereco retorno = enderecoRepositorio.save(endereco);
-        retorno.setCliente(null);
-        return new ResponseEntity<>(retorno, HttpStatus.CREATED);
+        Endereco endSalvo = enderecoRepositorio.save(endereco);
+        ResponseEntity<?> resp = this.alterarEnderecoPadrao(endSalvo.getId());
+        endSalvo.setCliente(null);
+        return new ResponseEntity<>(endSalvo, HttpStatus.CREATED);
     }
 
 
@@ -119,44 +114,5 @@ public class EnderecoServico {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //Adicionar novos endereços entrega
-    public ResponseEntity<?> adicionarNovoEnderecoEntrega(Endereco endereco, Cliente cliente) {
-        ViaCepEndereco apiEndereco = ViaCepAPI.consultar(endereco.getCep());
-
-        if (apiEndereco == null) {
-            return new ResponseEntity<>("CEP não localizado", HttpStatus.BAD_GATEWAY);
-        }
-
-        boolean existeEnderecoEntrega = enderecoRepositorio.existsByClienteIdAndCepAndTipoEndereco(cliente.getId(), endereco.getCep(), TipoEndereco.ENTREGA);
-        if (existeEnderecoEntrega) {
-            return new ResponseEntity<>("Endereço já cadastrado", HttpStatus.BAD_REQUEST);
-        }
-
-        // Preenche os dados do endereço a partir da consulta à API
-        endereco.setLogradouro(apiEndereco.getLogradouro());
-        endereco.setBairro(apiEndereco.getBairro());
-        endereco.setCidade(apiEndereco.getLocalidade());
-        endereco.setUf(apiEndereco.getUf());
-        endereco.setCliente(cliente);
-
-        // Verifica se já existe um endereço de entrega
-        boolean enderecoEntregaExiste = enderecoRepositorio.existsByClienteIdAndTipoEndereco(cliente.getId(), TipoEndereco.ENTREGA);
-
-        if (!enderecoEntregaExiste) {
-            endereco.setPadrao(true);
-        } else if (endereco.isPadrao()) {
-            // Atualiza o endereço padrão para este novo
-            Endereco enderecoPadraoAtual = enderecoRepositorio.findByClienteIdAndTipoEnderecoAndPadrao(cliente.getId(), TipoEndereco.ENTREGA, true);
-            if (enderecoPadraoAtual != null) {
-                enderecoPadraoAtual.setPadrao(false);
-                enderecoRepositorio.save(enderecoPadraoAtual);
-            }
-        }
-
-        // Salva o novo endereço
-        Endereco retorno = enderecoRepositorio.save(endereco);
-        retorno.setCliente(null); // Evita expor dados sensíveis do cliente
-        return new ResponseEntity<>(retorno, HttpStatus.CREATED);
-    }
 
 }

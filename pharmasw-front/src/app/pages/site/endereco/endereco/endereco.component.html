@@ -1,118 +1,107 @@
-<app-layout-principal>
-  <div class="container p-5 mt-4">
-    <div class="titulo">
-      <h1>Adicionar Novo Endereço</h1>
+<app-modal
+  class="modal-cadastro"
+  (fecharModal)="fecharModal()"
+  (submit)="onSubmit()"
+  tituloModal="Adicionar Endereço"
+  textoBotao="Confirmar"
+>
+  <div class="container p-4">
+    <form
+      [formGroup]="enderecoForm"
+    >
+    <div class="row">
+      <div class="col-12">
+        <!-- CEP -->
+        <app-input-primario
+          [addLabel]="true"
+          type="number"
+          label="CEP:"
+          inputName="cep"
+          placeHolder="_____-___"
+          formControlName="cep"
+          maxLength="8"
+          (blur)="pesquisaCep()"
+        ></app-input-primario>
+      </div>
     </div>
 
-    <!-- Exibir mensagem de sucesso -->
-    <div *ngIf="mensagemSucesso" class="alert alert-success">
-      {{ mensagemSucesso }}
+    <div class="row">
+      <div class="col-12">
+        <!-- Logradouro -->
+        <app-input-primario
+          [addLabel]="true"
+          label="Logradouro:"
+          inputName="logradouro"
+          formControlName="logradouro"
+          [disabled]="true"
+        ></app-input-primario>
+      </div>
     </div>
 
-    <!-- Exibir mensagem de erro -->
-    <div *ngIf="mensagemErro" class="alert alert-danger">
-      {{ mensagemErro }}
+    <div class="row">
+      <div class="col-12">
+        <!-- numero -->
+        <app-input-primario
+          [addLabel]="true"
+          label="Número:"
+          inputName="numero"
+          formControlName="numero"
+        ></app-input-primario>
+      </div>
     </div>
 
-    <form class="form-alterar w-100 mb-5" [formGroup]="enderecoForm" (ngSubmit)="adicionarNovoEndereco()">
-      <div class="row">
-        <div class="col-12">
-          <!-- CEP -->
-          <label for="cep">CEP:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="cep"
-            formControlName="cep"
-            placeholder="Digite o CEP"
-          />
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <!-- Complemento -->
+        <app-input-primario
+          [addLabel]="true"
+          label="Complemento:"
+          inputName="complemento"
+          formControlName="complemento"
+        ></app-input-primario>
       </div>
+    </div>
 
-      <div class="row mt-4">
-        <div class="col-12">
-          <!-- Logradouro -->
-          <label for="logradouro">Logradouro:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="logradouro"
-            formControlName="logradouro"
-            placeholder="Digite o logradouro"
-          />
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <!-- bairro -->
+        <app-input-primario
+          [addLabel]="true"
+          label="Bairro:"
+          inputName="bairro"
+          formControlName="bairro"
+          [disabled]="true"
+        ></app-input-primario>
       </div>
+    </div>
 
-      <div class="row mt-4">
-        <div class="col-sm-6">
-          <!-- Número -->
-          <label for="numero">Número:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="numero"
-            formControlName="numero"
-            placeholder="Digite o número"
-          />
-        </div>
-
-        <div class="col-sm-6">
-          <!-- Complemento -->
-          <label for="complemento">Complemento:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="complemento"
-            formControlName="complemento"
-            placeholder="Digite o complemento (opcional)"
-          />
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <!-- cidade -->
+        <app-input-primario
+          [addLabel]="true"
+          label="Cidade:"
+          inputName="cidade"
+          formControlName="cidade"
+          [disabled]="true"
+        ></app-input-primario>
       </div>
+    </div>
 
-      <div class="row mt-4">
-        <div class="col-sm-6">
-          <!-- Bairro -->
-          <label for="bairro">Bairro:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="bairro"
-            formControlName="bairro"
-            placeholder="Digite o bairro"
-          />
-        </div>
 
-        <div class="col-sm-6">
-          <!-- Cidade -->
-          <label for="cidade">Cidade:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="cidade"
-            formControlName="cidade"
-            placeholder="Digite a cidade"
-          />
-        </div>
+    <div class="row">
+      <div class="col-12">
+        <!-- uf -->
+        <app-input-primario
+          [addLabel]="true"
+          label="UF:"
+          inputName="uf"
+          formControlName="uf"
+          [disabled]="true"
+        ></app-input-primario>
       </div>
+    </div>
 
-      <div class="row mt-4">
-        <div class="col-sm-6">
-          <!-- UF -->
-          <label for="uf">UF:</label>
-          <select class="form-control" id="uf" formControlName="uf">
-            <option *ngFor="let option of optionsUF" [value]="option.value">{{ option.text }}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row d-flex justify-content-center mt-4">
-        <div class="col-sm-6">
-          <button type="submit" class="btn btn-primary">Salvar Endereço</button>
-        </div>
-        <div class="col-sm-6">
-          <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
-        </div>
-      </div>
     </form>
   </div>
-</app-layout-principal>
+</app-modal>

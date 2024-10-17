@@ -1,5 +1,4 @@
 import { TipoEndereco } from './enums/TipoEndereco';
-import { TipoEntrega } from './enums/TipoEntrega';
 
 export class Endereco {
   id?: number;
@@ -11,7 +10,7 @@ export class Endereco {
   cidade: string;
   uf: string;
   padrao: boolean;
-  tipoEndereco: TipoEntrega;
+  tipoEndereco: string;
   idClienteCadastro?: number;
 
   constructor(
@@ -22,7 +21,7 @@ export class Endereco {
     cidade: string,
     uf: string,
     padrao: boolean,
-    tipoEndereco: TipoEntrega,
+    tipoEndereco: string,
     complemento?: string,
   ) {
     this.cep = cep;
