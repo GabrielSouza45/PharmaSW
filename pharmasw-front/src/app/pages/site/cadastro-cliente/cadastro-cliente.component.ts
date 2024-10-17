@@ -1,25 +1,25 @@
-import { Status } from './../../../modelo/enums/Status';
-import { FormCheckerService } from './../../../services/form-checker/form-checker.service';
-import { Cliente } from './../../../modelo/Cliente';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
-import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ComponentType, ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { BotaoComponent } from '../../../components/botao/botao.component';
+import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { SelectComponent } from '../../../components/select/select.component';
 import { cpfValidator } from '../../../infra/validators/cpf-validator';
 import { nameValidator } from '../../../infra/validators/nome-validator';
-import { BotaoComponent } from '../../../components/botao/botao.component';
 import { Genero } from '../../../modelo/enums/Genero';
 import { CrudService } from '../../../services/crud-service/crud-service.service';
-import { ToastrService } from 'ngx-toastr';
-import { HttpClient } from '@angular/common/http';
-import { routes } from '../../../app.routes';
-import { Router } from '@angular/router';
+import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
+import { Cliente } from './../../../modelo/Cliente';
+import { FormCheckerService } from './../../../services/form-checker/form-checker.service';
 
 @Component({
   selector: 'app-cadastro-cliente',
@@ -42,7 +42,8 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
     private toastr: ToastrService,
     private http: HttpClient,
     private checker: FormCheckerService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
   ) {
     super(http, '/home-controle', toastr);
     this.formCadastro = this.getForm();
@@ -74,8 +75,6 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
   getGeneros(): void {
     for (const [key, value] of Object.entries(Genero)) {
       let opc = new Opcoes(value.toString(), key);
-      console.log(opc);
-
       this.optionsGenero.push(opc);
     }
   }
@@ -91,12 +90,36 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
     this.adicionar(this.getCliente(), '/cadastrar-cliente').subscribe({
       next: (response) => {
         this.limpaFormulario();
-        this.router.navigate(['/entrar']);
+        // const cliente: Cliente = this.mapResponseToCliente(response);
+        this.addEndereco(response);
+
+
+        // this.addEndereco(response);
       },
       error: (erro) => {
         this.exibeErros(erro);
       },
     });
+  }
+
+  // private mapResponseToCliente(response: any): Cliente {
+  //   // return {
+  //   //   id: response.id,
+  //   //   nome: response.nome,
+  //   //   email: response.email,
+  //   //   dataNascimento: new Date(response.dataNascimento), // Converter para Date se necessário
+  //   //   genero: response.genero,
+  //   //   // Mapeie outros campos conforme necessário
+  //   // };
+  // }
+
+  private addEndereco(cliente: any){
+
+    const dados = {
+      cliente: cliente
+    };
+
+    this.router.navigate(['/entrar']);
   }
 
   private getCliente(): Cliente {
@@ -123,8 +146,19 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
 
   }
 
-  private limpaFormulario(){
+  private limpaFormulario() {
     this.formCadastro.reset();
+  }
+
+  private abrirComponent(
+    dados: any,
+    component: ComponentType<any>
+  ): Observable<any> {
+    const dialogRef = this.dialog.open(component, {
+      data: dados,
+    });
+    // Escutando o resultado após fechar o modal
+    return dialogRef.afterClosed();
   }
 }
 
