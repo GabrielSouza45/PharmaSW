@@ -224,6 +224,14 @@ export class FormCheckerService {
       valido = false;
     }
 
+    if (controls['cep']?.errors?.['pattern']){
+      this.toastrService.warning(
+        'Formato de CEP inválido.'
+      );
+
+      valido = false;
+    }
+
     return valido;
   }
 

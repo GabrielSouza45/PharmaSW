@@ -38,8 +38,8 @@ public class RequestObserver extends OncePerRequestFilter {
         System.out.println("request -> " + requestBody);
 
         // Log do corpo da resposta (opcional)
-        String responseBody = getResponseBody(wrappedResponse);
-        System.out.println("response -> " + responseBody);
+//        String responseBody = getResponseBody(wrappedResponse);
+//        System.out.println("response -> " + responseBody);
 
         // Copia o conteúdo da resposta de volta para o original
         wrappedResponse.copyBodyToResponse();

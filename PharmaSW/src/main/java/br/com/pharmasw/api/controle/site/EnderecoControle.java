@@ -62,4 +62,9 @@ public class EnderecoControle {
         }
     }
 
+    @GetMapping("/cliente-listar-endereco-faturamento")
+    @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
+    public ResponseEntity<?> getEnderecoFaturamento(@RequestParam(name = "idCliente", required = true) Long idCliente) {
+        return enderecoServico.getEnderecoFaturamento(idCliente);
+    }
 }

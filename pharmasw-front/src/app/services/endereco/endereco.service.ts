@@ -22,4 +22,8 @@ export class EnderecoService extends CrudService<Endereco> {
     );
   }
 
+  override listarGet(acao: string): Observable<any> {
+    return this.http.get<Endereco>(this.url + acao);
+  }
+
 }

@@ -6,102 +6,111 @@
   textoBotao="Confirmar"
 >
   <div class="container p-4">
-    <form
-      [formGroup]="enderecoForm"
-    >
-    <div class="row">
-      <div class="col-12">
-        <!-- CEP -->
-        <app-input-primario
-          [addLabel]="true"
-          type="number"
-          label="CEP:"
-          inputName="cep"
-          placeHolder="_____-___"
-          formControlName="cep"
-          maxLength="8"
-          (blur)="pesquisaCep()"
-        ></app-input-primario>
+    <form [formGroup]="enderecoForm">
+      <div class="row">
+        <div class="col-12">
+          <!-- FATURAMENTO OU ENTREGA -->
+          <app-select
+            class="input-cadastro"
+            label="Tipo de Endereço:"
+            selectName="tipoEndereco"
+            [options]="optionsTipo"
+            (valueChange)="enderecoForm.get('tipoEndereco').setValue($event)"
+
+          ></app-select>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12">
-        <!-- Logradouro -->
-        <app-input-primario
-          [addLabel]="true"
-          label="Logradouro:"
-          inputName="logradouro"
-          formControlName="logradouro"
-          [disabled]="true"
-        ></app-input-primario>
+      <div class="row">
+        <div class="col-12">
+          <!-- CEP -->
+          <app-input-primario
+            [addLabel]="true"
+            label="CEP:"
+            inputName="cep"
+            placeHolder="_____-___"
+            formControlName="cep"
+            maxLength="8"
+            (blur)="pesquisaCep()"
+          ></app-input-primario>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12">
-        <!-- numero -->
-        <app-input-primario
-          [addLabel]="true"
-          label="Número:"
-          inputName="numero"
-          formControlName="numero"
-        ></app-input-primario>
+      <div class="row">
+        <div class="col-12">
+          <!-- Logradouro -->
+          <app-input-primario
+            [addLabel]="true"
+            label="Logradouro:"
+            inputName="logradouro"
+            formControlName="logradouro"
+            [disabled]="true"
+          ></app-input-primario>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12">
-        <!-- Complemento -->
-        <app-input-primario
-          [addLabel]="true"
-          label="Complemento:"
-          inputName="complemento"
-          formControlName="complemento"
-        ></app-input-primario>
+      <div class="row">
+        <div class="col-12">
+          <!-- numero -->
+          <app-input-primario
+            [addLabel]="true"
+            label="Número:"
+            inputName="numero"
+            formControlName="numero"
+          ></app-input-primario>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12">
-        <!-- bairro -->
-        <app-input-primario
-          [addLabel]="true"
-          label="Bairro:"
-          inputName="bairro"
-          formControlName="bairro"
-          [disabled]="true"
-        ></app-input-primario>
+      <div class="row">
+        <div class="col-12">
+          <!-- Complemento -->
+          <app-input-primario
+            [addLabel]="true"
+            label="Complemento:"
+            inputName="complemento"
+            formControlName="complemento"
+          ></app-input-primario>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12">
-        <!-- cidade -->
-        <app-input-primario
-          [addLabel]="true"
-          label="Cidade:"
-          inputName="cidade"
-          formControlName="cidade"
-          [disabled]="true"
-        ></app-input-primario>
+      <div class="row">
+        <div class="col-12">
+          <!-- bairro -->
+          <app-input-primario
+            [addLabel]="true"
+            label="Bairro:"
+            inputName="bairro"
+            formControlName="bairro"
+            [disabled]="true"
+          ></app-input-primario>
+        </div>
       </div>
-    </div>
 
-
-    <div class="row">
-      <div class="col-12">
-        <!-- uf -->
-        <app-input-primario
-          [addLabel]="true"
-          label="UF:"
-          inputName="uf"
-          formControlName="uf"
-          [disabled]="true"
-        ></app-input-primario>
+      <div class="row">
+        <div class="col-12">
+          <!-- cidade -->
+          <app-input-primario
+            [addLabel]="true"
+            label="Cidade:"
+            inputName="cidade"
+            formControlName="cidade"
+            [disabled]="true"
+          ></app-input-primario>
+        </div>
       </div>
-    </div>
 
+      <div class="row">
+        <div class="col-12">
+          <!-- uf -->
+          <app-input-primario
+            [addLabel]="true"
+            label="UF:"
+            inputName="uf"
+            formControlName="uf"
+            [disabled]="true"
+          ></app-input-primario>
+        </div>
+      </div>
     </form>
   </div>
 </app-modal>

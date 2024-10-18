@@ -63,7 +63,8 @@
               <div class="endereco p-1 ps-3" [ngClass]="endereco.padrao ? 'endereco-padrao': 'endereco-salvo'">
                 <div class="d-flex justify-content-between">
                   <p>{{ endereco.logradouro }}</p>
-                  <span>{{ endereco.padrao ? "(PADRÃO)" : "" }}</span>
+                  <span *ngIf="endereco.padrao">{{ endereco.padrao ? "(PADRÃO)" : "" }}</span>
+                  <span *ngIf="endereco.tipoEndereco  == 'FATURAMENTO'">{{ "(FATURAMENTO)"}}</span>
                 </div>
                 <p>Número: {{ endereco.numero }}, {{ endereco.complemento }}</p>
                 <p>
@@ -74,7 +75,7 @@
                   class="d-flex justify-content-end"
                   *ngIf="!endereco.padrao"
                 >
-                  <a (click)="definirPadrao(endereco)">Difinir padrão</a>
+                  <a *ngIf="endereco.tipoEndereco  != 'FATURAMENTO'" (click)="definirPadrao(endereco)">Difinir padrão</a>
                 </div>
               </div>
             </div>

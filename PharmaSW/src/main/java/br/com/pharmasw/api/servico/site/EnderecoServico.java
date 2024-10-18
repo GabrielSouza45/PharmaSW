@@ -21,7 +21,7 @@ public class EnderecoServico {
 
     public ResponseEntity<?> listarPorCliente(Long id) {
 
-        List<Endereco> enderecos = enderecoRepositorio.findByClienteIdOrderByPadraoDesc(id);
+        List<Endereco> enderecos = enderecoRepositorio.findByClienteIdOrderByTipoEnderecoDescPadraoDesc(id);
 
         return new ResponseEntity<>(enderecos, HttpStatus.OK);
 
@@ -85,6 +85,7 @@ public class EnderecoServico {
         endereco.setCidade(apiEndereco.getLocalidade());
         endereco.setUf(apiEndereco.getUf());
         endereco.setCliente(cliente);
+        endereco.setPadrao(false);
 
         Endereco retorno = enderecoRepositorio.save(endereco);
         retorno.setCliente(null);
@@ -115,4 +116,10 @@ public class EnderecoServico {
     }
 
 
+    public ResponseEntity<?> getEnderecoFaturamento(Long idCliente) {
+
+        Endereco endereco = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.FATURAMENTO);
+
+        return new ResponseEntity<>(endereco, HttpStatus.OK);
+    }
 }
