@@ -1,20 +1,19 @@
-import { Component } from '@angular/core';
-import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { CommonModule } from '@angular/common';
-import { InputSecundarioComponent } from '../../../components/input-secundario/input-secundario.component';
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ComponentType, ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 import { BotaoComponent } from '../../../components/botao/botao.component';
-import { CrudService } from '../../../services/crud-service/crud-service.service';
+import { InputSecundarioComponent } from '../../../components/input-secundario/input-secundario.component';
+import { AuthService } from '../../../infra/auth/auth.service';
 import { Cliente } from '../../../modelo/Cliente';
 import { Endereco } from '../../../modelo/Endereco';
-import { MatDialog } from '@angular/material/dialog';
+import { CrudService } from '../../../services/crud-service/crud-service.service';
 import { EnderecoService } from '../../../services/endereco/endereco.service';
-import { HttpClient } from '@angular/common/http';
-import { ComponentType, ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../../infra/auth/auth.service';
 import { EnderecoComponent } from '../endereco/endereco/endereco.component';
-import { Filtros } from '../../../modelo/Filtros';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 
 @Component({
   selector: 'app-escolher-endereco',

@@ -43,6 +43,11 @@ main{
   border-left: solid #ddd;
 }
 
+.borda-lateral {
+  border-left: 1px solid #ddd;
+  
+}
+
 .radio-seletor {
   margin-right: 10px;
   transform: scale(1.2);
