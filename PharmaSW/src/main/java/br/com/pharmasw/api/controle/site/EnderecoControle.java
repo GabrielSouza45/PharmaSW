@@ -67,4 +67,10 @@ public class EnderecoControle {
     public ResponseEntity<?> getEnderecoFaturamento(@RequestParam(name = "idCliente", required = true) Long idCliente) {
         return enderecoServico.getEnderecoFaturamento(idCliente);
     }
+
+    @GetMapping("/cliente-listar-endereco-entrega")
+    @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
+    public ResponseEntity<?> getEnderecoEntrega(@RequestParam(name = "idCliente", required = true) Long idCliente) {
+        return enderecoServico.getEnderecoEntrega(idCliente);
+    }
 }
