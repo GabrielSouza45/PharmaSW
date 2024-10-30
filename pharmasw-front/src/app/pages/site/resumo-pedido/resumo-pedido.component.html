@@ -1,0 +1,58 @@
+<app-layout-principal>
+  <main class="container p-2">
+    <div class="row p-2 d-flex justify-content-around">
+      <!-- INFORMAÇÕES SOBRE O PEDIDO -->
+      <div class="esquerda col-8">
+        <h2>Resumo do Pedido</h2>
+
+        <div *ngIf="produtos.length > 0" class="pedido-itens">
+          <h3>Itens do Pedido</h3>
+          <br />
+
+          <!-- Listagem de produtos no pedido -->
+          <div class="produto-item">
+            <div *ngFor="let produto of produtos" class="produto-pedido">
+              <div class="produto-info col-8">
+                <h4>{{ produto.nome }}</h4>
+                <p>Preço: {{ produto.valor }}</p>
+                <p>Quantidade: {{ produto.quantidadePedido }}</p>
+                <p>Total: {{ produto.valor * produto.quantidadePedido }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exibir o preço total -->
+          <div class="total-preco">
+            <h5>
+              Subtotal: {{ precoSubtotal }}
+            </h5>
+            <h5>
+              Frete: {{ freteSelecionado.preco }}
+            </h5>
+            <h3>
+              Total: {{ precoTotal }}
+            </h3>
+          </div>
+        </div>
+
+        <!-- Exibir informações de endereço e pagamento -->
+        <div class="detalhes-adicionais mt-4">
+          <h3>Endereço de Entrega</h3>
+          <p>{{ endereco.rua }}, {{ endereco.numero }}</p>
+          <p>{{ endereco.bairro }} - {{ endereco.cidade }}/{{ endereco.uf }}</p>
+          <p>CEP: {{ endereco.cep }}</p>
+
+          <h3>Forma de Pagamento</h3>
+          <p>{{ formaPagamento.tipo }}</p>
+        </div>
+
+        <!-- Botão Confirmar Pedido -->
+        <div class="botao-confirmar w-100 d-flex justify-content-end mt-4">
+          <div class="col-4">
+            <button class="btn btn-primary">Confirmar Pedido</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</app-layout-principal>

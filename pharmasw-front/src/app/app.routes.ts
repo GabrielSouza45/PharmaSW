@@ -11,6 +11,7 @@ import { DetalhesProdutoComponent } from './pages/site/detalhes-produto/detalhes
 import { HomeComponent } from './pages/site/home/home.component';
 import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.component';
 import { PerfilComponent } from './pages/site/perfil/perfil.component';
+import { ResumoPedidoComponent } from './pages/site/resumo-pedido/resumo-pedido.component';
 
 export const routes: Routes = [
   // SITE
@@ -29,6 +30,10 @@ export const routes: Routes = [
   {
     path: 'carrinho',
     component: CarrinhoComponentComponent
+  },
+  {
+    path: 'resumo-pedido',
+    component : ResumoPedidoComponent
   },
   {
     path: 'entrar',
