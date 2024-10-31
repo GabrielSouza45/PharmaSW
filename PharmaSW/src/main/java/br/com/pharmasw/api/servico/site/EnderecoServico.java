@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,14 @@ public class EnderecoServico {
 
 
     public ResponseEntity<?> cadastrar(Endereco endereco, Cliente cliente){
+
+        if (endereco.getTipoEndereco().equals(TipoEndereco.FATURAMENTO) && endereco.getCopia()) {
+            Endereco copiaEntrega = endereco.clone();
+            copiaEntrega.setTipoEndereco(TipoEndereco.ENTREGA);
+            copiaEntrega.setCopia(false);
+
+            this.cadastrar(copiaEntrega, cliente);
+        }
 
         if (endereco.getTipoEndereco() == TipoEndereco.ENTREGA) {
             return this.cadastrarEnderecoEntrega(endereco, cliente);
@@ -57,10 +66,12 @@ public class EnderecoServico {
         endereco.setUf(apiEndereco.getUf());
         endereco.setCliente(cliente);
 
-        Endereco endSalvo = enderecoRepositorio.save(endereco);
-        ResponseEntity<?> resp = this.alterarEnderecoPadrao(endSalvo.getId());
-        endSalvo.setCliente(null);
-        return new ResponseEntity<>(endSalvo, HttpStatus.CREATED);
+        boolean endPadrao = enderecoRepositorio.existsByClienteIdAndPadrao(cliente.getId(), true);
+        endereco.setPadrao(!endPadrao);
+
+        enderecoRepositorio.save(endereco);
+
+        return new ResponseEntity<>( HttpStatus.CREATED);
     }
 
 
@@ -87,9 +98,8 @@ public class EnderecoServico {
         endereco.setCliente(cliente);
         endereco.setPadrao(false);
 
-        Endereco retorno = enderecoRepositorio.save(endereco);
-        retorno.setCliente(null);
-        return new ResponseEntity<>(retorno, HttpStatus.CREATED);
+        enderecoRepositorio.save(endereco);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 

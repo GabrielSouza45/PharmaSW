@@ -1,3 +1,4 @@
+import { AbrirComponenteService } from './../../../../services/abrir-componente/abrir-componente.service';
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import {
@@ -21,6 +22,7 @@ import { LayoutPrincipalComponent } from '../../layout-principal/layout-principa
 import { Endereco } from './../../../../modelo/Endereco';
 import { TipoEndereco } from './../../../../modelo/enums/TipoEndereco';
 import { CorreiosApiService } from './../../../../services/correios/correios-api.service';
+import { PopupComponent } from '../../../../components/popup/popup.component';
 
 @Component({
   selector: 'app-endereco',
@@ -51,8 +53,9 @@ export class EnderecoComponent {
     private enderecoService: EnderecoService,
     private cepApi: CorreiosApiService,
     private toastr: ToastrService,
-    private cheker: FormCheckerService,
-    private auth: AuthService
+    private checker: FormCheckerService,
+    private auth: AuthService,
+    private abrirComponent: AbrirComponenteService
   ) {
     this.enderecoForm = this.getForm();
     this.consultaEnderecoFaturamento();
@@ -63,7 +66,7 @@ export class EnderecoComponent {
   }
 
   pesquisaCep() {
-    if (this.cheker.validaCep(this.enderecoForm)) {
+    if (this.checker.validaCep(this.enderecoForm)) {
       this.cepApi.consultar(this.enderecoForm.value.cep).subscribe({
         next: (resp: Cep) => {
           this.alimentaForm(resp);
@@ -77,23 +80,43 @@ export class EnderecoComponent {
   }
 
   onSubmit() {
-    if (this.cheker.checkFormErrorsEndereco(this.enderecoForm)) {
+    if (this.checker.checkFormErrorsEndereco(this.enderecoForm)) {
       const novoEndereco: Endereco = this.enderecoForm.value;
       novoEndereco.idClienteCadastro = this.idCliente;
-      novoEndereco.padrao = true;
 
-      this.enderecoService.adicionar(novoEndereco, '/adicionar').subscribe({
-        next: (response) => {
-          this.fecharModal();
-        },
-        error: (error) => {
-          if (error.status == 400) {
-            this.toastr.warning('Endereço já cadastrado.');
+      console.log(novoEndereco.tipoEndereco === TipoEndereco.FATURAMENTO.toUpperCase());
+      console.log(novoEndereco.tipoEndereco);
+      console.log(TipoEndereco.FATURAMENTO.toUpperCase());
+
+      if (novoEndereco.tipoEndereco === TipoEndereco.FATURAMENTO.toUpperCase()) {
+        this.abrirComponent.abrirComponent(
+          {
+            tituloPopup: 'Endereço de Faturamento.',
+            texto: 'Deseja criar um endereço de entrega a partir deste endereço?'
+          },
+          PopupComponent
+        ).subscribe((resposta) => {
+          if (resposta === 'confirmar') {
+            novoEndereco.copia = true;
           }
-        },
-      });
-    } else {
+
+          this.adicionar(novoEndereco);
+        });
+      }
     }
+  }
+
+  private adicionar(endereco: Endereco) {
+    this.enderecoService.adicionar(endereco, '/adicionar').subscribe({
+      next: (response) => {
+        this.fecharModal();
+      },
+      error: (error) => {
+        if (error.status == 400) {
+          this.toastr.warning('Endereço já cadastrado.');
+        }
+      },
+    });
   }
 
   private getTipoEndereco(): void {

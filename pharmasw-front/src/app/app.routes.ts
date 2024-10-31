@@ -55,6 +55,10 @@ export const routes: Routes = [
         component: LoginClienteComponent
       },
       {
+        path: 'cadastre-se',
+        component: CadastroClienteComponent
+      },
+      {
         path: 'selecionar-endereco',
         component: EscolherEnderecoComponent,
         canActivate: [authGuard, roleGuard],

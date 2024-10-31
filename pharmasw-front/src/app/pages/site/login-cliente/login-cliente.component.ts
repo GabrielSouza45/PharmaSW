@@ -62,10 +62,16 @@ export class LoginClienteComponent {
       });
   }
 
+  redirecionaCadastro(){
+    const hasCheckout = this.router.url.includes('/checkout');
+    if (hasCheckout) {
+      this.router.navigate(['/checkout/cadastre-se']);
+    }
+  }
+
   private redirecionaUsuario() {
     const hasCheckout = this.router.url.includes('/checkout');
     if (hasCheckout) {
-      this.toastService.success('Login checkout');
       this.checkoutService.realizaCheckout(); // Realiza Chekout novamente e garante o segmento de etapas do checkout
     } else {
       this.router.navigate(['/']); // Redireciona para a pagina home

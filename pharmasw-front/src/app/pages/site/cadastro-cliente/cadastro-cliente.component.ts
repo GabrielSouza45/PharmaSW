@@ -20,6 +20,7 @@ import { CrudService } from '../../../services/crud-service/crud-service.service
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { Cliente } from './../../../modelo/Cliente';
 import { FormCheckerService } from './../../../services/form-checker/form-checker.service';
+import { CheckoutService } from '../../../services/checkout/checkout.service';
 
 @Component({
   selector: 'app-cadastro-cliente',
@@ -44,6 +45,7 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
     private checker: FormCheckerService,
     private router: Router,
     private dialog: MatDialog,
+    private checkoutService: CheckoutService,
   ) {
     super(http, '/home-controle', toastr);
     this.formCadastro = this.getForm();
@@ -90,11 +92,7 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
     this.adicionar(this.getCliente(), '/cadastrar-cliente').subscribe({
       next: (response) => {
         this.limpaFormulario();
-        // const cliente: Cliente = this.mapResponseToCliente(response);
-        this.addEndereco(response);
-
-
-        // this.addEndereco(response);
+        this.redireciona();
       },
       error: (erro) => {
         this.exibeErros(erro);
@@ -102,24 +100,13 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
     });
   }
 
-  // private mapResponseToCliente(response: any): Cliente {
-  //   // return {
-  //   //   id: response.id,
-  //   //   nome: response.nome,
-  //   //   email: response.email,
-  //   //   dataNascimento: new Date(response.dataNascimento), // Converter para Date se necessário
-  //   //   genero: response.genero,
-  //   //   // Mapeie outros campos conforme necessário
-  //   // };
-  // }
-
-  private addEndereco(cliente: any){
-
-    const dados = {
-      cliente: cliente
-    };
-
-    this.router.navigate(['/entrar']);
+  private redireciona(){
+    const hasCheckout = this.router.url.includes('/checkout');
+    if (hasCheckout) {
+      this.checkoutService.realizaCheckout();
+    } else {
+      this.router.navigate(['/entrar']);
+    }
   }
 
   private getCliente(): Cliente {

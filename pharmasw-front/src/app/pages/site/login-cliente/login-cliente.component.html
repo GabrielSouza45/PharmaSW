@@ -1,5 +1,5 @@
 <app-layout-principal>
-  <main class="h-100 ">
+  <main class="h-100">
     <section class="container p-5 mt-4 d-flex flex-column align-items-center">
       <div class="titulo">
         <img class="logo" src="assets/logo-sem-texto.png" />
@@ -29,9 +29,11 @@
           <i class="bi bi-lock"></i>
         </app-input-primario>
 
-        <!-- <span>Esqueceu a senha?</span> -->
+        <div class="w-100 d-flex justify-content-end">
+          <a (click)="redirecionaCadastro()">Não tem conta? Cadastre-se aqui</a>
+        </div>
       </form>
-      <div class="w-75 mt-3">
+      <div class="w-75">
         <app-botao textoBtn="Entrar" (click)="submit()" />
       </div>
     </section>

@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ComponentType, ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { BotaoComponent } from '../../../components/botao/botao.component';
 import { InputSecundarioComponent } from '../../../components/input-secundario/input-secundario.component';
 import { AuthService } from '../../../infra/auth/auth.service';
@@ -14,6 +13,7 @@ import { CrudService } from '../../../services/crud-service/crud-service.service
 import { EnderecoService } from '../../../services/endereco/endereco.service';
 import { EnderecoComponent } from '../endereco/endereco/endereco.component';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
+import { AbrirComponenteService } from './../../../services/abrir-componente/abrir-componente.service';
 import { CheckoutService } from './../../../services/checkout/checkout.service';
 
 @Component({
@@ -45,14 +45,15 @@ export class EscolherEnderecoComponent extends CrudService<Cliente> {
     private toastr: ToastrService,
     private authService: AuthService,
     private chckoutService: CheckoutService,
-    private router: Router
+    private router: Router,
+    private abrirComponent: AbrirComponenteService
   ) {
     super(http, "/cliente-controle", toastr);
   }
 
   addEndereco() {
     const dados = {};
-    this.abrirComponent(dados, EnderecoComponent).subscribe(() => {
+    this.abrirComponent.abrirComponent(dados, EnderecoComponent).subscribe(() => {
       this.getEnderecos();
     });
   }
@@ -87,17 +88,6 @@ export class EscolherEnderecoComponent extends CrudService<Cliente> {
         }
       }
     });
-  }
-
-  private abrirComponent(
-    dados: any,
-    component: ComponentType<any>
-  ): Observable<any> {
-    const dialogRef = this.dialog.open(component, {
-      data: dados,
-    });
-    // Escutando o resultado após fechar o modal
-    return dialogRef.afterClosed();
   }
 
 }

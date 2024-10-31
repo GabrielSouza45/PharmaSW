@@ -3,6 +3,7 @@ package br.com.pharmasw.api.controle.site;
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Endereco;
 import br.com.pharmasw.api.modelo.Filtros;
+import br.com.pharmasw.api.modelo.enums.TipoEndereco;
 import br.com.pharmasw.api.repositorio.ClienteRepositorio;
 import br.com.pharmasw.api.servico.site.EnderecoServico;
 import jakarta.validation.Valid;
@@ -36,7 +37,6 @@ public class EnderecoControle {
     @PostMapping("/adicionar")
     @PreAuthorize("hasRole('CLIENTE') or hasRole('ADMIN')")
     public ResponseEntity<?> adicionarNovoEndereco(@Valid @RequestBody Endereco endereco) {
-        System.out.println("aaaaaaaaaaaaaaaaaaaaa");
         try {
             // Verifica se o cliente existe pelo ID do cliente fornecido no endereço
             Optional<Cliente> clienteOpt = clienteRepositorio.findById(endereco.getIdClienteCadastro());

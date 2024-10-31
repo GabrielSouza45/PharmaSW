@@ -12,6 +12,7 @@ export class Endereco {
   padrao: boolean;
   tipoEndereco: string;
   idClienteCadastro?: number;
+  copia: boolean = false;
 
   constructor(
     cep: string,

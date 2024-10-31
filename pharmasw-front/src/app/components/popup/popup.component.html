@@ -1,14 +1,19 @@
-<div class="popup-backdrop">
-  <div class="popup-content">
-    <h2>{{ tituloPopup }}</h2>
-    <div class="popup-actions">
+<div
+  class="popup-backdrop h-100 w-100 top-0 position-fixed p-4 d-flex justify-content-center align-items-start"
+>
+  <div class="popup-content d-grid p-3">
+    <h2 class="text-center">{{ tituloPopup }}</h2>
+    <div class="ps-3 pe-3">
+      <p *ngIf="texto" class="text-center fs-5 mt-2">{{ texto }}</p>
+    </div>
+    <div class="mt-4 d-flex flex-row justify-content-around w-100">
       <app-botao
-        class="botao cancelar"
+        class="col-4 cancelar"
         textoBtn="Cancelar"
         (click)="onCancelar()"
       ></app-botao>
       <app-botao
-        class="botao confirmar"
+        class="col-4 confirmar"
         textoBtn="Confirmar"
         (click)="onSubmit()"
       ></app-botao>

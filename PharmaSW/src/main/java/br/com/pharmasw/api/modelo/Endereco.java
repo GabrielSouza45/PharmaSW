@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity(name = "enderecos")
 @Table(name = "enderecos")
-public class Endereco {
+public class Endereco implements Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +19,8 @@ public class Endereco {
 
     @Transient
     private Long idClienteCadastro;
+    @Transient
+    private boolean copia;
 
     @NotBlank(message = "CEP é obrigatório")
     private String cep;
@@ -41,11 +43,54 @@ public class Endereco {
     public Endereco() {
     }
 
+    public Endereco(
+            Cliente cliente,
+            String cep,
+            String logradouro,
+            String numero,
+            String complemento,
+            String bairro,
+            String cidade,
+            String uf,
+            boolean padrao,
+            TipoEndereco tipoEndereco) {
+        this.cliente = cliente;
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.padrao = padrao;
+        this.tipoEndereco = tipoEndereco;
+    }
+
     public Endereco(ViaCepEndereco apiEndereco) {
         this.logradouro = apiEndereco.getLogradouro();
         this.bairro = apiEndereco.getBairro();
         this.cidade = apiEndereco.getLocalidade();
         this.uf = apiEndereco.getUf();
+    }
+
+    @Override
+    public Endereco clone() {
+        try {
+            return (Endereco) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return new Endereco(
+                    cliente,
+                    cep,
+                    logradouro,
+                    numero,
+                    complemento,
+                    bairro,
+                    cidade,
+                    uf,
+                    padrao,
+                    tipoEndereco
+            );
+        }
     }
 
 
@@ -140,4 +185,14 @@ public class Endereco {
     public void setTipoEndereco(@NotNull(message = "Tipo de endereço é obrigatório") TipoEndereco tipoEndereco) {
         this.tipoEndereco = tipoEndereco;
     }
+
+    public boolean getCopia() {
+        return copia;
+    }
+
+    public void setCopia(boolean copia) {
+        this.copia = copia;
+    }
+
+
 }
