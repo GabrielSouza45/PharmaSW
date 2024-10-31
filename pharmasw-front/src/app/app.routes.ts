@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes, withComponentInputBinding } from '@angular/router';
 import { authGuard } from './infra/auth/auth.guard';
 import { roleGuard } from './infra/auth/role.guard';
 import { LoginComponent } from './pages/back-office/login/login.component';
@@ -46,12 +46,12 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard],
     data: { expectedRole: ['CLIENTE'] },
   },
-  {
-    path: 'escolher-endereco',
-    component: EscolherEnderecoComponent,
-    canActivate: [authGuard, roleGuard],
-    data: {expectedRole: ['CLIENTE']},
-  },
+  // {
+  //   path: 'escolher-endereco',
+  //   component: EscolherEnderecoComponent,
+  //   canActivate: [authGuard, roleGuard],
+  //   data: {expectedRole: ['CLIENTE']},
+  // },
   // BACKOFFICE
   {
     path: 'login',

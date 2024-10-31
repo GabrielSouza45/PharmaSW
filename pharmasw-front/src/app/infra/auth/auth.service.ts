@@ -11,9 +11,6 @@ export class AuthService {
   private isUsuarioAutenticado = new BehaviorSubject<boolean>(false);
   private permissaoUsuario = new BehaviorSubject<string | null>(null);
 
-  isAutenticado$ = this.isUsuarioAutenticado.asObservable();
-  permissao = this.permissaoUsuario.asObservable();
-
   constructor(
     private loginService: LoginService,
     private router: Router,
@@ -41,7 +38,7 @@ export class AuthService {
     });
   }
 
-  checkAutenticacao() {
+  private checkAutenticacao() {
     const token = sessionStorage.getItem('token');
     if (token) {
       this.isUsuarioAutenticado.next(true);

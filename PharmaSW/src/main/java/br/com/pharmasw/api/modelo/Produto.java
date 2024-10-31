@@ -27,6 +27,9 @@ public class Produto {
     private Integer quantidadeEstoque;
     private Double avaliacao;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<ImagemProduto> imagensProd;
+
     @Transient
     private String imagemPrincipal;
     @Transient

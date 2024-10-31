@@ -24,7 +24,7 @@
                     <input
                       type="radio"
                       name="enderecoSelecionado"
-                      [checked]="endereco.id === enderecoSelecionado?.id"
+                      [checked]="endereco.padrao"
                       [id]="endereco.cep+endereco.numero"
                       (change)="selecionarEndereco(endereco)"
                       class="radio-seletor"

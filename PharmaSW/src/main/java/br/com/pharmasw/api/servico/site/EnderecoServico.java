@@ -118,15 +118,15 @@ public class EnderecoServico {
 
     public ResponseEntity<?> getEnderecoFaturamento(Long idCliente) {
 
-        Endereco endereco = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.FATURAMENTO);
+        List<Endereco> enderecos = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.FATURAMENTO);
 
-        return new ResponseEntity<>(endereco, HttpStatus.OK);
+        return new ResponseEntity<>(enderecos.isEmpty() ? null : enderecos.getFirst(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> getEnderecoEntrega(Long idCliente) {
 
-        Endereco endereco = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.ENTREGA);
+        List<Endereco> enderecos = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.ENTREGA);
 
-        return new ResponseEntity<>(endereco, HttpStatus.OK);
+        return new ResponseEntity<>(enderecos, HttpStatus.OK);
     }
 }

@@ -17,7 +17,6 @@ import { AuthService } from '../../../../infra/auth/auth.service';
 import { Cep } from '../../../../modelo/Cep';
 import { EnderecoService } from '../../../../services/endereco/endereco.service';
 import { FormCheckerService } from '../../../../services/form-checker/form-checker.service';
-import { ClienteAlterarComponent } from '../../cliente-alterar/cliente-alterar.component';
 import { LayoutPrincipalComponent } from '../../layout-principal/layout-principal.component';
 import { Endereco } from './../../../../modelo/Endereco';
 import { TipoEndereco } from './../../../../modelo/enums/TipoEndereco';
@@ -47,7 +46,7 @@ export class EnderecoComponent {
   enderecoFaturamento: Endereco;
 
   constructor(
-    public dialogRef: MatDialogRef<ClienteAlterarComponent>,
+    public dialogRef: MatDialogRef<EnderecoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private enderecoService: EnderecoService,
     private cepApi: CorreiosApiService,

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ComponentType, ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -34,6 +34,8 @@ export class EscolherEnderecoComponent extends CrudService<Cliente>{
   enderecoSelecionado: Endereco | null = null;
 
   constructor(
+    public dialogRef: MatDialogRef<EnderecoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private enderecoService: EnderecoService,
     private http: HttpClient,
@@ -47,17 +49,10 @@ export class EscolherEnderecoComponent extends CrudService<Cliente>{
 
   ngOnInit(): void {
     this.getEnderecos();
-    // Verificar se há um endereço temporário salvo no localStorage
-    const enderecoSalvo = localStorage.getItem('enderecoTemporario');
-    if (enderecoSalvo) {
-      this.enderecoSelecionado = JSON.parse(enderecoSalvo);
-    }
   }
 
   addEndereco(){
-    const dados = {
-      cliente: this.dados,
-    };
+    const dados = {};
     this.abrirComponent(dados, EnderecoComponent).subscribe(() => {
       this.getEnderecos();
     });
@@ -65,12 +60,11 @@ export class EscolherEnderecoComponent extends CrudService<Cliente>{
 
   private getEnderecos(): void {
     const userId = this.authService.getIdUser();
-    this.enderecoService.listarEntrega('/listar-por-cliente', { id: userId }).subscribe({
+    this.enderecoService.listarEntrega(`/cliente-listar-endereco-entrega?idCliente=${userId}`).subscribe({
       next: (enderecos: Endereco[]) => {
         this.enderecos = enderecos;
-        // Definir o endereço padrão se houver um no localStorage
-        if (!this.enderecoSelecionado) {
-          this.enderecoSelecionado = this.enderecos.find(endereco => endereco.padrao) || null;
+        if (this.enderecos) {
+          sessionStorage.setItem('enderecoSelecionado', JSON.stringify(this.enderecos[0]));
         }
       },
       error: (resp) => {
@@ -83,7 +77,7 @@ export class EscolherEnderecoComponent extends CrudService<Cliente>{
 
   selecionarEndereco(endereco: Endereco): void {
     this.enderecoSelecionado = endereco;
-    localStorage.setItem('enderecoSelecionadoId', endereco.id.toString());
+    sessionStorage.setItem('enderecoSelecionado', JSON.stringify(endereco));
     this.toastr.success('Endereço de entrega selecionado com sucesso.');
   }
 

@@ -26,7 +26,7 @@ public interface EnderecoRepositorio extends JpaRepository<Endereco, Long> {
 
     boolean existsByClienteIdAndCepAndTipoEnderecoAndNumero(Long id, String cep, TipoEndereco tipoEndereco, String numero);
 
-    Endereco findByClienteIdAndTipoEndereco(Long idCliente, TipoEndereco tipoEndereco);
+    List<Endereco> findByClienteIdAndTipoEndereco(Long idCliente, TipoEndereco tipoEndereco);
 
     List<Endereco> findByClienteIdOrderByTipoEnderecoDescPadraoDesc(Long id);
 }

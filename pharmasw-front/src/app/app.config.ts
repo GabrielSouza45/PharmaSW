@@ -1,7 +1,3 @@
-import { ApplicationConfig, LOCALE_ID } from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-
 import { registerLocaleData } from '@angular/common';
 import {
   provideHttpClient,
@@ -9,7 +5,9 @@ import {
   withInterceptors
 } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
+import { ApplicationConfig, LOCALE_ID } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { provideToastr } from 'ngx-toastr';
 import { routes } from './app.routes';

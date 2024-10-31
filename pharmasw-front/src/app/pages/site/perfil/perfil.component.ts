@@ -1,4 +1,3 @@
-import { Status } from './../../../modelo/enums/Status';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
@@ -9,13 +8,13 @@ import { BotaoComponent } from "../../../components/botao/botao.component";
 import { InputSecundarioComponent } from "../../../components/input-secundario/input-secundario.component";
 import { Cliente } from '../../../modelo/Cliente';
 import { Filtros } from '../../../modelo/Filtros';
+import { ClienteAlterarComponent } from '../cliente-alterar/cliente-alterar.component';
+import { EnderecoComponent } from '../endereco/endereco/endereco.component';
 import { LayoutPrincipalComponent } from "../layout-principal/layout-principal.component";
 import { AuthService } from './../../../infra/auth/auth.service';
 import { Endereco } from './../../../modelo/Endereco';
 import { CrudService } from './../../../services/crud-service/crud-service.service';
 import { EnderecoService } from './../../../services/endereco/endereco.service';
-import { ClienteAlterarComponent } from '../cliente-alterar/cliente-alterar.component';
-import { EnderecoComponent } from '../endereco/endereco/endereco.component';
 
 @Component({
   selector: 'app-perfil',
@@ -50,9 +49,7 @@ export class PerfilComponent extends CrudService<Cliente>{
   }
 
   addEndereco(){
-    const dados = {
-      cliente: this.dados
-    };
+    const dados = {};
     this.abrirComponent(dados, EnderecoComponent).subscribe(() => {
       this.getEnderecos();
     });
