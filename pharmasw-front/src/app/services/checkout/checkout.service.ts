@@ -1,6 +1,6 @@
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './../../infra/auth/auth.service';
-import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -9,35 +9,35 @@ export class CheckoutService {
 
   constructor(
     private router: Router,
-    private auth: AuthService
-
+    private auth: AuthService,
   ) { }
 
-  checkout(){
-    if (this.auth.isAuthenticated){
+  realizaCheckout() {
+    if (this.auth.isAuthenticated()) {
       this.redireciona();
     } else {
       this.abrirLogin();
     }
   }
 
-  private redireciona(){
-  const retornoEndereco = this.abrirPaginaEscolherEndereco();
-    const escolherEndereco = this.abrirComponent({}, EscolherEnderecoComponent);
-    escolherEndereco.subscribe(
-
-    );
+  private redireciona() {
+    const hasCheckoutEndereco = this.router.url.includes('/checkout/selecionar-endereco');
+    if (hasCheckoutEndereco) {
+      this.abrirPaginaPagamento();
+    } else {
+      this.abrirPaginaEndereco();
+    }
   }
 
-  private abrirPaginaEscolherEndereco(){
-    return this.abrirComponent({}, EscolherEnderecoComponent);
+  private abrirPaginaEndereco() {
+    this.router.navigate(['/checkout/selecionar-endereco'])
   }
 
-  private abrirPaginaEscolherPagamento(){
-    return this.abrirComponent({}, EscolherPagamentoComponent);
+  private abrirPaginaPagamento() {
+    this.router.navigate(['/checkout/pagamento'])
   }
 
-  private abrirLogin(){
-    this.router.navigate(['/entrar'])
+  private abrirLogin() {
+    this.router.navigate(['/checkout/entrar'])
   }
 }

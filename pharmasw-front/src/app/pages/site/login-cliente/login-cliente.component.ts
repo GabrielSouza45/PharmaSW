@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
-import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
-import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../infra/auth/auth.service';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
 import { BotaoComponent } from "../../../components/botao/botao.component";
+import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { PopupComponent } from "../../../components/popup/popup.component";
+import { AuthService } from '../../../infra/auth/auth.service';
+import { CheckoutService } from '../../../services/checkout/checkout.service';
+import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 
 @Component({
   selector: 'app-login-cliente',
@@ -19,7 +20,7 @@ import { PopupComponent } from "../../../components/popup/popup.component";
     CommonModule,
     BotaoComponent,
     PopupComponent
-],
+  ],
   templateUrl: './login-cliente.component.html',
   styleUrl: './login-cliente.component.css',
 })
@@ -30,15 +31,17 @@ export class LoginClienteComponent {
     private authService: AuthService,
     private toastService: ToastrService,
     private router: Router,
-  ){
+    private activatedRoute: ActivatedRoute,
+    private checkoutService: CheckoutService
+  ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       senha: new FormControl('', [Validators.required])
     });
   }
 
-  submit(){
-    if(!this.loginForm.valid){
+  submit() {
+    if (!this.loginForm.valid) {
       this.checkFormErrors();
       return;
     }
@@ -47,7 +50,7 @@ export class LoginClienteComponent {
       .subscribe({
         next: () => {
           this.toastService.success("Login Realizado com sucesso!");
-          this.router.navigate(['/']);
+          this.redirecionaUsuario();
         },
         error: (erro) => {
           if (erro.status === 403) {
@@ -59,7 +62,17 @@ export class LoginClienteComponent {
       });
   }
 
-  checkFormErrors(): void {
+  private redirecionaUsuario() {
+    const hasCheckout = this.router.url.includes('/checkout');
+    if (hasCheckout) {
+      this.toastService.success('Login checkout');
+      this.checkoutService.realizaCheckout(); // Realiza Chekout novamente e garante o segmento de etapas do checkout
+    } else {
+      this.router.navigate(['/']); // Redireciona para a pagina home
+    }
+  }
+
+  private checkFormErrors(): void {
     const controls = this.loginForm.controls;
     if (controls['email'].errors) {
       if (controls['email'].errors['required']) {

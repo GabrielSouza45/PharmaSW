@@ -1,4 +1,3 @@
-import { CheckoutService } from './../../../services/checkout/checkout.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -7,8 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ComponentType, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { BotaoComponent } from '../../../components/botao/botao.component';
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { Cep } from '../../../modelo/Cep';
@@ -16,12 +14,8 @@ import { OpcoesCep } from '../../../modelo/OpcoesCep';
 import { Produto } from '../../../modelo/Produto';
 import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
+import { CheckoutService } from './../../../services/checkout/checkout.service';
 import { CorreiosApiService } from './../../../services/correios/correios-api.service';
-import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { EscolherEnderecoComponent } from '../escolher-endereco/escolher-endereco.component';
-import { EscolherPagamentoComponent } from '../escolher-pagamento/escolher-pagamento.component';
-import { CheckoutService } from '../../../services/checkout/checkout.service';
 
 @Component({
   selector: 'app-carrinho-component',
@@ -37,7 +31,7 @@ import { CheckoutService } from '../../../services/checkout/checkout.service';
   templateUrl: './carrinho-component.component.html',
   styleUrls: ['./carrinho-component.component.css'],
 })
-export class CarrinhoComponentComponent implements OnInit{
+export class CarrinhoComponentComponent implements OnInit {
   cepForm: FormGroup;
   opcaoForm: FormGroup;
   cep: Cep;
@@ -68,11 +62,9 @@ export class CarrinhoComponentComponent implements OnInit{
 
   // Injetar o serviço de carrinho
   constructor(
-    private dialog: MatDialog,
     private carrinhoService: CarrinhoService,
     private correiosService: CorreiosApiService,
     private toastrService: ToastrService,
-    private router: Router,
     private checkoutService: CheckoutService
   ) {
     this.produtos = carrinhoService.getItems();
@@ -139,20 +131,10 @@ export class CarrinhoComponentComponent implements OnInit{
       new OpcoesCep(2, '7 dias úteis', 15.5),
       new OpcoesCep(3, '14 dias úteis', 7),
     ];
+
   }
 
-  redirecionarCheckout(){
-    this.checkoutService.
-  }
-
-  private abrirComponent(
-    dados: any,
-    component: ComponentType<any>
-  ): Observable<any> {
-    const dialogRef = this.dialog.open(component, {
-      data: dados,
-    });
-    // Escutando o resultado após fechar o modal
-    return dialogRef.afterClosed();
+  redirecionarCheckout() {
+    this.checkoutService.realizaCheckout();
   }
 }

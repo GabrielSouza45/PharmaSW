@@ -206,8 +206,6 @@ export class FormCheckerService {
     let valido: boolean = true;
     const controls = formGroup.controls;
 
-    console.log(formGroup);
-
     if (controls['cep']?.errors?.['required']){
       this.toastrService.warning(
         'Digite o CEP.'

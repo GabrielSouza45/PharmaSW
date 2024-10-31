@@ -97,7 +97,6 @@ export class EnderecoComponent {
   }
 
   private getTipoEndereco(): void {
-    console.log(this.enderecoFaturamento);
     if (this.enderecoFaturamento) {
       let opt: Opcoes = new Opcoes(
         TipoEndereco.ENTREGA,
