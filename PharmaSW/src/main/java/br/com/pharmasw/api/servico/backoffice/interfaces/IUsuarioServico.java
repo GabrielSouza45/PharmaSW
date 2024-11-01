@@ -16,6 +16,4 @@ public interface IUsuarioServico {
     public ResponseEntity<?> alterar(Usuario usuarioRequest);
 
     public ResponseEntity<?> alterarStatusUsuario(Usuario usuarioRequest);
-
-    public List<UsuarioDTO> constroiRetornoUsuarioDTO(List<Usuario> usuarios);
 }

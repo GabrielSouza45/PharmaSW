@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.servico.site.Interfaces;
 
+import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import org.springframework.http.ResponseEntity;
@@ -12,5 +13,5 @@ public interface ISiteProdutoService {
 
     public ResponseEntity<?> listarProdutosCardBusca(String busca);
 
-    public List<ProdutoDTO> getProdutosDTO(List<Produto> produtos);
+    public ResponseEntity<?> listarProdutoPorId(Filtros filtro);
 }

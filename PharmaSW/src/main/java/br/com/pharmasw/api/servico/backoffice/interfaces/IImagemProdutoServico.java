@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface IImagemProdutoServico {
 
-    public final String PASTA_IMAGEM = "uploads/imagens/produtos/";
-
     public ResponseEntity<?> listarImagensProduto(Produto produto);
 
     public List<ProdutoCardDTO> getImagensCardDTO(List<ProdutoDTO> produtosDTO);
