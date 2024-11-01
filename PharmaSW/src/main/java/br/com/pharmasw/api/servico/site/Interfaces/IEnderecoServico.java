@@ -1,29 +1,22 @@
 package br.com.pharmasw.api.servico.site.Interfaces;
 
+import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Endereco;
-import br.com.pharmasw.api.modelo.enums.TipoEndereco;
-import jakarta.validation.constraints.NotBlank;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface IEnderecoServico {
-    boolean existsByClienteIdAndTipoEndereco(Long id, TipoEndereco tipoEndereco);
 
-    Endereco findByCepAndTipoEndereco(String cep, TipoEndereco tipoEndereco);
+    public ResponseEntity<?> listarPorCliente(Long id);
 
-    boolean existsByCepAndTipoEndereco(String cep, TipoEndereco tipoEndereco);
+    public ResponseEntity<?> cadastrar(Endereco endereco, Cliente cliente);
 
-    boolean existsByClienteIdAndCepAndTipoEndereco(Long id, @NotBlank(message = "CEP é obrigatório") String cep, TipoEndereco tipoEndereco);
+    public ResponseEntity<?> cadastrarEnderecoEntrega(Endereco endereco, Cliente cliente);
 
-    List<Endereco> findByClienteId(Long clienteId);
+    public ResponseEntity<?> cadastrarEnderecoFaturamento(Endereco endereco, Cliente cliente);
 
-    List<Endereco> findByClienteIdOrderByPadraoDesc(Long id);
+    public ResponseEntity<?> alterarEnderecoPadrao(Long idEndereco);
 
-    Endereco findByClienteIdAndTipoEnderecoAndPadrao(Long id, TipoEndereco tipoEndereco, boolean b);
+    public ResponseEntity<?> getEnderecoFaturamento(Long idCliente);
 
-    boolean existsByClienteIdAndCepAndTipoEnderecoAndNumero(Long id, String cep, TipoEndereco tipoEndereco, String numero);
-
-    Endereco findByClienteIdAndTipoEndereco(Long idCliente, TipoEndereco tipoEndereco);
-
-    List<Endereco> findByClienteIdOrderByTipoEnderecoDescPadraoDesc(Long id);
+    public ResponseEntity<?> getEnderecoEntrega(Long idCliente);
 }

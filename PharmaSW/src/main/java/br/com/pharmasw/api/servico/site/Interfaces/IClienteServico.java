@@ -1,17 +1,13 @@
 package br.com.pharmasw.api.servico.site.Interfaces;
 
 import br.com.pharmasw.api.modelo.Cliente;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Repository;
+import org.springframework.http.ResponseEntity;
 
-@Repository
 public interface IClienteServico {
 
-        UserDetails findClienteByEmail(String email);
+        public ResponseEntity<?>cadastrar(Cliente cliente);
 
-        boolean existsByEmail(String email);
-        boolean existsByEmailOrCpf(String email, String cpf);
-        Cliente findClienteByEmailAndSenha(String email, String senha);
+        public ResponseEntity<?> alterar(Cliente clienteRequest);
 
-        Cliente findByEmail(String email);
+        public ResponseEntity<?> listarClientePorId(Long id);
     }
