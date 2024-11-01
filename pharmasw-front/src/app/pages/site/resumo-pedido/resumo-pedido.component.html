@@ -45,9 +45,13 @@
           <h3>Forma de Pagamento</h3>
           <p>{{ formaPagamento.tipo }}</p>
         </div>
-
         <!-- Botão Confirmar Pedido -->
         <div class="botao-confirmar w-100 d-flex justify-content-end mt-4">
+          <div class="col-4">
+            <button class="btn btn-secondary" (click)="voltarPagamento()">
+              Voltar
+            </button>
+          </div>
           <div class="col-4">
             <button class="btn btn-primary">Confirmar Pedido</button>
           </div>

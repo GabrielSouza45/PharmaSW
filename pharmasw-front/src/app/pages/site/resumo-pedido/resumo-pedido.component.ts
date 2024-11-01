@@ -10,6 +10,8 @@ import {
 } from '@angular/forms';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { OpcoesCep } from '../../../modelo/OpcoesCep';
+import { Router } from '@angular/router';
+
 
 
 
@@ -35,7 +37,7 @@ export class ResumoPedidoComponent implements OnInit {
   precoTotal: number = 0;
   freteSelecionado: OpcoesCep;
 
-  constructor(private carrinhoService: CarrinhoService) {
+  constructor(private carrinhoService: CarrinhoService,  private router: Router) {
     this.produtos = this.carrinhoService.getItems();
     this.freteSelecionado = JSON.parse(localStorage.getItem('freteSelecionado') || '{}');
     this.endereco = JSON.parse(sessionStorage.getItem('endereco') || '{}');
@@ -54,4 +56,9 @@ export class ResumoPedidoComponent implements OnInit {
   getSubTotal(): number {
     return this.carrinhoService.getSubtotalPreco();
   }
+
+  voltarPagamento() {
+      this.router.navigate(['/escolher-pagamento']);
+  }
+
 }
