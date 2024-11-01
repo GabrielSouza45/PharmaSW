@@ -5,6 +5,4 @@ import br.com.pharmasw.api.modelo.ViaCepEndereco;
 public interface IViaCepAPI {
 
     public ViaCepEndereco consultar(String cep);
-
-
 }

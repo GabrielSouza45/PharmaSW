@@ -10,10 +10,6 @@ public interface IEnderecoServico {
 
     public ResponseEntity<?> cadastrar(Endereco endereco, Cliente cliente);
 
-    public ResponseEntity<?> cadastrarEnderecoEntrega(Endereco endereco, Cliente cliente);
-
-    public ResponseEntity<?> cadastrarEnderecoFaturamento(Endereco endereco, Cliente cliente);
-
     public ResponseEntity<?> alterarEnderecoPadrao(Long idEndereco);
 
     public ResponseEntity<?> getEnderecoFaturamento(Long idCliente);
