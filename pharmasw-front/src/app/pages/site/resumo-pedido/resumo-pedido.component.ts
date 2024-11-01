@@ -1,21 +1,16 @@
-import { Login } from './../../../modelo/Login';
-import { CorreiosApiService } from './../../../services/correios/correios-api.service';
-import { Component, NgModule, OnInit } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { Produto } from '../../../modelo/Produto';
 import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
-import { CommonModule, CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { CommonModule, CurrencyPipe} from '@angular/common';
 import { BotaoComponent } from '../../../components/botao/botao.component';
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import {
-  FormControl,
-  FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { OpcoesCep } from '../../../modelo/OpcoesCep';
-import { ToastrService } from 'ngx-toastr';
-import { Cep } from '../../../modelo/Cep';
+
 
 
 @Component({
