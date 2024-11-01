@@ -12,6 +12,8 @@ import { HomeComponent } from './pages/site/home/home.component';
 import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.component';
 import { PerfilComponent } from './pages/site/perfil/perfil.component';
 import { ResumoPedidoComponent } from './pages/site/resumo-pedido/resumo-pedido.component';
+import { EscolherEnderecoComponent } from './pages/site/escolher-endereco/escolher-endereco.component';
+import { PaginaNaoEncontradaComponent } from './pages/pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 export const routes: Routes = [
   // SITE
@@ -49,6 +51,12 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard],
     data: { expectedRole: ['CLIENTE'] },
   },
+  {
+    path: 'escolher-endereco',
+    component: EscolherEnderecoComponent,
+    canActivate: [authGuard, roleGuard],
+    data: {expectedRole: ['CLIENTE']},
+  },
   // BACKOFFICE
   {
     path: 'login',
@@ -71,5 +79,8 @@ export const routes: Routes = [
     component: PaginaProdutosComponent,
     canActivate: [authGuard, roleGuard],
     data: { expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA'] },
-  }
+  },
+
+  // Rota Curinga
+  { path: '**', component: PaginaNaoEncontradaComponent }
 ];

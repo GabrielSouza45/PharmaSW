@@ -26,4 +26,9 @@ export class EnderecoService extends CrudService<Endereco> {
     return this.http.get<Endereco>(this.url + acao);
   }
 
+  listarEntrega(acao: string, filtro: any): Observable<Endereco[]> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Endereco[]>(`${this.url}${acao}`, filtro, { headers });
+  }
+
 }

@@ -122,4 +122,11 @@ public class EnderecoServico {
 
         return new ResponseEntity<>(endereco, HttpStatus.OK);
     }
+
+    public ResponseEntity<?> getEnderecoEntrega(Long idCliente) {
+
+        Endereco endereco = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.ENTREGA);
+
+        return new ResponseEntity<>(endereco, HttpStatus.OK);
+    }
 }
