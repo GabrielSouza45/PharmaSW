@@ -22,22 +22,30 @@ export class CheckoutService {
 
   private redireciona() {
     const hasCheckoutEndereco = this.router.url.includes('/checkout/selecionar-endereco');
+    const hasCheckoutPagamento = this.router.url.includes('/checkout/pagamento');
+
     if (hasCheckoutEndereco) {
       this.abrirPaginaPagamento();
+    } else if (hasCheckoutPagamento) {
+      this.finalizaCheckout();
     } else {
       this.abrirPaginaEndereco();
     }
   }
 
   private abrirPaginaEndereco() {
-    this.router.navigate(['/checkout/selecionar-endereco'])
+    this.router.navigate(['/checkout/selecionar-endereco']);
   }
 
   private abrirPaginaPagamento() {
-    this.router.navigate(['/checkout/pagamento'])
+    this.router.navigate(['/checkout/pagamento']);
+  }
+
+  private finalizaCheckout() {
+    this.router.navigate(['/resumo-pedido']);
   }
 
   private abrirLogin() {
-    this.router.navigate(['/checkout/entrar'])
+    this.router.navigate(['/checkout/entrar']);
   }
 }

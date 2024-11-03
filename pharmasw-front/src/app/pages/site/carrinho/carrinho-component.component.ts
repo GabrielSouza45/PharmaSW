@@ -39,7 +39,7 @@ export class CarrinhoComponentComponent implements OnInit {
   precoSubtotal: number = this.getSubTotal();
   precoTotal: number = this.getTotalPreco();
   opcoesCep: OpcoesCep[] = [];
-  freteSelecionado: OpcoesCep;
+  freteSelecionado: OpcoesCep = this.getFreteSelecionado() ? this.getFreteSelecionado() : new OpcoesCep(0, '', 0);
 
   ngOnInit() {
     // Inicializando o formulário com um grupo de radio buttons
@@ -56,7 +56,8 @@ export class CarrinhoComponentComponent implements OnInit {
       .get('opcaoCep')
       ?.valueChanges.subscribe((value: OpcoesCep) => {
         this.freteSelecionado = value;
-        this.precoTotal = this.getTotalPreco(value);
+        this.carrinhoService.setFrete(value);
+        this.precoTotal = this.getTotalPreco();
       });
   }
 
@@ -68,7 +69,6 @@ export class CarrinhoComponentComponent implements OnInit {
     private checkoutService: CheckoutService
   ) {
     this.produtos = carrinhoService.getItems();
-    this.freteSelecionado = new OpcoesCep(1, '', 0);
   }
 
   // Adicionar produtos
@@ -79,7 +79,7 @@ export class CarrinhoComponentComponent implements OnInit {
   // Remover produtos
   removerProduto(produto: Produto) {
     this.carrinhoService.removeItem(produto);
-    this.precoTotal = this.getTotalPreco(this.freteSelecionado);
+    this.precoTotal = this.getTotalPreco();
   }
 
   alterarQuantidade(produto: Produto, event: Event) {
@@ -87,7 +87,7 @@ export class CarrinhoComponentComponent implements OnInit {
     if (quantidade >= 0) {
       // Permite apenas números não negativos
       this.carrinhoService.alterarQuantidade(produto.id, quantidade);
-      this.precoTotal = this.getTotalPreco(this.freteSelecionado);
+      this.precoTotal = this.getTotalPreco();
       this.precoSubtotal = this.getSubTotal();
     } else {
       this.removerProduto(produto); // Remove o produto quando a quantidade for 0
@@ -100,12 +100,16 @@ export class CarrinhoComponentComponent implements OnInit {
   }
 
   // Exibir o preço total
-  getTotalPreco(cep?: OpcoesCep): number {
-    return this.carrinhoService.getTotalPreco(cep);
+  getTotalPreco(): number {
+    return this.carrinhoService.getTotalPreco();
   }
 
   getSubTotal(): number {
     return this.carrinhoService.getSubtotalPreco();
+  }
+
+  getFreteSelecionado(){
+    return this.carrinhoService.getFrete();
   }
 
   pesquisarCep() {
@@ -135,6 +139,11 @@ export class CarrinhoComponentComponent implements OnInit {
   }
 
   redirecionarCheckout() {
+    if (this.freteSelecionado.id == 0) {
+      this.toastrService.warning("Digite um CEP válido e selecione um frete.")
+      return;
+    }
+
     this.checkoutService.realizaCheckout();
   }
 }

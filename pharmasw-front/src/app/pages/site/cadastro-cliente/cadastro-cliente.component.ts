@@ -8,19 +8,19 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ComponentType, ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { BotaoComponent } from '../../../components/botao/botao.component';
 import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
 import { SelectComponent } from '../../../components/select/select.component';
 import { cpfValidator } from '../../../infra/validators/cpf-validator';
 import { nameValidator } from '../../../infra/validators/nome-validator';
 import { Genero } from '../../../modelo/enums/Genero';
+import { SelectOptions } from '../../../modelo/SelectOpcoes';
+import { CheckoutService } from '../../../services/checkout/checkout.service';
 import { CrudService } from '../../../services/crud-service/crud-service.service';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { Cliente } from './../../../modelo/Cliente';
 import { FormCheckerService } from './../../../services/form-checker/form-checker.service';
-import { CheckoutService } from '../../../services/checkout/checkout.service';
 
 @Component({
   selector: 'app-cadastro-cliente',
@@ -37,7 +37,7 @@ import { CheckoutService } from '../../../services/checkout/checkout.service';
 })
 export class CadastroClienteComponent extends CrudService<Cliente> {
   formCadastro: FormGroup;
-  optionsGenero: Opcoes[] = [];
+  optionsGenero: SelectOptions[] = [];
 
   constructor(
     private toastr: ToastrService,
@@ -76,7 +76,9 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
 
   getGeneros(): void {
     for (const [key, value] of Object.entries(Genero)) {
-      let opc = new Opcoes(value.toString(), key);
+      let opc = new SelectOptions();
+      opc.text = value.toString();
+      opc.value = key;
       this.optionsGenero.push(opc);
     }
   }
@@ -100,7 +102,7 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
     });
   }
 
-  private redireciona(){
+  private redireciona() {
     const hasCheckout = this.router.url.includes('/checkout');
     if (hasCheckout) {
       this.checkoutService.realizaCheckout();
@@ -135,26 +137,5 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
 
   private limpaFormulario() {
     this.formCadastro.reset();
-  }
-
-  private abrirComponent(
-    dados: any,
-    component: ComponentType<any>
-  ): Observable<any> {
-    const dialogRef = this.dialog.open(component, {
-      data: dados,
-    });
-    // Escutando o resultado após fechar o modal
-    return dialogRef.afterClosed();
-  }
-}
-
-class Opcoes {
-  text: string;
-  value: string;
-
-  constructor(text: string, value: string) {
-    this.text = text;
-    this.value = value;
   }
 }

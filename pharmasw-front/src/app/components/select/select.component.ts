@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SelectOptions } from '../../modelo/SelectOpcoes';
 
 @Component({
   selector: 'app-select',
@@ -11,19 +12,24 @@ import { FormsModule } from '@angular/forms';
 })
 export class SelectComponent {
   selectedOption: string = '';
-  @Input() options: Opcoes[] = [];
+  @Input() options: SelectOptions[] = [];
   @Input() label: string = '';
   @Input() selectName: string = '';
+  @Input() style: string = '';
+  @Input() styleLabel: string = '';
   @Output() valueChange = new EventEmitter<String>();
 
-  onSelectChange(event: Event): void {
-    const selectElement =  event.target as HTMLSelectElement;
+
+  ngOnInit() {
+    this.selectedOption = this.options[0].value;
+    this.onSelectChange({ target: { value: this.selectedOption } });
+  }
+
+
+  onSelectChange(event: any): void {
+    const selectElement = event.target as HTMLSelectElement;
 
     this.valueChange.emit(selectElement.value);
   }
 }
 
-class Opcoes {
-  text: string;
-  value: string;
-}

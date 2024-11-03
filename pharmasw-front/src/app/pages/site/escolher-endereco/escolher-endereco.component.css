@@ -45,7 +45,7 @@ main{
 
 .borda-lateral {
   border-left: 1px solid #ddd;
-  
+
 }
 
 .radio-seletor {
@@ -54,3 +54,7 @@ main{
   cursor: pointer;
 }
 
+i{
+  font-size: 35px;
+  color: var(--cor-secundaria);
+}

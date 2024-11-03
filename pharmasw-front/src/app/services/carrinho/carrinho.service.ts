@@ -1,15 +1,15 @@
+import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Injectable, OnInit } from '@angular/core';
-import { Produto } from '../../modelo/Produto';
 import { BehaviorSubject } from 'rxjs';
-import { Cep } from '../../modelo/Cep';
-import { OpcoesCep } from '../../modelo/OpcoesCep';
+import { Produto } from '../../modelo/Produto';
+import { OpcoesCep } from './../../modelo/OpcoesCep';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CarrinhoService{
+export class CarrinhoService {
   items: Produto[] = [];
+  private freteSelecionado: OpcoesCep;
 
   private itemCountSubject = new BehaviorSubject<number>(this.inicia());
   itemCount$ = this.itemCountSubject.asObservable();
@@ -76,15 +76,31 @@ export class CarrinhoService{
     }
   }
 
+  getFrete() {
+    return this.freteSelecionado;
+  }
+
+  setFrete(cepSelecionado: OpcoesCep) {
+    this.freteSelecionado = cepSelecionado;
+    localStorage.setItem('freteSelecionado', JSON.stringify(this.freteSelecionado));
+  }
+
   salvarCarrinho(): void {
     localStorage.setItem('carrinho', JSON.stringify(this.items));
+    if(this.items.length == 0) {
+      this.setFrete(null);
+    }
     this.itemCountSubject.next(this.items.length);
   }
 
   carregarCarrinho(): void {
     const carrinho = localStorage.getItem('carrinho');
+    const frete = localStorage.getItem('freteSelecionado');
     if (carrinho) {
       this.items = JSON.parse(carrinho);
+    }
+    if (frete) {
+      this.freteSelecionado = JSON.parse(frete);
     }
   }
 
@@ -97,14 +113,14 @@ export class CarrinhoService{
     return total;
   }
 
-  getTotalPreco(cep?: OpcoesCep): number {
+  getTotalPreco(): number {
     let total = this.items.reduce((total: number, produto: Produto) => {
       total += produto.valor * produto.quantidadePedido;
       return total;
     }, 0);
 
-    if (cep)
-      total += cep.preco;
+    if (this.freteSelecionado)
+      total += this.freteSelecionado.preco;
 
     return total;
   }

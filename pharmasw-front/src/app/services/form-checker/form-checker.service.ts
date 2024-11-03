@@ -267,4 +267,39 @@ export class FormCheckerService {
 
     return valido;
   }
+
+
+  checkFormErrorsPagamento(form : FormGroup): boolean {
+
+    let valido: boolean = true;
+    const controls = form.controls;
+
+    if (controls['numeroCartao'].errors?.['required']) {
+      this.toastrService.warning("Número do cartão é obrigatório. Por favor, digite o número no campo adequado!");
+      valido = false;
+    }
+
+    if (controls['codigoCartao'].errors?.['required']) {
+      this.toastrService.warning("Código do cartão é obrigatório. Por favor, digite o código no campo adequado!");
+      valido = false;
+    }
+
+    if (controls['nomeTitular'].errors?.['required']) {
+      this.toastrService.warning("Nome do titular do cartão é obrigatório. Por favor, digite o nome no campo adequado!");
+      valido = false;
+    }
+
+    if (controls['dataVencimento'].errors?.['required']) {
+      this.toastrService.warning("Data de vencimento do cartão é obrigatório. Por favor, selecione o mês e ano de vencimento no calendario!");
+      valido = false;
+    }
+
+    if (controls['qtdParcelas'].errors?.['required']) {
+      this.toastrService.warning("Quantidade de parcelas é obrigatório. Por favor, selecione a quantidade de parcelas!");
+      valido = false;
+    }
+
+    return valido;
+
+  }
 }

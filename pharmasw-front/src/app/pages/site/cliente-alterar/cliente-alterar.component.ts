@@ -10,11 +10,12 @@ import { InputPrimarioComponent } from "../../../components/input-primario/input
 import { ModalComponent } from '../../../components/modal/modal.component';
 import { SelectComponent } from "../../../components/select/select.component";
 import { nameValidator } from '../../../infra/validators/nome-validator';
+import { Cliente } from '../../../modelo/Cliente';
 import { Genero } from '../../../modelo/enums/Genero';
+import { SelectOptions } from '../../../modelo/SelectOpcoes';
 import { ClienteService } from '../../../services/cliente/cliente.service';
 import { FormCheckerService } from '../../../services/form-checker/form-checker.service';
 import { LayoutPrincipalComponent } from "../layout-principal/layout-principal.component";
-import { Cliente } from '../../../modelo/Cliente';
 
 @Component({
   selector: 'app-cliente-alterar',
@@ -34,7 +35,7 @@ import { Cliente } from '../../../modelo/Cliente';
 })
 export class ClienteAlterarComponent {
   clienteForm: FormGroup;
-  optionsGenero: Opcoes[] = [];
+  optionsGenero: SelectOptions[] = [];
   cliente: Cliente;
 
   constructor(
@@ -57,12 +58,12 @@ export class ClienteAlterarComponent {
   }
 
   onSubmit(): void {
-      if (this.checker.checkFormErrorsCliente(this.clienteForm)) {
-        if (this.clienteForm.value.senha) {
-          if (!this.checker.senhaValida(this.clienteForm)) {
-            return;
-          }
+    if (this.checker.checkFormErrorsCliente(this.clienteForm)) {
+      if (this.clienteForm.value.senha) {
+        if (!this.checker.senhaValida(this.clienteForm)) {
+          return;
         }
+      }
 
       const clienteData: Cliente = this.clienteForm.value;
       clienteData.id = this.cliente.id;
@@ -83,7 +84,7 @@ export class ClienteAlterarComponent {
     });
   }
 
-  private alimentaForm(cliente: Cliente): void{
+  private alimentaForm(cliente: Cliente): void {
     this.clienteForm.patchValue({
       nome: cliente.nome,
       dataNascimento: cliente.dataNascimento
@@ -96,24 +97,17 @@ export class ClienteAlterarComponent {
     const dd: string = String(today.getDate()).padStart(2, '0');
     const mm: string = String(today.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
     const yyyy: string = today.getFullYear().toString();
-    
+
     return `${yyyy}-${mm}-${dd}`;
   }
 
   private getGeneros(): void {
     for (const [key, value] of Object.entries(Genero)) {
-      let opc = new Opcoes(value.toString(), key);
+      let opc = new SelectOptions();
+      opc.text = value.toString();
+      opc.value = key;
       this.optionsGenero.push(opc);
     }
   }
 }
 
-class Opcoes {
-  text: string;
-  value: string;
-
-  constructor(text: string, value: string) {
-    this.text = text;
-    this.value = value;
-  }
-}

@@ -50,7 +50,7 @@ export class ResumoPedidoComponent implements OnInit {
   }
 
   getTotalPreco(): number {
-    return this.carrinhoService.getTotalPreco(this.freteSelecionado);
+    return this.carrinhoService.getTotalPreco();
   }
 
   getSubTotal(): number {

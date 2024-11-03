@@ -1,0 +1,55 @@
+main{
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+.formulario{
+  box-shadow: 1px 1px 2px var(--cor-primaria);
+  border-radius: 15px;
+}
+
+.pagamento {
+  flex-grow: 1;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.pagamento{
+  height: fit-content;
+  min-height: 50px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+
+  p{
+    margin-bottom: 10px;
+  }
+
+  a{
+    color: var(--cor-secundaria);
+  }
+  a:hover{
+    cursor: pointer;
+    color: var(--cor-primaria);
+  }
+
+  span{
+    color: var(--cor-secundaria);
+  }
+}
+
+.borda-lateral {
+  border-left: 1px solid #ddd;
+
+}
+
+.radio-seletor {
+  margin-right: 10px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+i{
+  font-size: 35px;
+  color: var(--cor-secundaria);
+}

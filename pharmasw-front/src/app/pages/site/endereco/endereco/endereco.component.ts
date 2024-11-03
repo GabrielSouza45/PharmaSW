@@ -1,4 +1,3 @@
-import { AbrirComponenteService } from './../../../../services/abrir-componente/abrir-componente.service';
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import {
@@ -13,16 +12,18 @@ import { PaginaLayoutComponent } from '../../../../components/back-office/pagina
 import { BotaoComponent } from '../../../../components/botao/botao.component';
 import { InputPrimarioComponent } from '../../../../components/input-primario/input-primario.component';
 import { ModalComponent } from '../../../../components/modal/modal.component';
+import { PopupComponent } from '../../../../components/popup/popup.component';
 import { SelectComponent } from '../../../../components/select/select.component';
 import { AuthService } from '../../../../infra/auth/auth.service';
 import { Cep } from '../../../../modelo/Cep';
+import { SelectOptions } from '../../../../modelo/SelectOpcoes';
 import { EnderecoService } from '../../../../services/endereco/endereco.service';
 import { FormCheckerService } from '../../../../services/form-checker/form-checker.service';
 import { LayoutPrincipalComponent } from '../../layout-principal/layout-principal.component';
 import { Endereco } from './../../../../modelo/Endereco';
 import { TipoEndereco } from './../../../../modelo/enums/TipoEndereco';
+import { AbrirComponenteService } from './../../../../services/abrir-componente/abrir-componente.service';
 import { CorreiosApiService } from './../../../../services/correios/correios-api.service';
-import { PopupComponent } from '../../../../components/popup/popup.component';
 
 @Component({
   selector: 'app-endereco',
@@ -44,7 +45,7 @@ export class EnderecoComponent {
   enderecoForm: FormGroup;
   endereco: Endereco;
   idCliente: number = this.auth.getIdUser();
-  optionsTipo: Opcoes[] = [];
+  optionsTipo: SelectOptions[] = [];
   enderecoFaturamento: Endereco;
 
   constructor(
@@ -121,14 +122,15 @@ export class EnderecoComponent {
 
   private getTipoEndereco(): void {
     if (this.enderecoFaturamento) {
-      let opt: Opcoes = new Opcoes(
-        TipoEndereco.ENTREGA,
-        TipoEndereco.ENTREGA.toUpperCase()
-      );
+      let opt: SelectOptions = new SelectOptions();
+      opt.text = TipoEndereco.ENTREGA;
+      opt.value = TipoEndereco.ENTREGA.toUpperCase()
       this.optionsTipo.push(opt);
     } else {
       for (const [key, value] of Object.entries(TipoEndereco)) {
-        let opc = new Opcoes(value.toString(), key);
+        let opc = new SelectOptions();
+        opc.text = value.toString();
+        opc.value = key;
         this.optionsTipo.push(opc);
       }
     }
@@ -174,12 +176,3 @@ export class EnderecoComponent {
   }
 }
 
-class Opcoes {
-  text: string;
-  value: string;
-
-  constructor(text: string, value: string) {
-    this.text = text;
-    this.value = value;
-  }
-}

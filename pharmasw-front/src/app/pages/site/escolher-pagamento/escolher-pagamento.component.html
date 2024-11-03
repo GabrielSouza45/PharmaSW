@@ -1,1 +1,130 @@
-<p>escolher-pagamento works!</p>
+<app-layout-principal>
+  <main class="container p-4">
+    <div class="row mt-3" style="min-height: 650px">
+      <div
+        class="container d-flex justify-content-between p-2 col-lg-8 col-md-11 col-sm-11"
+        *ngIf="metodosPagamento"
+      >
+        <div class="container h-100 flex-column">
+          <h1><i class="bi bi-credit-card-fill"></i> Método de pagamento</h1>
+          <div class="pagamentos mt-4 p-2">
+            <!-- Usando ng-container para condicional -->
+            <div>
+              <ng-container *ngFor="let metodo of metodosPagamento">
+                <div>
+                  <div class="d-flex pagamento p-1 ps-3">
+                    <div class="col-0 d-flex">
+                      <!-- Radio para selecionar o endereço -->
+                      <input
+                        type="radio"
+                        name="enderecoSelecionado"
+                        [checked]="metodo.metodoPagamento === 'PIX'"
+                        [id]="metodo.metodoPagamento"
+                        class="radio-seletor"
+                        (change)="selecionarPagamento(metodo)"
+                      />
+                    </div>
+
+                    <div class="col-11 borda-lateral ps-2">
+                      <label
+                        [for]="metodo.metodoPagamento"
+                        role="button"
+                        class="w-100 h-100 pointer d-flex align-items-center"
+                      >
+                        <div class="w-100">
+                          <h5 class="w-100 h-100 m-0">
+                            {{
+                              metodo.metodoPagamento === "PIX"
+                                ? "PIX"
+                                : "CARTÃO DE CRÉDITO"
+                            }}
+                          </h5>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  <!-- Formulários metodo selecionado  -->
+                  <div class="container" *ngIf="metodoSelecionado === metodo">
+                    <div
+                      class="formulario col-12 p-3"
+                      *ngIf="metodo.metodoPagamento === 'CARTAO'"
+                    >
+                      <!-- Formulário para Cartão -->
+                      <form [formGroup]="pagamentoForm">
+                        <!-- NUMERO DO CARTAO -->
+                        <app-input-primario
+                          [styleLabel]="styleLabel"
+                          [style]="styleInput"
+                          formControlName="numeroCartao"
+                          [addLabel]="true"
+                          label="Número do Cartão"
+                          inputName="numeroCartao"
+                          placeHolder="Número do Cartão"
+                          maxLength="16"
+                        />
+
+                        <!-- CODIGO DO CARTAO -->
+                        <app-input-primario
+                          [styleLabel]="styleLabel"
+                          [style]="styleInput"
+                          formControlName="codigoCartao"
+                          [addLabel]="true"
+                          label="Código Verificador"
+                          inputName="Código Verificador"
+                          placeHolder="Código Verificador"
+                          maxLength="3"
+                        />
+
+                        <!-- TITULAR DO CARTAO -->
+                        <app-input-primario
+                          [styleLabel]="styleLabel"
+                          [style]="styleInput"
+                          formControlName="nomeTitular"
+                          [addLabel]="true"
+                          label="Nome do Titular"
+                          inputName="Nome do Titular"
+                          placeHolder="Nome do Titular"
+                        />
+
+                        <!-- VENCIMENTO DO CARTAO -->
+                        <app-input-primario
+                          [styleLabel]="styleLabel"
+                          [style]="styleInput"
+                          formControlName="dataVencimento"
+                          [addLabel]="true"
+                          label="Data de Vencimento"
+                          inputName="Data de Vencimento"
+                          type="month"
+                        />
+
+                        <!-- PARCELAS -->
+                        <app-select
+                          [styleLabel]="styleLabel"
+                          [style]="styleInput"
+                          label="Quantidade de Parcelas"
+                          selectName="parcelas"
+                          [options]="optionsParcelas"
+                          (valueChange)="
+                            pagamentoForm.get('qtdParcelas').setValue($event)
+                          "
+                        />
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center gap-3">
+            <div class="w-50 mt-5 mb-5">
+              <app-botao
+                (click)="redirecionarResumo()"
+                textoBtn="Avançar"
+              ></app-botao>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</app-layout-principal>

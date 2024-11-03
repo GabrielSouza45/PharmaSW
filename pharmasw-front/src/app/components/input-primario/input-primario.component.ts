@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
-type InputTypes = "text" | "email" | "password" | "number" | "date" | "file"
+type InputTypes = "text" | "email" | "password" | "number" | "date" | "month" | "file"
 
 @Component({
   selector: 'app-input-primario',

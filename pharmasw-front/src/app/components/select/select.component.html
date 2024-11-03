@@ -1,15 +1,21 @@
 <main>
-  <label [for]="selectName" class="form-label">{{ label }}</label>
+  <label [for]="selectName" class="form-label" [style]="styleLabel">{{
+    label
+  }}</label>
   <div class="select">
     <select
+      [style]="style"
       class="form-select"
       aria-label="Select an option"
       id="selectOptions"
       (change)="onSelectChange($event)"
       [id]="selectName"
     >
-      <option value="none" disabled selected>Selecione</option>
-      <option *ngFor="let option of options" [value]="option.value">
+      <option
+        *ngFor="let option of options; let i = index"
+        [selected]="i == 0"
+        [value]="option.value"
+      >
         {{ option.text }}
       </option>
     </select>
