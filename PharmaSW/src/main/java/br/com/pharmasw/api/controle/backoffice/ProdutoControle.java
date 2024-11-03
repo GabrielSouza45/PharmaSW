@@ -4,6 +4,7 @@ import br.com.pharmasw.api.servico.backoffice.ProdutoServico;
 import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,14 +57,14 @@ public class ProdutoControle {
             @RequestPart("produto") String jsonProduto,
             @RequestPart("imagens") List<MultipartFile> imagens) {
         if (jsonProduto.isBlank())
-            return new ResponseEntity<>("Produto não pode ser null.", HttpStatus.BAD_REQUEST);
+            return new ResponseBuilder().build("Produto não pode ser null.", HttpStatus.BAD_REQUEST);
 
         Produto produto = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             produto = objectMapper.readValue(jsonProduto, Produto.class);
         } catch (JsonProcessingException e) {
-            return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseBuilder().build("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return produtoServico.cadastrarProduto(produto, imagens);
@@ -78,7 +79,7 @@ public class ProdutoControle {
             @RequestPart(value = "imagens", required = false) List<MultipartFile> imagens) {
 
         if (jsonProduto.isBlank())
-            return new ResponseEntity<>("Produto não pode ser null.", HttpStatus.BAD_REQUEST);
+            return new ResponseBuilder().build("Produto não pode ser null.", HttpStatus.BAD_REQUEST);
 
         ObjectMapper objectMapper = new ObjectMapper();
         Produto produto = null;
@@ -90,14 +91,14 @@ public class ProdutoControle {
             produto = objectMapper.readValue(jsonProduto, Produto.class);
         } catch (JsonProcessingException e) {
             System.out.println(e);
-            return new ResponseEntity<>("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseBuilder().build("Erro ao processar Json do produto.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         try {
             if (!jsonImagensEdicao.isBlank()) {
                 imagensProdutoEdicao = objectMapper.readValue(jsonImagensEdicao, ImagemProduto[].class);
             }
         } catch (JsonProcessingException e) {
-            return new ResponseEntity<>("Erro ao processar Json da imagem.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseBuilder().build("Erro ao processar Json da imagem.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         // Chama o método de serviço para alterar o produto

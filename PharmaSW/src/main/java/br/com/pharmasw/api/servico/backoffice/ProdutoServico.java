@@ -8,6 +8,7 @@ import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.ImagemProdutoRepositorio;
 import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -62,7 +63,7 @@ public class ProdutoServico {
 
         Page<ProdutoDTO> page = paginationHelper.transformarEmPage(dtos, paginaAtual, totalProdutos);
 
-        return new ResponseEntity<>(page, HttpStatus.OK);
+        return new ResponseBuilder().build(page, HttpStatus.OK);
     }
 
 
@@ -71,7 +72,7 @@ public class ProdutoServico {
 
         Produto produto = produtoRepositorio.findById(filtros.getId()).orElse(null);
 
-        return new ResponseEntity<>(produto, HttpStatus.OK);
+        return new ResponseBuilder().build(produto, HttpStatus.OK);
     }
 
 
@@ -82,7 +83,7 @@ public class ProdutoServico {
                 produtoRepositorio.findByNomeAndFabricanteAndStatus(produto.getNome(), produto.getFabricante(), Status.ATIVO);
 
         if (produtoExiste != null)
-            return new ResponseEntity<>("Produto já cadastrado.", HttpStatus.UNAUTHORIZED);
+            return new ResponseBuilder().build("Produto já cadastrado.", HttpStatus.UNAUTHORIZED);
 
         produto.setStatus(Status.ATIVO);
         Produto produtoSalvo = produtoRepositorio.save(produto);
@@ -93,10 +94,10 @@ public class ProdutoServico {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Erro ao cadastrar imagens.", HttpStatus.BAD_GATEWAY);
+            return new ResponseBuilder().build("Erro ao cadastrar imagens.", HttpStatus.BAD_GATEWAY);
         }
 
-        return new ResponseEntity<>(produtoSalvo, HttpStatus.CREATED);
+        return new ResponseBuilder().build(produtoSalvo, HttpStatus.CREATED);
     }
 
 
@@ -105,7 +106,7 @@ public class ProdutoServico {
         Produto produto = produtoRepositorio.findById(produtorequest.getId()).orElse(null);
 
         if (produto == null) {
-            return new ResponseEntity<>("Produto não encontrado!", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Produto não encontrado!", HttpStatus.NOT_FOUND);
         }
 
         Status status = produto.getStatus();
@@ -113,7 +114,7 @@ public class ProdutoServico {
         produto.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
         Produto produtoAtualizado = produtoRepositorio.save(produto);
 
-        return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
+        return new ResponseBuilder().build(produtoAtualizado, HttpStatus.OK);
     }
 
     //Alterar a quantidade do produto
@@ -122,14 +123,14 @@ public class ProdutoServico {
         Produto produto = produtoRepositorio.findById(produtoRequest.getId()).orElse(null);
 
         if (produto == null) {
-            return new ResponseEntity<>("Produto não encontrado!", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Produto não encontrado!", HttpStatus.NOT_FOUND);
         }
 
         produto.setQuantidadeEstoque(produtoRequest.getQuantidadeEstoque());
 
         Produto produtoAtualizado = produtoRepositorio.save(produto);
 
-        return new ResponseEntity<>(produtoAtualizado, HttpStatus.OK);
+        return new ResponseBuilder().build(produtoAtualizado, HttpStatus.OK);
     }
 
     // Alterar Produto
@@ -137,7 +138,7 @@ public class ProdutoServico {
         Produto produto = produtoRepositorio.findById(produtoRequest.getId()).orElse(null);
 
         if (produto == null) {
-            return new ResponseEntity<>("Produto não encontrado!", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Produto não encontrado!", HttpStatus.NOT_FOUND);
         }
 
         // Atualizar os campos que foram passados no request
@@ -158,7 +159,7 @@ public class ProdutoServico {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Erro ao alterar imagens.", HttpStatus.BAD_GATEWAY);
+            return new ResponseBuilder().build("Erro ao alterar imagens.", HttpStatus.BAD_GATEWAY);
         }
 
         try {
@@ -167,7 +168,7 @@ public class ProdutoServico {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Erro ao cadastrar imagens.", HttpStatus.BAD_GATEWAY);
+            return new ResponseBuilder().build("Erro ao cadastrar imagens.", HttpStatus.BAD_GATEWAY);
         }
 
         return ResponseEntity.ok(produtoAtualizado);

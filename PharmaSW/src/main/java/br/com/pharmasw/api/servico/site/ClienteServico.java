@@ -3,6 +3,7 @@ package br.com.pharmasw.api.servico.site;
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Retorno.ClienteDTO;
 import br.com.pharmasw.api.repositorio.ClienteRepositorio;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +22,20 @@ public class ClienteServico {
 
         boolean exists = clienteRepositorio.existsByEmailOrCpf(cliente.getEmail(), cliente.getCpf());
         if (exists)
-            return new ResponseEntity<>("Usuário já cadastrado.", HttpStatus.UNAUTHORIZED);
+            return new ResponseBuilder().build("Usuário já cadastrado.", HttpStatus.UNAUTHORIZED);
 
         cliente.setSenha(new BCryptPasswordEncoder().encode(cliente.getSenha()));
 
         ClienteDTO dto = new ClienteDTO(clienteRepositorio.save(cliente));
 
-        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        return new ResponseBuilder().build(dto, HttpStatus.CREATED);
     }
 
     //Alterar Cliente
     public ResponseEntity<?> alterar(Cliente clienteRequest) {
         Optional<Cliente> clienteOpt = clienteRepositorio.findById(clienteRequest.getId());
         if (clienteOpt.isEmpty()) {
-            return new ResponseEntity<>("Cliente não encontrado.", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Cliente não encontrado.", HttpStatus.NOT_FOUND);
         }
 
         Cliente cliente = clienteOpt.get();
@@ -52,7 +53,7 @@ public class ClienteServico {
         cliente.setGenero(clienteRequest.getGenero());
 
         clienteRepositorio.save(cliente);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseBuilder().build(HttpStatus.OK);
     }
 
 
@@ -60,12 +61,12 @@ public class ClienteServico {
 
         Optional<Cliente> clienteOpt = clienteRepositorio.findById(id);
         if (clienteOpt.isEmpty())
-            return new ResponseEntity<>("Cliente não encontrado.", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Cliente não encontrado.", HttpStatus.NOT_FOUND);
 
         Cliente cliente = clienteOpt.get();
         ClienteDTO dto = new ClienteDTO(cliente);
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        return new ResponseBuilder().build(dto, HttpStatus.OK);
     }
 
 }

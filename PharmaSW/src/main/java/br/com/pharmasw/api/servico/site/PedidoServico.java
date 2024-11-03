@@ -1,15 +1,21 @@
 package br.com.pharmasw.api.servico.site;
 
 import br.com.pharmasw.api.modelo.*;
+import br.com.pharmasw.api.modelo.Retorno.ClienteDTO;
+import br.com.pharmasw.api.modelo.Retorno.PedidoDTO;
 import br.com.pharmasw.api.modelo.enums.MetodoPagamento;
 import br.com.pharmasw.api.modelo.enums.StatusPedido;
 import br.com.pharmasw.api.repositorio.*;
 import br.com.pharmasw.api.servico.backoffice.helpers.DataHelper;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,15 +37,15 @@ public class PedidoServico {
 
         Cliente cliente = clienteRepositorio.findById(pedido.getIdCliente()).orElse(null);
         if (cliente == null)
-            return new ResponseEntity<>("Cliente não encontrado.", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Cliente não encontrado.", HttpStatus.NOT_FOUND);
 
         Endereco endereco = enderecoRepositorio.findById(pedido.getIdEndereco()).orElse(null);
         if (endereco == null)
-            return new ResponseEntity<>("Endereço não encontrado.", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Endereço não encontrado.", HttpStatus.NOT_FOUND);
 
         MetodosPagamento pagamento = metodosPagamentoRepositorio.findById(pedido.getIdMetodoPagamento()).orElse(null);
         if (pagamento == null)
-            return new ResponseEntity<>("Método de pagamento não encontrado.", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Método de pagamento não encontrado.", HttpStatus.NOT_FOUND);
 
         pedido.setCliente(cliente);
         pedido.setEndereco(endereco);
@@ -49,15 +55,16 @@ public class PedidoServico {
 
         String erroItem = setaItemPedido(pedido);
         if (!erroItem.isEmpty())
-            return new ResponseEntity<>(erroItem, HttpStatus.BAD_REQUEST);
+            return new ResponseBuilder().build(erroItem, HttpStatus.BAD_REQUEST);
 
         String erroValor = validaValoresCompra(pedido);
         if (!erroValor.isEmpty())
-            return new ResponseEntity<>(erroValor, HttpStatus.BAD_REQUEST);
+            return new ResponseBuilder().build(erroValor, HttpStatus.BAD_REQUEST);
 
-        pedidoRepositorio.save(pedido);
+        Pedido retorno = pedidoRepositorio.save(pedido);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        PedidoDTO dto = new PedidoDTO(retorno.getId(), retorno.getTotal());
+        return new ResponseBuilder().build(dto, HttpStatus.CREATED);
 
     }
 
@@ -71,13 +78,21 @@ public class PedidoServico {
         double valorFinalProdutos = 0d;
 
         for (ItemPedido item : itemsPedido) {
-            valorFinalProdutos += item.getProduto().getValor();
+            valorFinalProdutos = ((valorFinalProdutos + item.getProduto().getValor()) * item.getQtdProdutos());
         }
 
-        if (valorFinalProdutos != SUB_TOTAL)
+
+
+        BigDecimal valorBD = new BigDecimal(valorFinalProdutos).setScale(2, RoundingMode.HALF_UP);
+        double valorArredondado = valorBD.doubleValue();
+
+        System.out.println(valorArredondado);
+        System.out.println(SUB_TOTAL);
+
+        if (valorArredondado != SUB_TOTAL)
             return "Valor total dos produtos é diferente do valor informado.";
 
-        double valorTotalComFrete = valorFinalProdutos + FRETE;
+        double valorTotalComFrete = valorArredondado + FRETE;
         if (valorTotalComFrete != TOTAL)
             return "Valor total da compra é diferente do valor informado.";
 
@@ -112,6 +127,23 @@ public class PedidoServico {
         }
 
         return erro;
+
+    }
+
+    public ResponseEntity<?> listarPorCliente(Long idCliente) {
+
+        List<Pedido> pedidos = pedidoRepositorio.findAllByClienteId(idCliente);
+        atualizaClienteDTO(pedidos);
+
+        return new ResponseBuilder().build(pedidos, HttpStatus.OK);
+
+    }
+
+    private void atualizaClienteDTO(List<Pedido> pedidos) {
+
+        pedidos.forEach(pedido -> {
+
+        });
 
     }
 }

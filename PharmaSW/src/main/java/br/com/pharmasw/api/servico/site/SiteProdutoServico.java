@@ -8,6 +8,7 @@ import br.com.pharmasw.api.modelo.Retorno.ProdutoSiteDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.ProdutoRepositorio;
 import br.com.pharmasw.api.servico.backoffice.ImagemProdutoServico;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +32,11 @@ public class SiteProdutoServico {
         List<ProdutoDTO> produtoDTO = produtoRepositorio.findAllProdutoDTOsByStatus(Status.ATIVO);
 
         if (produtoDTO.isEmpty())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build(HttpStatus.NOT_FOUND);
 
         List<ProdutoCardDTO> produtosCardDTO = imagemProdutoServico.getImagensCardDTO(produtoDTO);
 
-        return new ResponseEntity<>(produtosCardDTO, HttpStatus.OK);
+        return new ResponseBuilder().build(produtosCardDTO, HttpStatus.OK);
 
     }
 
@@ -48,13 +49,13 @@ public class SiteProdutoServico {
             produtos = produtoRepositorio.buscarProdutosByFabricanteAndStatus(busca, Status.ATIVO.toString());
 
         if (produtos.isEmpty())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build(HttpStatus.NOT_FOUND);
 
         List<ProdutoDTO> produtosDTO = getProdutosDTO(produtos);
 
         List<ProdutoCardDTO> produtosCardDTO = imagemProdutoServico.getImagensCardDTO(produtosDTO);
 
-        return new ResponseEntity<>(produtosCardDTO, HttpStatus.OK);
+        return new ResponseBuilder().build(produtosCardDTO, HttpStatus.OK);
     }
 
     private List<ProdutoDTO> getProdutosDTO(List<Produto> produtos) {
@@ -73,13 +74,13 @@ public class SiteProdutoServico {
                 produtoRepositorio.findByIdAndStatus(filtro.getId(), Status.ATIVO);
 
         if (produto == null)
-            return new ResponseEntity<>("Produto não encontrado.", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Produto não encontrado.", HttpStatus.NOT_FOUND);
 
         List<byte[]> imagens = imagemProdutoServico.getImagensPorIdProduto(produto.getId());
         produto.setImagens(imagens);
 
         ProdutoSiteDTO prodDTO = new ProdutoSiteDTO(produto);
 
-        return new ResponseEntity<>(prodDTO, HttpStatus.OK);
+        return new ResponseBuilder().build(prodDTO, HttpStatus.OK);
     }
 }

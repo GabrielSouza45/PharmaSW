@@ -6,6 +6,7 @@ import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
 import br.com.pharmasw.api.servico.backoffice.helpers.PaginationHelper;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class UsuarioServico {
 
         Page<UsuarioDTO> page = paginationHelper.transformarEmPage(dtos, paginaAtual, totalUsuarios);
 
-        return new ResponseEntity<>(page, HttpStatus.OK);
+        return new ResponseBuilder().build(page, HttpStatus.OK);
     }
 
 
@@ -56,12 +57,12 @@ public class UsuarioServico {
 
         // Verificar se o email já existe
         if (usuarioRepositorio.findUsuarioByEmailAndStatus(usuario.getEmail(), Status.ATIVO) != null) {
-            return new ResponseEntity<>("Email já existe!", HttpStatus.UNAUTHORIZED);
+            return new ResponseBuilder().build("Email já existe!", HttpStatus.UNAUTHORIZED);
         }
 
         // Verificar se o CPF já existe
         if (usuarioRepositorio.findByCpfAndStatus(usuario.getCpf(), Status.ATIVO) != null) {
-            return new ResponseEntity<>("CPF já cadastrado!", HttpStatus.UNAUTHORIZED);
+            return new ResponseBuilder().build("CPF já cadastrado!", HttpStatus.UNAUTHORIZED);
         }
 
         // Encriptar a senha
@@ -74,7 +75,7 @@ public class UsuarioServico {
         Usuario usuarioSalvo = usuarioRepositorio.save(usuario);
         UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioSalvo);
 
-        return new ResponseEntity<>(usuarioDTO, HttpStatus.CREATED);
+        return new ResponseBuilder().build(usuarioDTO, HttpStatus.CREATED);
     }
 
     //  ALTERAR USUÁRIO
@@ -106,7 +107,7 @@ public class UsuarioServico {
         Usuario usuario = usuarioRepositorio.findById(usuarioRequest.getId()).orElse(null);
 
         if (usuario == null) {
-            return new ResponseEntity<>("Usuario não encontrado!", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Usuario não encontrado!", HttpStatus.NOT_FOUND);
         }
 
         Status status = usuario.getStatus();
@@ -114,7 +115,7 @@ public class UsuarioServico {
         usuario.setStatus(status == Status.INATIVO ? Status.ATIVO : Status.INATIVO);
         Usuario usuarioAtualizado = usuarioRepositorio.save(usuario);
 
-        return new ResponseEntity<>(new UsuarioDTO(usuarioAtualizado), HttpStatus.OK);
+        return new ResponseBuilder().build(new UsuarioDTO(usuarioAtualizado), HttpStatus.OK);
     }
 
 

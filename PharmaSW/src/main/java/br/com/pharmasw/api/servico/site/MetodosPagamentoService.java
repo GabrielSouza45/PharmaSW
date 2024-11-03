@@ -2,6 +2,7 @@ package br.com.pharmasw.api.servico.site;
 
 import br.com.pharmasw.api.modelo.MetodosPagamento;
 import br.com.pharmasw.api.repositorio.MetodosPagamentoRepositorio;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import br.com.pharmasw.api.servico.site.Interfaces.IMetodosPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,6 @@ public class MetodosPagamentoService implements IMetodosPagamentoService {
     public ResponseEntity<?> getMetodosPagamento() {
         List<MetodosPagamento> metodos = metodosRepositorio.findAll();
 
-        return new ResponseEntity<>(metodos, HttpStatus.OK);
+        return new ResponseBuilder().build(metodos, HttpStatus.OK);
     }
 }

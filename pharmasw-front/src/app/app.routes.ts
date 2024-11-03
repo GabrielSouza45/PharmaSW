@@ -15,6 +15,7 @@ import { HomeComponent } from './pages/site/home/home.component';
 import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.component';
 import { PerfilComponent } from './pages/site/perfil/perfil.component';
 import { ResumoPedidoComponent } from './pages/site/resumo-pedido/resumo-pedido.component';
+import { PedidoCriadoComponent } from './pages/site/pedido-criado/pedido-criado.component';
 
 export const routes: Routes = [
   // SITE
@@ -37,6 +38,10 @@ export const routes: Routes = [
   {
     path: 'resumo-pedido',
     component : ResumoPedidoComponent
+  },
+  {
+    path: 'pedido-criado',
+    component: PedidoCriadoComponent
   },
   {
     path: 'entrar',

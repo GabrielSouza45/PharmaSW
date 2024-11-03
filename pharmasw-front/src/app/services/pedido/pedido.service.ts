@@ -1,3 +1,4 @@
+import { StateService } from './../state-share/state.service';
 import { EnderecoService } from './../endereco/endereco.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -12,6 +13,7 @@ import { CrudService } from '../crud-service/crud-service.service';
 import { MetodosPagamentoService } from '../metodos-pagamento/metodos-pagamento.service';
 import { Endereco } from '../../modelo/Endereco';
 import { MetodosPagamento } from '../../modelo/MetodosPagamento';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,8 @@ export class PedidoService extends CrudService<Pedido> {
     private auth: AuthService,
     private enderecoService: EnderecoService,
     private metodosPagamentoService: MetodosPagamentoService,
+    private router: Router,
+    private stateService: StateService
   ) {
     super(http, "/pedido-controle", toastr);
   }
@@ -36,10 +40,10 @@ export class PedidoService extends CrudService<Pedido> {
     this.adicionar(pedido, "/cadastrar").subscribe({
       next: (response) => {
         this.toastr.success("Pedido realizado com sucesso!");
-        this.redireciona();
+        this.redireciona(response.body);
       },
       error: (erro) => {
-        this.toastr.error(erro);
+        this.toastr.error(erro.error ? erro.error.menssagem : "Erro ao realizar pedido.");
         console.log(erro);
 
       }
@@ -47,8 +51,9 @@ export class PedidoService extends CrudService<Pedido> {
 
   }
 
-  private redireciona(){
-
+  private redireciona(retorno: PedidoDTO){
+    this.stateService.setData(retorno);
+    this.router.navigate(['/pedido-criado']);
   }
 
   private getPedido(){
@@ -87,6 +92,19 @@ export class PedidoService extends CrudService<Pedido> {
     });
 
     return itemsPedido;
+  }
+}
+
+class PedidoDTO {
+  codigo: number;
+  valor: number;
+
+  constructor(
+    codigo: number,
+    valor: number
+  ) {
+    this.codigo = codigo;
+    this.valor = valor;
   }
 }
 

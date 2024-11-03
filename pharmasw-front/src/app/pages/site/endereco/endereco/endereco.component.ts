@@ -100,9 +100,11 @@ export class EnderecoComponent {
           if (resposta === 'confirmar') {
             novoEndereco.copia = true;
           }
-
           this.adicionar(novoEndereco);
         });
+      }
+      else {
+        this.adicionar(novoEndereco);
       }
     }
   }
@@ -134,6 +136,9 @@ export class EnderecoComponent {
         this.optionsTipo.push(opc);
       }
     }
+    this.enderecoForm.patchValue({
+      tipoEndereco: this.optionsTipo[0].value
+    })
   }
 
   private consultaEnderecoFaturamento(): void {

@@ -4,6 +4,7 @@ import br.com.pharmasw.api.modelo.Filtros;
 import br.com.pharmasw.api.modelo.Usuario;
 import br.com.pharmasw.api.servico.backoffice.UsuarioServico;
 
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class UsuarioControle {
      @CrossOrigin(origins = "*", allowedHeaders = "*")
      public ResponseEntity<?> listarUsuarios(@RequestBody Filtros filtros) {
 
-         return new ResponseEntity<>(usuarioServico.listarUsuarios(filtros), HttpStatus.OK);
+         return new ResponseBuilder().build(usuarioServico.listarUsuarios(filtros), HttpStatus.OK);
 
      }
      
@@ -46,7 +47,7 @@ public class UsuarioControle {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> alterarUsuario(@RequestBody  Usuario usuario) {
         if (usuario.getEmail() == null)
-            return new ResponseEntity<>("Email é obrigatório!", HttpStatus.BAD_REQUEST);
+            return new ResponseBuilder().build("Email é obrigatório!", HttpStatus.BAD_REQUEST);
 
         return usuarioServico.alterar(usuario);
     }

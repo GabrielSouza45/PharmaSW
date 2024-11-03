@@ -3,6 +3,8 @@ package br.com.pharmasw.api.modelo;
 import br.com.pharmasw.api.infra.validators.cpf.ValidCpf;
 import br.com.pharmasw.api.infra.validators.nome.ValidNome;
 import br.com.pharmasw.api.modelo.enums.Genero;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -16,11 +18,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
-import java.lang.*;
 
 @Entity(name = "clientes")
 @Table(name = "clientes")
 @EqualsAndHashCode(of = "id")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cliente implements UserDetails, Pessoa{
 
     @Id
@@ -56,35 +58,42 @@ public class Cliente implements UserDetails, Pessoa{
 
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_CLIENTE"));
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return this.senha;
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return this.email;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

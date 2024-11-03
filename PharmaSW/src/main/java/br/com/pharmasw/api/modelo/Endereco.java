@@ -4,6 +4,7 @@ import br.com.pharmasw.api.modelo.enums.TipoEndereco;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.Fetch;
 
 @Entity(name = "enderecos")
 @Table(name = "enderecos")
@@ -13,7 +14,7 @@ public class Endereco implements Cloneable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 

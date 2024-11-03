@@ -3,6 +3,7 @@ package br.com.pharmasw.api.controle.backoffice;
 import br.com.pharmasw.api.modelo.ImagemProduto;
 import br.com.pharmasw.api.modelo.Produto;
 import br.com.pharmasw.api.servico.backoffice.ImagemProdutoServico;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class ImagemProdutoControle {
     @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')")
     public ResponseEntity<?> listarImagensProdutos(@RequestBody Produto produto){
         if (produto.getId() == null)
-            return new ResponseEntity<>("Id é obrigatório.", HttpStatus.BAD_REQUEST);
+            return new ResponseBuilder().build("Id é obrigatório.", HttpStatus.BAD_REQUEST);
 
         return this.imagemProdutoServico.listarImagensProduto(produto);
     }
@@ -33,7 +34,7 @@ public class ImagemProdutoControle {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> excluirImagem(@RequestBody ImagemProduto imagemProduto) {
         if(imagemProduto.getId() == null){
-            return new ResponseEntity<>("Id é obrigatório.", HttpStatus.BAD_REQUEST);
+            return new ResponseBuilder().build("Id é obrigatório.", HttpStatus.BAD_REQUEST);
         }
         return imagemProdutoServico.excluirImagem(imagemProduto.getId());
     }

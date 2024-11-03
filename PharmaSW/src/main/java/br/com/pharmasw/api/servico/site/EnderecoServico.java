@@ -5,6 +5,7 @@ import br.com.pharmasw.api.modelo.Endereco;
 import br.com.pharmasw.api.modelo.ViaCepEndereco;
 import br.com.pharmasw.api.modelo.enums.TipoEndereco;
 import br.com.pharmasw.api.repositorio.EnderecoRepositorio;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class EnderecoServico {
 
         List<Endereco> enderecos = enderecoRepositorio.findByClienteIdOrderByTipoEnderecoDescPadraoDesc(id);
 
-        return new ResponseEntity<>(enderecos, HttpStatus.OK);
+        return new ResponseBuilder().build(enderecos, HttpStatus.OK);
 
     }
 
@@ -52,13 +53,13 @@ public class EnderecoServico {
         ViaCepEndereco apiEndereco = ViaCepAPI.consultar(endereco.getCep());
 
         if (apiEndereco == null)
-            return new ResponseEntity<>("Cep não localizado", HttpStatus.BAD_GATEWAY);
+            return new ResponseBuilder().build("Cep não localizado", HttpStatus.BAD_GATEWAY);
 
         boolean existe =
                 enderecoRepositorio.existsByClienteIdAndCepAndTipoEnderecoAndNumero(cliente.getId(), endereco.getCep(), TipoEndereco.ENTREGA, endereco.getNumero());
 
         if (existe)
-            return new ResponseEntity<>("Endereço já cadastrado", HttpStatus.BAD_REQUEST);
+            return new ResponseBuilder().build("Endereço já cadastrado", HttpStatus.BAD_REQUEST);
 
         endereco.setLogradouro(apiEndereco.getLogradouro());
         endereco.setBairro(apiEndereco.getBairro());
@@ -71,7 +72,7 @@ public class EnderecoServico {
 
         enderecoRepositorio.save(endereco);
 
-        return new ResponseEntity<>( HttpStatus.CREATED);
+        return new ResponseBuilder().build( HttpStatus.CREATED);
     }
 
 
@@ -82,13 +83,13 @@ public class EnderecoServico {
                 enderecoRepositorio.existsByClienteIdAndTipoEndereco(cliente.getId(), TipoEndereco.FATURAMENTO);
 
         if (clienteJaTemEndereco)
-            return new ResponseEntity<>("Não é possível adicionar mais de um endereço de faturamento", HttpStatus.BAD_GATEWAY);
+            return new ResponseBuilder().build("Não é possível adicionar mais de um endereço de faturamento", HttpStatus.BAD_GATEWAY);
 
 
         ViaCepEndereco apiEndereco = ViaCepAPI.consultar(endereco.getCep());
 
         if (apiEndereco == null)
-            return new ResponseEntity<>("Cep não localizado", HttpStatus.BAD_GATEWAY);
+            return new ResponseBuilder().build("Cep não localizado", HttpStatus.BAD_GATEWAY);
 
 
         endereco.setLogradouro(apiEndereco.getLogradouro());
@@ -99,14 +100,14 @@ public class EnderecoServico {
         endereco.setPadrao(false);
 
         enderecoRepositorio.save(endereco);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseBuilder().build(HttpStatus.CREATED);
 
     }
 
     public ResponseEntity<?> alterarEnderecoPadrao(Long idEndereco) {
         Optional<Endereco> enderecoOpt = enderecoRepositorio.findById(idEndereco);
         if (enderecoOpt.isEmpty()) {
-            return new ResponseEntity<>("Endereço não encontrado", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Endereço não encontrado", HttpStatus.NOT_FOUND);
         }
 
         Endereco enderecoEscolhido = enderecoOpt.get();
@@ -122,7 +123,7 @@ public class EnderecoServico {
         enderecoEscolhido.setPadrao(true);
         enderecoRepositorio.save(enderecoEscolhido);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseBuilder().build(HttpStatus.OK);
     }
 
 
@@ -130,13 +131,13 @@ public class EnderecoServico {
 
         List<Endereco> enderecos = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.FATURAMENTO);
 
-        return new ResponseEntity<>(enderecos.isEmpty() ? null : enderecos.getFirst(), HttpStatus.OK);
+        return new ResponseBuilder().build(enderecos.isEmpty() ? null : enderecos.getFirst(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> getEnderecoEntrega(Long idCliente) {
 
         List<Endereco> enderecos = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.ENTREGA);
 
-        return new ResponseEntity<>(enderecos, HttpStatus.OK);
+        return new ResponseBuilder().build(enderecos, HttpStatus.OK);
     }
 }

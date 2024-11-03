@@ -2,6 +2,7 @@ package br.com.pharmasw.api.controle.site;
 
 import br.com.pharmasw.api.modelo.Cliente;
 import br.com.pharmasw.api.modelo.Filtros;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import br.com.pharmasw.api.servico.site.ClienteServico;
 import br.com.pharmasw.api.servico.site.SiteProdutoServico;
 import br.com.pharmasw.api.servico.site.ViaCepAPI;
@@ -58,7 +59,7 @@ public class HomeControle {
     @PostMapping("/consultar-cep")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<?> listarProduto(@RequestBody Cep cep) {
-        return new ResponseEntity<>(ViaCepAPI.consultar(cep.cep), HttpStatus.OK);
+        return new ResponseBuilder().build(ViaCepAPI.consultar(cep.cep), HttpStatus.OK);
     }
 
     public static class Cep{

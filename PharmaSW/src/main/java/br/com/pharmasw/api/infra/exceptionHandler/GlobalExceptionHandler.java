@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.infra.exceptionHandler;
 
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

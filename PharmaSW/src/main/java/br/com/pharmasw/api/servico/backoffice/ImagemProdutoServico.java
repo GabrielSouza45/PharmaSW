@@ -6,6 +6,7 @@ import br.com.pharmasw.api.modelo.Retorno.ProdutoCardDTO;
 import br.com.pharmasw.api.modelo.Retorno.ProdutoDTO;
 import br.com.pharmasw.api.modelo.enums.Status;
 import br.com.pharmasw.api.repositorio.ImagemProdutoRepositorio;
+import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class ImagemProdutoServico {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                return new ResponseEntity<>("Erro ao carregar byte da imagem.", HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseBuilder().build("Erro ao carregar byte da imagem.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
@@ -138,7 +139,7 @@ public class ImagemProdutoServico {
         ImagemProduto imagem = imagemProdutoRepositorio.findById(imagemId).orElse(null);
 
         if (imagem == null) {
-            return new ResponseEntity<>("Imagem não encontrada!", HttpStatus.NOT_FOUND);
+            return new ResponseBuilder().build("Imagem não encontrada!", HttpStatus.NOT_FOUND);
         }
 
         // Caminho da imagem no sistema de arquivos
@@ -150,17 +151,17 @@ public class ImagemProdutoServico {
             if (Files.exists(caminho)) {
                 Files.delete(caminho);
             } else {
-                return new ResponseEntity<>("Arquivo de imagem não encontrado no sistema de arquivos!", HttpStatus.NOT_FOUND);
+                return new ResponseBuilder().build("Arquivo de imagem não encontrado no sistema de arquivos!", HttpStatus.NOT_FOUND);
             }
 
             // Exclui a imagem do banco de dados
             imagemProdutoRepositorio.delete(imagem);
 
-            return new ResponseEntity<>("Imagem excluída com sucesso!", HttpStatus.OK);
+            return new ResponseBuilder().build("Imagem excluída com sucesso!", HttpStatus.OK);
 
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Erro ao excluir a imagem no sistema de arquivos!", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseBuilder().build("Erro ao excluir a imagem no sistema de arquivos!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

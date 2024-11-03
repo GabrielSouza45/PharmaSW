@@ -1,6 +1,7 @@
 package br.com.pharmasw.api.modelo;
 
 import br.com.pharmasw.api.modelo.enums.StatusPedido;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -15,15 +16,15 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "metodo_pagamento_id")
     private MetodosPagamento metodosPagamento;
 
@@ -35,7 +36,7 @@ public class Pedido {
     private Double total;
     private Double frete;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<ItemPedido> itemsPedido;
 
     @Transient

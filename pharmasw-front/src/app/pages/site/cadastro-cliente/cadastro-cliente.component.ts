@@ -124,7 +124,7 @@ export class CadastroClienteComponent extends CrudService<Cliente> {
   }
 
   private exibeErros(error: any) {
-    if (error.Status == 400) {
+    if (error.status == 400) {
       const erros: string[] = error.error
       erros.forEach((err) => {
         this.toastr.warning(err);

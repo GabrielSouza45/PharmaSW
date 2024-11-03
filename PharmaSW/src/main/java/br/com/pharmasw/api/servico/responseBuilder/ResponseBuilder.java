@@ -18,6 +18,11 @@ public class ResponseBuilder implements IResponseBuilder {
     public ResponseEntity<?> build(Object object, HttpStatus httpStatus) {
         return new ResponseEntity<>(object, httpStatus);
     }
+
+    @Override
+    public ResponseEntity<?> build(HttpStatus httpStatus) {
+        return new ResponseEntity<>(httpStatus);
+    }
 }
 
 class Retorno {
