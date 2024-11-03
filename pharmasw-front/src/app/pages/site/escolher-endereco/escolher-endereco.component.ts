@@ -60,7 +60,7 @@ export class EscolherEnderecoComponent extends CrudService<Cliente> {
 
   selecionarEndereco(endereco: Endereco): void {
     this.enderecoSelecionado = endereco;
-    sessionStorage.setItem('enderecoSelecionado', JSON.stringify(endereco));
+    this.setaEndereco();
     this.toastr.success('Endereço de entrega selecionado com sucesso.');
   }
 
@@ -72,14 +72,18 @@ export class EscolherEnderecoComponent extends CrudService<Cliente> {
     }
   }
 
+  private setaEndereco() {
+    this.enderecoService.setEnderecoSelecionado(this.enderecoSelecionado);
+  }
+
   private getEnderecos(): void {
     const userId = this.authService.getIdUser();
     this.enderecoService.listarEntrega(`/cliente-listar-endereco-entrega?idCliente=${userId}`).subscribe({
       next: (enderecos: Endereco[]) => {
         this.enderecos = enderecos;
         if (this.enderecos) {
-          sessionStorage.setItem('enderecoSelecionado', JSON.stringify(this.enderecos[0]));
           this.enderecoSelecionado = this.enderecos[0];
+          this.setaEndereco();
         }
       },
       error: (resp) => {

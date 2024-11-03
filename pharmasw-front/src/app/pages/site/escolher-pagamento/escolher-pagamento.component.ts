@@ -55,13 +55,13 @@ export class EscolherPagamentoComponent implements OnInit {
 
   selecionarPagamento(metodo: MetodosPagamento): void {
     this.metodoSelecionado = metodo;
-    sessionStorage.setItem('metodosPagamentoSelecionado', JSON.stringify(metodo));
+    this.setaMetodo()
   }
 
 
   redirecionarResumo() {
     if (this.metodoSelecionado.metodoPagamento == 'CARTAO') {
-      if (!this.checker.checkFormErrorsPagamento(this.pagamentoForm)){
+      if (!this.checker.checkFormErrorsPagamento(this.pagamentoForm)) {
         return;
       };
     }
@@ -69,12 +69,17 @@ export class EscolherPagamentoComponent implements OnInit {
     this.checkoutService.realizaCheckout();
   }
 
+  private setaMetodo() {
+    console.log("Seta metodo pag ", this.metodoSelecionado);
 
+    this.metodosPagamentoService.setMetodoSelecionado(this.metodoSelecionado);
+  }
 
   private getMetodosPagamento() {
     this.metodosPagamentoService.listarGet("/get-metodos").subscribe((response) => {
       this.metodosPagamento = response;
       this.metodoSelecionado = response[0];
+      this.setaMetodo();
     })
   }
 

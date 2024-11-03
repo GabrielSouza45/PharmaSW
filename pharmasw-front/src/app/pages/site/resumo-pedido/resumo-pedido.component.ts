@@ -11,6 +11,7 @@ import {
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { OpcoesCep } from '../../../modelo/OpcoesCep';
 import { Router } from '@angular/router';
+import { PedidoService } from '../../../services/pedido/pedido.service';
 
 
 
@@ -37,7 +38,11 @@ export class ResumoPedidoComponent implements OnInit {
   precoTotal: number = 0;
   freteSelecionado: OpcoesCep;
 
-  constructor(private carrinhoService: CarrinhoService,  private router: Router) {
+  constructor(
+    private carrinhoService: CarrinhoService,
+    private router: Router,
+    private pedidoService: PedidoService
+  ) {
     this.produtos = this.carrinhoService.getItems();
     this.freteSelecionado = JSON.parse(localStorage.getItem('freteSelecionado') || '{}');
     this.endereco = JSON.parse(sessionStorage.getItem('endereco') || '{}');
@@ -59,6 +64,10 @@ export class ResumoPedidoComponent implements OnInit {
 
   voltarPagamento() {
       this.router.navigate(['/escolher-pagamento']);
+  }
+
+  finalizarPedido(){
+    this.pedidoService.cadastrar();
   }
 
 }

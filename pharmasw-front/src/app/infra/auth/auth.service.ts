@@ -52,6 +52,10 @@ export class AuthService {
     return this.isUsuarioAutenticado.value;
   }
 
+  getUserNome(){
+    return sessionStorage.getItem('nome');
+  }
+
   getUserRole(): string | null {
     return this.permissaoUsuario.value;
   }

@@ -16,4 +16,12 @@ export class MetodosPagamentoService extends CrudService<MetodosPagamento>{
     super(http, "/metodos-pagamento", toastr)
   }
 
+  setMetodoSelecionado(metodo: MetodosPagamento){
+    sessionStorage.setItem('metodosPagamentoSelecionado', JSON.stringify(metodo));
+  }
+
+  getMetodoSelecionado(): MetodosPagamento{
+    return JSON.parse(sessionStorage.getItem('metodosPagamentoSelecionado'));
+  }
+
 }
