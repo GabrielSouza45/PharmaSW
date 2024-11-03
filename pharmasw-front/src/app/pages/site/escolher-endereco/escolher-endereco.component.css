@@ -45,6 +45,7 @@ main{
 
 .borda-lateral {
   border-left: 1px solid #ddd;
+  color: var(--cor-primaria);
 
 }
 

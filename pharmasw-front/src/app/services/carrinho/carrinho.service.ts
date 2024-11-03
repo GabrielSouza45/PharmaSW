@@ -64,6 +64,7 @@ export class CarrinhoService {
 
   limpar(): Produto[] {
     this.items = [];
+    this.setFrete(null)
     this.salvarCarrinho();
     return this.items;
   }

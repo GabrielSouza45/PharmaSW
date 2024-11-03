@@ -1,0 +1,19 @@
+main {
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+i{
+  font-size: 35px;
+  color: var(--cor-secundaria);
+}
+
+.border-left{
+  border-left: 1px solid #ddd;
+}
+
+span{
+  color: var(--cor-primaria);
+
+}

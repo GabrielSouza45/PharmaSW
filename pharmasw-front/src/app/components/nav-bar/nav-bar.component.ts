@@ -79,6 +79,10 @@ export class NavBarComponent {
     this.router.navigate(['/minha-conta']);
   }
 
+  toPedidos(){
+    this.router.navigate(['/']); // Colocar url dos meus pedidos e excluir esse comentario
+  }
+
   logout() {
     const dados = { tituloPopup: 'Deseja realmente sair?' };
     this.abrirComponent(dados, PopupComponent).subscribe((response) => {

@@ -40,6 +40,8 @@ export class PedidoService extends CrudService<Pedido> {
     this.adicionar(pedido, "/cadastrar").subscribe({
       next: (response) => {
         this.toastr.success("Pedido realizado com sucesso!");
+        this.carrinhoService.limpar();
+        this.carrinhoService.setFrete(null);
         this.redireciona(response.body);
       },
       error: (erro) => {
@@ -51,12 +53,12 @@ export class PedidoService extends CrudService<Pedido> {
 
   }
 
-  private redireciona(retorno: PedidoDTO){
+  private redireciona(retorno: PedidoDTO) {
     this.stateService.setData(retorno);
     this.router.navigate(['/pedido-criado']);
   }
 
-  private getPedido(){
+  private getPedido() {
     const produtos: Produto[] = this.carrinhoService.getItems();
     const clienteId: number = this.auth.getIdUser();
     const endereco: Endereco = this.enderecoService.getEnderecoSelecionado();
@@ -97,13 +99,16 @@ export class PedidoService extends CrudService<Pedido> {
 
 class PedidoDTO {
   codigo: number;
+  status: string;
   valor: number;
 
   constructor(
     codigo: number,
+    status: string,
     valor: number
   ) {
     this.codigo = codigo;
+    this.status = status
     this.valor = valor;
   }
 }

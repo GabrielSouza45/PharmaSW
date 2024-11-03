@@ -63,7 +63,7 @@ public class PedidoServico {
 
         Pedido retorno = pedidoRepositorio.save(pedido);
 
-        PedidoDTO dto = new PedidoDTO(retorno.getId(), retorno.getTotal());
+        PedidoDTO dto = new PedidoDTO(retorno.getId(), retorno.getTotal(), retorno.getStatusPedido());
         return new ResponseBuilder().build(dto, HttpStatus.CREATED);
 
     }
