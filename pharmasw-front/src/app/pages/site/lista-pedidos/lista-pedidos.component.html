@@ -1,0 +1,30 @@
+<app-layout-principal>
+    <main class="container p-4">
+      <div class="row mt-3" style="min-height: 650px">
+        <div class="container p-2 col-lg-8 col-md-11 col-sm-11">
+          <div class="container h-100 d-flex flex-column">
+            <h1><i class="bi bi-card-list"></i> Lista de Pedidos</h1>
+            <div class="pedidos p-2 overflow-auto">
+              <div *ngIf="pedidos.length === 0">
+                <h3>Nenhum pedido encontrado.</h3>
+                <h5>Você ainda não realizou compras.</h5>
+              </div>
+              <div *ngIf="pedidos.length > 0">
+                <ng-container *ngFor="let pedido of pedidos">
+                  <div class="pedido-card d-flex p-3 mb-3">
+                    <div class="pedido-info col-12">
+                      <h5>Número do Pedido: {{ pedido.id }}</h5>
+                      <p>Data: {{ pedido.dataCompra | date: 'dd/MM/yyyy' }}</p>
+                      <p>Total: R$ {{ pedido.total | currency:'BRL' }}</p>
+                      <p>Status: {{ pedido.statusPedido }}</p>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </app-layout-principal>
+  

@@ -14,6 +14,8 @@ import { MetodosPagamentoService } from '../metodos-pagamento/metodos-pagamento.
 import { Endereco } from '../../modelo/Endereco';
 import { MetodosPagamento } from '../../modelo/MetodosPagamento';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +81,11 @@ export class PedidoService extends CrudService<Pedido> {
     );
   }
 
+  listarPorCliente(idCliente: number): Observable<Pedido[]> {
+    return this.listarPorParametro('/listar-por-cliente', { idCliente });
+  }
+  
+
   private getItemsPedido(produtos: Produto[]): ItemPedido[] {
 
     let itemsPedido: ItemPedido[] = [];
@@ -92,6 +99,8 @@ export class PedidoService extends CrudService<Pedido> {
       ));
 
     });
+
+    
 
     return itemsPedido;
   }

@@ -1,0 +1,44 @@
+.pedidos {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  
+  .pedido-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+  
+  .pedido-entregue {
+    border-left: 5px solid #28a745;
+  }
+  
+  .pedido-pendente {
+    border-left: 5px solid #ffc107;
+  }
+  
+  .pedido-id {
+    font-weight: bold;
+  }
+  
+  .pedido-data,
+  .pedido-valor,
+  .pedido-status {
+    margin: 5px 0;
+  }
+  
+  .badge-success {
+    background-color: #28a745;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 12px;
+  }
+  
+  .badge-warning {
+    background-color: #ffc107;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 12px;
+  }
+  

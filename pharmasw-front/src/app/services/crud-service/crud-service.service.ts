@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, tap } from 'rxjs';
@@ -32,6 +32,16 @@ export class CrudService<T> {
     return this.httpClient.post<any>(this.url + acao, filtros);
   }
 
+  listarPorParametro(acao: string, params: { [key: string]: any }): Observable<T[]> {
+    const httpParams = new HttpParams({ fromObject: params });
+    return this.httpClient.get<T[]>(this.url + acao, { params: httpParams }).pipe(
+      tap({
+        next: () => this.toastrServico.success('Dados carregados com sucesso!'),
+        error: () => this.toastrServico.error('Erro ao carregar dados.')
+      })
+    );
+  }
+
   excluir(acao: string): Observable<any> {
     return this.httpClient.delete<any>(this.url + acao).pipe(
       tap({
@@ -47,13 +57,10 @@ export class CrudService<T> {
       .pipe(
         tap((response: HttpResponse<any>) => {
           const statusCode = response.status;
-
           if (statusCode === 201) {
             this.toastrServico.success('Registro criado com sucesso!');
           } else if (statusCode === 401) {
-            this.toastrServico.warning(
-              'Erro na solicitação. Verifique os dados e tente novamente.'
-            );
+            this.toastrServico.warning('Erro na solicitação. Verifique os dados e tente novamente.');
           } else {
             this.toastrServico.error('Resposta inesperada do servidor.');
           }
@@ -67,7 +74,6 @@ export class CrudService<T> {
       .pipe(
         tap((response: HttpResponse<any>) => {
           const statusCode = response.status;
-
           if (statusCode === 200) {
             this.toastrServico.success('Registro alterado com sucesso!');
           } else if (statusCode === 400) {
@@ -87,7 +93,6 @@ export class CrudService<T> {
       .pipe(
         tap((response: HttpResponse<any>) => {
           const statusCode = response.status;
-
           if (statusCode === 200) {
             this.toastrServico.success('Status alterado com sucesso!');
           } else if (statusCode === 400) {
