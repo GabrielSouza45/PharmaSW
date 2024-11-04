@@ -59,7 +59,6 @@ export const routes: Routes = [
   },
   {
     path: 'checkout',
-    component: PaginaNaoEncontradaComponent,
     children: [
       {
         path: 'entrar',
