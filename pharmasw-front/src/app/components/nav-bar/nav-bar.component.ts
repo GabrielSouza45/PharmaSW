@@ -80,7 +80,7 @@ export class NavBarComponent {
   }
 
   toPedidos(){
-    this.router.navigate(['/']); // Colocar url dos meus pedidos e excluir esse comentario
+    this.router.navigate(['/lista-pedidos']);
   }
 
   logout() {

@@ -16,6 +16,7 @@ import { LoginClienteComponent } from './pages/site/login-cliente/login-cliente.
 import { PerfilComponent } from './pages/site/perfil/perfil.component';
 import { ResumoPedidoComponent } from './pages/site/resumo-pedido/resumo-pedido.component';
 import { PedidoCriadoComponent } from './pages/site/pedido-criado/pedido-criado.component';
+import { ListaPedidosComponent } from './pages/site/lista-pedidos/lista-pedidos.component';
 
 export const routes: Routes = [
   // SITE
@@ -42,6 +43,10 @@ export const routes: Routes = [
   {
     path: 'pedido-criado',
     component: PedidoCriadoComponent
+  },
+  {
+    path: 'lista-pedidos',
+    component: ListaPedidosComponent
   },
   {
     path: 'entrar',
