@@ -29,6 +29,7 @@ public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
             @Param("status") String status);
 
 
+
     Produto findProdutoByNomeAndStatus(String nome, Status status);
 
     @Query(value = "SELECT preco FROM produtos WHERE nome = :nome AND status = 'ATIVO'", nativeQuery = true)

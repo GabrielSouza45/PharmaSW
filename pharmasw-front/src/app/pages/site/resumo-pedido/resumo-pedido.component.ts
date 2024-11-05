@@ -45,8 +45,8 @@ export class ResumoPedidoComponent implements OnInit {
   ) {
     this.produtos = this.carrinhoService.getItems();
     this.freteSelecionado = JSON.parse(localStorage.getItem('freteSelecionado') || '{}');
-    this.endereco = JSON.parse(sessionStorage.getItem('endereco') || '{}');
-    this.formaPagamento = JSON.parse(sessionStorage.getItem('formaPagamento') || '{}');
+    this.endereco = JSON.parse(sessionStorage.getItem('enderecoSelecionado') || '{}');
+    this.formaPagamento = JSON.parse(sessionStorage.getItem('metodosPagamentoSelecionado'));
   }
 
   ngOnInit() {
@@ -63,7 +63,7 @@ export class ResumoPedidoComponent implements OnInit {
   }
 
   voltarPagamento() {
-      this.router.navigate(['/escolher-pagamento']);
+      this.router.navigate(['/checkout/pagamento']);
   }
 
   finalizarPedido(){
