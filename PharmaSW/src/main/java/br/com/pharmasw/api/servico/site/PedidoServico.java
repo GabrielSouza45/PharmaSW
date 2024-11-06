@@ -89,12 +89,10 @@ public class PedidoServico {
         System.out.println(valorArredondado);
         System.out.println(SUB_TOTAL);
 
-        if (valorArredondado != SUB_TOTAL)
-            return "Valor total dos produtos é diferente do valor informado.";
+
 
         double valorTotalComFrete = valorArredondado + FRETE;
-        if (valorTotalComFrete != TOTAL)
-            return "Valor total da compra é diferente do valor informado.";
+
 
 
         return "";
@@ -146,4 +144,8 @@ public class PedidoServico {
         });
 
     }
+
+
+
+
 }

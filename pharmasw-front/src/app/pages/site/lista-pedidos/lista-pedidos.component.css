@@ -42,3 +42,13 @@
     border-radius: 12px;
   }
   
+
+.btn-primary {
+  background-color: #13426E;
+  border-color: #13426E; 
+}
+
+.btn-primary:hover {
+  background-color: #0B5ED7;  
+  border-color: #0B5ED7;  
+}

@@ -34,5 +34,8 @@ export class ListaPedidosComponent implements OnInit {
       error: (err) => console.error("Erro ao carregar pedidos", err)
     });
   }
+
+
+  
 }
 

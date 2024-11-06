@@ -104,6 +104,7 @@ export class PedidoService extends CrudService<Pedido> {
 
     return itemsPedido;
   }
+
 }
 
 class PedidoDTO {

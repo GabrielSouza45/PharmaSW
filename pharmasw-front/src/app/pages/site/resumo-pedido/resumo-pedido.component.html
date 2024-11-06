@@ -1,61 +1,59 @@
 <app-layout-principal>
-  <main class="container p-3">
+  <main class="container p-4">
     <div class="row d-flex justify-content-center">
-      <div class="col-lg-6 col-md-8">
-        <div class="card">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card shadow-sm border-0 rounded">
           <div class="card-body">
-            <h2 class="card-title">Resumo do Pedido</h2>
+            <h2 class="card-title mb-4"style="color: #13426E;"><i class="bi bi-cart-check"></i> Resumo do Pedido</h2>
 
             <div class="endereco-resumo mt-4">
-              <h5>Endereço de Entrega:</h5>
-              <p>
-                {{ endereco.logradouro }}, {{ endereco.numero }} - {{ endereco.bairro }}, {{ endereco.cidade }}/{{ endereco.uf }}
+              <h5 class="text-muted-bold">Endereço de Entrega:</h5>
+              <p class="font-weight">
+                {{ endereco.logradouro }}, {{ endereco.numero }} - {{ endereco.bairro }},
+                {{ endereco.cidade }}/{{ endereco.uf }}
               </p>
-              <p>CEP: {{ endereco.cep }}</p>
+              <p><strong>CEP:</strong> {{ endereco.cep }}</p>
             </div>
 
-            
             <div class="forma-pagamento mt-4">
-              <h5>Forma de Pagamento: </h5> <p>{{ formaPagamento.metodoPagamento }}</p>
+              <h5 class="text-muted-bold">Forma de Pagamento:</h5>
+              <p class="font-weight">{{ formaPagamento.metodoPagamento }}</p>
             </div>
 
-
-              <div class="pedido-itens mt-4">
-                <h5>Itens do Pedido</h5>
-                <div *ngFor="let produto of produtos" class="produto-item py-2 border-bottom">
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <p class="mb-1"><strong>{{ produto.nome }}</strong></p>
-                      <p class="mb-1 text-muted">Qtd: {{ produto.quantidadePedido }}</p>
-                    </div>
-                    <div>
-                      <p class="mb-1"><strong>Unitário:</strong> {{ produto.valor | currency: 'BRL':'symbol' }}</p>
-                      <p><strong>Total:</strong> {{ (produto.valor * produto.quantidadePedido) | currency: 'BRL':'symbol' }}</p>
-                    </div>
+            <div class="pedido-itens mt-4">
+              <h5 class="text-muted-bold">Itens do Pedido</h5>
+              <div *ngFor="let produto of produtos" class="produto-item py-3 border-bottom">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <p class="mb-1 font-weight-bold">{{ produto.nome }}</p>
+                    <p class="mb-1 text-muted">Qtd: {{ produto.quantidadePedido }}</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="mb-1"><strong>Unitário:</strong> {{ produto.valor | currency: 'BRL':'symbol' }}</p>
+                    <p><strong>Total:</strong> {{ (produto.valor * produto.quantidadePedido) | currency: 'BRL':'symbol' }}</p>
                   </div>
                 </div>
               </div>
-
-          
+            </div>
 
             <div class="resumo-preco mt-4">
               <div class="d-flex justify-content-between">
-                <span>Subtotal:</span>
+                <span class="font-weight-semibold">Subtotal:</span>
                 <strong>{{ precoSubtotal | currency: 'BRL':'symbol' }}</strong>
               </div>
               <div class="d-flex justify-content-between">
-                <span>Frete:</span>
+                <span class="font-weight-semibold">Frete:</span>
                 <strong>{{ freteSelecionado?.preco | currency: 'BRL':'symbol' }}</strong>
               </div>
-              <div class="d-flex justify-content-between">
-                <h5>Total:</h5>
-                <h5>{{ precoTotal | currency: 'BRL':'symbol' }}</h5>
+              <div class="d-flex justify-content-between mt-3">
+                <h5 class="font-weight-bold">Total:</h5>
+                <h5 class="font-weight-bold">{{ precoTotal | currency: 'BRL':'symbol' }}</h5>
               </div>
             </div>
 
-            <div class="d-flex justify-content-between mt-4">
-              <button class="btn btn-secondary col-5" (click)="voltarPagamento()">Voltar</button>
-              <button class="btn btn-primary col-5" (click)="finalizarPedido()">Confirmar Pedido</button>
+            <div class="d-flex justify-content-between mt-5">
+              <button class="btn btn-outline-secondary col-5" (click)="voltarPagamento()">Voltar</button>
+              <button class="btn btn-success col-5" (click)="finalizarPedido()">Confirmar Pedido</button>
             </div>
           </div>
         </div>
