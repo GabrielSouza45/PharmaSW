@@ -130,7 +130,7 @@ public class PedidoServico {
 
     public ResponseEntity<?> listarPorCliente(Long idCliente) {
 
-        List<Pedido> pedidos = pedidoRepositorio.findAllByClienteId(idCliente);
+        List<Pedido> pedidos = pedidoRepositorio.findAllByClienteIdOrderByIdDesc(idCliente);
         atualizaClienteDTO(pedidos);
 
         return new ResponseBuilder().build(pedidos, HttpStatus.OK);

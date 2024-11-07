@@ -136,7 +136,7 @@ public class EnderecoServico {
 
     public ResponseEntity<?> getEnderecoEntrega(Long idCliente) {
 
-        List<Endereco> enderecos = enderecoRepositorio.findByClienteIdAndTipoEndereco(idCliente, TipoEndereco.ENTREGA);
+        List<Endereco> enderecos = enderecoRepositorio.findByClienteIdAndTipoEnderecoOrderByPadraoDesc(idCliente, TipoEndereco.ENTREGA);
 
         return new ResponseBuilder().build(enderecos, HttpStatus.OK);
     }
