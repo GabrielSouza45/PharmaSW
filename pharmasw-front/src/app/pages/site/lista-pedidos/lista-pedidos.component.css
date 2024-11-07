@@ -1,54 +1,35 @@
+main {
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
 .pedidos {
-    max-height: 60vh;
-    overflow-y: auto;
-  }
-  
-  .pedido-card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 15px;
-    background-color: #f9f9f9;
-  }
-  
-  .pedido-entregue {
-    border-left: 5px solid #28a745;
-  }
-  
-  .pedido-pendente {
-    border-left: 5px solid #ffc107;
-  }
-  
-  .pedido-id {
-    font-weight: bold;
-  }
-  
-  .pedido-data,
-  .pedido-valor,
-  .pedido-status {
-    margin: 5px 0;
-  }
-  
-  .badge-success {
-    background-color: #28a745;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 12px;
-  }
-  
-  .badge-warning {
-    background-color: #ffc107;
-    color: black;
-    padding: 5px 10px;
-    border-radius: 12px;
-  }
-  
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.pedido-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  background-color: #FFFFFF;
+}
+
+.badge-secondary {
+  background-color: #E0E0E0 !important;
+  color: black !important;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
 
 .btn-primary {
   background-color: #13426E;
-  border-color: #13426E; 
+  border-color: #13426E;
 }
 
 .btn-primary:hover {
-  background-color: #0B5ED7;  
-  border-color: #0B5ED7;  
+  background-color: #0B5ED7;
+  border-color: #0B5ED7;
 }
+
