@@ -44,4 +44,17 @@ public class PedidoControle {
 
         return pedidoServico.listarPorCliente(idCliente);
     }
+
+    @GetMapping("/detalhar-pedido")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CLIENTE')")
+    public ResponseEntity<?> detalharPedido(@RequestParam(value = "idPedido", required = true) Long idPedido){
+
+        if (idPedido == null)
+            return new ResponseBuilder().build("IdPedido é obrigatório!", HttpStatus.BAD_REQUEST);
+
+        return pedidoServico.detalharPedido(idPedido);
+    }
+
+
 }

@@ -1,17 +1,13 @@
 
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { BotaoComponent } from '../../../components/botao/botao.component';
+import { OpcoesCep } from '../../../modelo/OpcoesCep';
 import { Produto } from '../../../modelo/Produto';
 import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
-import { CommonModule, CurrencyPipe} from '@angular/common';
-import { BotaoComponent } from '../../../components/botao/botao.component';
-import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
-import {
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
-import { OpcoesCep } from '../../../modelo/OpcoesCep';
-import { Router } from '@angular/router';
 import { PedidoService } from '../../../services/pedido/pedido.service';
+import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 
 
 
@@ -22,10 +18,8 @@ import { PedidoService } from '../../../services/pedido/pedido.service';
   imports: [
     CurrencyPipe,
     BotaoComponent,
-    InputPrimarioComponent,
     CommonModule,
     LayoutPrincipalComponent,
-    ReactiveFormsModule,
   ],
   templateUrl: './resumo-pedido.component.html',
   styleUrls: ['./resumo-pedido.component.css'],

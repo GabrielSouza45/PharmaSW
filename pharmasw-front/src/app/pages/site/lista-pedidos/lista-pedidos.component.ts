@@ -5,6 +5,7 @@ import { AuthService } from '../../../infra/auth/auth.service';
 import { BotaoComponent } from '../../../components/botao/botao.component';
 import { CommonModule } from '@angular/common';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-pedidos',
@@ -23,9 +24,10 @@ export class ListaPedidosComponent implements OnInit {
 
   constructor(
     private pedidoService: PedidoService,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) {
-    this.idCliente = this.auth.getIdUser(); 
+    this.idCliente = this.auth.getIdUser();
   }
 
   ngOnInit(): void {
@@ -35,7 +37,9 @@ export class ListaPedidosComponent implements OnInit {
     });
   }
 
+  detalharPedido(id: number){
+    	this.router.navigate(['/detalhes-pedido/'+id]);
+  }
 
-  
 }
 

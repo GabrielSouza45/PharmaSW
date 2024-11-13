@@ -131,21 +131,14 @@ public class PedidoServico {
     public ResponseEntity<?> listarPorCliente(Long idCliente) {
 
         List<Pedido> pedidos = pedidoRepositorio.findAllByClienteIdOrderByIdDesc(idCliente);
-        atualizaClienteDTO(pedidos);
 
         return new ResponseBuilder().build(pedidos, HttpStatus.OK);
 
     }
 
-    private void atualizaClienteDTO(List<Pedido> pedidos) {
 
-        pedidos.forEach(pedido -> {
-
-        });
-
+    public ResponseEntity<?> detalharPedido(Long idPedido) {
+        Pedido pedido = pedidoRepositorio.findById(idPedido).orElse(null);
+        return ResponseEntity.ok(pedido);
     }
-
-
-
-
 }

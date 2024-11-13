@@ -35,6 +35,14 @@ export class PedidoService extends CrudService<Pedido> {
     super(http, "/pedido-controle", toastr);
   }
 
+  listarPorCliente(idCliente: number): Observable<Pedido[]> {
+    return this.listarGet(`/listar-por-cliente?idCliente=${ idCliente }`);
+  }
+
+  detalharPedido(idPedido: number): Observable<Pedido> {
+    return this.listarGetUnico(`/detalhar-pedido?idPedido=${ idPedido }`);
+  }
+
 
   cadastrar() {
 
@@ -81,10 +89,6 @@ export class PedidoService extends CrudService<Pedido> {
     );
   }
 
-  listarPorCliente(idCliente: number): Observable<Pedido[]> {
-    return this.listarPorParametro('/listar-por-cliente', { idCliente });
-  }
-  
 
   private getItemsPedido(produtos: Produto[]): ItemPedido[] {
 
@@ -100,7 +104,7 @@ export class PedidoService extends CrudService<Pedido> {
 
     });
 
-    
+
 
     return itemsPedido;
   }

@@ -32,14 +32,8 @@ export class CrudService<T> {
     return this.httpClient.post<any>(this.url + acao, filtros);
   }
 
-  listarPorParametro(acao: string, params: { [key: string]: any }): Observable<T[]> {
-    const httpParams = new HttpParams({ fromObject: params });
-    return this.httpClient.get<T[]>(this.url + acao, { params: httpParams }).pipe(
-      tap({
-        next: () => this.toastrServico.success('Dados carregados com sucesso!'),
-        error: () => this.toastrServico.error('Erro ao carregar dados.')
-      })
-    );
+  listarGetUnico(acao: string): Observable<any> {
+    return this.httpClient.get<any>(this.url + acao);
   }
 
   excluir(acao: string): Observable<any> {

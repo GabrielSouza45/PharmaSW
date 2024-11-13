@@ -1,7 +1,7 @@
 import { Produto } from './Produto';
 export class ItemPedido {
 
-  Produto: Produto;
+  produto: Produto;
   codigoProduto: string;
   valorUnitario: number;
   qtdProdutos: number;
