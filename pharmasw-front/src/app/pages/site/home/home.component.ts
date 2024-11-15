@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { BotaoComponent } from '../../../components/botao/botao.component';
 import { Produto } from '../../../modelo/Produto';
 import { ProdutoCard } from '../../../modelo/ProdutoCard';
@@ -10,11 +9,16 @@ import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { AvaliacaoService } from './../../../services/avaliacao/avaliacao.service';
 import { CrudService } from './../../../services/crud-service/crud-service.service';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [LayoutPrincipalComponent, CommonModule, BotaoComponent],
+  imports: [
+    LayoutPrincipalComponent,
+    CommonModule,
+    BotaoComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -27,7 +31,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private toastr: ToastrService,
+    /*@Inject(ToastrService)*/ private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
     private avaliacaoService: AvaliacaoService,
