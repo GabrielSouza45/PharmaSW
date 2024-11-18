@@ -9,6 +9,7 @@ import { PedidoService } from '../../../services/pedido/pedido.service';
 import { LayoutPrincipalComponent } from '../../site/layout-principal/layout-principal.component';
 import { PaginaInicialComponent } from "../pagina-inicial/pagina-inicial.component";
 import { PaginaLayoutComponent } from "../../../components/back-office/pagina-layout/pagina-layout.component";
+import { StatusPedido, StatusPedidoDescricao } from '../../../modelo/enums/StatusPedido';
 
 
 @Component({
@@ -18,8 +19,6 @@ import { PaginaLayoutComponent } from "../../../components/back-office/pagina-la
     LayoutPrincipalComponent,
     BotaoComponent,
     CommonModule,
-    PaginaInicialLayoutComponent,
-    PaginaInicialComponent,
     PaginaLayoutComponent
 ],
   templateUrl: './estoquista-pedido.component.html',
@@ -28,23 +27,50 @@ import { PaginaLayoutComponent } from "../../../components/back-office/pagina-la
 export class EstoquistaPedidoComponent implements OnInit {
   pedidos: Pedido[] = [];
   idCliente: number;
+  novoStatus: { [key: number]: StatusPedido } = {};  // Agora, podemos ter um status distinto para cada pedido
+  statusDisponiveis = Object.values(StatusPedido); // Lista dos status disponíveis do enum
+  statusDescricao = StatusPedidoDescricao; // Mapeamento de descrição dos status
 
   constructor(
     private pedidoService: PedidoService,
     private auth: AuthService,
     private router: Router
   ) {
-    this.idCliente = this.auth.getIdUser();
+    this.idCliente = this.auth.getIdUser();  // Pegue o id do cliente do serviço de autenticação
   }
 
   ngOnInit(): void {
+    this.carregarPedidos();
+  }
+
+  carregarPedidos(): void {
     this.pedidoService.listarPorCliente(this.idCliente).subscribe({
-      next: (data) => this.pedidos = data,
+      next: (data) => {
+        this.pedidos = data;
+        // Inicialize os status de cada pedido
+        this.pedidos.forEach(pedido => {
+          this.novoStatus[pedido.id] = pedido.statusPedido;  // Preencha o status com o valor inicial
+        });
+      },
       error: (err) => console.error("Erro ao carregar pedidos", err)
     });
   }
 
-  detalharPedido(id: number) {
-    this.router.navigate([]);
+  atualizarStatus(idPedido: number): void {
+    // Passando o novoStatus para o método de atualização
+    const statusSelecionado = this.novoStatus[idPedido];
+    if (statusSelecionado !== undefined) {
+      this.pedidoService.atualizarStatusPedido(idPedido, statusSelecionado).subscribe(
+        response => {
+          console.log("Status atualizado com sucesso", response);
+          this.carregarPedidos(); // Recarrega a lista de pedidos após a atualização
+        },
+        error => {
+          console.error("Erro ao atualizar o status", error);
+        }
+      );
+    } else {
+      console.error("Status não selecionado para o pedido", idPedido);
+    }
   }
 }

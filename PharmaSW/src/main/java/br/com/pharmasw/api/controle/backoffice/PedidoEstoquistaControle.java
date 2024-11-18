@@ -1,5 +1,6 @@
 package br.com.pharmasw.api.controle.backoffice;
 
+import br.com.pharmasw.api.modelo.enums.StatusPedido;
 import br.com.pharmasw.api.servico.backoffice.PedidoEstoquistaServico;
 import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
 import br.com.pharmasw.api.servico.site.PedidoServico;
@@ -22,4 +23,12 @@ public class PedidoEstoquistaControle {
         return pedidoEstoquistaServico.listarTodosPedidos();
     }
 
+    @PatchMapping("/atualizar-status")
+    @PreAuthorize("hasRole('ESTOQUISTA')")
+    public ResponseEntity<?> atualizarStatusPedido(
+            @RequestParam Long idPedido,
+            @RequestParam StatusPedido novoStatus) {
+
+        return pedidoEstoquistaServico.atualizarStatus(idPedido, novoStatus);
+    }
 }

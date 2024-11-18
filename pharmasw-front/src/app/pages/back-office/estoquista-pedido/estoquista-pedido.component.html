@@ -1,5 +1,4 @@
 <app-pagina-layout>
-<app-layout-principal>
   <main class="container p-4">
     <!-- Lista de Pedidos -->
     <div class="row mt-3" style="min-height: 650px">
@@ -30,14 +29,14 @@
                       Total: <strong>R$ {{ pedido.total | number:'1.2-2' }}</strong>
                     </p>
                     <p class="card-text text-muted">
-                      Status: <span class="badge badge-secondary">{{ pedido.statusPedido }}</span>
+                      Status: <span class="badge badge-secondary">{{ statusDescricao[pedido.statusPedido] }}</span>
                     </p>
-                    <app-botao
+                   </div>
+                   <app-botao
                       class="col-12 mt-3"
                       textoBtn="Editar"
-                      (click)="detalharPedido(pedido.id)"
-                    ></app-botao>
-                  </div>
+                      (click)="atualizarStatus(idCliente)">
+                    </app-botao>
                 </div>
               </ng-container>
             </div>
@@ -46,5 +45,4 @@
       </div>
     </div>
   </main>
-</app-layout-principal>
 </app-pagina-layout>

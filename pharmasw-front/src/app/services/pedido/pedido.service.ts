@@ -1,6 +1,6 @@
 import { StateService } from './../state-share/state.service';
 import { EnderecoService } from './../endereco/endereco.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../infra/auth/auth.service';
@@ -15,6 +15,7 @@ import { Endereco } from '../../modelo/Endereco';
 import { MetodosPagamento } from '../../modelo/MetodosPagamento';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { StatusPedido } from '../../modelo/enums/StatusPedido';
 
 
 @Injectable({
@@ -35,9 +36,21 @@ export class PedidoService extends CrudService<Pedido> {
     super(http, "/pedido-controle", toastr);
   }
 
+  private baseUrl: string = 'http://localhost:8080/pedido-estoquista-controle';
+
   listarPorCliente(idCliente: number): Observable<Pedido[]> {
-    return this.listarGet(`/listar-por-cliente?idCliente=${ idCliente }`);
+    return this.listarGet(`/listar-por-cliente?idCliente=${idCliente}`);
   }
+
+  // Atualizar o status de um pedido
+  atualizarStatusPedido(idPedido: number, novoStatus: StatusPedido): Observable<any> {
+    const params = new HttpParams()
+      .set('idPedido', idPedido.toString())
+      .set('novoStatus', novoStatus);
+
+    return this.http.patch(`${this.baseUrl}/pedido-estoquista-controle/atualizar-status`, {}, { params });
+  }
+
 
   detalharPedido(idPedido: number): Observable<Pedido> {
     return this.listarGetUnico(`/detalhar-pedido?idPedido=${ idPedido }`);
