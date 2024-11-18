@@ -27,16 +27,16 @@ import { StatusPedido, StatusPedidoDescricao } from '../../../modelo/enums/Statu
 export class EstoquistaPedidoComponent implements OnInit {
   pedidos: Pedido[] = [];
   idCliente: number;
-  novoStatus: { [key: number]: StatusPedido } = {};  // Agora, podemos ter um status distinto para cada pedido
-  statusDisponiveis = Object.values(StatusPedido); // Lista dos status disponíveis do enum
-  statusDescricao = StatusPedidoDescricao; // Mapeamento de descrição dos status
+  novoStatus: { [key: number]: StatusPedido } = {}; 
+  statusDisponiveis = Object.values(StatusPedido);
+  statusDescricao = StatusPedidoDescricao; //
 
   constructor(
     private pedidoService: PedidoService,
     private auth: AuthService,
     private router: Router
   ) {
-    this.idCliente = this.auth.getIdUser();  // Pegue o id do cliente do serviço de autenticação
+    this.idCliente = this.auth.getIdUser();
   }
 
   ngOnInit(): void {
