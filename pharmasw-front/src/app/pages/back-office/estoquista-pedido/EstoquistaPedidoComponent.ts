@@ -49,14 +49,15 @@ export class EstoquistaPedidoComponent implements OnInit {
         this.pedidos = data;
         // Inicialize os status de cada pedido
         this.pedidos.forEach(pedido => {
-          this.novoStatus[pedido.id] = pedido.statusPedido;  // Preencha o status com o valor inicial
+          this.novoStatus[pedido.id] = pedido.statusPedido;  // Preenche o status com o valor inicial
         });
       },
       error: (err) => console.error("Erro ao carregar pedidos", err)
     });
   }
 
-  atualizarStatus(idPedido: number): void {
+
+  /*atualizarStatus(idPedido: number): void {
     // Passando o novoStatus para o método de atualização
     const statusSelecionado = this.novoStatus[idPedido];
     if (statusSelecionado !== undefined) {
@@ -72,5 +73,5 @@ export class EstoquistaPedidoComponent implements OnInit {
     } else {
       console.error("Status não selecionado para o pedido", idPedido);
     }
-  }
+  }*/
 }
