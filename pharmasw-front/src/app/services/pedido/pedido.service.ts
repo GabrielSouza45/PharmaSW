@@ -36,21 +36,10 @@ export class PedidoService extends CrudService<Pedido> {
     super(http, "/pedido-controle", toastr);
   }
 
-  private baseUrl: string = 'http://localhost:8080/pedido-estoquista-controle';
 
   listarPorCliente(idCliente: number): Observable<Pedido[]> {
     return this.listarGet(`/listar-por-cliente?idCliente=${idCliente}`);
   }
-
-  // Atualizar o status de um pedido
-  atualizarStatusPedido(idPedido: number, novoStatus: StatusPedido): Observable<any> {
-    const params = new HttpParams()
-      .set('idPedido', idPedido.toString())
-      .set('novoStatus', novoStatus);
-
-    return this.http.patch(`${this.baseUrl}/pedido-estoquista-controle/atualizar-status`, {}, { params });
-  }
-
 
   detalharPedido(idPedido: number): Observable<Pedido> {
     return this.listarGetUnico(`/detalhar-pedido?idPedido=${ idPedido }`);

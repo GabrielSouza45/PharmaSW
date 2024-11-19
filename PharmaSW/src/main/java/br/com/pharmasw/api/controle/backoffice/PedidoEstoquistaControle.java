@@ -2,9 +2,7 @@ package br.com.pharmasw.api.controle.backoffice;
 
 import br.com.pharmasw.api.modelo.enums.StatusPedido;
 import br.com.pharmasw.api.servico.backoffice.PedidoEstoquistaServico;
-import br.com.pharmasw.api.servico.responseBuilder.ResponseBuilder;
-import br.com.pharmasw.api.servico.site.PedidoServico;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PedidoEstoquistaControle {
 
-    private PedidoEstoquistaServico pedidoEstoquistaServico;
+    private final PedidoEstoquistaServico pedidoEstoquistaServico;
+
+    // Injeção via construtor
+    @Autowired
+    public PedidoEstoquistaControle(PedidoEstoquistaServico pedidoEstoquistaServico) {
+        this.pedidoEstoquistaServico = pedidoEstoquistaServico;
+    }
 
     @GetMapping("/listar-todos")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PreAuthorize("hasRole('ESTOQUISTA')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')")
     public ResponseEntity<?> listarTodosPedidos() {
         return pedidoEstoquistaServico.listarTodosPedidos();
     }
@@ -28,7 +31,6 @@ public class PedidoEstoquistaControle {
     public ResponseEntity<?> atualizarStatusPedido(
             @RequestParam Long idPedido,
             @RequestParam StatusPedido novoStatus) {
-
         return pedidoEstoquistaServico.atualizarStatus(idPedido, novoStatus);
     }
 }

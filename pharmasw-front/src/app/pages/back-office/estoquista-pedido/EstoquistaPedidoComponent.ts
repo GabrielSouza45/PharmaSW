@@ -10,6 +10,7 @@ import { LayoutPrincipalComponent } from '../../site/layout-principal/layout-pri
 import { PaginaInicialComponent } from "../pagina-inicial/pagina-inicial.component";
 import { PaginaLayoutComponent } from "../../../components/back-office/pagina-layout/pagina-layout.component";
 import { StatusPedido, StatusPedidoDescricao } from '../../../modelo/enums/StatusPedido';
+import { EstoquistaService } from '../../../services/estoquista/estoquista.service';
 
 
 @Component({
@@ -27,12 +28,12 @@ import { StatusPedido, StatusPedidoDescricao } from '../../../modelo/enums/Statu
 export class EstoquistaPedidoComponent implements OnInit {
   pedidos: Pedido[] = [];
   idCliente: number;
-  novoStatus: { [key: number]: StatusPedido } = {}; 
+  novoStatus: { [key: number]: StatusPedido } = {};
   statusDisponiveis = Object.values(StatusPedido);
   statusDescricao = StatusPedidoDescricao; //
 
   constructor(
-    private pedidoService: PedidoService,
+    private estoquista: EstoquistaService,
     private auth: AuthService,
     private router: Router
   ) {
@@ -44,12 +45,12 @@ export class EstoquistaPedidoComponent implements OnInit {
   }
 
   carregarPedidos(): void {
-    this.pedidoService.listarPorCliente(this.idCliente).subscribe({
+    this.estoquista.listarTodos().subscribe({
       next: (data) => {
         this.pedidos = data;
         // Inicialize os status de cada pedido
         this.pedidos.forEach(pedido => {
-          this.novoStatus[pedido.id] = pedido.statusPedido;  // Preenche o status com o valor inicial
+          this.novoStatus[pedido.id] = pedido.statusPedido; // Preenche o status com o valor inicial
         });
       },
       error: (err) => console.error("Erro ao carregar pedidos", err)
