@@ -21,7 +21,7 @@ public class PedidoEstoquistaControle {
     }
 
     @GetMapping("/listar-todos")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('ESTOQUISTA')")
+    @PreAuthorize("hasRole('ESTOQUISTA')")
     public ResponseEntity<?> listarTodosPedidos() {
         return pedidoEstoquistaServico.listarTodosPedidos();
     }

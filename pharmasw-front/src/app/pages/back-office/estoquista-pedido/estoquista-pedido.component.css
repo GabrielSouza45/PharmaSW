@@ -5,7 +5,7 @@ main {
 }
 
 .pedidos {
-  max-height: 60vh;
+  max-height: 75vh;
   overflow-y: auto;
 }
 
@@ -19,7 +19,7 @@ main {
 .badge-secondary {
   background-color: #E0E0E0 !important;
   color: black !important;
-  padding: 5px 10px;
+  padding: 10px 10px;
   border-radius: 12px;
 }
 
