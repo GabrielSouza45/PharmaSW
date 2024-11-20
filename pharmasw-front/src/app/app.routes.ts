@@ -121,7 +121,7 @@ export const routes: Routes = [
     path: 'estoquista-pedido',
     component: EstoquistaPedidoComponent,
     canActivate: [authGuard, roleGuard],
-    data: { expectedRole: ['ESTOQUISTA'] },
+    data: { expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA'] },
   },
 
   // Rota Curinga

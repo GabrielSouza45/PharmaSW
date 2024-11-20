@@ -17,7 +17,6 @@ export class MenuLateralComponent {
 
   grupo: string = '';
   administrador: boolean = false;
-  estoquista: boolean = false;
   userLogado: string = this.capitalizarPrimeiraLetra(sessionStorage.getItem('nome') || "Nao Logado");
 
   constructor(
@@ -28,10 +27,6 @@ export class MenuLateralComponent {
 
     if (this.grupo == "ADMINISTRADOR") {
     this.administrador = true;
-    }
-
-    if (this.grupo === "ESTOQUISTA") {
-      this.estoquista = true;
     }
   }
 
