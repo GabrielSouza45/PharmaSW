@@ -1,35 +1,31 @@
-import { from, Observable } from "rxjs";
-import { Pedido } from "../../modelo/Pedido";
-import { CrudService } from "../crud-service/crud-service.service";
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { ToastrService } from "ngx-toastr";
-import { CarrinhoService } from "../carrinho/carrinho.service";
-import { AuthService } from "../../infra/auth/auth.service";
-import { EnderecoService } from "../endereco/endereco.service";
-import { MetodosPagamentoService } from "../metodos-pagamento/metodos-pagamento.service";
-import { Router } from "@angular/router";
-import { StateService } from "../state-share/state.service";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { Pedido } from '../../modelo/Pedido';
+import { CrudService } from '../crud-service/crud-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EstoquistaService extends CrudService<Pedido>{
+export class EstoquistaService extends CrudService<Pedido> {
 
   constructor(
     private http: HttpClient,
-    private toastr: ToastrService,
-    private carrinhoService: CarrinhoService,
-    private auth: AuthService,
-    private enderecoService: EnderecoService,
-    private metodosPagamentoService: MetodosPagamentoService,
-    private router: Router,
-    private stateService: StateService
+    private toastr: ToastrService
   ) {
-      super(http, '/pedido-estoquista-controle', toastr);
+    super(http, '/pedido-estoquista-controle', toastr);
   }
 
   listarTodos(): Observable<Pedido[]> {
-    return this.listarGet(`/listar-todos`);
+    return this.listarGet('/listar-todos');
+  }
+
+  // Método para atualizar o status de um pedido
+  atualizarStatusPedido(idPedido: number, novoStatus: string): Observable<any> {
+    const url = `${this.url}/atualizar-status?idPedido=${idPedido}&novoStatus=${novoStatus}`;
+    return this.http.patch(url, {}, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    });
   }
 }
