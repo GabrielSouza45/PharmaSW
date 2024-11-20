@@ -18,6 +18,7 @@ import { ResumoPedidoComponent } from './pages/site/resumo-pedido/resumo-pedido.
 import { PedidoCriadoComponent } from './pages/site/pedido-criado/pedido-criado.component';
 import { ListaPedidosComponent } from './pages/site/lista-pedidos/lista-pedidos.component';
 import { DetalhesPedidoComponent } from './pages/site/detalhes-pedido/detalhes-pedido.component';
+import { EstoquistaPedidoComponent } from './pages/back-office/estoquista-pedido/EstoquistaPedidoComponent';
 
 export const routes: Routes = [
   // SITE
@@ -115,6 +116,12 @@ export const routes: Routes = [
     component: PaginaProdutosComponent,
     canActivate: [authGuard, roleGuard],
     data: { expectedRole: ['ADMINISTRADOR', 'ESTOQUISTA'] },
+  },
+  {
+    path: 'estoquista-pedido',
+    component: EstoquistaPedidoComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { expectedRole: ['ESTOQUISTA'] },
   },
 
   // Rota Curinga

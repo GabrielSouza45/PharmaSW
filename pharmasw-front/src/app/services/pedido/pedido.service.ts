@@ -1,6 +1,6 @@
 import { StateService } from './../state-share/state.service';
 import { EnderecoService } from './../endereco/endereco.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../infra/auth/auth.service';
@@ -15,6 +15,7 @@ import { Endereco } from '../../modelo/Endereco';
 import { MetodosPagamento } from '../../modelo/MetodosPagamento';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { StatusPedido } from '../../modelo/enums/StatusPedido';
 
 
 @Injectable({
@@ -35,8 +36,9 @@ export class PedidoService extends CrudService<Pedido> {
     super(http, "/pedido-controle", toastr);
   }
 
+
   listarPorCliente(idCliente: number): Observable<Pedido[]> {
-    return this.listarGet(`/listar-por-cliente?idCliente=${ idCliente }`);
+    return this.listarGet(`/listar-por-cliente?idCliente=${idCliente}`);
   }
 
   detalharPedido(idPedido: number): Observable<Pedido> {

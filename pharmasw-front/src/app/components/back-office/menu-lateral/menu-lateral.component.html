@@ -58,6 +58,21 @@
       </a>
     </li>
 
+    <li class="nav-item" *ngIf="estoquista">
+      <a
+        [routerLink]="['/estoquista-pedido']"
+        [ngClass]="{
+             'active': isActive('/estoquista-pedido'),
+             'link-dark': !isActive('/estoquista-pedido')
+         }"
+        class="nav-link "
+        [attr.aria-current]="isActive('/estoquista-pedido') ? 'page' : null"
+      >
+        <i class="bi bi-people"></i>
+        Pedidos
+      </a>
+    </li>
+
   </ul>
 
   <hr />

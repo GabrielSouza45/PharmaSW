@@ -1,0 +1,47 @@
+<app-pagina-layout>
+  <main class="container p-4">
+    <!-- Lista de Pedidos -->
+    <div class="row mt-3" style="min-height: 650px">
+      <div class="col-lg-8 col-md-11 col-sm-11 mx-auto">
+        <div class="card-body">
+          <h1 style="color: #13426E;">
+            <i class="bi bi-card-list" style="color: #13426E;"></i> Lista de Pedidos
+          </h1>
+          <div class="pedidos p-2 overflow-auto">
+            <!-- Caso não haja pedidos -->
+            <div *ngIf="pedidos.length === 0">
+              <h3 class="text-center">Nenhum pedido encontrado.</h3>
+              <h5 class="text-center">Você ainda não realizou compras.</h5>
+            </div>
+
+            <!-- Exibição de pedidos -->
+            <div *ngIf="pedidos.length > 0">
+              <ng-container *ngFor="let pedido of pedidos">
+                <div class="pedido-card card p-4 mb-3 shadow-sm border-0">
+                  <div class="pedido-info">
+                    <h5 class="card-title mb-2">
+                      <strong>Número do Pedido:</strong> {{ pedido.id }}
+                    </h5>
+                    <p class="card-text text-muted">
+                      Data: {{ pedido.dataCompra | date: 'dd/MM/yyyy' }}
+                    </p>
+                    <p class="card-text text-muted">
+                      Total: <strong>R$ {{ pedido.total | number:'1.2-2' }}</strong>
+                    </p>
+                    <p class="card-text text-muted">
+                      Status: <span class="badge badge-secondary">{{ statusDescricao[pedido.statusPedido] }}</span>
+                    </p>
+                   </div>
+                   <app-botao
+                      class="col-12 mt-3"
+                      textoBtn="Editar">
+                    </app-botao>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</app-pagina-layout>
