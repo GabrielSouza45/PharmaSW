@@ -2,10 +2,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BotaoComponent } from '../../../components/botao/botao.component';
-import { InputSecundarioComponent } from '../../../components/input-secundario/input-secundario.component';
 import { AuthService } from '../../../infra/auth/auth.service';
 import { Cliente } from '../../../modelo/Cliente';
 import { Endereco } from '../../../modelo/Endereco';
@@ -23,7 +21,6 @@ import { CheckoutService } from './../../../services/checkout/checkout.service';
     [
       LayoutPrincipalComponent,
       CommonModule,
-      InputSecundarioComponent,
       BotaoComponent
     ],
   templateUrl: './escolher-endereco.component.html',
@@ -45,7 +42,6 @@ export class EscolherEnderecoComponent extends CrudService<Cliente> {
     private toastr: ToastrService,
     private authService: AuthService,
     private chckoutService: CheckoutService,
-    private router: Router,
     private abrirComponent: AbrirComponenteService
   ) {
     super(http, "/cliente-controle", toastr);
