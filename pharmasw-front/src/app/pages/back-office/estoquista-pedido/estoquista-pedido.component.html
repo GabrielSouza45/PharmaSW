@@ -1,13 +1,13 @@
 <app-pagina-layout>
   <main class="container p-4">
     <!-- Lista de Pedidos -->
-    <div class="row mt-3" style="min-height: 650px">
+    <div class="row mt-3">
       <div class="col-lg-8 col-md-11 col-sm-11 mx-auto">
         <div class="card-body">
           <h1 style="color: #13426E;">
             <i class="bi bi-card-list" style="color: #13426E;"></i> Lista de Pedidos
           </h1>
-          <div class="pedidos p-2 overflow-auto">
+          <div class="pedidos p-2">
             <!-- Caso não haja pedidos -->
             <div *ngIf="pedidos.length === 0">
               <h3 class="text-center">Nenhum pedido encontrado.</h3>
@@ -17,9 +17,9 @@
             <!-- Exibição de pedidos -->
             <div *ngIf="pedidos.length > 0">
               <ng-container *ngFor="let pedido of pedidos">
-                <div class="pedido-card card p-4 mb-3 shadow-sm border-0">
+                <div class="pedido-card card mb-3 shadow-sm">
                   <div class="pedido-info">
-                    <h5 class="card-title mb-2">
+                    <h5 class="card-title">
                       <strong>Número do Pedido:</strong> {{ pedido.id }}
                     </h5>
                     <p class="card-text text-muted">
@@ -31,11 +31,14 @@
                     <p class="card-text text-muted">
                       Status: <span class="badge badge-secondary">{{ statusDescricao[pedido.statusPedido] }}</span>
                     </p>
-                   </div>
-                   <app-botao
-                      class="col-12 mt-3"
-                      textoBtn="Editar">
-                    </app-botao>
+                  </div>
+
+                  <!-- Botão Editar -->
+                  <button
+                    class="btn btn-primary col-12 mt-3"
+                    (click)="abrirModal(pedido)">
+                    Editar
+                  </button>
                 </div>
               </ng-container>
             </div>
@@ -44,4 +47,37 @@
       </div>
     </div>
   </main>
+
+  <!-- Modal de Edição -->
+  <app-modal
+  *ngIf="modalAberto"
+  (fecharModal)="fecharModal()"
+  (submit)="atualizarStatusEFecharModal()"
+  [tituloModal]="'Editar Pedido'"
+  [textoBotao]="'Salvar'"
+>
+  <form [formGroup]="formEdicaoPedido" class="p-3">
+    <!-- Exibição do Número do Pedido -->
+    <div class="form-group">
+      <label for="numeroPedido" class="form-label">Número do Pedido:</label>
+      <p id="numeroPedido" class="form-text">
+        <strong>{{ formEdicaoPedido.get('id')?.value }}</strong>
+      </p>
+    </div>
+
+    <!-- Seleção do Status do Pedido -->
+    <div class="form-group">
+      <label for="statusPedido" class="form-label">Status do Pedido:</label>
+      <select
+        id="statusPedido"
+        class="form-control"
+        formControlName="statusPedido"
+      >
+        <option *ngFor="let status of statusDisponiveis" [value]="status">
+          {{ statusDescricao[status] }}
+        </option>
+      </select>
+    </div>
+  </form>
+</app-modal>
 </app-pagina-layout>

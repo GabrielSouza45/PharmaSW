@@ -30,7 +30,7 @@ public class PedidoEstoquistaControle {
     @PreAuthorize("hasRole('ESTOQUISTA')")
     public ResponseEntity<?> atualizarStatusPedido(
             @RequestParam Long idPedido,
-            @RequestParam StatusPedido novoStatus) {
+            @RequestBody StatusPedido novoStatus) {
         return pedidoEstoquistaServico.atualizarStatus(idPedido, novoStatus);
     }
 }
