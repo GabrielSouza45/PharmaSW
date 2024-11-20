@@ -12,15 +12,14 @@
   <hr />
 
   <ul class="nav nav-pills flex-column mb-auto">
-
     <li class="nav-item">
       <a
         [routerLink]="['/pagina-inicial']"
         [ngClass]="{
-             'active': isActive('/pagina-inicial'),
-             'link-dark': !isActive('/pagina-inicial')
-         }"
-        class="nav-link "
+          active: isActive('/pagina-inicial'),
+          'link-dark': !isActive('/pagina-inicial')
+        }"
+        class="nav-link"
         [attr.aria-current]="isActive('/pagina-inicial') ? 'page' : null"
       >
         <i class="bi bi-house"></i>
@@ -32,13 +31,13 @@
       <a
         [routerLink]="['/pagina-produtos']"
         [ngClass]="{
-             'active': isActive('/pagina-produtos'),
-             'link-dark': !isActive('/pagina-produtos')
-         }"
-        class="nav-link "
+          active: isActive('/pagina-produtos'),
+          'link-dark': !isActive('/pagina-produtos')
+        }"
+        class="nav-link"
         [attr.aria-current]="isActive('/pagina-produtos') ? 'page' : null"
       >
-      <i class="bi bi-grid"></i>
+        <i class="bi bi-grid"></i>
         Produtos
       </a>
     </li>
@@ -47,10 +46,10 @@
       <a
         [routerLink]="['/pagina-usuarios']"
         [ngClass]="{
-             'active': isActive('/pagina-usuarios'),
-             'link-dark': !isActive('/pagina-usuarios')
-         }"
-        class="nav-link "
+          active: isActive('/pagina-usuarios'),
+          'link-dark': !isActive('/pagina-usuarios')
+        }"
+        class="nav-link"
         [attr.aria-current]="isActive('/pagina-usuarios') ? 'page' : null"
       >
         <i class="bi bi-people"></i>
@@ -62,17 +61,16 @@
       <a
         [routerLink]="['/estoquista-pedido']"
         [ngClass]="{
-             'active': isActive('/estoquista-pedido'),
-             'link-dark': !isActive('/estoquista-pedido')
-         }"
-        class="nav-link "
+          active: isActive('/estoquista-pedido'),
+          'link-dark': !isActive('/estoquista-pedido')
+        }"
+        class="nav-link"
         [attr.aria-current]="isActive('/estoquista-pedido') ? 'page' : null"
       >
-        <i class="bi bi-people"></i>
+        <i class="bi bi-bag"></i>
         Pedidos
       </a>
     </li>
-
   </ul>
 
   <hr />
@@ -92,7 +90,7 @@
         height="32"
         class="rounded-circle me-2"
       /> -->
-      <strong>{{userLogado}}</strong>
+      <strong>{{ userLogado }}</strong>
     </a>
     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
       <!-- <li><a class="dropdown-item" href="#">New project...</a></li> -->
