@@ -12,13 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PedidoEstoquistaControle {
 
-    private final PedidoEstoquistaServico pedidoEstoquistaServico;
-
-    // Injeção via construtor
     @Autowired
-    public PedidoEstoquistaControle(PedidoEstoquistaServico pedidoEstoquistaServico) {
-        this.pedidoEstoquistaServico = pedidoEstoquistaServico;
-    }
+    private PedidoEstoquistaServico pedidoEstoquistaServico;
 
     @GetMapping("/listar-todos")
     @PreAuthorize("hasRole('ESTOQUISTA')")

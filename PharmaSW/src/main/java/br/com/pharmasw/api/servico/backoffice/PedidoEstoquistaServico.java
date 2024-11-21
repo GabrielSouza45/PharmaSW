@@ -13,12 +13,8 @@ import java.util.List;
 @Service
 public class PedidoEstoquistaServico {
 
-    private final PedidoRepositorio pedidoRepositorio;
-
     @Autowired
-    public PedidoEstoquistaServico(PedidoRepositorio pedidoRepositorio) {
-        this.pedidoRepositorio = pedidoRepositorio;
-    }
+    private PedidoRepositorio pedidoRepositorio;
 
     public ResponseEntity<?> listarTodosPedidos() {
         List<Pedido> pedidos = pedidoRepositorio.findAllByOrderByIdDesc(); // Método genérico
@@ -31,8 +27,6 @@ public class PedidoEstoquistaServico {
     }
 
     public ResponseEntity<?> atualizarStatus(Long idPedido, StatusPedido novoStatus) {
-        // Aqui você implementaria a lógica para atualizar o status do pedido
-        // Lógica fictícia para exemplificar
         Pedido pedido = pedidoRepositorio.findById(idPedido).orElse(null);
         if (pedido == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pedido não encontrado.");
