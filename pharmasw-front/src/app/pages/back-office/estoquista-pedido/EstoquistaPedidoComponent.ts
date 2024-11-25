@@ -6,16 +6,15 @@ import {
   Validators,
 } from '@angular/forms';
 
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { PaginaLayoutComponent } from "../../../components/back-office/pagina-layout/pagina-layout.component";
+import { ModalComponent } from '../../../components/modal/modal.component';
 import { AuthService } from '../../../infra/auth/auth.service';
+import { StatusPedido, StatusPedidoDescricao } from '../../../modelo/enums/StatusPedido';
 import { Pedido } from '../../../modelo/Pedido';
 import { EstoquistaService } from '../../../services/estoquista/estoquista.service';
-import { StatusPedido, StatusPedidoDescricao } from '../../../modelo/enums/StatusPedido';
-import { BotaoComponent } from '../../../components/botao/botao.component';
-import { PaginaLayoutComponent } from "../../../components/back-office/pagina-layout/pagina-layout.component";
-import { CommonModule } from '@angular/common';
-import { ModalComponent } from '../../../components/modal/modal.component';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-estoquista-pedido',
@@ -24,7 +23,6 @@ import { ToastrService } from 'ngx-toastr';
     CommonModule,
     ReactiveFormsModule,
     PaginaLayoutComponent,
-    BotaoComponent,
     ModalComponent,
   ],
   templateUrl: './estoquista-pedido.component.html',
@@ -59,7 +57,7 @@ export class EstoquistaPedidoComponent implements OnInit {
   }
 
   atualizarStatusEFecharModal(): void {
-    this.atualizarStatusPedido(); 
+    this.atualizarStatusPedido();
     this.fecharModal();
     location.reload();
 

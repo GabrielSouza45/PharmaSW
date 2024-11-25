@@ -27,7 +27,7 @@ public class SiteProdutoServico {
 
 
     //listar produtos para cards do site. Retorna a imagem principal e os dados pertinentes do produto
-    public ResponseEntity<?> listarProdutosCard(){
+    public ResponseEntity<?> listarProdutosCard() {
 
         List<ProdutoDTO> produtoDTO = produtoRepositorio.findAllProdutoDTOsByStatus(Status.ATIVO);
 
@@ -73,9 +73,12 @@ public class SiteProdutoServico {
         Produto produto =
                 produtoRepositorio.findByIdAndStatus(filtro.getId(), Status.ATIVO);
 
-        if (produto == null)
-            return new ResponseBuilder().build("Produto não encontrado.", HttpStatus.NOT_FOUND);
-
+        if (produto == null) {
+            produto =
+                    produtoRepositorio.findByNomeAndStatus(filtro.getNome(), Status.ATIVO);
+            if (produto == null)
+                return new ResponseBuilder().build("Produto não encontrado.", HttpStatus.NOT_FOUND);
+        }
         List<byte[]> imagens = imagemProdutoServico.getImagensPorIdProduto(produto.getId());
         produto.setImagens(imagens);
 

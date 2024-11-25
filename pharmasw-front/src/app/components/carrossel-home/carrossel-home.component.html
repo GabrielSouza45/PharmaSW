@@ -1,0 +1,57 @@
+<div id="carouselExampleIndicators" class="carousel slide " data-bs-ride="carousel">
+  <!-- Indicadores -->
+  <div class="carousel-indicators">
+    <button
+      *ngFor="let image of images; let i = index"
+      type="button"
+      [attr.data-bs-target]="'#carouselExampleIndicators'"
+      [attr.data-bs-slide-to]="i"
+      [class.active]="i === currentSlide"
+      [attr.aria-current]="i === currentSlide ? 'true' : null"
+      [attr.aria-label]="'Slide ' + (i + 1)"
+      (click)="goToSlide(i)"
+    ></button>
+  </div>
+
+  <!-- Slides -->
+  <div class="carousel-inner">
+    <div
+      *ngFor="let image of images; let i = index"
+      class="carousel-item h-100 w-100"
+      [class.active]="i === currentSlide"
+    >
+      <!-- Imagem -->
+      <div class="d-flex justify-content-center">
+        <img
+          [src]="image.caminho"
+          (click)="selecionaProdutoImg(i)"
+          [alt]="'Imagem dos produtos em destaque ' + (i + 1)"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Botões de navegação -->
+  <button
+    *ngIf="images.length > 1"
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="prev"
+    (click)="previousSlide()"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Anterior</span>
+  </button>
+  <button
+    *ngIf="images.length > 1"
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="next"
+    (click)="nextSlide()"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Próxima</span>
+  </button>
+</div>

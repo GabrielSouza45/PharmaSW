@@ -1,0 +1,28 @@
+.carousel{
+  width: 100%;
+  height: 100%;
+}
+
+img{
+  width: 100%;
+  object-fit: contain;
+}
+
+img:hover{
+  cursor: pointer;
+}
+
+.carousel-item {
+  transition: transform 1s ease; /* Suaviza a transição entre os slides */
+}
+
+.carousel-inner {
+  display: flex;
+  overflow: hidden; /* Garante que os slides não saiam do contêiner */
+}
+
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  transition: transform 0.1s ease-out, opacity 0.5s ease;
+}

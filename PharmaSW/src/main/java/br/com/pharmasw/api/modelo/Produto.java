@@ -18,6 +18,10 @@ public class Produto {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     private String nome;
     private String fabricante;
     private String categoria;

@@ -55,4 +55,5 @@ public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
 
     Produto findByIdAndStatus(Long id, Status status);
 
+    boolean existsByNome(String nome);
 }

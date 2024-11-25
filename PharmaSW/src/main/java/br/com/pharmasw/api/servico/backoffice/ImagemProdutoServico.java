@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -80,9 +78,9 @@ public class ImagemProdutoServico {
                 imagemProdutoRepositorio.findByProdutoIdOrderByPrincipalDesc(idProduto);
         if (imagensProd != null) {
             imagensProd.forEach(img -> {
-                try{
+                try {
                     imagens.add(this.getConteudoImagem(img.getCaminho()));
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
@@ -124,7 +122,7 @@ public class ImagemProdutoServico {
             if (imagemProduto == null) {
                 continue;
             }
-            if (!produto.getImagemPrincipal().isBlank()){
+            if (!produto.getImagemPrincipal().isBlank()) {
                 imagemProduto.setPrincipal(produto.getImagemPrincipal().equals(imagem.getNomeOriginal()));
             }
             imagemProdutoRepositorio.save(imagemProduto);
@@ -165,9 +163,46 @@ public class ImagemProdutoServico {
         }
     }
 
-
     private byte[] getConteudoImagem(String caminhoImagem) throws IOException {
         Path caminho = Paths.get(caminhoImagem);
         return Files.readAllBytes(caminho);
+    }
+
+
+    public void cadastrarPadrao(Produto produtoSalvo) throws IOException {
+
+        // Caminho da pasta onde as imagens estão localizadas no seu projeto
+        Path pastaImagensOriginais = Paths.get("uploads_imgs_banner/" + produtoSalvo.getNome()); // Caminho da pasta com as imagens originais
+
+        // Pasta onde as imagens serão copiadas para salvar as imagens no projeto
+        Path pastaProduto = Paths.get(PASTA_IMAGEM + produtoSalvo.getId());
+        Files.createDirectories(pastaProduto); // Cria o diretório do produto, caso não exista
+
+        // Obtendo todos os arquivos na pasta de imagens originais
+        Files.walkFileTree(pastaImagensOriginais, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                // Verifica se o arquivo é uma imagem
+                if (file.toString().endsWith(".jpg") || file.toString().endsWith(".png") || file.toString().endsWith(".webp")) {
+                    String nomeImagem = UUID.randomUUID().toString() + ".jpg";  // Renomeia a imagem com UUID
+                    Path caminhoImagem = pastaProduto.resolve(nomeImagem);  // Caminho final para salvar a imagem no diretório do produto
+
+                    // Copia o arquivo da pasta original para o diretório do produto
+                    Files.copy(file, caminhoImagem, StandardCopyOption.REPLACE_EXISTING);
+
+                    // Cria um novo objeto ImagemProduto
+                    ImagemProduto imagemProduto = new ImagemProduto();
+                    imagemProduto.setCaminho(caminhoImagem.toString());
+                    imagemProduto.setNomeOriginal(file.getFileName().toString()); // Obtém o nome original da imagem
+                    imagemProduto.setPrincipal(produtoSalvo.getImagemPrincipal().equals(file.getFileName().toString()));
+                    imagemProduto.setProduto(produtoSalvo);
+                    imagemProduto.setStatus(Status.ATIVO);
+
+                    // Salva a imagem no repositório
+                    imagemProdutoRepositorio.save(imagemProduto);
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 }

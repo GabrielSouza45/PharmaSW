@@ -10,6 +10,9 @@ import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.c
 import { AvaliacaoService } from './../../../services/avaliacao/avaliacao.service';
 import { CrudService } from './../../../services/crud-service/crud-service.service';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { CarouselComponent } from "../../../components/carousel/carousel.component";
+import { ImagemProduto } from '../../../modelo/ImagemProduto';
+import { CarrosselHomeComponent } from "../../../components/carrossel-home/carrossel-home.component";
 
 @Component({
   selector: 'app-home',
@@ -18,7 +21,8 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     LayoutPrincipalComponent,
     CommonModule,
     BotaoComponent,
-  ],
+    CarrosselHomeComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -28,6 +32,7 @@ export class HomeComponent implements OnInit {
   produtosBusca: ProdutoCard[] = [];
   produtos: ProdutoCard[] = [];
   private crudService: CrudService<Produto>;
+  imagesCarousel: ImagemProduto[] = [];
 
   constructor(
     private http: HttpClient,
@@ -40,6 +45,7 @@ export class HomeComponent implements OnInit {
     this.busca = this.route.snapshot.paramMap.get('busca');
     this.crudService = new CrudService(http, '/home-controle', toastr);
     this.loadProdutos();
+    this.loadDestaques();
   }
 
   ngOnInit(): void {
@@ -49,6 +55,22 @@ export class HomeComponent implements OnInit {
     if (this.busca) {
       this.buscarRemedio(this.busca);
     }
+  }
+
+  loadDestaques(): void {
+    const imagePaths = [
+      "assets/banners/actine.jpg",
+      "assets/banners/huggies.jpg",
+      "assets/banners/neosa.jpg",
+      "assets/banners/noval.Mafra.png",
+      "assets/banners/ronaldo.jpg",
+      "assets/banners/roxxsup.jpg",
+    ];
+    imagePaths.forEach(img => {
+      const imagem = new ImagemProduto();
+      imagem.caminho = img;
+      this.imagesCarousel.push(imagem);
+    });
   }
 
   loadProdutos(): void {

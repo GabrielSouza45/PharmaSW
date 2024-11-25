@@ -1,8 +1,10 @@
 <app-layout-principal>
   <main class="container">
-    <!-- DESTAQUES
-    <div class="destaques row linha-info"></div> -->
-    
+    <div class="destaques row linha-info mb-5">
+      <h2 class="mb-4">Destaques</h2>
+      <app-carrossel-home [images]="imagesCarousel" />
+    </div>
+
     <!-- BUSCA DE PRODUTOS -->
     <div class="card-produtos row linha-info" *ngIf="buscarProduto">
       <h2>Resultados da busca</h2>

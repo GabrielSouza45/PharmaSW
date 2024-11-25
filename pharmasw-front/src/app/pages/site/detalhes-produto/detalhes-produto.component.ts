@@ -58,6 +58,7 @@ export class DetalhesProdutoComponent extends CrudService<Produto> {
 
     const filtro = new Filtros();
     filtro.id = parseInt(this.produtoId);
+    filtro.nome = this.produtoId;
     this.listarUnico(filtro, '/listar-produto').subscribe((response: any) => {
       this.carregaImagens(response.imagens);
       response.imagens = null;
