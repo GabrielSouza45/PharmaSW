@@ -1,4 +1,3 @@
-
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -8,9 +7,6 @@ import { Produto } from '../../../modelo/Produto';
 import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
 import { PedidoService } from '../../../services/pedido/pedido.service';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
-
-
-
 
 @Component({
   selector: 'app-resumo-pedido',
@@ -38,9 +34,15 @@ export class ResumoPedidoComponent implements OnInit {
     private pedidoService: PedidoService
   ) {
     this.produtos = this.carrinhoService.getItems();
-    this.freteSelecionado = JSON.parse(localStorage.getItem('freteSelecionado') || '{}');
-    this.endereco = JSON.parse(sessionStorage.getItem('enderecoSelecionado') || '{}');
-    this.formaPagamento = JSON.parse(sessionStorage.getItem('metodosPagamentoSelecionado'));
+    this.freteSelecionado = JSON.parse(
+      localStorage.getItem('freteSelecionado') || '{}'
+    );
+    this.endereco = JSON.parse(
+      sessionStorage.getItem('enderecoSelecionado') || '{}'
+    );
+    this.formaPagamento = JSON.parse(
+      sessionStorage.getItem('metodosPagamentoSelecionado')
+    );
   }
 
   ngOnInit() {
@@ -57,11 +59,10 @@ export class ResumoPedidoComponent implements OnInit {
   }
 
   voltarPagamento() {
-      this.router.navigate(['/checkout/pagamento']);
+    this.router.navigate(['/checkout/pagamento']);
   }
 
-  finalizarPedido(){
+  finalizarPedido() {
     this.pedidoService.cadastrar();
   }
-
 }

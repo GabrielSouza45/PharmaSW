@@ -17,12 +17,10 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { StatusPedido } from '../../modelo/enums/StatusPedido';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PedidoService extends CrudService<Pedido> {
-
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
@@ -33,36 +31,33 @@ export class PedidoService extends CrudService<Pedido> {
     private router: Router,
     private stateService: StateService
   ) {
-    super(http, "/pedido-controle", toastr);
+    super(http, '/pedido-controle', toastr);
   }
-
 
   listarPorCliente(idCliente: number): Observable<Pedido[]> {
     return this.listarGet(`/listar-por-cliente?idCliente=${idCliente}`);
   }
 
   detalharPedido(idPedido: number): Observable<Pedido> {
-    return this.listarGetUnico(`/detalhar-pedido?idPedido=${ idPedido }`);
+    return this.listarGetUnico(`/detalhar-pedido?idPedido=${idPedido}`);
   }
 
-
   cadastrar() {
-
     const pedido: Pedido = this.getPedido();
-    this.adicionar(pedido, "/cadastrar").subscribe({
+    this.adicionar(pedido, '/cadastrar').subscribe({
       next: (response) => {
-        this.toastr.success("Pedido realizado com sucesso!");
+        this.toastr.success('Pedido realizado com sucesso!');
         this.carrinhoService.limpar();
         this.carrinhoService.setFrete(null);
         this.redireciona(response.body);
       },
       error: (erro) => {
-        this.toastr.error(erro.error ? erro.error.menssagem : "Erro ao realizar pedido.");
+        this.toastr.error(
+          erro.error ? erro.error.menssagem : 'Erro ao realizar pedido.'
+        );
         console.log(erro);
-
-      }
-    })
-
+      },
+    });
   }
 
   private redireciona(retorno: PedidoDTO) {
@@ -74,7 +69,8 @@ export class PedidoService extends CrudService<Pedido> {
     const produtos: Produto[] = this.carrinhoService.getItems();
     const clienteId: number = this.auth.getIdUser();
     const endereco: Endereco = this.enderecoService.getEnderecoSelecionado();
-    const metodoPagamento: MetodosPagamento = this.metodosPagamentoService.getMetodoSelecionado();
+    const metodoPagamento: MetodosPagamento =
+      this.metodosPagamentoService.getMetodoSelecionado();
     const subTotal: number = this.carrinhoService.getSubtotalPreco();
     const total: number = this.carrinhoService.getTotalPreco();
     const frete: OpcoesCep = this.carrinhoService.getFrete();
@@ -91,26 +87,17 @@ export class PedidoService extends CrudService<Pedido> {
     );
   }
 
-
   private getItemsPedido(produtos: Produto[]): ItemPedido[] {
-
     let itemsPedido: ItemPedido[] = [];
 
-    produtos.forEach(prod => {
-
-      itemsPedido.push(new ItemPedido(
-        prod.id,
-        prod.valor,
-        prod.quantidadePedido
-      ));
-
+    produtos.forEach((prod) => {
+      itemsPedido.push(
+        new ItemPedido(prod.id, prod.valor, prod.quantidadePedido)
+      );
     });
-
-
 
     return itemsPedido;
   }
-
 }
 
 class PedidoDTO {
@@ -118,14 +105,9 @@ class PedidoDTO {
   status: string;
   valor: number;
 
-  constructor(
-    codigo: number,
-    status: string,
-    valor: number
-  ) {
+  constructor(codigo: number, status: string, valor: number) {
     this.codigo = codigo;
-    this.status = status
+    this.status = status;
     this.valor = valor;
   }
 }
-

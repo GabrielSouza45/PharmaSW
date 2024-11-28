@@ -57,10 +57,6 @@ public class PedidoServico {
         if (!erroItem.isEmpty())
             return new ResponseBuilder().build(erroItem, HttpStatus.BAD_REQUEST);
 
-        String erroValor = validaValoresCompra(pedido);
-        if (!erroValor.isEmpty())
-            return new ResponseBuilder().build(erroValor, HttpStatus.BAD_REQUEST);
-
         Pedido retorno = pedidoRepositorio.save(pedido);
 
         PedidoDTO dto = new PedidoDTO(retorno.getId(), retorno.getTotal(), retorno.getStatusPedido());
@@ -68,35 +64,6 @@ public class PedidoServico {
 
     }
 
-    private String validaValoresCompra(Pedido pedido) {
-
-        final double TOTAL = pedido.getTotal();
-        final double SUB_TOTAL = pedido.getSubTotal();
-        final double FRETE = pedido.getFrete();
-
-        List<ItemPedido> itemsPedido = pedido.getItemsPedido();
-        double valorFinalProdutos = 0d;
-
-        for (ItemPedido item : itemsPedido) {
-            valorFinalProdutos = ((valorFinalProdutos + item.getProduto().getValor()) * item.getQtdProdutos());
-        }
-
-
-
-        BigDecimal valorBD = new BigDecimal(valorFinalProdutos).setScale(2, RoundingMode.HALF_UP);
-        double valorArredondado = valorBD.doubleValue();
-
-        System.out.println(valorArredondado);
-        System.out.println(SUB_TOTAL);
-
-
-
-        double valorTotalComFrete = valorArredondado + FRETE;
-
-
-
-        return "";
-    }
 
     private String setaItemPedido(Pedido pedido) {
 
