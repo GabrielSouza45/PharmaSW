@@ -84,31 +84,31 @@
       </form>
     </div>
 
-    <div class="direita">
+    <div class="direita d-flex flex-column justify-content-center align-items-center">
       <!-- IMAGENS DO PRODUTO -->
       <div class="carousel">
         <app-carousel [images]="imagens" [acoes]="acoes"> </app-carousel>
       </div>
-    </div>
-
-    <div class="baixo">
-      <!-- ADICIONAR IMAGENS -->
-      <div class="botao-add-imagens" *ngIf="!usuarioEstoque">
-        <input
-          type="file"
-          id="fileInput"
-          multiple
-          (change)="onFileChange($event)"
-          style="display: none"
-          [disabled]="usuarioEstoque"
-        />
-        <app-botao
-          textoBtn="Adicionar Imagens do Produto"
-          classes="botao-arredondado"
-          (click)="triggerFileInput()"
-          [desabilitarBotao]="usuarioEstoque"
-        />
+      <div class="mt-3 col-10">
+        <!-- ADICIONAR IMAGENS -->
+        <div class="botao-add-imagens" *ngIf="!usuarioEstoque">
+          <input
+            type="file"
+            id="fileInput"
+            multiple
+            (change)="onFileChange($event)"
+            style="display: none"
+            [disabled]="usuarioEstoque"
+          />
+          <app-botao
+            textoBtn="Adicionar Imagens do Produto"
+            classes="botao-arredondado"
+            (click)="triggerFileInput()"
+            [desabilitarBotao]="usuarioEstoque"
+          />
+        </div>
       </div>
     </div>
+
   </section>
 </app-modal>

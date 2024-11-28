@@ -1,6 +1,4 @@
 .conteiner {
-  border: 1px solid #ddd;
-  border-radius: 15px;
   width: 100%;
   margin: 0;
   display: grid;
@@ -9,7 +7,6 @@
 }
 
 .esquerda {
-  height: 650px;
   display: grid;
   justify-content: center;
   gap: 15px;
@@ -23,28 +20,14 @@
 }
 
 .direita {
-  height: 650px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   .carousel{
-    height: 90%;
+    height: 80%;
     width: 90%;
   }
 }
 
-.baixo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  grid-column-start: 1;
-  grid-column-end: 3;
-  .botao-add-imagens {
-    width: 500px;
-  }
-}
 
+/*
 @media (max-width: 1366px) {
   .esquerda {
     height: 480px;
@@ -63,4 +46,4 @@
       width: 400px;
     }
   }
-}
+} */
