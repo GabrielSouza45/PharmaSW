@@ -90,7 +90,8 @@ export class DetalhesProdutoComponent extends CrudService<Produto> {
     if(quantidade == 0){
       quantidade = 1;
     }
-    this.carrinhoService.adicionar(this.produto, quantidade);
+    const adicionado = this.carrinhoService.adicionar(this.produto, quantidade);
+    if (!adicionado) return;
     this.router.navigate(["/carrinho"]);
   }
 

@@ -39,10 +39,6 @@ public class VerificaBancoDadosPadrao implements CommandLineRunner {
     @Value("${USUARIO.NOME_PADRAO}")
     private String nomePadrao;
 
-    private final String NOME_PRODUTO = "Ibuprofeno";
-    private final String FABRICANTE_PRODUTO = "Fabricante Ficticio";
-    private final String CATEGORIA_PRODUTO = "Febre e Dor";
-
 
     @Override
     public void run(String... args) throws Exception {
@@ -59,12 +55,6 @@ public class VerificaBancoDadosPadrao implements CommandLineRunner {
         }
 
         criaProdutosPadrao();
-//        Produto produto = produtoRepositorio.findByNomeAndFabricanteAndStatus(NOME_PRODUTO, FABRICANTE_PRODUTO, Status.ATIVO);
-//        if (produto == null) {
-//            criaProdutoPadrao();
-//            System.out.println("Primeiro produto criado!");
-//
-//        }
     }
 
     private void criaMetodosPagamento() {
@@ -135,7 +125,7 @@ public class VerificaBancoDadosPadrao implements CommandLineRunner {
             produto.setNome("Huggies Supreme Care");
             produto.setCategoria("Fraudas");
             produto.setPeso(0.0);
-            produto.setValor(35.0);
+            produto.setValor(199.99);
             produto.setFabricante("Huggies");
             produto.setQuantidadeEstoque(50);
             produto.setImagemPrincipal("huggies1.webp");

@@ -143,6 +143,9 @@ export class CarrinhoComponentComponent implements OnInit {
       this.toastrService.warning("Digite um CEP válido e selecione um frete.")
       return;
     }
+    if (!this.carrinhoService.verificaEstoqueProdutos()) {
+      return;
+    }
 
     this.checkoutService.realizaCheckout();
   }

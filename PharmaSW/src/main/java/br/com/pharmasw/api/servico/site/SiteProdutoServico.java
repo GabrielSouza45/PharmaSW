@@ -29,7 +29,7 @@ public class SiteProdutoServico {
     //listar produtos para cards do site. Retorna a imagem principal e os dados pertinentes do produto
     public ResponseEntity<?> listarProdutosCard() {
 
-        List<ProdutoDTO> produtoDTO = produtoRepositorio.findAllProdutoDTOsByStatus(Status.ATIVO);
+        List<ProdutoDTO> produtoDTO = produtoRepositorio.findAllProdutoDTOsByStatusOrderByIdDesc(Status.ATIVO);
 
         if (produtoDTO.isEmpty())
             return new ResponseBuilder().build(HttpStatus.NOT_FOUND);

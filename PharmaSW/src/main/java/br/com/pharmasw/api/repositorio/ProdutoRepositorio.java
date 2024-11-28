@@ -16,7 +16,7 @@ public interface ProdutoRepositorio extends CrudRepository<Produto, Long> {
 
     List<Produto> findAllByStatus(Status status);
 
-    List<ProdutoDTO> findAllProdutoDTOsByStatus(Status status);
+    List<ProdutoDTO> findAllProdutoDTOsByStatusOrderByIdDesc(Status status);
 
     @Query(value = "SELECT * FROM produtos WHERE nome LIKE %:nome% AND status = :status", nativeQuery = true)
     List<Produto> buscarProdutosByNomeAndStatus(

@@ -18,12 +18,12 @@ export class CarrinhoService {
     this.carregarCarrinho();
   }
 
-  adicionar(produto: Produto, quantidade: number): void {
+  adicionar(produto: Produto, quantidade: number): boolean {
     const item = this.items.find((p) => p.id === produto.id);
 
     if (!this.validaEstoque(produto, quantidade)) {
       this.toastrService.warning('Quantidade indisponível');
-      return;
+      return false;
     }
 
     if (item) {
@@ -34,6 +34,7 @@ export class CarrinhoService {
     }
     this.salvarCarrinho();
     this.toastrService.success("Produto adicionado ao carrinho.")
+    return true;
   }
 
   diminuirQuantidade(produtoId: number): void {
@@ -139,6 +140,19 @@ export class CarrinhoService {
     }
 
     return temEstoque;
+  }
+
+  verificaEstoqueProdutos(): boolean{
+    let estoqueDisponivel = true;
+    this.items.map((prod) => {
+      const qtdPedido = prod.quantidadePedido;
+      const qtdestoque = prod.quantidadeEstoque;
+      if (qtdPedido > qtdestoque) {
+        estoqueDisponivel = false;
+        this.toastrService.warning(`\nQuantidade Solicitada: ${qtdPedido} \nQuantidade Disponível: ${qtdestoque}`, `Produto: ${prod.nome}, não tem estoque suficiente!`)
+      }
+    });
+    return estoqueDisponivel;
   }
 
   private inicia(): number{
