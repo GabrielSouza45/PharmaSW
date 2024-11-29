@@ -6,7 +6,7 @@ export class Produto {
   id: number;
   status?: Status;
   nome?: string;
-  // categoria: string;
+  categoria?: string;
   fabricante: string;
   quantidadeEstoque?: number;
   valor: number;

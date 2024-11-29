@@ -21,7 +21,7 @@ public class PedidoEstoquistaControle {
         return pedidoEstoquistaServico.listarTodosPedidos();
     }
 
-    @PatchMapping("/atualizar-status")
+    @PutMapping("/atualizar-status")
     @PreAuthorize("hasRole('ESTOQUISTA')")
     public ResponseEntity<?> atualizarStatusPedido(
             @RequestParam Long idPedido,

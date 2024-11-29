@@ -9,18 +9,16 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
-import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
-import { ModalComponent } from '../../../components/modal/modal.component';
 import { PaginaInicialLayoutComponent } from '../../../components/back-office/pagina-inicial-layout/pagina-inicial-layout.component';
 import { TablePaginationComponent } from '../../../components/back-office/table-pagination/table-pagination.component';
+import { InputPrimarioComponent } from '../../../components/input-primario/input-primario.component';
+import { ModalComponent } from '../../../components/modal/modal.component';
 import { cpfValidator } from '../../../infra/validators/cpf-validator';
 import { Status } from '../../../modelo/enums/Status';
 import { Filtros } from '../../../modelo/Filtros';
-import { CrudService } from '../../../services/crud-service/crud-service.service';
 import { Usuario } from '../../../modelo/Usuario';
+import { CrudService } from '../../../services/crud-service/crud-service.service';
 import { FormCheckerService } from '../../../services/form-checker/form-checker.service';
-import { PaginaLayoutComponent } from "../../../components/back-office/pagina-layout/pagina-layout.component";
-import { BotaoComponent } from "../../../components/botao/botao.component";
 
 @Component({
   selector: 'app-pagina-usuario',
@@ -32,9 +30,7 @@ import { BotaoComponent } from "../../../components/botao/botao.component";
     TablePaginationComponent,
     CommonModule,
     ModalComponent,
-    PaginaLayoutComponent,
-    BotaoComponent
-],
+  ],
   templateUrl: './pagina-usuario.component.html',
   styleUrl: './pagina-usuario.component.css',
 })

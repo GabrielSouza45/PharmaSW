@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Pedido } from '../../modelo/Pedido';
 import { CrudService } from '../crud-service/crud-service.service';
+import { Filtros } from '../../modelo/Filtros';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,6 @@ export class EstoquistaService extends CrudService<Pedido> {
 
   // Método para atualizar o status de um pedido
   atualizarStatusPedido(idPedido: number, novoStatus: string): Observable<any> {
-    const url = `${this.url}/atualizar-status?idPedido=${idPedido}&novoStatus=${novoStatus}`;
-    return this.http.patch(url, {}, {
-      headers: new HttpHeaders().set('Content-Type', 'application/json')
-    });
+    return this.editarStatus(new Filtros(), `/atualizar-status?idPedido=${idPedido}&novoStatus=${novoStatus}`)
   }
 }
