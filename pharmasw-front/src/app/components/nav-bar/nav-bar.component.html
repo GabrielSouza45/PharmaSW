@@ -73,7 +73,7 @@
                   <a class="dropdown-item" (click)="toRegister()">Registrar</a>
                 </li>
               </ul>
-              <ul class="dropdown-menu" *ngIf="userLogado">
+              <ul class="dropdown-menu" *ngIf="(userLogado && userCliente)">
                 <div class="ps-2 pe-2">
                   <li>
                     <a class="dropdown-item" (click)="toPerfil()"

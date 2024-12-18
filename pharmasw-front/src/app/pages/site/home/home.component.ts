@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { BotaoComponent } from '../../../components/botao/botao.component';
+import { CarrosselHomeComponent } from "../../../components/carrossel-home/carrossel-home.component";
+import { ImagemProduto } from '../../../modelo/ImagemProduto';
 import { Produto } from '../../../modelo/Produto';
 import { ProdutoCard } from '../../../modelo/ProdutoCard';
 import { CarrinhoService } from '../../../services/carrinho/carrinho.service';
 import { LayoutPrincipalComponent } from '../layout-principal/layout-principal.component';
 import { AvaliacaoService } from './../../../services/avaliacao/avaliacao.service';
 import { CrudService } from './../../../services/crud-service/crud-service.service';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
-import { CarouselComponent } from "../../../components/carousel/carousel.component";
-import { ImagemProduto } from '../../../modelo/ImagemProduto';
-import { CarrosselHomeComponent } from "../../../components/carrossel-home/carrossel-home.component";
 
 @Component({
   selector: 'app-home',

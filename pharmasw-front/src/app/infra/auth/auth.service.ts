@@ -67,4 +67,10 @@ export class AuthService {
   getIdUser(): number{
     return Number(sessionStorage.getItem('id'));
   }
+
+  isCliente(): boolean {
+    const role = this.getUserRole();
+    if (!role) return false;
+    return this.getUserRole() === "CLIENTE";
+  }
 }

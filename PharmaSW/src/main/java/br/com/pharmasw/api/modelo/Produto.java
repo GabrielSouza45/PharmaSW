@@ -25,6 +25,8 @@ public class Produto {
     private String nome;
     private String fabricante;
     private String categoria;
+
+    @Column(length = 9999)
     private String descricao;
     private Double valor;
     private Double peso;

@@ -319,7 +319,6 @@ export class CadastroProdutosComponent extends CrudService<Produto> {
 
         let imagem = new ImagemProduto();
         imagem.principal = false;
-        imagem.id = i;
         imagem.nomeOriginal = file.name;
 
         const reader = new FileReader();

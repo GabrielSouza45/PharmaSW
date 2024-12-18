@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { InputPrimarioComponent } from "../input-primario/input-primario.component";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PopupComponent } from '../popup/popup.component';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '../../infra/auth/auth.service';
-import { CarrinhoService } from '../../services/carrinho/carrinho.service';
 import { Router } from '@angular/router';
 import { ComponentType } from 'ngx-toastr';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../infra/auth/auth.service';
+import { CarrinhoService } from '../../services/carrinho/carrinho.service';
+import { InputPrimarioComponent } from "../input-primario/input-primario.component";
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'app-nav-bar',
@@ -17,7 +17,6 @@ import { Observable } from 'rxjs';
     InputPrimarioComponent,
     ReactiveFormsModule,
     CommonModule,
-    PopupComponent,
   ],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
@@ -27,6 +26,7 @@ export class NavBarComponent {
   itemCount: number;
   formBusca: FormGroup;
   userLogado: boolean = false;
+  userCliente: boolean = false;
 
   ngOnInit() {
     this.carrinhoService.itemCount$.subscribe((count) => {
@@ -41,6 +41,7 @@ export class NavBarComponent {
     private dialog: MatDialog
   ) {
     this.userLogado = this.authService.isAuthenticated();
+    this.userCliente = this.authService.isCliente();
 
     this.formBusca = new FormGroup({
       inputPesquisa: new FormControl('', [

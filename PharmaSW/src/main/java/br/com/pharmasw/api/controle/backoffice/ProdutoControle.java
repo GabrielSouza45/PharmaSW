@@ -95,6 +95,7 @@ public class ProdutoControle {
         }
         try {
             if (!jsonImagensEdicao.isBlank()) {
+                System.out.println(jsonImagensEdicao);
                 imagensProdutoEdicao = objectMapper.readValue(jsonImagensEdicao, ImagemProduto[].class);
             }
         } catch (JsonProcessingException e) {
