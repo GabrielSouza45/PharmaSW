@@ -1,0 +1,15 @@
+package br.com.pharmasw.api.repository;
+
+import br.com.pharmasw.api.model.ImagemProduto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface ImagemProdutoRepositorio extends JpaRepository<ImagemProduto, Long> {
+
+    List<ImagemProduto> findByProdutoIdOrderByPrincipalDesc(Long id);
+
+    ImagemProduto findByProdutoIdAndPrincipal(Long id, boolean principal);
+}

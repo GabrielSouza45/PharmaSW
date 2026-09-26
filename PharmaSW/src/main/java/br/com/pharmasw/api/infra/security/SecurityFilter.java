@@ -1,8 +1,8 @@
 package br.com.pharmasw.api.infra.security;
 
-import br.com.pharmasw.api.modelo.enums.Status;
-import br.com.pharmasw.api.repositorio.ClienteRepositorio;
-import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
+import br.com.pharmasw.api.model.enums.Status;
+import br.com.pharmasw.api.repository.ClienteRepositorio;
+import br.com.pharmasw.api.repository.UsuarioRepositorio;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.google.gson.Gson;

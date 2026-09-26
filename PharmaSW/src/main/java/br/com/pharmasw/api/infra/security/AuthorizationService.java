@@ -1,8 +1,8 @@
 package br.com.pharmasw.api.infra.security;
 
-import br.com.pharmasw.api.modelo.enums.Status;
-import br.com.pharmasw.api.repositorio.ClienteRepositorio;
-import br.com.pharmasw.api.repositorio.UsuarioRepositorio;
+import br.com.pharmasw.api.model.enums.Status;
+import br.com.pharmasw.api.repository.ClienteRepositorio;
+import br.com.pharmasw.api.repository.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

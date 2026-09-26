@@ -1,7 +1,6 @@
 package br.com.pharmasw.api.infra.security;
 
-import br.com.pharmasw.api.modelo.Pessoa;
-import br.com.pharmasw.api.modelo.Usuario;
+import br.com.pharmasw.api.model.Pessoa;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
