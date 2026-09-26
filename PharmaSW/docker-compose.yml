@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Serviço do Banco de Dados MySQL
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db-pharma-sw
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
+      MYSQL_DATABASE: pharmasw
+      MYSQL_USER: pharma_user
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data_pharma_sw:/var/lib/mysql
+    networks:
+      - pharma_sw_network
+    # Healthcheck para verificar se o MySQL está pronto para receber conexões
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Serviço da Aplicação Spring Boot
+  app:
+    # 1. DIZ ONDE ESTÁ A RECEITA DA SUA APLICAÇÃO
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # 2. DÁ UM NOME AO CONTAINER DA SUA APLICAÇÃO
+    container_name: pharma_sw_app
+
+    # 3. DEFINE A REGRA DE DEPENDÊNCIA
+    # Espera o healthcheck do MySQL retornar saudável antes de iniciar a aplicação
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+
+    # 4. LIBERA O ACESSO EXTERNO (DO SEU NAVEGADOR PARA O DOCKER)
+    ports:
+      - "8080:8080"
+
+    # 5. INJETA AS CONFIGURAÇÕES DO SPRING EM TEMPO DE EXECUÇÃO
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db-pharma-sw:3306/pharmasw?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: pharma_user
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+      TOKEN_SECRET_PHARMASW: ${TOKEN_SECRET_PHARMASW}
+
+
+
+    # 6. COLOCA A APLICAÇÃO NA MESMA REDE DO BANCO
+    networks:
+      - pharma_sw_network
+
+# Volume para manter os dados gravados no banco mesmo após o container ser encerrado
+volumes:
+  mysql_data_pharma_sw:
+
+# Rede privada e isolada para comunicação entre os containers do projeto
+networks:
+  pharma_sw_network:

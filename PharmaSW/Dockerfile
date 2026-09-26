@@ -22,4 +22,6 @@ WORKDIR /app
 # Copia o jar gerado
 COPY --from=build /app/target/*.jar app.jar
 
+COPY uploads_imgs_banner ./uploads_imgs_banner
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
